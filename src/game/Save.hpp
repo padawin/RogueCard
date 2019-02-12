@@ -8,6 +8,7 @@ class Save : public AbstractSave {
 	private:
 	Player &m_player;
 
+	void _loadPlayer();
 	void _setPlayerInitialCards();
 	void _savePlayer();
 

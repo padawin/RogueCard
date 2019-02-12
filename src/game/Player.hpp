@@ -23,6 +23,13 @@ class Player {
 	short getInventorySize() const;
 	int getFloor() const;
 	long getGold() const;
+	void setHealth(int health);
+	void setMaxHealth(int maxHealth);
+	void setStrength(int strength);
+	void setDefence(int defence);
+	void setInventory(/*ObjectCard *inventory,*/ char size);
+	void setFloor(int floorLevel);
+	void setGold(long gold);
 };
 
 #endif

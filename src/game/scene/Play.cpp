@@ -17,9 +17,11 @@ std::string PlayScene::getStateID() const {
 bool PlayScene::onEnter() {
 	Save s = Save(m_player);
 	if (s.exists()) {
+		std::clog << "Save found, load\n";
 		s.load();
 	}
 	else {
+		std::clog << "No save found, create new one\n";
 		s.create();
 	}
 	return true;
