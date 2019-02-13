@@ -1,8 +1,6 @@
 #ifndef __ABSTRACT_SAVE__
 #define __ABSTRACT_SAVE__
 
-#include <memory>
-
 class AbstractSave {
 	public:
 	virtual ~AbstractSave() {}

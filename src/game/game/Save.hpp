@@ -1,7 +1,7 @@
 #ifndef __SAVE__
 #define __SAVE__
 
-#include "../Save.hpp"
+#include "../AbstractSave.hpp"
 #include "Player.hpp"
 
 class Save : public AbstractSave {
