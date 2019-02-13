@@ -29,15 +29,18 @@ CFLAGS := -g -O2 -Wall -Wmissing-declarations -Weffc++ \
 		-Wunused-parameter \
 		-Wvariadic-macros \
 		-Wwrite-strings
-LDFLAGS:=-Isrc/
-CCDYNAMICFLAGS := ${CFLAGS} ${LDFLAGS} -lSDL2 -lSDL2_image
+LDFLAGS:=-Isrc/game -Isrc/common
+CCDYNAMICFLAGS := ${CFLAGS} ${LDFLAGS} -lSDL2 -lSDL2_image -llua -ldl
 
-SRC := $(shell find $(SRCDIR)/ -type f -name '*.cpp')
+SRC := $(shell find $(SRCDIR)/game $(SRCDIR)/common -type f -name '*.cpp')
 OBJ := $(patsubst %.cpp,$(BUILDDIR)/%.o,$(SRC))
 OBJGCW := $(patsubst %.cpp,$(BUILDDIRGCW)/%.o,$(SRC))
 DEP := $(patsubst %.o,%.deps,$(OBJ))
 
-all: game
+all: tools game build-resources
+
+build-resources:
+	./bin/tools/data-compiler tilesets resources/src/tilesets.dat resources/tilesets.dat
 
 game: $(PROG)
 
@@ -65,8 +68,15 @@ gcw: $(OBJGCW)
 	mkdir -p $(BINDIR)
 	$(CC) -o $(BINDIR)/$(PROG) $^ $(CCDYNAMICFLAGS)
 
-opk:
+opk: tools build-resources
 	mkdir -p dist/bin
 	cp -r configs dist/
 	cp $(BINDIR)/$(PROG) dist/bin/
 	mksquashfs dist $(TARGETDIST) -all-root -noappend -no-exports -no-xattrs
+
+tools:
+	@mkdir -p $(BINDIR)/tools
+	$(CC) ${CFLAGS} ${CFLAGS} ${LDFLAGS} $(shell find src/tools/dataCompiler/ $(SRCDIR)/common/ -name "*.cpp") \
+		-o $(BINDIR)/tools/data-compiler
+	$(CC) ${CFLAGS} ${CFLAGS} ${LDFLAGS} $(shell find src/tools/dataDecompiler/ $(SRCDIR)/common/ -name "*.cpp") \
+		-o $(BINDIR)/tools/data-decompiler

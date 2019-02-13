@@ -41,10 +41,31 @@ int main(int argc, char* args[]) {
 	StateMachine stateMachine = StateMachine();
 	stateMachine.pushState(new PlayScene(userActions, p));
 	Game g(stateMachine, renderer, inputHandler);
+	_prepareTilesets(binaryPath, renderer);
 	if (g.init(binaryPath)) {
 		g.mainLoop();
 	}
 
 	g.shutdown();
 	return 0;
+}
+
+
+void _prepareTilesets(std::string binaryPath, std::shared_ptr<SDL2Renderer> renderer) {
+	ResourceManager<S_TilesetMapping> resourceManager;
+	if (!resourceManager.setResourceFile(binaryPath + "/../resources/tilesets.dat")) {
+		std::cout << "Error parsing the tilesets resource file\n";
+		return;
+	}
+
+	resourceManager.parseBinaryFile();
+	for (auto tileset : resourceManager.getParsedResources()) {
+		std::cout << "Resource found: "
+			<< tileset.second.tileset
+			<< " (" << tileset.second.filePath << ")\n";
+		renderer->addResource(
+			tileset.second.tileset,
+			binaryPath + "/../resources/" + tileset.second.filePath
+		);
+	}
 }

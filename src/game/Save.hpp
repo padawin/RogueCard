@@ -1,22 +1,16 @@
-#ifndef __SAVE__
-#define __SAVE__
+#ifndef __ABSTRACT_SAVE__
+#define __ABSTRACT_SAVE__
 
-#include "../Save.hpp"
-#include "Player.hpp"
+#include <memory>
 
-class Save : public AbstractSave {
-	private:
-	Player &m_player;
-
-	void _loadPlayer();
-	void _setPlayerInitialCards();
-	void _savePlayer();
-
+class AbstractSave {
 	public:
-	Save(Player &playe);
-	bool exists();
-	void load();
-	void create();
+	virtual ~AbstractSave() {}
+
+	static void clean();
+	virtual bool exists() = 0;
+	virtual void load() = 0;
+	virtual void create() = 0;
 };
 
 #endif
