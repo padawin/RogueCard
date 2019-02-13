@@ -1,12 +1,13 @@
 #include "../../StateMachine.hpp"
 #include "../../globals.hpp"
 #include "../Save.hpp"
+#include "../sdl2/TextureManager.hpp"
 #include "Play.hpp"
 #include "GameOver.hpp"
 #include <iostream>
 
-PlayScene::PlayScene(UserActions &userActions, Player &player) :
-	State(userActions), m_player(player)
+PlayScene::PlayScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
+	State(userActions), m_player(player), m_renderer(renderer)
 {
 }
 
@@ -35,4 +36,9 @@ void PlayScene::update(StateMachine &stateMachine) {
 }
 
 void PlayScene::render(const Renderer *renderer __attribute__((unused))) {
+	_renderBackground();
+}
+
+void PlayScene::_renderBackground() const {
+	TextureManager::Instance()->draw("ui", 0, 0, 320, 240, m_renderer->getRenderer());
 }
