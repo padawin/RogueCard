@@ -26,7 +26,7 @@ void Game::mainLoop() {
 	}
 }
 
-void Game::loopFrame() {
+void Game::frame() {
 	if (m_inputHandler->update() == QUIT) {
 		m_stateMachine.clean();
 	}
