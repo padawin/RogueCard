@@ -4,7 +4,7 @@
 #include <iostream>
 
 const char FPS = 60;
-const int DELAY_TIME = 1000000 / FPS;
+const int DELAY_TIME = 1000 / FPS;
 
 void SDL2Renderer::setWindowInfo(
 	const char* title,
