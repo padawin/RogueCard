@@ -37,7 +37,9 @@ OBJ := $(patsubst %.cpp,$(BUILDDIR)/%.o,$(SRC))
 OBJGCW := $(patsubst %.cpp,$(BUILDDIRGCW)/%.o,$(SRC))
 DEP := $(patsubst %.o,%.deps,$(OBJ))
 
-all: tools game build-resources
+all: game
+
+full: tools game build-resources
 
 build-resources:
 	./bin/tools/data-compiler tilesets resources/src/tilesets.dat resources/tilesets.dat
