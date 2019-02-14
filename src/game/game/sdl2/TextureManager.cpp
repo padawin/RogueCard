@@ -72,6 +72,10 @@ void TextureManager::draw(
 	drawFrame(id, x, y, width, height, 0, 0, pRenderer, flip);
 }
 
+void TextureManager::drawImage(std::string id, SDL_Renderer* pRenderer) {
+	SDL_RenderCopy(pRenderer, m_textureMap[id].texture, NULL, NULL );
+}
+
 void TextureManager::drawTile(
 	std::string id,
 	int margin, int spacing,

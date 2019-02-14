@@ -40,5 +40,5 @@ void PlayScene::render(const Renderer *renderer __attribute__((unused))) {
 }
 
 void PlayScene::_renderBackground() const {
-	TextureManager::Instance()->draw("ui", 0, 0, 320, 240, m_renderer->getRenderer());
+	TextureManager::Instance()->drawImage("ui", m_renderer->getRenderer());
 }
