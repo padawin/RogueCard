@@ -128,7 +128,24 @@ void SDL2Renderer::_cleanResources() {
 }
 
 void SDL2Renderer::frame(Game* game) const {
+	Uint32 frameStart, frameTime;
+	frameStart = SDL_GetTicks();
+	// set to black
+	// This function expects Red, Green, Blue and
+	// Alpha as color values
+	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+	// clear the window to black
+	SDL_RenderClear(m_renderer);
+
 	game->frame();
+
+	// show the window
+	SDL_RenderPresent(m_renderer);
+	// use a delay to cap the fps
+	frameTime = SDL_GetTicks() - frameStart;
+	if (frameTime < DELAY_TIME) {
+		SDL_Delay(DELAY_TIME - frameTime);
+	}
 }
 
 void SDL2Renderer::shutdown(void) {
