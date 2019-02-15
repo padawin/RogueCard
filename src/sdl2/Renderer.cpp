@@ -2,6 +2,7 @@
 #include "Renderer.hpp"
 #include "TextureManager.hpp"
 #include <iostream>
+#include <cerrno>
 
 const char FPS = 60;
 const int DELAY_TIME = 1000 / FPS;

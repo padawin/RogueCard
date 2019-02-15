@@ -30,7 +30,7 @@ CFLAGS := -g -O2 -Wall -Wmissing-declarations -Weffc++ \
 		-Wvariadic-macros \
 		-Wwrite-strings
 LDFLAGS:=-I$(SRCDIR)/game -I$(SRCDIR)/common -I$(SRCDIR)/rogue-card -I$(SRCDIR)/sdl2
-CCDYNAMICFLAGS := ${CFLAGS} ${LDFLAGS} -lSDL2 -lSDL2_image -llua -ldl
+CCDYNAMICFLAGS := ${CFLAGS} ${LDFLAGS} -lSDL2 -lSDL2_image -ldl
 
 SRC := $(shell find $(SRCDIR)/game $(SRCDIR)/common $(SRCDIR)/rogue-card $(SRCDIR)/sdl2 -type f -name '*.cpp')
 OBJ := $(patsubst %.cpp,$(BUILDDIR)/%.o,$(SRC))
@@ -74,7 +74,7 @@ gcw: $(OBJGCW)
 
 opk: tools build-resources
 	mkdir -p dist/bin
-	cp -r configs dist/
+	cp -r config dist/
 	cp $(BINDIR)/$(PROG) dist/bin/
 	mksquashfs dist $(TARGETDIST) -all-root -noappend -no-exports -no-xattrs
 

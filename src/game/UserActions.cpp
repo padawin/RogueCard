@@ -1,5 +1,6 @@
 #include "UserActions.hpp"
 #include <fstream>
+#include <cstdlib>
 #include <cstring>
 using std::ifstream;
 
