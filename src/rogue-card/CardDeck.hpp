@@ -3,10 +3,11 @@
 
 #include <memory>
 #include "Card.hpp"
+#include "Player.hpp"
 
 class CardDeck {
 	public:
-	std::shared_ptr<Card> pickCard();
+	std::shared_ptr<Card> pickCard(Player &player, bool foundNextFloor);
 };
 
 #endif
