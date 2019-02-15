@@ -4,10 +4,10 @@
 #include "FloorCard.hpp"
 #include "EnemyCard.hpp"
 
-std::shared_ptr<Card> CardDeck::pickCard() {
+std::shared_ptr<Card> CardDeck::pickCard(Player &player, bool foundNextFloor) {
 	int proba = rand() % 1000;
 	E_CardType type;
-	if (proba < 50) {
+	if (!foundNextFloor && proba < 50) {
 		type = FloorCardType;
 	}
 	else if (proba < 600) {

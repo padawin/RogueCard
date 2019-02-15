@@ -133,7 +133,7 @@ void PlayScene::_useCardUnderCursor() {
 
 void PlayScene::_pickCard() {
 	if (m_pickedCard == nullptr) {
-		m_pickedCard = m_deck.pickCard();
+		m_pickedCard = m_deck.pickCard(m_player, m_floorCard != nullptr);
 	}
 	else {
 		_notify("A card is already picked");
