@@ -56,7 +56,7 @@ class TextureManager {
 		SDL_Renderer* pRenderer, SDL_RendererFlip flip = SDL_FLIP_NONE
 	);
 
-	void drawImage(std::string id, SDL_Renderer* pRenderer);
+	void drawImage(std::string id, SDL_Renderer* pRenderer, int x, int y, int width, int height);
 
 	/**
 	 * Draws a tile from a tileset.

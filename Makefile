@@ -45,6 +45,7 @@ build-resources:
 	./bin/tools/data-compiler tilesets resources/src/tilesets.dat resources/tilesets.dat
 
 game: $(PROG)
+	cp -r config bin/
 
 -include $(DEP)
 
