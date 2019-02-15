@@ -5,8 +5,17 @@
 #include "EnemyCard.hpp"
 
 std::shared_ptr<Card> CardDeck::pickCard() {
-	E_CardType possibleTypes[] = {ObjectCardType, FloorCardType, EnemyCardType};
-	E_CardType type = possibleTypes[rand() % 3];
+	int proba = rand() % 1000;
+	E_CardType type;
+	if (proba < 50) {
+		type = FloorCardType;
+	}
+	else if (proba < 600) {
+		type = EnemyCardType;
+	}
+	else {
+		type = ObjectCardType;
+	}
 
 	if (type == ObjectCardType) {
 		return std::shared_ptr<ObjectCard>(new ObjectCard());
