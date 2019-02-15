@@ -8,10 +8,10 @@ class Player {
 	// Equipment m_equipment;
 	short m_iInventorySize = 0;
 	// ObjectCard[MAX_INVENTORY_SIZE] m_inventory = {};
-	int m_iHealth = 0;
-	int m_iMaxHealth = 0;
-	int m_iStrength = 0;
-	int m_iDefence = 0;
+	int m_iHealth = 30;
+	int m_iMaxHealth = 30;
+	int m_iStrength = 5;
+	int m_iDefence = 5;
 	int m_iFloor = 0;
 	long m_iGold = 0;
 
