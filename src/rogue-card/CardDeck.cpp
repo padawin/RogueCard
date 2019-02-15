@@ -25,7 +25,7 @@ std::shared_ptr<Card> CardDeck::pickCard(Player &player, bool foundNextFloor) {
 		card = std::shared_ptr<FloorCard>(new FloorCard());
 	}
 	else if (type == EnemyCardType) {
-		card = std::shared_ptr<EnemyCard>(new EnemyCard());
+		card = std::shared_ptr<EnemyCard>(new EnemyCard(player.getLevel()));
 	}
 	else {
 		std::cerr << "Unknown card type " << type << "!\n";

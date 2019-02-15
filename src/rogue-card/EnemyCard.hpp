@@ -14,8 +14,12 @@ class EnemyCard : public Card {
 	int m_iStrength = 0;
 	int m_iDefence = 0;
 
+	int m_iPlayerLevel;
+
+	int _getEnemyIndex(int proba, int nbEnemies);
+
 	public:
-	EnemyCard();
+	EnemyCard(const int playerLevel);
 	void create();
 	static bool prepareMeta(std::string file);
 
