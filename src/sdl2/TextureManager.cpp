@@ -86,14 +86,14 @@ void TextureManager::drawTile(
 	int margin, int spacing,
 	int x, int y,
 	int width, int height,
-	int currentRow, int currentFrame,
+	int currentCol, int currentRow,
 	SDL_Renderer *pRenderer,
 	SDL_RendererFlip flip
 ) {
 	SDL_Rect srcRect;
 	SDL_Rect destRect;
-	srcRect.x = margin + (spacing + width) * currentFrame;
-	srcRect.y = margin + (spacing + height) * (currentRow - 1);
+	srcRect.x = margin + (spacing + width) * currentCol;
+	srcRect.y = margin + (spacing + height) * currentRow;
 	srcRect.w = destRect.w = width;
 	srcRect.h = destRect.h = height;
 	destRect.x = x;
@@ -115,13 +115,13 @@ void TextureManager::drawFrame(
 	std::string id,
 	int x, int y,
 	int width, int height,
-	int currentRow, int currentFrame,
+	int currentCol, int currentRow,
 	SDL_Renderer* pRenderer, SDL_RendererFlip flip
 ) {
 	SDL_Rect srcRect;
 	SDL_Rect destRect;
-	srcRect.x = width * currentFrame;
-	srcRect.y = height * (currentRow - 1);
+	srcRect.x = width * currentCol;
+	srcRect.y = height * currentRow;
 	srcRect.w = width;
 	destRect.w = width;
 	srcRect.h = height;

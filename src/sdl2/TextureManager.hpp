@@ -66,7 +66,7 @@ class TextureManager {
 		int margin, int spacing,
 		int x, int y,
 		int width, int height,
-		int currentRow, int currentFrame,
+		int currentCol, int currentRow,
 		SDL_Renderer *pRenderer, SDL_RendererFlip flip = SDL_FLIP_NONE
 	);
 
@@ -81,7 +81,7 @@ class TextureManager {
 		std::string id,
 		int x, int y,
 		int width, int height,
-		int currentRow, int currentFrame,
+		int currentCol, int currentRow,
 		SDL_Renderer* pRenderer, SDL_RendererFlip flip = SDL_FLIP_NONE
 	);
 
