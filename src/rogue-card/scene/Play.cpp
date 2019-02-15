@@ -114,7 +114,7 @@ void PlayScene::_useCardUnderCursor() {
 
 void PlayScene::_pickCard() {
 	if (m_pickedCard == nullptr) {
-		std::cout << "Pick card\n";
+		m_pickedCard = m_deck.pickCard();
 	}
 	else {
 		_notify("A card is already picked");
