@@ -7,6 +7,10 @@ EnemyCard::EnemyCard() : Card(EnemyCardType) {
 }
 
 void EnemyCard::create() {
+	std::map<int, S_EnemyMeta> &meta = m_enemyMeta.getParsedResources();
+	unsigned long index = (unsigned long) rand() % meta.size();
+	m_iTileX = meta[(int) index].tilesetX;
+	m_iTileY = meta[(int) index].tilesetY;
 }
 
 bool EnemyCard::prepareMeta(std::string file) {
