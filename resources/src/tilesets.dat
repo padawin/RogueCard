@@ -2,3 +2,7 @@
 # tilesetName tilesetFile
 ui ui.png
 cursor cursor.png
+card card.png
+objects objects.png
+door door.png
+monsters monsters.png

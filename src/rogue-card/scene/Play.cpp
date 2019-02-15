@@ -6,9 +6,11 @@
 #include <iostream>
 
 PlayScene::PlayScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
-	State(userActions), m_player(player), m_renderer(renderer)
+	State(userActions),
+	m_player(player),
+	m_renderer(renderer),
+	m_deck(CardDeck())
 {
-	m_mCursorPositions[Deck] = {16, 16};
 	m_mCursorPositions[Action] = {16, 160};
 	m_mCursorPositions[Object1] = {64, 160};
 	m_mCursorPositions[Object2] = {112, 160};
@@ -44,12 +46,6 @@ void PlayScene::update(StateMachine &stateMachine) {
 	else if (m_userActions.getActionState("USE_CARD")) {
 		_useCardUnderCursor();
 	}
-	else if (m_userActions.getActionState("CURSOR_TO_DECK")) {
-		m_cursorPosition = Deck;
-	}
-	else if (m_userActions.getActionState("CURSOR_TO_ACTION")) {
-		m_cursorPosition = Action;
-	}
 	else if (m_userActions.getActionState("CURSOR_PREVIOUS_POSITION")) {
 		m_cursorPosition = (CursorPosition) ((NbPositions + m_cursorPosition - 1) % NbPositions);
 	}
@@ -61,6 +57,7 @@ void PlayScene::update(StateMachine &stateMachine) {
 void PlayScene::render() {
 	_renderBackground();
 	_renderCursor();
+	_renderCards();
 }
 
 void PlayScene::_renderBackground() const {
@@ -80,11 +77,31 @@ void PlayScene::_renderCursor() {
 	);
 }
 
+void PlayScene::_renderCards() {
+	if (m_pickedCard) {
+		m_pickedCard->render(m_renderer->getRenderer(), 138, 32);
+	}
+	for (int i = (int) Object1; i < MAX_OBJECTS; ++i) {
+		CursorPosition pos = (CursorPosition) i;
+		if (m_objectCards[pos] != nullptr) {
+			m_objectCards[pos]->render(
+				m_renderer->getRenderer(),
+				m_mCursorPositions[pos].first,
+				m_mCursorPositions[pos].second
+			);
+		}
+	}
+	if (m_floorCard) {
+		m_floorCard->render(
+			m_renderer->getRenderer(),
+			m_mCursorPositions[Floor].first,
+			m_mCursorPositions[Floor].second
+		);
+	}
+}
+
 void PlayScene::_useCardUnderCursor() {
 	switch (m_cursorPosition) {
-		case Deck:
-			_pickCard();
-			break;
 		case Action:
 			_action();
 			break;
@@ -111,7 +128,7 @@ void PlayScene::_useCardUnderCursor() {
 
 void PlayScene::_pickCard() {
 	if (m_pickedCard == nullptr) {
-		std::cout << "Pick card\n";
+		m_pickedCard = m_deck.pickCard();
 	}
 	else {
 		_notify("A card is already picked");
@@ -119,11 +136,20 @@ void PlayScene::_pickCard() {
 }
 
 void PlayScene::_action() {
-	if (m_pickedCard != nullptr) {
-		std::cout << "Action\n";
+	if (m_pickedCard == nullptr) {
+		_pickCard();
 	}
-	else {
-		_notify("Pick a card first");
+	else if (m_pickedCard->getType() == ObjectCardType) {
+		_notify("Pick Object");
+		m_pickedCard = nullptr;
+	}
+	else if (m_pickedCard->getType() == FloorCardType) {
+		_notify("Found next floor");
+		m_floorCard = m_pickedCard;
+		m_pickedCard = nullptr;
+	}
+	else if (m_pickedCard->getType() == EnemyCardType) {
+		_notify("Attack");
 	}
 }
 
@@ -133,13 +159,13 @@ void PlayScene::_useObject(int objectIndex) {
 	}
 
 	if (m_objectCards[objectIndex] != nullptr) {
-		std::cout << "Use object\n";
+		_notify("Use object");
 	}
 }
 
 void PlayScene::_changeFloor() {
 	if (m_floorCard != nullptr) {
-		std::cout << "Change floor\n";
+		_notify("Change floor");
 	}
 	else {
 		_notify("You haven't found the next floor yet");
