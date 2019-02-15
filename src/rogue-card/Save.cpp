@@ -74,7 +74,6 @@ void Save::_loadPlayer() {
 	}
 
 	fin.close();
-	return;
 }
 
 void Save::create() {
