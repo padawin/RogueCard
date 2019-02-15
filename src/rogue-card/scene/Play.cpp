@@ -64,6 +64,7 @@ void PlayScene::update(StateMachine &stateMachine) {
 void PlayScene::render() {
 	_renderBackground();
 	_renderCursor();
+	_renderCards();
 }
 
 void PlayScene::_renderBackground() const {
@@ -81,6 +82,29 @@ void PlayScene::_renderCursor() {
 		48,
 		64
 	);
+}
+
+void PlayScene::_renderCards() {
+	if (m_pickedCard) {
+		m_pickedCard->render(m_renderer->getRenderer(), 138, 32);
+	}
+	for (int i = (int) Object1; i < MAX_OBJECTS; ++i) {
+		CursorPosition pos = (CursorPosition) i;
+		if (m_objectCards[pos] != nullptr) {
+			m_objectCards[pos]->render(
+				m_renderer->getRenderer(),
+				m_mCursorPositions[pos].first,
+				m_mCursorPositions[pos].second
+			);
+		}
+	}
+	if (m_floorCard) {
+		m_floorCard->render(
+			m_renderer->getRenderer(),
+			m_mCursorPositions[Floor].first,
+			m_mCursorPositions[Floor].second
+		);
+	}
 }
 
 void PlayScene::_useCardUnderCursor() {
