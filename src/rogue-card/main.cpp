@@ -5,7 +5,7 @@
 #include "../sdl2/Renderer.hpp"
 #include "ResourceManager.hpp"
 #include "scene/Play.hpp"
-#include "types.hpp"
+#include "../common/types.hpp"
 #include <iostream>
 #include <memory> // shared_ptr
 #include <libgen.h> // dirname

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <libgen.h>
-#include "types.hpp"
+#include "../common/types.hpp"
 #include "ResourceManager.hpp"
 
 std::string cleanFileInPath(std::string path);
