@@ -1,9 +1,9 @@
 #ifndef __ENEMY_CARD__
 #define __ENEMY_CARD__
 
-#include "Card.hpp"
 #include "../common/types.hpp"
 #include "../common/ResourceManager.hpp"
+#include "Card.hpp"
 
 class EnemyCard : public Card {
 	static ResourceManager<S_EnemyMeta> m_enemyMeta;
