@@ -6,7 +6,10 @@
 #include <iostream>
 
 PlayScene::PlayScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
-	State(userActions), m_player(player), m_renderer(renderer)
+	State(userActions),
+	m_player(player),
+	m_renderer(renderer),
+	m_deck(CardDeck())
 {
 	m_mCursorPositions[Deck] = {16, 16};
 	m_mCursorPositions[Action] = {16, 160};

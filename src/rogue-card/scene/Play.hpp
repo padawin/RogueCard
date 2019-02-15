@@ -6,6 +6,7 @@
 #include "../game/State.hpp"
 #include "../sdl2/Renderer.hpp"
 #include "../Player.hpp"
+#include "../CardDeck.hpp"
 
 enum CursorPosition {Deck, Action, Object1, Object2, Object3, Object4, Floor, NbPositions};
 
@@ -15,6 +16,7 @@ class PlayScene : public State {
 	private:
 	Player &m_player;
 	std::shared_ptr<SDL2Renderer> m_renderer;
+	CardDeck m_deck;
 
 	CursorPosition m_cursorPosition = Deck;
 	std::map<CursorPosition, std::pair<int, int>> m_mCursorPositions = {};
