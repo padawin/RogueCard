@@ -24,7 +24,7 @@ class StateMachine {
 	 * Methods to update and render the current state
 	 */
 	void update();
-	void render(const Renderer *renderer) const;
+	void render() const;
 };
 
 #endif

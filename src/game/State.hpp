@@ -3,7 +3,6 @@
 
 #include <string>
 #include "UserActions.hpp"
-#include "renderer/Renderer.hpp"
 
 class StateMachine;
 
@@ -23,7 +22,7 @@ class State {
 	State(UserActions &userActions);
 	virtual	~State() {}
 	virtual void update(StateMachine &stateMachine) = 0;
-	virtual void render(const Renderer *renderer);
+	virtual void render();
 	virtual bool onEnter();
 	virtual bool onExit();
 	virtual std::string getStateID() const = 0;

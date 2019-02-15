@@ -1,7 +1,7 @@
 #ifndef __GAME_STATE__
 #define __GAME_STATE__
 
-#include "../../State.hpp"
+#include "../game/State.hpp"
 #include "../sdl2/Renderer.hpp"
 #include "../Player.hpp"
 
@@ -16,7 +16,7 @@ class PlayScene : public State {
 	PlayScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer);
 	bool onEnter();
 	void update(StateMachine &stateMachine);
-	void render(const Renderer *renderer);
+	void render();
 	std::string getStateID() const;
 };
 

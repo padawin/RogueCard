@@ -1,4 +1,4 @@
-#include "../../Game.hpp"
+#include "../game/Game.hpp"
 #include "Renderer.hpp"
 #include "TextureManager.hpp"
 #include <iostream>

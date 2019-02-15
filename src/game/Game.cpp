@@ -31,7 +31,7 @@ void Game::frame() {
 		m_stateMachine.clean();
 	}
 	m_stateMachine.update();
-	m_stateMachine.render(m_renderer.get());
+	m_stateMachine.render();
 }
 
 void Game::shutdown() const {

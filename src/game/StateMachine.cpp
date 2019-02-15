@@ -54,8 +54,8 @@ void StateMachine::update() {
 		m_vStates.back()->update(*this);
 	}
 }
-void StateMachine::render(const Renderer *renderer) const {
+void StateMachine::render() const {
 	if (!m_vStates.empty()) {
-		m_vStates.back()->render(renderer);
+		m_vStates.back()->render();
 	}
 }

@@ -29,10 +29,10 @@ CFLAGS := -g -O2 -Wall -Wmissing-declarations -Weffc++ \
 		-Wunused-parameter \
 		-Wvariadic-macros \
 		-Wwrite-strings
-LDFLAGS:=-Isrc/game -Isrc/common
+LDFLAGS:=-I$(SRCDIR)/game -I$(SRCDIR)/common -I$(SRCDIR)/rogue-card -I$(SRCDIR)/sdl2
 CCDYNAMICFLAGS := ${CFLAGS} ${LDFLAGS} -lSDL2 -lSDL2_image -llua -ldl
 
-SRC := $(shell find $(SRCDIR)/game $(SRCDIR)/common -type f -name '*.cpp')
+SRC := $(shell find $(SRCDIR)/game $(SRCDIR)/common $(SRCDIR)/rogue-card $(SRCDIR)/sdl2 -type f -name '*.cpp')
 OBJ := $(patsubst %.cpp,$(BUILDDIR)/%.o,$(SRC))
 OBJGCW := $(patsubst %.cpp,$(BUILDDIRGCW)/%.o,$(SRC))
 DEP := $(patsubst %.o,%.deps,$(OBJ))

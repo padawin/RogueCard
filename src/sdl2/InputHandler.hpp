@@ -5,8 +5,8 @@
 #include <SDL2/SDL_joystick.h>
 #include <vector>
 #include <map>
-#include "../../Vector2D.hpp"
-#include "../../InputHandler.hpp"
+#include "../game/Vector2D.hpp"
+#include "../game/InputHandler.hpp"
 
 class SDL2InputHandler : public InputHandler {
 	private:

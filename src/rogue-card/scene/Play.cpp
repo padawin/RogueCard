@@ -1,9 +1,8 @@
-#include "../../StateMachine.hpp"
-#include "../../globals.hpp"
+#include "../game/StateMachine.hpp"
+#include "../game/globals.hpp"
 #include "../Save.hpp"
 #include "../sdl2/TextureManager.hpp"
 #include "Play.hpp"
-#include "GameOver.hpp"
 #include <iostream>
 
 PlayScene::PlayScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
@@ -35,7 +34,7 @@ void PlayScene::update(StateMachine &stateMachine) {
 	}
 }
 
-void PlayScene::render(const Renderer *renderer __attribute__((unused))) {
+void PlayScene::render() {
 	_renderBackground();
 }
 

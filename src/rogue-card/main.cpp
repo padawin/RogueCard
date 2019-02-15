@@ -1,14 +1,14 @@
 #include <SDL2/SDL.h>
-#include "../Game.hpp"
-#include "../globals.hpp"
+#include "../game/Game.hpp"
+#include "../game/globals.hpp"
+#include "../sdl2/InputHandler.hpp"
+#include "../sdl2/Renderer.hpp"
 #include "ResourceManager.hpp"
 #include "scene/Play.hpp"
 #include "types.hpp"
 #include <iostream>
 #include <memory> // shared_ptr
 #include <libgen.h> // dirname
-#include "sdl2/InputHandler.hpp"
-#include "sdl2/Renderer.hpp"
 
 void _prepareTilesets(std::string binaryPath, std::shared_ptr<SDL2Renderer> renderer);
 
