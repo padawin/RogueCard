@@ -9,8 +9,12 @@ EnemyCard::EnemyCard() : Card(EnemyCardType) {
 void EnemyCard::create() {
 	std::map<int, S_EnemyMeta> &meta = m_enemyMeta.getParsedResources();
 	unsigned long index = (unsigned long) rand() % meta.size();
-	m_iTileX = meta[(int) index].tilesetX;
-	m_iTileY = meta[(int) index].tilesetY;
+	int i = (int) index;
+	m_iTileX = meta[i].tilesetX;
+	m_iTileY = meta[i].tilesetY;
+	m_iHealth = m_iMaxHealth = meta[i].health;
+	m_iStrength = meta[i].strength;
+	m_iDefence = meta[i].defence;
 }
 
 bool EnemyCard::prepareMeta(std::string file) {

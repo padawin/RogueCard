@@ -7,6 +7,10 @@
 
 class EnemyCard : public Card {
 	static ResourceManager<S_EnemyMeta> m_enemyMeta;
+	int m_iHealth = 0;
+	int m_iMaxHealth = 0;
+	int m_iStrength = 0;
+	int m_iDefence = 0;
 
 	public:
 	EnemyCard();
