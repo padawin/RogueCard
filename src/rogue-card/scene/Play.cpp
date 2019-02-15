@@ -2,6 +2,7 @@
 #include "../game/globals.hpp"
 #include "../Save.hpp"
 #include "../sdl2/TextureManager.hpp"
+#include "GameOver.hpp"
 #include "Play.hpp"
 #include "EnemyCard.hpp"
 #include <iostream>
@@ -43,6 +44,9 @@ void PlayScene::update(StateMachine &stateMachine) {
 		s.save();
 		stateMachine.clean();
 		return;
+	}
+	else if (m_player.isDead()) {
+		stateMachine.changeState(new GameOverScene(m_userActions));
 	}
 	else if (m_userActions.getActionState("USE_CARD")) {
 		_useCardUnderCursor();
