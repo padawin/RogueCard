@@ -10,6 +10,7 @@ void EnemyCard::create() {
 	std::map<int, S_EnemyMeta> &meta = m_enemyMeta.getParsedResources();
 	unsigned long index = (unsigned long) rand() % meta.size();
 	int i = (int) index;
+	strncpy(m_sName, meta[i].name, MAX_CHAR_ENEMY_NAME);
 	m_iTileX = meta[i].tilesetX;
 	m_iTileY = meta[i].tilesetY;
 	m_iHealth = m_iMaxHealth = meta[i].health;
