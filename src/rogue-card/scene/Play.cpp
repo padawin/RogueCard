@@ -44,7 +44,9 @@ void PlayScene::render() {
 }
 
 void PlayScene::_renderBackground() const {
-	TextureManager::Instance()->drawImage("ui", m_renderer->getRenderer());
+	TextureManager::Instance()->drawImage(
+		"ui", m_renderer->getRenderer(), 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT
+	);
 }
 
 void PlayScene::_useCardUnderCursor() {
