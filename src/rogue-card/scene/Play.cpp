@@ -150,13 +150,13 @@ void PlayScene::_useObject(int objectIndex) {
 	}
 
 	if (m_objectCards[objectIndex] != nullptr) {
-		std::cout << "Use object\n";
+		_notify("Use object");
 	}
 }
 
 void PlayScene::_changeFloor() {
 	if (m_floorCard != nullptr) {
-		std::cout << "Change floor\n";
+		_notify("Change floor");
 	}
 	else {
 		_notify("You haven't found the next floor yet");
