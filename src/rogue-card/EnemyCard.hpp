@@ -4,6 +4,7 @@
 #include "../common/types.hpp"
 #include "../common/ResourceManager.hpp"
 #include "Card.hpp"
+#include "Player.hpp"
 
 class EnemyCard : public Card {
 	static ResourceManager<S_EnemyMeta> m_enemyMeta;
@@ -17,6 +18,11 @@ class EnemyCard : public Card {
 	EnemyCard();
 	void create();
 	static bool prepareMeta(std::string file);
+
+	const char* getName() const;
+	int setDamages(int damages);
+	int attack(Player &player) const;
+	bool isDead() const;
 };
 
 #endif

@@ -3,6 +3,7 @@
 #include "../Save.hpp"
 #include "../sdl2/TextureManager.hpp"
 #include "Play.hpp"
+#include "EnemyCard.hpp"
 #include <iostream>
 
 PlayScene::PlayScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
@@ -149,7 +150,7 @@ void PlayScene::_action() {
 		m_pickedCard = nullptr;
 	}
 	else if (m_pickedCard->getType() == EnemyCardType) {
-		_notify("Attack");
+		_attack();
 	}
 }
 
@@ -169,6 +170,24 @@ void PlayScene::_changeFloor() {
 	}
 	else {
 		_notify("You haven't found the next floor yet");
+	}
+}
+
+void PlayScene::_attack() {
+	char message[80];
+	std::shared_ptr<EnemyCard> enemyCard(std::static_pointer_cast<EnemyCard>(m_pickedCard));
+	int damagesDealtToEnemy = m_player.attack(enemyCard);
+	int damagesDealtToPlayer = enemyCard->attack(m_player);
+	sprintf(
+		message,
+		"You dealt %d damages points\nthe %s dealt %d damages points",
+		damagesDealtToEnemy,
+		enemyCard->getName(),
+		damagesDealtToPlayer
+	);
+	_notify(message);
+	if (enemyCard->isDead()) {
+		m_pickedCard = nullptr;
 	}
 }
 

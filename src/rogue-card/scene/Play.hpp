@@ -34,6 +34,8 @@ class PlayScene : public State {
 	void _useObject(int objectIndex);
 	void _changeFloor();
 
+	void _attack();
+
 	void _notify(std::string message) const;
 
 	public:

@@ -3,6 +3,10 @@
 
 #define MAX_INVENTORY_SIZE 32
 
+#include <memory>
+
+class EnemyCard;
+
 class Player {
 	private:
 	// Equipment m_equipment;
@@ -30,6 +34,11 @@ class Player {
 	void setInventory(/*ObjectCard *inventory,*/ char size);
 	void setFloor(int floorLevel);
 	void setGold(long gold);
+
+	int setDamages(int damages);
+	int attack(std::shared_ptr<EnemyCard> card) const;
+
+	bool isDead() const;
 };
 
 #endif

@@ -25,3 +25,27 @@ bool EnemyCard::prepareMeta(std::string file) {
 	m_enemyMeta.parseBinaryFile();
 	return true;
 }
+
+const char* EnemyCard::getName() const {
+	return m_sName;
+}
+
+int EnemyCard::attack(Player &player) const {
+	return player.setDamages(m_iStrength);
+}
+
+int EnemyCard::setDamages(int damages) {
+	int finalDamages = damages - m_iDefence;
+	if (finalDamages < 0) {
+		finalDamages = 1;
+	}
+	m_iHealth -= finalDamages;
+	if (m_iHealth < 0) {
+		m_iHealth = 0;
+	}
+	return finalDamages;
+}
+
+bool EnemyCard::isDead() const {
+	return m_iHealth == 0;
+}
