@@ -29,6 +29,8 @@ bool PlayScene::onEnter() {
 
 void PlayScene::update(StateMachine &stateMachine) {
 	if (m_userActions.getActionState("QUIT")) {
+		Save s = Save(m_player);
+		s.save();
 		stateMachine.clean();
 		return;
 	}

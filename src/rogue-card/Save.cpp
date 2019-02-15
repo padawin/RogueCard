@@ -78,6 +78,10 @@ void Save::create() {
 	_savePlayer();
 }
 
+void Save::save() {
+	_savePlayer();
+}
+
 void Save::_setPlayerInitialCards() {
 }
 
