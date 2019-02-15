@@ -11,7 +11,6 @@ PlayScene::PlayScene(UserActions &userActions, Player &player, std::shared_ptr<S
 	m_renderer(renderer),
 	m_deck(CardDeck())
 {
-	m_mCursorPositions[Deck] = {16, 16};
 	m_mCursorPositions[Action] = {16, 160};
 	m_mCursorPositions[Object1] = {64, 160};
 	m_mCursorPositions[Object2] = {112, 160};
@@ -46,12 +45,6 @@ void PlayScene::update(StateMachine &stateMachine) {
 	}
 	else if (m_userActions.getActionState("USE_CARD")) {
 		_useCardUnderCursor();
-	}
-	else if (m_userActions.getActionState("CURSOR_TO_DECK")) {
-		m_cursorPosition = Deck;
-	}
-	else if (m_userActions.getActionState("CURSOR_TO_ACTION")) {
-		m_cursorPosition = Action;
 	}
 	else if (m_userActions.getActionState("CURSOR_PREVIOUS_POSITION")) {
 		m_cursorPosition = (CursorPosition) ((NbPositions + m_cursorPosition - 1) % NbPositions);
@@ -109,9 +102,6 @@ void PlayScene::_renderCards() {
 
 void PlayScene::_useCardUnderCursor() {
 	switch (m_cursorPosition) {
-		case Deck:
-			_pickCard();
-			break;
 		case Action:
 			_action();
 			break;
@@ -146,11 +136,11 @@ void PlayScene::_pickCard() {
 }
 
 void PlayScene::_action() {
-	if (m_pickedCard != nullptr) {
-		std::cout << "Action\n";
+	if (m_pickedCard == nullptr) {
+		_pickCard();
 	}
 	else {
-		_notify("Pick a card first");
+		_notify("Action");
 	}
 }
 
