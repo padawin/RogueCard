@@ -139,8 +139,17 @@ void PlayScene::_action() {
 	if (m_pickedCard == nullptr) {
 		_pickCard();
 	}
-	else {
-		_notify("Action");
+	else if (m_pickedCard->getType() == ObjectCardType) {
+		_notify("Pick Object");
+		m_pickedCard = nullptr;
+	}
+	else if (m_pickedCard->getType() == FloorCardType) {
+		_notify("Found next floor");
+		m_floorCard = m_pickedCard;
+		m_pickedCard = nullptr;
+	}
+	else if (m_pickedCard->getType() == EnemyCardType) {
+		_notify("Attack");
 	}
 }
 

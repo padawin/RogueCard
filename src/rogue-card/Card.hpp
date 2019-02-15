@@ -20,6 +20,7 @@ class Card {
 
 	public:
 	Card(E_CardType type);
+	E_CardType getType() const;
 	void render(SDL_Renderer *renderer, int x, int y);
 };
 
