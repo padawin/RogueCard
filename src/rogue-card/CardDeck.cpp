@@ -16,18 +16,20 @@ std::shared_ptr<Card> CardDeck::pickCard() {
 	else {
 		type = ObjectCardType;
 	}
+	std::shared_ptr<Card> card = nullptr;
 
 	if (type == ObjectCardType) {
-		return std::shared_ptr<ObjectCard>(new ObjectCard());
+		card = std::shared_ptr<ObjectCard>(new ObjectCard());
 	}
 	else if (type == FloorCardType) {
-		return std::shared_ptr<FloorCard>(new FloorCard());
+		card = std::shared_ptr<FloorCard>(new FloorCard());
 	}
 	else if (type == EnemyCardType) {
-		return std::shared_ptr<EnemyCard>(new EnemyCard());
+		card = std::shared_ptr<EnemyCard>(new EnemyCard());
 	}
 	else {
 		std::cerr << "Unknown card type " << type << "!\n";
-		return NULL;
 	}
+	card->create();
+	return card;
 }

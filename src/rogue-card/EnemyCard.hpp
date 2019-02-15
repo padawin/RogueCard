@@ -6,6 +6,7 @@
 class EnemyCard : public Card {
 	public:
 	EnemyCard();
+	void create();
 };
 
 #endif

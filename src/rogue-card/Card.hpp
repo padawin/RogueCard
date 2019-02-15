@@ -19,8 +19,10 @@ class Card {
 	std::string m_sImage = "";
 
 	public:
+	virtual ~Card() {}
 	Card(E_CardType type);
 	E_CardType getType() const;
+	virtual void create() = 0;
 	void render(SDL_Renderer *renderer, int x, int y);
 };
 

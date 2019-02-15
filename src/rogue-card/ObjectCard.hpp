@@ -6,6 +6,7 @@
 class ObjectCard : public Card {
 	public:
 	ObjectCard();
+	void create();
 };
 
 #endif

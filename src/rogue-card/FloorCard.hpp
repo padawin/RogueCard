@@ -6,6 +6,7 @@
 class FloorCard : public Card {
 	public:
 	FloorCard();
+	void create();
 };
 
 #endif
