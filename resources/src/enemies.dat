@@ -1,0 +1,14 @@
+# format:
+# EnemyName health strength defense tilesetX tilesetY dropRate minItems maxItems
+Rat 10 1 1 1 0 50 1 1
+Wasp 5 1 1 4 1 0 0 0
+Snake 15 3 2 7 2 50 1 1
+MimicWood 40 5 5 6 6 100 2 2
+MimicIron 60 7 7 6 7 100 3 3
+MimicGold 80 10 10 6 8 100 4 4
+# Zombie
+# Cyclope
+# DarkKnight
+# Mage
+# WhiteKnight
+# LavaKnight

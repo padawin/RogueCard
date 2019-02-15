@@ -43,6 +43,7 @@ full: tools game build-resources
 
 build-resources:
 	./bin/tools/data-compiler tilesets resources/src/tilesets.dat resources/tilesets.dat
+	./bin/tools/data-compiler enemies resources/src/enemies.dat resources/enemies.dat
 
 game: $(PROG)
 	cp -r config bin/

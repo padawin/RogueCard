@@ -1,11 +1,12 @@
 #include <iostream>
 #include <unistd.h>
 #include <libgen.h>
-#include "types.hpp"
+#include "../common/types.hpp"
 #include "ResourceManager.hpp"
 
 std::string cleanFileInPath(std::string path);
 bool readTilesetFileLine(char line[MAX_CHARS_PER_LINE], S_TilesetMapping &data);
+bool readEnemyFileLine(char line[MAX_CHARS_PER_LINE], S_EnemyMeta &data);
 
 int main(int argc, char* argv[]) {
 	// expects the following arguments:
@@ -26,6 +27,14 @@ int main(int argc, char* argv[]) {
 		ResourceManager<S_TilesetMapping> resourceManager;
 		bool res = resourceManager.compileFile(fileIn, fileOut, readTilesetFileLine);
 		if (!res) {
+			return 1;
+		}
+	}
+	else if (type == "enemies") {
+		ResourceManager<S_EnemyMeta> resourceManager;
+		bool res = resourceManager.compileFile(fileIn, fileOut, readEnemyFileLine);
+		if (!res) {
+			std::cerr << res << std::endl;
 			return 1;
 		}
 	}
@@ -57,4 +66,25 @@ bool readTilesetFileLine(char line[MAX_CHARS_PER_LINE], S_TilesetMapping &data) 
 		"%s %s\n",
 		data.tileset, data.filePath);
 	return result == 2;
+}
+
+bool readEnemyFileLine(char line[MAX_CHARS_PER_LINE], S_EnemyMeta &data) {
+	int dropRate, minItems, maxItems;
+	int result = sscanf(
+		line,
+		"%s %d %d %d %d %d %d %d %d\n",
+		data.name,
+		&data.health,
+		&data.strength,
+		&data.defense,
+		&data.tilesetX,
+		&data.tilesetY,
+		&dropRate,
+		&minItems,
+		&maxItems
+	);
+	data.dropRate = (char) dropRate;
+	data.minItems = (char) minItems;
+	data.maxItems = (char) maxItems;
+	return result == 9;
 }

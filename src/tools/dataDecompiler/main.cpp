@@ -1,11 +1,13 @@
 #include <iostream>
 #include <unistd.h>
 #include <libgen.h>
-#include "types.hpp"
+#include "../common/types.hpp"
 #include "ResourceManager.hpp"
 
 std::string cleanFileInPath(std::string path);
 void writeTilesetMapping(std::ofstream &fileOutStream, S_TilesetMapping tile);
+void writeEnemy(std::ofstream &fileOutStream, S_EnemyMeta tile);
+
 template <typename T>
 bool decompileFile(
 	ResourceManager<T> *resourceManager,
@@ -33,6 +35,9 @@ int main(int argc, char* argv[]) {
 	if (type == "tilesets") {
 		ret = decompileFile(new ResourceManager<S_TilesetMapping>(), writeTilesetMapping, fileIn, fileOut);
 	}
+	else if (type == "enemies") {
+		ret = decompileFile(new ResourceManager<S_EnemyMeta>(), writeEnemy, fileIn, fileOut);
+	}
 	else {
 		std::cerr << "Invalid type: " << type << "\n";
 		return 2;
@@ -58,6 +63,19 @@ std::string cleanFileInPath(std::string path) {
 
 void writeTilesetMapping(std::ofstream &fileOutStream, S_TilesetMapping tile) {
 	fileOutStream << tile.tileset << " " << tile.filePath << "\n";
+}
+
+void writeEnemy(std::ofstream &fileOutStream, S_EnemyMeta enemy) {
+	fileOutStream << " "
+		<< enemy.name << " "
+		<< enemy.health << " "
+		<< enemy.strength << " "
+		<< enemy.defense << " "
+		<< enemy.tilesetX << " "
+		<< enemy.tilesetY << " "
+		<< enemy.dropRate << " "
+		<< enemy.minItems << " "
+		<< enemy.maxItems << "\n";
 }
 
 template <typename T>

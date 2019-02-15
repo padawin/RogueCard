@@ -1,11 +1,12 @@
 #include <SDL2/SDL.h>
+#include "../common/types.hpp"
 #include "../game/Game.hpp"
 #include "../game/globals.hpp"
 #include "../sdl2/InputHandler.hpp"
 #include "../sdl2/Renderer.hpp"
+#include "EnemyCard.hpp"
 #include "ResourceManager.hpp"
 #include "scene/Play.hpp"
-#include "types.hpp"
 #include <iostream>
 #include <memory> // shared_ptr
 #include <libgen.h> // dirname
@@ -35,6 +36,11 @@ int main(int argc, char* args[]) {
 			std::cerr << "An error occured while loading the player controls mapping: " << actionsSet << "\n";
 			return actionsSet;
 		}
+	}
+
+	if (!EnemyCard::prepareMeta(std::string(binaryPath) + "/../resources/enemies.dat")) {
+		std::cerr << "An error occurred while loading the enemies meta\n";
+		return 1;
 	}
 
 	Player p = Player();
