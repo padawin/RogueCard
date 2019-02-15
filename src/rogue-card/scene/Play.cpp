@@ -8,6 +8,13 @@
 PlayScene::PlayScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
 	State(userActions), m_player(player), m_renderer(renderer)
 {
+	m_mCursorPositions[Deck] = {16, 16};
+	m_mCursorPositions[Action] = {16, 160};
+	m_mCursorPositions[Object1] = {64, 160};
+	m_mCursorPositions[Object2] = {112, 160};
+	m_mCursorPositions[Object3] = {160, 160};
+	m_mCursorPositions[Object4] = {208, 160};
+	m_mCursorPositions[Floor] = {256, 160};
 }
 
 std::string PlayScene::getStateID() const {
@@ -37,15 +44,39 @@ void PlayScene::update(StateMachine &stateMachine) {
 	else if (m_userActions.getActionState("USE_CARD")) {
 		_useCardUnderCursor();
 	}
+	else if (m_userActions.getActionState("CURSOR_TO_DECK")) {
+		m_cursorPosition = Deck;
+	}
+	else if (m_userActions.getActionState("CURSOR_TO_ACTION")) {
+		m_cursorPosition = Action;
+	}
+	else if (m_userActions.getActionState("CURSOR_PREVIOUS_POSITION")) {
+		m_cursorPosition = (CursorPosition) ((NbPositions + m_cursorPosition - 1) % NbPositions);
+	}
+	else if (m_userActions.getActionState("CURSOR_NEXT_POSITION")) {
+		m_cursorPosition = (CursorPosition) ((m_cursorPosition + 1) % NbPositions);
+	}
 }
 
 void PlayScene::render() {
 	_renderBackground();
+	_renderCursor();
 }
 
 void PlayScene::_renderBackground() const {
 	TextureManager::Instance()->drawImage(
 		"ui", m_renderer->getRenderer(), 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT
+	);
+}
+
+void PlayScene::_renderCursor() {
+	TextureManager::Instance()->drawImage(
+		"cursor",
+		m_renderer->getRenderer(),
+		m_mCursorPositions[m_cursorPosition].first,
+		m_mCursorPositions[m_cursorPosition].second,
+		48,
+		64
 	);
 }
 
@@ -72,6 +103,7 @@ void PlayScene::_useCardUnderCursor() {
 		case Floor:
 			_changeFloor();
 			break;
+		case NbPositions:
 		default:
 			break;
 	}

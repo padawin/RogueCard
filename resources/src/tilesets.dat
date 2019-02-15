@@ -1,3 +1,4 @@
 # format:
 # tilesetName tilesetFile
 ui ui.png
+cursor cursor.png
