@@ -74,7 +74,7 @@ gcw: $(OBJGCW)
 
 opk: tools build-resources
 	mkdir -p dist/bin
-	cp -r configs dist/
+	cp -r config dist/
 	cp $(BINDIR)/$(PROG) dist/bin/
 	mksquashfs dist $(TARGETDIST) -all-root -noappend -no-exports -no-xattrs
 
