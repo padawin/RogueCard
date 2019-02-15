@@ -76,7 +76,7 @@ bool readEnemyFileLine(char line[MAX_CHARS_PER_LINE], S_EnemyMeta &data) {
 		data.name,
 		&data.health,
 		&data.strength,
-		&data.defense,
+		&data.defence,
 		&data.tilesetX,
 		&data.tilesetY,
 		&dropRate,
