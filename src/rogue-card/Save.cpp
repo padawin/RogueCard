@@ -61,6 +61,11 @@ void Save::_loadPlayer() {
 			sscanf(line, "g %ld\n", &gold);
 			m_player.setGold(gold);
 		}
+		if (type == 'l') {
+			int level = 1;
+			sscanf(line, "l %d\n", &level);
+			m_player.setLevel(level);
+		}
 		if (type == 'i') {
 			int inventorySize;
 			sscanf(line, "i %d\n", &inventorySize);
@@ -94,6 +99,7 @@ void Save::_savePlayer() {
 	fprintf(playerFile, "d %d\n", m_player.getDefence());
 	fprintf(playerFile, "f %d\n", m_player.getFloor());
 	fprintf(playerFile, "g %ld\n", m_player.getGold());
+	fprintf(playerFile, "l %d\n", m_player.getLevel());
 	fprintf(playerFile, "i %d\n", m_player.getInventorySize());
 	fclose(playerFile);
 }

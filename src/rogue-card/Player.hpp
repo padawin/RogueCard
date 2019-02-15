@@ -18,6 +18,7 @@ class Player {
 	int m_iDefence = 5;
 	int m_iFloor = 0;
 	long m_iGold = 0;
+	int m_iLevel = 1;
 
 	public:
 	int getHealth() const;
@@ -27,6 +28,7 @@ class Player {
 	short getInventorySize() const;
 	int getFloor() const;
 	long getGold() const;
+	int getLevel() const;
 	void setHealth(int health);
 	void setMaxHealth(int maxHealth);
 	void setStrength(int strength);
@@ -34,6 +36,7 @@ class Player {
 	void setInventory(/*ObjectCard *inventory,*/ char size);
 	void setFloor(int floorLevel);
 	void setGold(long gold);
+	void setLevel(int level);
 
 	int setDamages(int damages);
 	int attack(std::shared_ptr<EnemyCard> card) const;
