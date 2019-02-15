@@ -1,5 +1,5 @@
 # format:
-# EnemyName health strength defense tilesetX tilesetY dropRate minItems maxItems
+# EnemyName health strength defence tilesetX tilesetY dropRate minItems maxItems
 Rat 10 1 1 1 0 50 1 1
 Wasp 5 1 1 4 1 0 0 0
 Snake 15 3 2 7 2 50 1 1

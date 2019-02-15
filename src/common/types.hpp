@@ -15,7 +15,7 @@ struct S_EnemyMeta {
 	char name[MAX_CHAR_ENEMY_NAME];
 	int health;
 	int strength;
-	int defense;
+	int defence;
 	int tilesetX;
 	int tilesetY;
 	char dropRate;

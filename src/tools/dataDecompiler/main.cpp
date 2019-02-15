@@ -70,7 +70,7 @@ void writeEnemy(std::ofstream &fileOutStream, S_EnemyMeta enemy) {
 		<< enemy.name << " "
 		<< enemy.health << " "
 		<< enemy.strength << " "
-		<< enemy.defense << " "
+		<< enemy.defence << " "
 		<< enemy.tilesetX << " "
 		<< enemy.tilesetY << " "
 		<< enemy.dropRate << " "
