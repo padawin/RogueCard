@@ -75,7 +75,7 @@ void SDL2InputHandler::_handleButtonEvent(const SDL_Event event, const bool isDo
  * Change the state of a pressed or released keyboard key.
  */
 void SDL2InputHandler::_handleKeyEvent(const SDL_Event event, const bool isDown) {
-	m_mKeysStates[event.key.keysym.scancode] = isDown;
+	m_mKeysStates[event.key.keysym.scancode] = std::make_pair(isDown, isDown);
 }
 
 /**

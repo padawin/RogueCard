@@ -18,8 +18,11 @@ class InputHandler {
 	/**
 	 * Maps joysticks ids and buttons state, each joystick has a list of
 	 * buttons set to true or false depending on if the button is pressed
+	 * the first bool is true if the button is pressed, as soon as this value is
+	 * tested, it becomes false. The second bool is true if the button if down,
+	 * it becomes false if the button is released.
 	 */
-	std::map<int, bool> m_mKeysStates = {};
+	std::map<int, std::pair<bool, bool>> m_mKeysStates = {};
 
 	virtual InputUpdateResult _processEvents() = 0;
 
@@ -40,7 +43,13 @@ class InputHandler {
 	 * Returns true if the provided key (from the keyboard) is pressed, false
 	 * otherwise
 	 */
-	bool getKeyState(const int key);
+	bool isKeyPressed(const int key);
+
+	/**
+	 * Returns true if the provided key (from the keyboard) is down, false
+	 * otherwise
+	 */
+	bool isKeyDown(const int key);
 
 	/**
 	 * Method to set the state of a given key

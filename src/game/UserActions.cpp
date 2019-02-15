@@ -31,7 +31,7 @@ int UserActions::getActionState(std::string name) {
 	int ret = 0;
 	for (unsigned int c = 0; c < commands.size(); c++) {
 		if (commands[c].type == KEYBOARD_KEY) {
-			ret = m_inputHandler->getKeyState(commands[c].key);
+			ret = m_inputHandler->isKeyPressed(commands[c].key);
 		}
 
 		if (ret != 0) {
