@@ -19,9 +19,8 @@ void Card::render(SDL_Renderer *renderer, int x, int y) {
 		y + CARD_IMAGE_POSITION_Y,
 		CARD_IMAGE_WIDTH,
 		CARD_IMAGE_HEIGHT,
-		// @TODO Change this temporary coordinate
-		0,
-		0,
+		m_iTileX,
+		m_iTileY,
 		renderer
 	);
 }

@@ -17,6 +17,8 @@ class Card {
 	protected:
 	E_CardType m_type;
 	std::string m_sImage = "";
+	int m_iTileX = 0;
+	int m_iTileY = 0;
 
 	public:
 	virtual ~Card() {}
