@@ -7,6 +7,7 @@
 std::string cleanFileInPath(std::string path);
 bool readTilesetFileLine(char line[MAX_CHARS_PER_LINE], S_TilesetMapping &data);
 bool readEnemyFileLine(char line[MAX_CHARS_PER_LINE], S_EnemyMeta &data);
+bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data);
 
 int main(int argc, char* argv[]) {
 	// expects the following arguments:
@@ -33,6 +34,14 @@ int main(int argc, char* argv[]) {
 	else if (type == "enemies") {
 		ResourceManager<S_EnemyMeta> resourceManager;
 		bool res = resourceManager.compileFile(fileIn, fileOut, readEnemyFileLine);
+		if (!res) {
+			std::cerr << res << std::endl;
+			return 1;
+		}
+	}
+	else if (type == "objects") {
+		ResourceManager<S_ObjectMeta> resourceManager;
+		bool res = resourceManager.compileFile(fileIn, fileOut, readObjectFileLine);
 		if (!res) {
 			std::cerr << res << std::endl;
 			return 1;
@@ -87,4 +96,15 @@ bool readEnemyFileLine(char line[MAX_CHARS_PER_LINE], S_EnemyMeta &data) {
 	data.minItems = (char) minItems;
 	data.maxItems = (char) maxItems;
 	return result == 9;
+}
+
+bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
+	int result = sscanf(
+		line,
+		"%s %d %d\n",
+		data.name,
+		&data.tilesetX,
+		&data.tilesetY
+	);
+	return result == 3;
 }

@@ -6,7 +6,8 @@
 
 std::string cleanFileInPath(std::string path);
 void writeTilesetMapping(std::ofstream &fileOutStream, S_TilesetMapping tile);
-void writeEnemy(std::ofstream &fileOutStream, S_EnemyMeta tile);
+void writeEnemy(std::ofstream &fileOutStream, S_EnemyMeta enemy);
+void writeObject(std::ofstream &fileOutStream, S_ObjectMeta object);
 
 template <typename T>
 bool decompileFile(
@@ -37,6 +38,9 @@ int main(int argc, char* argv[]) {
 	}
 	else if (type == "enemies") {
 		ret = decompileFile(new ResourceManager<S_EnemyMeta>(), writeEnemy, fileIn, fileOut);
+	}
+	else if (type == "objects") {
+		ret = decompileFile(new ResourceManager<S_ObjectMeta>(), writeObject, fileIn, fileOut);
 	}
 	else {
 		std::cerr << "Invalid type: " << type << "\n";
@@ -76,6 +80,13 @@ void writeEnemy(std::ofstream &fileOutStream, S_EnemyMeta enemy) {
 		<< enemy.dropRate << " "
 		<< enemy.minItems << " "
 		<< enemy.maxItems << "\n";
+}
+
+void writeObject(std::ofstream &fileOutStream, S_ObjectMeta object) {
+	fileOutStream << " "
+		<< object.name << " "
+		<< object.tilesetX << " "
+		<< object.tilesetY << "\n";
 }
 
 template <typename T>
