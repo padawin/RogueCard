@@ -1,7 +1,7 @@
 #ifndef __PLAYER__
 #define __PLAYER__
 
-#define MAX_INVENTORY_SIZE 32
+#define MAX_INVENTORY_SIZE 36
 
 #include <memory>
 #include "ObjectCard.hpp"
