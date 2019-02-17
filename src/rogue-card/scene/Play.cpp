@@ -5,6 +5,7 @@
 #include "GameOver.hpp"
 #include "Play.hpp"
 #include "EnemyCard.hpp"
+#include "ObjectCard.hpp"
 #include <iostream>
 
 PlayScene::PlayScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
@@ -140,12 +141,25 @@ void PlayScene::_pickCard() {
 	}
 }
 
+void PlayScene::_pickObject() {
+	std::shared_ptr<ObjectCard> objectCard(std::static_pointer_cast<ObjectCard>(m_pickedCard));
+	if (!m_player.hasSpaceInInventory()) {
+		_notify("Your inventory is full");
+	}
+	else {
+		char message[44];
+		m_player.addItemToInventory(objectCard);
+		snprintf(message, 44, "You picked %s", objectCard->getName());
+		_notify(message);
+	}
+}
+
 void PlayScene::_action() {
 	if (m_pickedCard == nullptr) {
 		_pickCard();
 	}
 	else if (m_pickedCard->getType() == ObjectCardType) {
-		_notify("Pick Object");
+		_pickObject();
 		m_pickedCard = nullptr;
 	}
 	else if (m_pickedCard->getType() == FloorCardType) {
@@ -182,8 +196,9 @@ void PlayScene::_attack() {
 	std::shared_ptr<EnemyCard> enemyCard(std::static_pointer_cast<EnemyCard>(m_pickedCard));
 	int damagesDealtToEnemy = m_player.attack(enemyCard);
 	int damagesDealtToPlayer = enemyCard->attack(m_player);
-	sprintf(
+	snprintf(
 		message,
+		80,
 		"You dealt %d damages points\nthe %s dealt %d damages points",
 		damagesDealtToEnemy,
 		enemyCard->getName(),

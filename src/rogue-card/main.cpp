@@ -5,6 +5,7 @@
 #include "../sdl2/InputHandler.hpp"
 #include "../sdl2/Renderer.hpp"
 #include "EnemyCard.hpp"
+#include "ObjectCard.hpp"
 #include "ResourceManager.hpp"
 #include "scene/Play.hpp"
 #include <iostream>
@@ -40,6 +41,10 @@ int main(int argc, char* args[]) {
 
 	if (!EnemyCard::prepareMeta(std::string(binaryPath) + "/../resources/enemies.dat")) {
 		std::cerr << "An error occurred while loading the enemies meta\n";
+		return 1;
+	}
+	if (!ObjectCard::prepareMeta(std::string(binaryPath) + "/../resources/objects.dat")) {
+		std::cerr << "An error occurred while loading the objects meta\n";
 		return 1;
 	}
 

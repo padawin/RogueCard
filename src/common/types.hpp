@@ -5,6 +5,7 @@
 #define MAX_CHAR_RESOURCE_PATH 255
 
 #define MAX_CHAR_ENEMY_NAME 32
+#define MAX_CHAR_OBJECT_NAME 32
 
 struct S_TilesetMapping {
 	char tileset[MAX_LENGTH_TILESET_NAME];
@@ -21,6 +22,12 @@ struct S_EnemyMeta {
 	char dropRate;
 	char minItems;
 	char maxItems;
+};
+
+struct S_ObjectMeta {
+	char name[MAX_CHAR_OBJECT_NAME];
+	int tilesetX;
+	int tilesetY;
 };
 
 #endif

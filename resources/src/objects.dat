@@ -1,0 +1,66 @@
+# format:
+# ObjectName tilesetX tilesetY
+# Belt
+# Belt
+# Belt
+# Necklace
+# Necklace
+# Necklace
+# Necklace
+# Necklace
+# ?
+# ?
+# ?
+# ?
+# ?
+# ?
+# ?
+# ?
+# ?
+# ?
+# ?
+# ?
+# ?
+# Necklace
+# Necklace
+# Necklace
+# Necklace
+# Necklace
+# Necklace
+# Necklace
+# Necklace
+# Necklace
+# Necklace
+# Necklace
+# Necklace
+# ?
+# ?
+# ?
+# ?
+# ?
+# ?
+# ?
+# ?
+# ?
+# ?
+# Pendant
+# Pendant
+# Pendant
+# Pendant
+# Pendant
+# Pendant
+# Pendant
+# Pendant
+# Pendant
+# Pendant
+# Armor
+# Armor
+MonkRobe 10 3
+# Armor
+PaddedArmor 12 3
+LeatherArmor 13 3
+SteelArmor 14 3
+KnightArmor 15 3
+HeavyKnightArmor 12 3
+PaladinArmor 12 3
+HeroArmor 12 3

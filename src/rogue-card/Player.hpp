@@ -4,6 +4,7 @@
 #define MAX_INVENTORY_SIZE 32
 
 #include <memory>
+#include "ObjectCard.hpp"
 
 class EnemyCard;
 
@@ -11,7 +12,7 @@ class Player {
 	private:
 	// Equipment m_equipment;
 	short m_iInventorySize = 0;
-	// ObjectCard[MAX_INVENTORY_SIZE] m_inventory = {};
+	std::shared_ptr<ObjectCard> m_inventory[MAX_INVENTORY_SIZE] = {};
 	int m_iHealth = 30;
 	int m_iMaxHealth = 30;
 	int m_iStrength = 5;
@@ -42,6 +43,9 @@ class Player {
 	int attack(std::shared_ptr<EnemyCard> card) const;
 
 	bool isDead() const;
+
+	bool hasSpaceInInventory() const;
+	void addItemToInventory(std::shared_ptr<ObjectCard> card);
 };
 
 #endif
