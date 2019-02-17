@@ -13,6 +13,8 @@ class ObjectCard : public Card {
 	ObjectCard();
 	void create();
 	static bool prepareMeta(std::string file);
+
+	const char* getName() const;
 };
 
 #endif

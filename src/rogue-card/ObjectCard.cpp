@@ -21,3 +21,7 @@ bool ObjectCard::prepareMeta(std::string file) {
 	m_objectMeta.parseBinaryFile();
 	return true;
 }
+
+const char* ObjectCard::getName() const {
+	return m_sName;
+}

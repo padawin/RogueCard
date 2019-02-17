@@ -5,6 +5,7 @@
 #include "GameOver.hpp"
 #include "Play.hpp"
 #include "EnemyCard.hpp"
+#include "ObjectCard.hpp"
 #include <iostream>
 
 PlayScene::PlayScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
@@ -140,12 +141,19 @@ void PlayScene::_pickCard() {
 	}
 }
 
+void PlayScene::_pickObject() {
+	char message[44];
+	std::shared_ptr<ObjectCard> objectCard(std::static_pointer_cast<ObjectCard>(m_pickedCard));
+	snprintf(message, 80, "You picked %s", objectCard->getName());
+	_notify(message);
+}
+
 void PlayScene::_action() {
 	if (m_pickedCard == nullptr) {
 		_pickCard();
 	}
 	else if (m_pickedCard->getType() == ObjectCardType) {
-		_notify("Pick Object");
+		_pickObject();
 		m_pickedCard = nullptr;
 	}
 	else if (m_pickedCard->getType() == FloorCardType) {
