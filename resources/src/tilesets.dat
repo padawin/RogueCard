@@ -1,6 +1,7 @@
 # format:
 # tilesetName tilesetFile
 ui ui.png
+ui-inventory ui-inventory.png
 cursor cursor.png
 card card.png
 objects objects.png
