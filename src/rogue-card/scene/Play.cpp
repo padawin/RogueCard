@@ -190,8 +190,9 @@ void PlayScene::_attack() {
 	std::shared_ptr<EnemyCard> enemyCard(std::static_pointer_cast<EnemyCard>(m_pickedCard));
 	int damagesDealtToEnemy = m_player.attack(enemyCard);
 	int damagesDealtToPlayer = enemyCard->attack(m_player);
-	sprintf(
+	snprintf(
 		message,
+		80,
 		"You dealt %d damages points\nthe %s dealt %d damages points",
 		damagesDealtToEnemy,
 		enemyCard->getName(),
