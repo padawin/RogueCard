@@ -62,8 +62,8 @@ void PlayScene::update(StateMachine &stateMachine) {
 
 void PlayScene::render() {
 	_renderBackground();
-	_renderCursor();
 	_renderCards();
+	_renderCursor();
 }
 
 void PlayScene::_renderBackground() const {
