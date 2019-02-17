@@ -3,6 +3,7 @@
 #include "../Save.hpp"
 #include "../sdl2/TextureManager.hpp"
 #include "GameOver.hpp"
+#include "Inventory.hpp"
 #include "Play.hpp"
 #include "EnemyCard.hpp"
 #include "ObjectCard.hpp"
@@ -48,6 +49,9 @@ void PlayScene::update(StateMachine &stateMachine) {
 	}
 	else if (m_player.isDead()) {
 		stateMachine.changeState(new GameOverScene(m_userActions));
+	}
+	else if (m_userActions.getActionState("INVENTORY")) {
+		stateMachine.pushState(new InventoryScene(m_userActions, m_player, m_renderer));
 	}
 	else if (m_userActions.getActionState("USE_CARD")) {
 		_useCardUnderCursor();
