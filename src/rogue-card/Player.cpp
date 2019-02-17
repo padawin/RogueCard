@@ -38,3 +38,20 @@ int Player::setDamages(int damages) {
 bool Player::isDead() const {
 	return m_iHealth == 0;
 }
+
+bool Player::hasSpaceInInventory() const {
+	int i;
+	for (i = 0; i < MAX_INVENTORY_SIZE && m_inventory[i] != nullptr; ++i) {}
+	return i < MAX_INVENTORY_SIZE;
+
+}
+
+void Player::addItemToInventory(std::shared_ptr<ObjectCard> card) {
+	int i = 0;
+	while (i < MAX_INVENTORY_SIZE && m_inventory[i] != nullptr) {
+		++i;
+	}
+	if (i < MAX_INVENTORY_SIZE) {
+		m_inventory[i] = card;
+	}
+}

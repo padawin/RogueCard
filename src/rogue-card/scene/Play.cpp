@@ -142,10 +142,16 @@ void PlayScene::_pickCard() {
 }
 
 void PlayScene::_pickObject() {
-	char message[44];
 	std::shared_ptr<ObjectCard> objectCard(std::static_pointer_cast<ObjectCard>(m_pickedCard));
-	snprintf(message, 80, "You picked %s", objectCard->getName());
-	_notify(message);
+	if (!m_player.hasSpaceInInventory()) {
+		_notify("Your inventory is full");
+	}
+	else {
+		char message[44];
+		m_player.addItemToInventory(objectCard);
+		snprintf(message, 44, "You picked %s", objectCard->getName());
+		_notify(message);
+	}
 }
 
 void PlayScene::_action() {
