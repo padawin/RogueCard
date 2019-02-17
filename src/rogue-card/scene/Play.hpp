@@ -8,7 +8,7 @@
 #include "../Player.hpp"
 #include "../CardDeck.hpp"
 
-enum CursorPosition {Action, Object1, Object2, Object3, Object4, Floor, NbPositions};
+enum PlayCursorPosition {Action, Object1, Object2, Object3, Object4, Floor, NbPositions};
 
 const int MAX_OBJECTS = 4;
 
@@ -18,8 +18,8 @@ class PlayScene : public State {
 	std::shared_ptr<SDL2Renderer> m_renderer;
 	CardDeck m_deck;
 
-	CursorPosition m_cursorPosition = Action;
-	std::map<CursorPosition, std::pair<int, int>> m_mCursorPositions = {};
+	PlayCursorPosition m_cursorPosition = Action;
+	std::map<PlayCursorPosition, std::pair<int, int>> m_mCursorPositions = {};
 	std::shared_ptr<Card> m_pickedCard = nullptr;
 	std::shared_ptr<Card> m_objectCards[MAX_OBJECTS] = {nullptr, nullptr, nullptr, nullptr};
 	std::shared_ptr<Card> m_floorCard = nullptr;

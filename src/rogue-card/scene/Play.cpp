@@ -53,10 +53,10 @@ void PlayScene::update(StateMachine &stateMachine) {
 		_useCardUnderCursor();
 	}
 	else if (m_userActions.getActionState("CURSOR_LEFT")) {
-		m_cursorPosition = (CursorPosition) ((NbPositions + m_cursorPosition - 1) % NbPositions);
+		m_cursorPosition = (PlayCursorPosition) ((NbPositions + m_cursorPosition - 1) % NbPositions);
 	}
 	else if (m_userActions.getActionState("CURSOR_RIGHT")) {
-		m_cursorPosition = (CursorPosition) ((m_cursorPosition + 1) % NbPositions);
+		m_cursorPosition = (PlayCursorPosition) ((m_cursorPosition + 1) % NbPositions);
 	}
 }
 
@@ -88,7 +88,7 @@ void PlayScene::_renderCards() {
 		m_pickedCard->render(m_renderer->getRenderer(), 138, 32);
 	}
 	for (int i = (int) Object1; i < MAX_OBJECTS; ++i) {
-		CursorPosition pos = (CursorPosition) i;
+		PlayCursorPosition pos = (PlayCursorPosition) i;
 		if (m_objectCards[pos] != nullptr) {
 			m_objectCards[pos]->render(
 				m_renderer->getRenderer(),
