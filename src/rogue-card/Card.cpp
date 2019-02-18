@@ -10,8 +10,8 @@ E_CardType Card::getType() const {
 }
 
 void Card::render(SDL_Renderer *renderer, int x, int y) {
-	TextureManager::Instance()->drawImage(
-		"card", renderer, x, y, CARD_WIDTH, CARD_HEIGHT
+	TextureManager::Instance()->draw(
+		"card", x, y, CARD_WIDTH, CARD_HEIGHT, renderer
 	);
 	TextureManager::Instance()->drawFrame(
 		m_sImage,
