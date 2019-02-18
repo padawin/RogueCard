@@ -1,5 +1,6 @@
 # format:
 # tilesetName tilesetFile
+font atlas.png
 ui ui.png
 ui-inventory ui-inventory.png
 cursor cursor.png

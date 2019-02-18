@@ -5,6 +5,7 @@
 #include <map>
 #include "../game/State.hpp"
 #include "../sdl2/Renderer.hpp"
+#include "../sdl2/Text.hpp"
 #include "../Player.hpp"
 #include "../CardDeck.hpp"
 
@@ -17,6 +18,7 @@ class PlayScene : public State {
 	Player &m_player;
 	std::shared_ptr<SDL2Renderer> m_renderer;
 	CardDeck m_deck;
+	Text m_notification;
 
 	PlayCursorPosition m_cursorPosition = Action;
 	std::map<PlayCursorPosition, std::pair<int, int>> m_mCursorPositions = {};
@@ -25,6 +27,7 @@ class PlayScene : public State {
 	std::shared_ptr<Card> m_floorCard = nullptr;
 
 	void _renderBackground() const;
+	void _renderNotification() const;
 	void _renderCursor();
 	void _renderCards();
 
@@ -38,7 +41,7 @@ class PlayScene : public State {
 
 	void _attack();
 
-	void _notify(std::string message) const;
+	void _notify(std::string message);
 
 	public:
 	PlayScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer);

@@ -45,6 +45,7 @@ build-resources:
 	./bin/tools/data-compiler tilesets resources/src/tilesets.dat resources/tilesets.dat
 	./bin/tools/data-compiler enemies resources/src/enemies.dat resources/enemies.dat
 	./bin/tools/data-compiler objects resources/src/objects.dat resources/objects.dat
+	./bin/tools/data-compiler font-atlas resources/src/font-atlas.dat resources/font-atlas.dat
 
 game: $(PROG)
 	cp -r config bin/

@@ -8,6 +8,7 @@ std::string cleanFileInPath(std::string path);
 void writeTilesetMapping(std::ofstream &fileOutStream, S_TilesetMapping tile);
 void writeEnemy(std::ofstream &fileOutStream, S_EnemyMeta enemy);
 void writeObject(std::ofstream &fileOutStream, S_ObjectMeta object);
+void writeFontAtlas(std::ofstream &fileOutStream, S_FontAtlasCoord object);
 
 template <typename T>
 bool decompileFile(
@@ -41,6 +42,9 @@ int main(int argc, char* argv[]) {
 	}
 	else if (type == "objects") {
 		ret = decompileFile(new ResourceManager<S_ObjectMeta>(), writeObject, fileIn, fileOut);
+	}
+	else if (type == "font-atlas") {
+		ret = decompileFile(new ResourceManager<S_FontAtlasCoord>(), writeFontAtlas, fileIn, fileOut);
 	}
 	else {
 		std::cerr << "Invalid type: " << type << "\n";
@@ -87,6 +91,14 @@ void writeObject(std::ofstream &fileOutStream, S_ObjectMeta object) {
 		<< object.name << " "
 		<< object.tilesetX << " "
 		<< object.tilesetY << "\n";
+}
+
+void writeFontAtlas(std::ofstream &fileOutStream, S_FontAtlasCoord object) {
+	fileOutStream << " "
+		<< object.x << " "
+		<< object.y << " "
+		<< object.w << " "
+		<< object.h << "\n";
 }
 
 template <typename T>

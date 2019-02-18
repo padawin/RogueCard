@@ -30,4 +30,11 @@ struct S_ObjectMeta {
 	int tilesetY;
 };
 
+struct S_FontAtlasCoord {
+	int x;
+	int y;
+	int w;
+	int h;
+};
+
 #endif
