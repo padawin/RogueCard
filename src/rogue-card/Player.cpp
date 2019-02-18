@@ -55,3 +55,10 @@ void Player::addItemToInventory(std::shared_ptr<ObjectCard> card) {
 		m_inventory[i] = card;
 	}
 }
+
+std::shared_ptr<ObjectCard> Player::getInventoryItem(int index) const {
+	if (index >= MAX_INVENTORY_SIZE) {
+		return nullptr;
+	}
+	return m_inventory[index];
+}

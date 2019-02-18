@@ -1,7 +1,7 @@
 #ifndef __PLAYER__
 #define __PLAYER__
 
-#define MAX_INVENTORY_SIZE 32
+#define MAX_INVENTORY_SIZE 36
 
 #include <memory>
 #include "ObjectCard.hpp"
@@ -46,6 +46,7 @@ class Player {
 
 	bool hasSpaceInInventory() const;
 	void addItemToInventory(std::shared_ptr<ObjectCard> card);
+	std::shared_ptr<ObjectCard> getInventoryItem(int index) const;
 };
 
 #endif
