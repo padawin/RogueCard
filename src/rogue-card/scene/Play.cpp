@@ -211,18 +211,27 @@ void PlayScene::_attack() {
 	std::shared_ptr<EnemyCard> enemyCard(std::static_pointer_cast<EnemyCard>(m_pickedCard));
 	int damagesDealtToEnemy = m_player.attack(enemyCard);
 	int damagesDealtToPlayer = enemyCard->attack(m_player);
-	snprintf(
-		message,
-		80,
-		"You dealt %d damages points\nthe %s dealt %d damages points",
-		damagesDealtToEnemy,
-		enemyCard->getName(),
-		damagesDealtToPlayer
-	);
-	_notify(message);
-	if (enemyCard->isDead()) {
+	if (!enemyCard->isDead()) {
+		snprintf(
+			message,
+			80,
+			"You hit %s (%d DP)\n%s hits you (%d DP)",
+			enemyCard->getName(),
+			damagesDealtToEnemy,
+			enemyCard->getName(),
+			damagesDealtToPlayer
+		);
+	}
+	else {
+		snprintf(
+			message,
+			80,
+			"You defeated %s",
+			enemyCard->getName()
+		);
 		m_pickedCard = nullptr;
 	}
+	_notify(message);
 }
 
 void PlayScene::_notify(std::string message) {
