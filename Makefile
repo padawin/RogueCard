@@ -86,3 +86,4 @@ tools:
 		-o $(BINDIR)/tools/data-compiler
 	$(CC) ${CFLAGS} ${CFLAGS} ${LDFLAGS} $(shell find src/tools/dataDecompiler/ $(SRCDIR)/common/ -name "*.cpp") \
 		-o $(BINDIR)/tools/data-decompiler
+	g++ -lSDL2_ttf -lSDL2 -lSDL2_image -Isrc src/tools/font2png.cpp -o $(BINDIR)/font2png
