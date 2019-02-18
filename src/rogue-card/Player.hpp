@@ -22,6 +22,7 @@ class Player {
 	int m_iLevel = 1;
 
 	public:
+	~Player() {}
 	int getHealth() const;
 	int getMaxHealth() const;
 	int getStrength() const;
