@@ -8,6 +8,7 @@ std::string cleanFileInPath(std::string path);
 bool readTilesetFileLine(char line[MAX_CHARS_PER_LINE], S_TilesetMapping &data);
 bool readEnemyFileLine(char line[MAX_CHARS_PER_LINE], S_EnemyMeta &data);
 bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data);
+bool readFontFileLine(char line[MAX_CHARS_PER_LINE], S_FontAtlasCoord &data);
 
 int main(int argc, char* argv[]) {
 	// expects the following arguments:
@@ -42,6 +43,14 @@ int main(int argc, char* argv[]) {
 	else if (type == "objects") {
 		ResourceManager<S_ObjectMeta> resourceManager;
 		bool res = resourceManager.compileFile(fileIn, fileOut, readObjectFileLine);
+		if (!res) {
+			std::cerr << res << std::endl;
+			return 1;
+		}
+	}
+	else if (type == "font-atlas") {
+		ResourceManager<S_FontAtlasCoord> resourceManager;
+		bool res = resourceManager.compileFile(fileIn, fileOut, readFontFileLine);
 		if (!res) {
 			std::cerr << res << std::endl;
 			return 1;
@@ -107,4 +116,13 @@ bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
 		&data.tilesetY
 	);
 	return result == 3;
+}
+
+bool readFontFileLine(char line[MAX_CHARS_PER_LINE], S_FontAtlasCoord &data) {
+	int result = sscanf(
+		line,
+		"%d %d %d %d\n",
+		&data.x, &data.y, &data.w, &data.h
+	);
+	return result == 4;
 }
