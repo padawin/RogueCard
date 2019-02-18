@@ -13,7 +13,8 @@ PlayScene::PlayScene(UserActions &userActions, Player &player, std::shared_ptr<S
 	State(userActions),
 	m_player(player),
 	m_renderer(renderer),
-	m_deck(CardDeck())
+	m_deck(CardDeck()),
+	m_notification(Text())
 {
 	m_mCursorPositions[Action] = {16, 160};
 	m_mCursorPositions[Object1] = {64, 160};
@@ -66,6 +67,7 @@ void PlayScene::update(StateMachine &stateMachine) {
 
 void PlayScene::render() {
 	_renderBackground();
+	_renderNotification();
 	_renderCards();
 	_renderCursor();
 }
@@ -74,6 +76,15 @@ void PlayScene::_renderBackground() const {
 	TextureManager::Instance()->draw(
 		"ui", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, m_renderer->getRenderer()
 	);
+}
+
+void PlayScene::_renderNotification() const {
+	if (m_notification.hasText()) {
+		m_notification.render(
+			m_renderer->getRenderer(),
+			80, 16
+		);
+	}
 }
 
 void PlayScene::_renderCursor() {
@@ -89,7 +100,7 @@ void PlayScene::_renderCursor() {
 
 void PlayScene::_renderCards() {
 	if (m_pickedCard) {
-		m_pickedCard->render(m_renderer->getRenderer(), 138, 32);
+		m_pickedCard->render(m_renderer->getRenderer(), 138, 64);
 	}
 	for (int i = (int) Object1; i < MAX_OBJECTS; ++i) {
 		PlayCursorPosition pos = (PlayCursorPosition) i;
@@ -214,6 +225,6 @@ void PlayScene::_attack() {
 	}
 }
 
-void PlayScene::_notify(std::string message) const {
-	std::cout << message << std::endl;
+void PlayScene::_notify(std::string message) {
+	m_notification.setText(message);
 }
