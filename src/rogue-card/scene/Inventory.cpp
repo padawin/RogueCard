@@ -106,8 +106,8 @@ void InventoryScene::_moveCursor(char direction) {
 
 void InventoryScene::render() {
 	_renderBackground();
-	_renderCursor();
 	_renderCards();
+	_renderCursor();
 }
 
 void InventoryScene::_renderBackground() const {
