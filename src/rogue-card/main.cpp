@@ -4,6 +4,7 @@
 #include "../game/globals.hpp"
 #include "../sdl2/InputHandler.hpp"
 #include "../sdl2/Renderer.hpp"
+#include "../sdl2/Text.hpp"
 #include "EnemyCard.hpp"
 #include "ObjectCard.hpp"
 #include "ResourceManager.hpp"
@@ -45,6 +46,10 @@ int main(int argc, char* args[]) {
 	}
 	if (!ObjectCard::prepareMeta(std::string(binaryPath) + "/../resources/objects.dat")) {
 		std::cerr << "An error occurred while loading the objects meta\n";
+		return 1;
+	}
+	if (!Text::prepareMeta(std::string(binaryPath) + "/../resources/font-atlas.dat")) {
+		std::cerr << "An error occurred while loading the font atlas meta\n";
 		return 1;
 	}
 

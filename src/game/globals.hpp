@@ -10,4 +10,6 @@ const int SCREEN_WIDTH = 320;
 const int SCREEN_HEIGHT = 240;
 const char * const GAME_DATA_FOLDER = ".card-rogue/";
 
+const char* const FONT_PATH = "fonts/VCR_OSD_MONO_1.001.ttf";
+
 #endif
