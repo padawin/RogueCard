@@ -128,4 +128,18 @@ void InventoryScene::_renderCursor() {
 }
 
 void InventoryScene::_renderCards() {
+	int startCard = (m_iPage - 1) * 6;
+	int endCard = startCard + INVENTORY_PAGE_SIZE;
+
+	for (int c = startCard; c < endCard; ++c) {
+		auto card = m_player.getInventoryItem(c);
+		if (card == nullptr) {
+			continue;
+		}
+		card->render(
+			m_renderer->getRenderer(),
+			m_mCursorPositions[c - startCard].first,
+			m_mCursorPositions[c - startCard].second
+		);
+	}
 }
