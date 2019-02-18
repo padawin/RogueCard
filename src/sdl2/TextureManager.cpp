@@ -1,4 +1,5 @@
 #include "TextureManager.hpp"
+#include "Surface.hpp"
 
 static TextureManager* s_pInstance;
 
@@ -31,19 +32,18 @@ bool TextureManager::load(std::string id, SDL_Renderer* pRenderer) {
 		return false;
 	}
 
-	SDL_Surface* pTempSurface = IMG_Load(
-		textureIterator->second.fileName.c_str()
+	Surface pTempSurface(
+		IMG_Load(textureIterator->second.fileName.c_str())
 	);
-	if (pTempSurface == 0) {
+	if (pTempSurface.getSDLSurface() == 0) {
 		return false;
 	}
 
 	textureIterator->second.texture = SDL_CreateTextureFromSurface(
 		pRenderer,
-		pTempSurface
+		pTempSurface.getSDLSurface()
 	);
 
-	SDL_FreeSurface(pTempSurface);
 	// everything went ok, add the texture to our list
 	if (textureIterator->second.texture != 0) {
 		textureIterator->second.loaded = true;
