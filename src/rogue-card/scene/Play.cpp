@@ -71,19 +71,19 @@ void PlayScene::render() {
 }
 
 void PlayScene::_renderBackground() const {
-	TextureManager::Instance()->drawImage(
-		"ui", m_renderer->getRenderer(), 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT
+	TextureManager::Instance()->draw(
+		"ui", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, m_renderer->getRenderer()
 	);
 }
 
 void PlayScene::_renderCursor() {
-	TextureManager::Instance()->drawImage(
+	TextureManager::Instance()->draw(
 		"cursor",
-		m_renderer->getRenderer(),
 		m_mCursorPositions[m_cursorPosition].first,
 		m_mCursorPositions[m_cursorPosition].second,
 		48,
-		64
+		64,
+		m_renderer->getRenderer()
 	);
 }
 

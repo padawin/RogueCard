@@ -111,19 +111,19 @@ void InventoryScene::render() {
 }
 
 void InventoryScene::_renderBackground() const {
-	TextureManager::Instance()->drawImage(
-		"ui-inventory", m_renderer->getRenderer(), 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT
+	TextureManager::Instance()->draw(
+		"ui-inventory",  0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, m_renderer->getRenderer()
 	);
 }
 
 void InventoryScene::_renderCursor() {
-	TextureManager::Instance()->drawImage(
+	TextureManager::Instance()->draw(
 		"cursor",
-		m_renderer->getRenderer(),
 		m_mCursorPositions[m_cursorPosition].first,
 		m_mCursorPositions[m_cursorPosition].second,
 		48,
-		64
+		64,
+		m_renderer->getRenderer()
 	);
 }
 
