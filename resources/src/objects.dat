@@ -1,5 +1,5 @@
 # format:
-# ObjectName tilesetX tilesetY
+# ObjectName tilesetX tilesetY usable consumable equipable applyOnSelf
 # Belt
 # Belt
 # Belt
@@ -55,12 +55,12 @@
 # Pendant
 # Armor
 # Armor
-MonkRobe 10 3
+MonkRobe 10 3 0 0 1 1
 # Armor
-PaddedArmor 12 3
-LeatherArmor 13 3
-SteelArmor 14 3
-KnightArmor 15 3
-HeavyKnightArmor 12 3
-PaladinArmor 12 3
-HeroArmor 12 3
+PaddedArmor 12 3 0 0 1 1
+LeatherArmor 13 3 0 0 1 1
+SteelArmor 14 3 0 0 1 1
+KnightArmor 15 3 0 0 1 1
+HeavyKnightArmor 12 3 0 0 1 1
+PaladinArmor 12 3 0 0 1 1
+HeroArmor 12 3 0 0 1 1

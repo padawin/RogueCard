@@ -90,7 +90,11 @@ void writeObject(std::ofstream &fileOutStream, S_ObjectMeta object) {
 	fileOutStream << " "
 		<< object.name << " "
 		<< object.tilesetX << " "
-		<< object.tilesetY << "\n";
+		<< object.tilesetY << " "
+		<< object.usable << " "
+		<< object.consumable << " "
+		<< object.equipable << " "
+		<< object.applyOnSelf << "\n";
 }
 
 void writeFontAtlas(std::ofstream &fileOutStream, S_FontAtlasCoord object) {

@@ -108,14 +108,23 @@ bool readEnemyFileLine(char line[MAX_CHARS_PER_LINE], S_EnemyMeta &data) {
 }
 
 bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
+	int usable, equipable, consumable, applyOnSelf;
 	int result = sscanf(
 		line,
-		"%s %d %d\n",
+		"%s %d %d %d %d %d %d\n",
 		data.name,
 		&data.tilesetX,
-		&data.tilesetY
+		&data.tilesetY,
+		&usable,
+		&consumable,
+		&equipable,
+		&applyOnSelf
 	);
-	return result == 3;
+	data.usable = (bool) usable;
+	data.consumable = (bool) consumable;
+	data.equipable = (bool) equipable;
+	data.applyOnSelf = (bool) applyOnSelf;
+	return result == 7;
 }
 
 bool readFontFileLine(char line[MAX_CHARS_PER_LINE], S_FontAtlasCoord &data) {
