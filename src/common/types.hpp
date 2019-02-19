@@ -32,6 +32,13 @@ struct S_ObjectMeta {
 	bool consumable;
 	bool equipable;
 	bool applyOnSelf;
+	char equipHead;
+	char equipShoulders;
+	char equipLeftHand;
+	char equipRightHand;
+	char equipChest;
+	char equipLegs;
+	char equipFeet;
 };
 
 struct S_FontAtlasCoord {

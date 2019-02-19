@@ -15,8 +15,10 @@ class ObjectCard : public Card {
 	char m_sName[MAX_CHAR_OBJECT_NAME];
 
 	char m_iFlags = 0;
+	char m_iEquipableFlags = 0;
 
 	void _setFlags(const S_ObjectMeta &meta);
+	void _setEquipableFlags(const S_ObjectMeta &meta);
 
 	public:
 	ObjectCard();

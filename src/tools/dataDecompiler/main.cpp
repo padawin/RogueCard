@@ -94,7 +94,14 @@ void writeObject(std::ofstream &fileOutStream, S_ObjectMeta object) {
 		<< object.usable << " "
 		<< object.consumable << " "
 		<< object.equipable << " "
-		<< object.applyOnSelf << "\n";
+		<< object.applyOnSelf << " "
+		<< object.equipHead << " "
+		<< object.equipShoulders << " "
+		<< object.equipLeftHand << " "
+		<< object.equipRightHand << " "
+		<< object.equipChest << " "
+		<< object.equipLegs << " "
+		<< object.equipFeet << "\n";
 }
 
 void writeFontAtlas(std::ofstream &fileOutStream, S_FontAtlasCoord object) {

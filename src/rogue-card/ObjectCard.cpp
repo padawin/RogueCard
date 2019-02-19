@@ -1,5 +1,13 @@
 #include "ObjectCard.hpp"
 
+const int BODY_PART_HEAD =       0x01;
+const int BODY_PART_SHOULDERS =  0x02;
+const int BODY_PART_LEFT_HAND =  0x04;
+const int BODY_PART_RIGHT_HAND = 0x08;
+const int BODY_PART_CHEST =      0x10;
+const int BODY_PART_LEGS =       0x20;
+const int BODY_PART_FEET =       0x40;
+
 ResourceManager<S_ObjectMeta> ObjectCard::m_objectMeta = ResourceManager<S_ObjectMeta>();
 
 ObjectCard::ObjectCard() : Card(ObjectCardType) {
@@ -13,6 +21,9 @@ void ObjectCard::create() {
 	m_iTileX = meta[index].tilesetX;
 	m_iTileY = meta[index].tilesetY;
 	_setFlags(meta[index]);
+	if (meta[index].equipable) {
+		_setEquipableFlags(meta[index]);
+	}
 }
 
 void ObjectCard::_setFlags(const S_ObjectMeta &meta) {
@@ -27,6 +38,30 @@ void ObjectCard::_setFlags(const S_ObjectMeta &meta) {
 	}
 	if (meta.applyOnSelf) {
 		m_iFlags |= FLAG_APPLY_ON_SELF;
+	}
+}
+
+void ObjectCard::_setEquipableFlags(const S_ObjectMeta &meta) {
+	if (meta.equipHead) {
+		m_iEquipableFlags |= BODY_PART_HEAD;
+	}
+	if (meta.equipShoulders) {
+		m_iEquipableFlags |= BODY_PART_SHOULDERS;
+	}
+	if (meta.equipLeftHand) {
+		m_iEquipableFlags |= BODY_PART_LEFT_HAND;
+	}
+	if (meta.equipRightHand) {
+		m_iEquipableFlags |= BODY_PART_RIGHT_HAND;
+	}
+	if (meta.equipChest) {
+		m_iEquipableFlags |= BODY_PART_CHEST;
+	}
+	if (meta.equipLegs) {
+		m_iEquipableFlags |= BODY_PART_LEGS;
+	}
+	if (meta.equipFeet) {
+		m_iEquipableFlags |= BODY_PART_FEET;
 	}
 }
 
