@@ -12,16 +12,20 @@ void ObjectCard::create() {
 	strncpy(m_sName, meta[index].name, MAX_CHAR_OBJECT_NAME);
 	m_iTileX = meta[index].tilesetX;
 	m_iTileY = meta[index].tilesetY;
-	if (meta[index].usable) {
+	_setFlags(meta[index]);
+}
+
+void ObjectCard::_setFlags(const S_ObjectMeta &meta) {
+	if (meta.usable) {
 		m_iFlags |= FLAG_USABLE;
 	}
-	if (meta[index].consumable) {
+	if (meta.consumable) {
 		m_iFlags |= FLAG_CONSUMABLE;
 	}
-	if (meta[index].equipable) {
+	if (meta.equipable) {
 		m_iFlags |= FLAG_EQUIPABLE;
 	}
-	if (meta[index].applyOnSelf) {
+	if (meta.applyOnSelf) {
 		m_iFlags |= FLAG_APPLY_ON_SELF;
 	}
 }

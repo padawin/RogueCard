@@ -16,6 +16,8 @@ class ObjectCard : public Card {
 
 	char m_iFlags = 0;
 
+	void _setFlags(const S_ObjectMeta &meta);
+
 	public:
 	ObjectCard();
 	void create();
