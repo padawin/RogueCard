@@ -28,6 +28,17 @@ struct S_ObjectMeta {
 	char name[MAX_CHAR_OBJECT_NAME];
 	int tilesetX;
 	int tilesetY;
+	bool usable;
+	bool consumable;
+	bool equipable;
+	bool applyOnSelf;
+	char equipHead;
+	char equipShoulders;
+	char equipLeftHand;
+	char equipRightHand;
+	char equipChest;
+	char equipLegs;
+	char equipFeet;
 };
 
 struct S_FontAtlasCoord {
