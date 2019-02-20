@@ -14,6 +14,21 @@ void Text::setText(std::string text) {
 	m_sText = text;
 }
 
+int Text::getLength() const {
+	std::map<int, S_FontAtlasCoord> &meta = m_fontAtlas.getParsedResources();
+	int charSize = meta[0].w;
+	return (int) m_sText.size() * charSize;
+}
+
+int Text::getFontHeight() const {
+	std::map<int, S_FontAtlasCoord> &meta = m_fontAtlas.getParsedResources();
+	return meta[0].h;
+}
+
+std::string Text::getText() const {
+	return m_sText;
+}
+
 void Text::render(SDL_Renderer* renderer, int x, int y) const {
 	if (!hasText()) {
 		return;

@@ -13,6 +13,9 @@ class Text {
 	static bool prepareMeta(std::string file);
 	bool hasText() const;
 	void setText(std::string text);
+	int getLength() const;
+	std::string getText() const;
+	int getFontHeight() const;
 	void render(SDL_Renderer* renderer, int x, int y) const;
 };
 
