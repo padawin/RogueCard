@@ -27,6 +27,7 @@ class ObjectCard : public Card {
 
 	const char* getName() const;
 
+	bool hasFlags(int flags) const;
 	bool isUsable() const;
 	bool isConsumable() const;
 	bool canBeEquipped() const;
