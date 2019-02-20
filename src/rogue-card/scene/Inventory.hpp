@@ -5,6 +5,7 @@
 #include "../game/State.hpp"
 #include "../sdl2/Renderer.hpp"
 #include "../Player.hpp"
+#include "../menus/ObjectAction.hpp"
 
 #define INVENTORY_PAGE_SIZE 18
 
@@ -12,6 +13,7 @@ class InventoryScene : public State {
 	private:
 	Player &m_player;
 	std::shared_ptr<SDL2Renderer> m_renderer;
+	ObjectAction m_objectActionMenu;
 
 	int m_cursorPosition = 0;
 	std::pair<int, int> m_mCursorPositions[INVENTORY_PAGE_SIZE] = {};

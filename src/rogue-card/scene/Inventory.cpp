@@ -7,7 +7,8 @@
 InventoryScene::InventoryScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
 	State(userActions),
 	m_player(player),
-	m_renderer(renderer)
+	m_renderer(renderer),
+	m_objectActionMenu(ObjectAction(renderer))
 {
 	m_mCursorPositions[0] = {16, 16};
 	m_mCursorPositions[1] = {64, 16};
