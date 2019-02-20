@@ -29,6 +29,12 @@ class InventoryScene : public State {
 	void _renderCursor();
 
 	void _openMenu();
+	/* Menu actions */
+	void _useObject();
+	void _equipObject();
+	void _getObjectInfo();
+	void _discardObject();
+	void _openActionBar();
 	void _closeMenu();
 
 	public:
