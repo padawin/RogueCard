@@ -17,7 +17,7 @@ class Text {
 	int getLength() const;
 	std::string getText() const;
 	int getFontHeight() const;
-	void render(SDL_Renderer* renderer, int x, int y) const;
+	void render(SDL_Renderer* renderer, const int x, const int y) const;
 };
 
 #endif

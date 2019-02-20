@@ -29,7 +29,7 @@ std::string Text::getText() const {
 	return m_sText;
 }
 
-void Text::render(SDL_Renderer* renderer, int x, int y) const {
+void Text::render(SDL_Renderer* renderer, const int x, const int y) const {
 	if (!hasText()) {
 		return;
 	}
