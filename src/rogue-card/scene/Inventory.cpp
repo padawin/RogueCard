@@ -39,20 +39,32 @@ bool InventoryScene::onEnter() {
 }
 
 void InventoryScene::update(StateMachine &stateMachine) {
-	if (m_userActions.getActionState("BACK")) {
-		stateMachine.popState();
+	if (m_bObjectMenuOpen) {
+		if (m_userActions.getActionState("BACK")) {
+			_closeMenu();
+		}
 	}
-	else if (m_userActions.getActionState("CURSOR_UP")) {
-		_moveCursor('N');
-	}
-	else if (m_userActions.getActionState("CURSOR_DOWN")) {
-		_moveCursor('S');
-	}
-	else if (m_userActions.getActionState("CURSOR_LEFT")) {
-		_moveCursor('W');
-	}
-	else if (m_userActions.getActionState("CURSOR_RIGHT")) {
-		_moveCursor('E');
+	else {
+		if (m_userActions.getActionState("BACK")) {
+			stateMachine.popState();
+		}
+		else if (m_userActions.getActionState("CURSOR_UP")) {
+			_moveCursor('N');
+		}
+		else if (m_userActions.getActionState("CURSOR_DOWN")) {
+			_moveCursor('S');
+		}
+		else if (m_userActions.getActionState("CURSOR_LEFT")) {
+			_moveCursor('W');
+		}
+		else if (m_userActions.getActionState("CURSOR_RIGHT")) {
+			_moveCursor('E');
+		}
+		else if (m_userActions.getActionState("USE_CARD")) {
+			if (m_player.getInventoryItem(_getCardIndex()) != nullptr) {
+				_openMenu();
+			}
+		}
 	}
 }
 
@@ -105,10 +117,24 @@ void InventoryScene::_moveCursor(char direction) {
 	}
 }
 
+void InventoryScene::_openMenu() {
+	m_bObjectMenuOpen = true;
+}
+
+void InventoryScene::_closeMenu() {
+	m_bObjectMenuOpen = false;
+}
+
 void InventoryScene::render() {
 	_renderBackground();
-	_renderCards();
-	_renderCursor();
+	if (m_bObjectMenuOpen) {
+		auto card = m_player.getInventoryItem(_getCardIndex());
+		m_objectActionMenu.render(card);
+	}
+	else {
+		_renderCards();
+		_renderCursor();
+	}
 }
 
 void InventoryScene::_renderBackground() const {
@@ -143,4 +169,11 @@ void InventoryScene::_renderCards() {
 			m_mCursorPositions[c - startCard].second
 		);
 	}
+}
+
+/**
+ * Return the index in the player's inventory of the card under the cursor.
+ */
+int InventoryScene::_getCardIndex() const {
+	return (m_iPage - 1) * 6 + m_cursorPosition;
 }
