@@ -4,6 +4,7 @@
 #include <string>
 #include <SDL2/SDL_image.h>
 #include "ResourceManager.hpp"
+#include "../common/types.hpp"
 
 class Text {
 	static ResourceManager<S_FontAtlasCoord> m_fontAtlas;

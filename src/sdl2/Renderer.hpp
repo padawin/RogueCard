@@ -2,6 +2,7 @@
 #define __SDL2_RENDERER__
 
 #include <SDL2/SDL.h>
+#include <vector>
 #include "../game/renderer/Renderer.hpp"
 
 class SDL2Renderer : public Renderer {
