@@ -46,7 +46,6 @@ void PlayScene::update(StateMachine &stateMachine) {
 		Save s = Save(m_player);
 		s.save();
 		stateMachine.clean();
-		return;
 	}
 	else if (m_player.isDead()) {
 		stateMachine.changeState(new GameOverScene(m_userActions));
