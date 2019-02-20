@@ -35,6 +35,16 @@ ObjectAction::ObjectAction(std::shared_ptr<SDL2Renderer> renderer) :
 }
 
 void ObjectAction::render(std::shared_ptr<ObjectCard> card) {
+	_renderBackground();
+	_renderItems(card);
+	_renderCursor();
+}
+
+void ObjectAction::_renderBackground() {
+
+}
+
+void ObjectAction::_renderItems(std::shared_ptr<ObjectCard> card) {
 	int renderIndex = 0;
 	for (int i = 0; i < m_iNbItems; ++i) {
 		if (card->hasFlags(m_itemTexts[i].second)) {
@@ -42,6 +52,10 @@ void ObjectAction::render(std::shared_ptr<ObjectCard> card) {
 			++renderIndex;
 		}
 	}
+}
+
+void ObjectAction::_renderCursor() {
+
 }
 
 void ObjectAction::_renderItem(int itemIndex, int visibleIndex) {

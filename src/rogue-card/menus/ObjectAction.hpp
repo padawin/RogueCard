@@ -12,6 +12,9 @@ class ObjectAction {
 	std::shared_ptr<SDL2Renderer> m_renderer;
 
 	protected:
+	void _renderBackground();
+	void _renderItems(std::shared_ptr<ObjectCard> card);
+	void _renderCursor();
 	void _renderItem(int itemIndex, int visibleIndex);
 
 	public:
