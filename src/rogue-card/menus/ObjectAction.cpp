@@ -66,6 +66,9 @@ void ObjectAction::_renderItems() {
 		if (m_card->hasFlags(m_itemTexts[itemIndex].second)) {
 			_renderBackground(1, TEXT_POS_Y + renderIndex * 16);
 			_renderItem(itemIndex, renderIndex);
+			if (renderIndex == m_iSelectedItemIndex) {
+				_renderCursor();
+			}
 			++renderIndex;
 		}
 	}
@@ -85,7 +88,15 @@ void ObjectAction::_renderBackground(int spriteIndex, int y) {
 }
 
 void ObjectAction::_renderCursor() {
-
+	TextureManager::Instance()->drawFrame(
+		"menu-background",
+		POSITION_X,
+		m_iCursorPosition,
+		MENU_WIDTH,
+		16,
+		0, 3,
+		m_renderer->getRenderer()
+	);
 }
 
 void ObjectAction::_renderItem(int itemIndex, int visibleIndex) {
