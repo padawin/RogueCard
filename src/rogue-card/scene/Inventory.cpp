@@ -119,18 +119,19 @@ void InventoryScene::_moveCursor(char direction) {
 
 void InventoryScene::_openMenu() {
 	m_bObjectMenuOpen = true;
+	m_objectActionMenu.setCard(m_player.getInventoryItem(_getCardIndex()));
 }
 
 void InventoryScene::_closeMenu() {
 	m_bObjectMenuOpen = false;
+	m_objectActionMenu.reset();
 }
 
 void InventoryScene::render() {
 	_renderBackground();
 	_renderCards();
 	if (m_bObjectMenuOpen) {
-		auto card = m_player.getInventoryItem(_getCardIndex());
-		m_objectActionMenu.render(card);
+		m_objectActionMenu.render();
 	}
 	else {
 		_renderCursor();

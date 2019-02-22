@@ -40,22 +40,36 @@ ObjectAction::ObjectAction(std::shared_ptr<SDL2Renderer> renderer) :
 	m_itemTexts[5].second = 0;
 }
 
-void ObjectAction::render(std::shared_ptr<ObjectCard> card) {
-	_renderItems(card);
+void ObjectAction::setCard(std::shared_ptr<ObjectCard> card) {
+	reset();
+	m_card = card;
+	for (int i = 0; i < m_iNbItems; ++i) {
+		if (m_card->hasFlags(m_itemTexts[i].second)) {
+			++m_iNbVisibleItems;
+		}
+	}
+}
+
+void ObjectAction::reset() {
+	m_card = nullptr;
+	m_iNbVisibleItems = 0;
+}
+
+void ObjectAction::render() {
+	_renderItems();
 	_renderCursor();
 }
 
-void ObjectAction::_renderItems(std::shared_ptr<ObjectCard> card) {
+void ObjectAction::_renderItems() {
 	_renderBackground(0, POSITION_Y);
-	int itemIndex, renderIndex = 0;
-	for (itemIndex = 0; itemIndex < m_iNbItems; ++itemIndex) {
-		if (card->hasFlags(m_itemTexts[itemIndex].second)) {
+	for (int renderIndex = 0, itemIndex = 0; itemIndex < m_iNbItems; ++itemIndex) {
+		if (m_card->hasFlags(m_itemTexts[itemIndex].second)) {
 			_renderBackground(1, TEXT_POS_Y + renderIndex * 16);
 			_renderItem(itemIndex, renderIndex);
 			++renderIndex;
 		}
 	}
-	_renderBackground(2, TEXT_POS_Y + renderIndex * 16);
+	_renderBackground(2, TEXT_POS_Y + m_iNbVisibleItems * 16);
 }
 
 void ObjectAction::_renderBackground(int spriteIndex, int y) {
