@@ -1,10 +1,16 @@
 #include "ObjectAction.hpp"
 #include "../ObjectCard.hpp"
 #include "../game/globals.hpp"
+#include "../sdl2/TextureManager.hpp"
 
 const int POSITION_X = 32;
 const int POSITION_Y = 32;
-const int TEXT_MAX_WIDTH = SCREEN_WIDTH - 64;
+const int MARGIN_X = 16;
+const int MARGIN_Y = 16;
+const int TEXT_POS_X = POSITION_X + MARGIN_X;
+const int TEXT_POS_Y = POSITION_Y + MARGIN_Y;
+const int MENU_WIDTH = SCREEN_WIDTH - POSITION_X * 2;
+const int TEXT_MAX_WIDTH = MENU_WIDTH - MARGIN_X * 2;
 
 ObjectAction::ObjectAction(std::shared_ptr<SDL2Renderer> renderer) :
 	m_renderer(renderer)
@@ -35,23 +41,45 @@ ObjectAction::ObjectAction(std::shared_ptr<SDL2Renderer> renderer) :
 }
 
 void ObjectAction::render(std::shared_ptr<ObjectCard> card) {
-	_renderBackground();
 	_renderItems(card);
 	_renderCursor();
 }
 
-void ObjectAction::_renderBackground() {
-
-}
-
 void ObjectAction::_renderItems(std::shared_ptr<ObjectCard> card) {
-	int renderIndex = 0;
-	for (int i = 0; i < m_iNbItems; ++i) {
-		if (card->hasFlags(m_itemTexts[i].second)) {
-			_renderItem(i, renderIndex);
+	TextureManager::Instance()->drawFrame(
+		"menu-background",
+		POSITION_X,
+		POSITION_Y,
+		MENU_WIDTH,
+		16,
+		0, 0,
+		m_renderer->getRenderer()
+	);
+	int itemIndex, renderIndex = 0;
+	for (itemIndex = 0; itemIndex < m_iNbItems; ++itemIndex) {
+		if (card->hasFlags(m_itemTexts[itemIndex].second)) {
+			TextureManager::Instance()->drawFrame(
+				"menu-background",
+				POSITION_X,
+				TEXT_POS_Y + renderIndex * m_itemTexts[itemIndex].first.getFontHeight(),
+				MENU_WIDTH,
+				16,
+				0, 1,
+				m_renderer->getRenderer()
+			);
+			_renderItem(itemIndex, renderIndex);
 			++renderIndex;
 		}
 	}
+	TextureManager::Instance()->drawFrame(
+		"menu-background",
+		POSITION_X,
+		POSITION_Y + renderIndex * m_itemTexts[itemIndex].first.getFontHeight(),
+		MENU_WIDTH,
+		16,
+		0, 2,
+		m_renderer->getRenderer()
+	);
 }
 
 void ObjectAction::_renderCursor() {
@@ -59,7 +87,7 @@ void ObjectAction::_renderCursor() {
 }
 
 void ObjectAction::_renderItem(int itemIndex, int visibleIndex) {
-	const int x = POSITION_X + (TEXT_MAX_WIDTH - m_itemTexts[itemIndex].first.getLength()) / 2;
-	const int y = POSITION_Y + visibleIndex * m_itemTexts[itemIndex].first.getFontHeight();
+	const int x = TEXT_POS_X + (TEXT_MAX_WIDTH - m_itemTexts[itemIndex].first.getLength()) / 2;
+	const int y = TEXT_POS_Y + visibleIndex * m_itemTexts[itemIndex].first.getFontHeight();
 	m_itemTexts[itemIndex].first.render(m_renderer->getRenderer(), x, y);
 }
