@@ -127,12 +127,12 @@ void InventoryScene::_closeMenu() {
 
 void InventoryScene::render() {
 	_renderBackground();
+	_renderCards();
 	if (m_bObjectMenuOpen) {
 		auto card = m_player.getInventoryItem(_getCardIndex());
 		m_objectActionMenu.render(card);
 	}
 	else {
-		_renderCards();
 		_renderCursor();
 	}
 }
