@@ -46,38 +46,26 @@ void ObjectAction::render(std::shared_ptr<ObjectCard> card) {
 }
 
 void ObjectAction::_renderItems(std::shared_ptr<ObjectCard> card) {
-	TextureManager::Instance()->drawFrame(
-		"menu-background",
-		POSITION_X,
-		POSITION_Y,
-		MENU_WIDTH,
-		16,
-		0, 0,
-		m_renderer->getRenderer()
-	);
+	_renderBackground(0, POSITION_Y);
 	int itemIndex, renderIndex = 0;
 	for (itemIndex = 0; itemIndex < m_iNbItems; ++itemIndex) {
 		if (card->hasFlags(m_itemTexts[itemIndex].second)) {
-			TextureManager::Instance()->drawFrame(
-				"menu-background",
-				POSITION_X,
-				TEXT_POS_Y + renderIndex * m_itemTexts[itemIndex].first.getFontHeight(),
-				MENU_WIDTH,
-				16,
-				0, 1,
-				m_renderer->getRenderer()
-			);
+			_renderBackground(1, TEXT_POS_Y + renderIndex * 16);
 			_renderItem(itemIndex, renderIndex);
 			++renderIndex;
 		}
 	}
+	_renderBackground(2, TEXT_POS_Y + renderIndex * 16);
+}
+
+void ObjectAction::_renderBackground(int spriteIndex, int y) {
 	TextureManager::Instance()->drawFrame(
 		"menu-background",
 		POSITION_X,
-		POSITION_Y + renderIndex * m_itemTexts[itemIndex].first.getFontHeight(),
+		y,
 		MENU_WIDTH,
 		16,
-		0, 2,
+		0, spriteIndex,
 		m_renderer->getRenderer()
 	);
 }
@@ -88,6 +76,6 @@ void ObjectAction::_renderCursor() {
 
 void ObjectAction::_renderItem(int itemIndex, int visibleIndex) {
 	const int x = TEXT_POS_X + (TEXT_MAX_WIDTH - m_itemTexts[itemIndex].first.getLength()) / 2;
-	const int y = TEXT_POS_Y + visibleIndex * m_itemTexts[itemIndex].first.getFontHeight();
+	const int y = TEXT_POS_Y + visibleIndex * 16;
 	m_itemTexts[itemIndex].first.render(m_renderer->getRenderer(), x, y);
 }
