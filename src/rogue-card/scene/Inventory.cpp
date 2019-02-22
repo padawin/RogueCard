@@ -43,6 +43,12 @@ void InventoryScene::update(StateMachine &stateMachine) {
 		if (m_userActions.getActionState("BACK")) {
 			_closeMenu();
 		}
+		else if (m_userActions.getActionState("CURSOR_UP")) {
+			m_objectActionMenu.selectPrevious();
+		}
+		else if (m_userActions.getActionState("CURSOR_DOWN")) {
+			m_objectActionMenu.selectNext();
+		}
 	}
 	else {
 		if (m_userActions.getActionState("BACK")) {

@@ -48,11 +48,28 @@ void ObjectAction::setCard(std::shared_ptr<ObjectCard> card) {
 			++m_iNbVisibleItems;
 		}
 	}
+	_setCursorPosition();
 }
 
 void ObjectAction::reset() {
 	m_card = nullptr;
 	m_iNbVisibleItems = 0;
+	m_iSelectedItemIndex = 0;
+	_setCursorPosition();
+}
+
+void ObjectAction::selectPrevious() {
+	m_iSelectedItemIndex = (m_iNbVisibleItems + m_iSelectedItemIndex - 1) % m_iNbVisibleItems;
+	_setCursorPosition();
+}
+
+void ObjectAction::selectNext() {
+	m_iSelectedItemIndex = (m_iSelectedItemIndex + 1) % m_iNbVisibleItems;
+	_setCursorPosition();
+}
+
+void ObjectAction::_setCursorPosition() {
+	m_iCursorPosition = TEXT_POS_Y + m_iSelectedItemIndex * 16;
 }
 
 void ObjectAction::render() {
