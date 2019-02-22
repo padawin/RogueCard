@@ -40,8 +40,8 @@ ObjectAction::ObjectAction(std::shared_ptr<SDL2Renderer> renderer) :
 	m_itemTexts[5].second = 0;
 }
 
-void ObjectAction::setCard(std::shared_ptr<ObjectCard> card) {
-	reset();
+void ObjectAction::open(std::shared_ptr<ObjectCard> card) {
+	_reset();
 	m_card = card;
 	for (int i = 0; i < m_iNbItems; ++i) {
 		if (m_card->hasFlags(m_itemTexts[i].second)) {
@@ -51,7 +51,15 @@ void ObjectAction::setCard(std::shared_ptr<ObjectCard> card) {
 	_setCursorPosition();
 }
 
-void ObjectAction::reset() {
+bool ObjectAction::isOpen() const {
+	return m_card != nullptr;
+}
+
+void ObjectAction::close() {
+	_reset();
+}
+
+void ObjectAction::_reset() {
 	m_card = nullptr;
 	m_iNbVisibleItems = 0;
 	m_iSelectedItemIndex = 0;

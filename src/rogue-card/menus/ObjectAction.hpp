@@ -21,11 +21,13 @@ class ObjectAction {
 	void _renderCursor();
 	void _renderItem(int itemIndex, int visibleIndex);
 	void _setCursorPosition();
+	void _reset();
 
 	public:
 	ObjectAction(std::shared_ptr<SDL2Renderer> m_renderer);
-	void setCard(std::shared_ptr<ObjectCard> card);
-	void reset();
+	void open(std::shared_ptr<ObjectCard> card);
+	bool isOpen() const;
+	void close();
 	void render();
 	void selectPrevious();
 	void selectNext();

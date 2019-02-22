@@ -39,9 +39,9 @@ bool InventoryScene::onEnter() {
 }
 
 void InventoryScene::update(StateMachine &stateMachine) {
-	if (m_bObjectMenuOpen) {
+	if (m_objectActionMenu.isOpen()) {
 		if (m_userActions.getActionState("BACK")) {
-			_closeMenu();
+			m_objectActionMenu.close();
 		}
 		else if (m_userActions.getActionState("CURSOR_UP")) {
 			m_objectActionMenu.selectPrevious();
@@ -68,7 +68,7 @@ void InventoryScene::update(StateMachine &stateMachine) {
 		}
 		else if (m_userActions.getActionState("USE_CARD")) {
 			if (m_player.getInventoryItem(_getCardIndex()) != nullptr) {
-				_openMenu();
+				m_objectActionMenu.open(m_player.getInventoryItem(_getCardIndex()));
 			}
 		}
 	}
@@ -123,20 +123,10 @@ void InventoryScene::_moveCursor(char direction) {
 	}
 }
 
-void InventoryScene::_openMenu() {
-	m_bObjectMenuOpen = true;
-	m_objectActionMenu.setCard(m_player.getInventoryItem(_getCardIndex()));
-}
-
-void InventoryScene::_closeMenu() {
-	m_bObjectMenuOpen = false;
-	m_objectActionMenu.reset();
-}
-
 void InventoryScene::render() {
 	_renderBackground();
 	_renderCards();
-	if (m_bObjectMenuOpen) {
+	if (m_objectActionMenu.isOpen()) {
 		m_objectActionMenu.render();
 	}
 	else {

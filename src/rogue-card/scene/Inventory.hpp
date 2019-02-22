@@ -19,8 +19,6 @@ class InventoryScene : public State {
 	std::pair<int, int> m_mCursorPositions[INVENTORY_PAGE_SIZE] = {};
 	int m_iPage = 1;
 
-	bool m_bObjectMenuOpen = false;
-
 	void _moveCursor(char direction);
 	int _getCardIndex() const;
 
@@ -28,14 +26,12 @@ class InventoryScene : public State {
 	void _renderCards();
 	void _renderCursor();
 
-	void _openMenu();
 	/* Menu actions */
 	void _useObject();
 	void _equipObject();
 	void _getObjectInfo();
 	void _discardObject();
 	void _openActionBar();
-	void _closeMenu();
 
 	public:
 	InventoryScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer);
