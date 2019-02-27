@@ -4,6 +4,7 @@
 #include <string>
 #include <SDL2/SDL_image.h>
 #include "ResourceManager.hpp"
+#include "../common/types.hpp"
 
 class Text {
 	static ResourceManager<S_FontAtlasCoord> m_fontAtlas;
@@ -13,7 +14,10 @@ class Text {
 	static bool prepareMeta(std::string file);
 	bool hasText() const;
 	void setText(std::string text);
-	void render(SDL_Renderer* renderer, int x, int y) const;
+	int getLength() const;
+	std::string getText() const;
+	int getFontHeight() const;
+	void render(SDL_Renderer* renderer, const int x, const int y) const;
 };
 
 #endif

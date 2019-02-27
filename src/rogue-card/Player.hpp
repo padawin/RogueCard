@@ -47,6 +47,7 @@ class Player {
 
 	bool hasSpaceInInventory() const;
 	void addItemToInventory(std::shared_ptr<ObjectCard> card);
+	void removeInventoryItem(int index);
 	std::shared_ptr<ObjectCard> getInventoryItem(int index) const;
 };
 

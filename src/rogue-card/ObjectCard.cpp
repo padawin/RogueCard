@@ -77,6 +77,10 @@ const char* ObjectCard::getName() const {
 	return m_sName;
 }
 
+bool ObjectCard::hasFlags(int flags) const {
+	return (m_iFlags & flags) == flags;
+}
+
 bool ObjectCard::isUsable() const {
 	return m_iFlags & FLAG_USABLE;
 }

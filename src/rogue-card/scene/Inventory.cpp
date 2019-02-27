@@ -1,3 +1,4 @@
+#include <iostream>
 #include "../game/StateMachine.hpp"
 #include "../game/globals.hpp"
 #include "../sdl2/TextureManager.hpp"
@@ -7,7 +8,8 @@
 InventoryScene::InventoryScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
 	State(userActions),
 	m_player(player),
-	m_renderer(renderer)
+	m_renderer(renderer),
+	m_objectActionMenu(ObjectAction(renderer))
 {
 	m_mCursorPositions[0] = {16, 16};
 	m_mCursorPositions[1] = {64, 16};
@@ -38,20 +40,66 @@ bool InventoryScene::onEnter() {
 }
 
 void InventoryScene::update(StateMachine &stateMachine) {
-	if (m_userActions.getActionState("BACK")) {
-		stateMachine.popState();
+	if (m_objectActionMenu.isOpen()) {
+		bool pressedBack = m_userActions.getActionState("BACK"),
+			 pressedAction = m_userActions.getActionState("USE_CARD");
+		if (pressedBack ||
+			(pressedAction && m_objectActionMenu.getSelectedAction() == BACK)
+		) {
+			m_objectActionMenu.close();
+		}
+		else if (m_userActions.getActionState("CURSOR_UP")) {
+			m_objectActionMenu.selectPrevious();
+		}
+		else if (m_userActions.getActionState("CURSOR_DOWN")) {
+			m_objectActionMenu.selectNext();
+		}
+		else if (pressedAction) {
+			_executeMenuAction(m_objectActionMenu.getSelectedAction());
+			m_objectActionMenu.close();
+		}
 	}
-	else if (m_userActions.getActionState("CURSOR_UP")) {
-		_moveCursor('N');
+	else {
+		if (m_userActions.getActionState("BACK")) {
+			stateMachine.popState();
+		}
+		else if (m_userActions.getActionState("CURSOR_UP")) {
+			_moveCursor('N');
+		}
+		else if (m_userActions.getActionState("CURSOR_DOWN")) {
+			_moveCursor('S');
+		}
+		else if (m_userActions.getActionState("CURSOR_LEFT")) {
+			_moveCursor('W');
+		}
+		else if (m_userActions.getActionState("CURSOR_RIGHT")) {
+			_moveCursor('E');
+		}
+		else if (m_userActions.getActionState("USE_CARD")) {
+			if (m_player.getInventoryItem(_getCardIndex()) != nullptr) {
+				m_objectActionMenu.open(m_player.getInventoryItem(_getCardIndex()));
+			}
+		}
 	}
-	else if (m_userActions.getActionState("CURSOR_DOWN")) {
-		_moveCursor('S');
+}
+
+void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action) {
+	if (action == USE) {
+		std::cout << "Use object\n";
+		m_player.removeInventoryItem(_getCardIndex());
 	}
-	else if (m_userActions.getActionState("CURSOR_LEFT")) {
-		_moveCursor('W');
+	else if (action == EQUIP) {
+		std::cout << "Equip object\n";
 	}
-	else if (m_userActions.getActionState("CURSOR_RIGHT")) {
-		_moveCursor('E');
+	else if (action == INFO) {
+		std::cout << "Info object\n";
+	}
+	else if (action == DISCARD) {
+		std::cout << "Discard object\n";
+		m_player.removeInventoryItem(_getCardIndex());
+	}
+	else if (action == ADD_TO_ACTIONBAR) {
+		std::cout << "Add object to actionbar\n";
 	}
 }
 
@@ -107,7 +155,12 @@ void InventoryScene::_moveCursor(char direction) {
 void InventoryScene::render() {
 	_renderBackground();
 	_renderCards();
-	_renderCursor();
+	if (m_objectActionMenu.isOpen()) {
+		m_objectActionMenu.render();
+	}
+	else {
+		_renderCursor();
+	}
 }
 
 void InventoryScene::_renderBackground() const {
@@ -142,4 +195,11 @@ void InventoryScene::_renderCards() {
 			m_mCursorPositions[c - startCard].second
 		);
 	}
+}
+
+/**
+ * Return the index in the player's inventory of the card under the cursor.
+ */
+int InventoryScene::_getCardIndex() const {
+	return (m_iPage - 1) * 6 + m_cursorPosition;
 }
