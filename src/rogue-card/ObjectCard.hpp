@@ -24,6 +24,7 @@ class ObjectCard : public Card {
 	public:
 	ObjectCard();
 	void create();
+	void createFromMeta(int metaIndex);
 	static bool prepareMeta(std::string file);
 
 	const char* getName() const;
