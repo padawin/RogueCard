@@ -15,15 +15,24 @@ ObjectCard::ObjectCard() : Card(ObjectCardType) {
 }
 
 void ObjectCard::create() {
+	int index = rand() % (int) m_objectMeta.getParsedResources().size();
+	createFromMeta(index);
+}
+
+void ObjectCard::createFromMeta(int metaIndex) {
 	std::map<int, S_ObjectMeta> &meta = m_objectMeta.getParsedResources();
-	int index = rand() % (int) meta.size();
-	strncpy(m_sName, meta[index].name, MAX_CHAR_OBJECT_NAME);
-	m_iTileX = meta[index].tilesetX;
-	m_iTileY = meta[index].tilesetY;
-	_setFlags(meta[index]);
-	if (meta[index].equipable) {
-		_setEquipableFlags(meta[index]);
+	m_iMetaIndex = metaIndex;
+	strncpy(m_sName, meta[metaIndex].name, MAX_CHAR_OBJECT_NAME);
+	m_iTileX = meta[metaIndex].tilesetX;
+	m_iTileY = meta[metaIndex].tilesetY;
+	_setFlags(meta[metaIndex]);
+	if (meta[metaIndex].equipable) {
+		_setEquipableFlags(meta[metaIndex]);
 	}
+}
+
+int ObjectCard::getMetaIndex() const {
+	return m_iMetaIndex;
 }
 
 void ObjectCard::_setFlags(const S_ObjectMeta &meta) {

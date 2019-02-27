@@ -11,7 +11,6 @@ class EnemyCard;
 class Player {
 	private:
 	// Equipment m_equipment;
-	short m_iInventorySize = 0;
 	std::shared_ptr<ObjectCard> m_inventory[MAX_INVENTORY_SIZE] = {};
 	int m_iHealth = 30;
 	int m_iMaxHealth = 30;
@@ -35,7 +34,6 @@ class Player {
 	void setMaxHealth(int maxHealth);
 	void setStrength(int strength);
 	void setDefence(int defence);
-	void setInventory(/*ObjectCard *inventory,*/ char size);
 	void setFloor(int floorLevel);
 	void setGold(long gold);
 	void setLevel(int level);
@@ -46,6 +44,7 @@ class Player {
 	bool isDead() const;
 
 	bool hasSpaceInInventory() const;
+	void setInventoryItem(std::shared_ptr<ObjectCard> card, int index);
 	void addItemToInventory(std::shared_ptr<ObjectCard> card);
 	void removeInventoryItem(int index);
 	std::shared_ptr<ObjectCard> getInventoryItem(int index) const;
