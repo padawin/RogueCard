@@ -27,6 +27,7 @@ class ObjectCard : public Card {
 	void createFromMeta(int metaIndex);
 	static bool prepareMeta(std::string file);
 
+	int getMetaIndex() const;
 	const char* getName() const;
 
 	bool hasFlags(int flags) const;

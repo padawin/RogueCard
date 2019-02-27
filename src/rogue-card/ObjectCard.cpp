@@ -31,6 +31,10 @@ void ObjectCard::createFromMeta(int metaIndex) {
 	}
 }
 
+int ObjectCard::getMetaIndex() const {
+	return m_iMetaIndex;
+}
+
 void ObjectCard::_setFlags(const S_ObjectMeta &meta) {
 	if (meta.usable) {
 		m_iFlags |= FLAG_USABLE;
