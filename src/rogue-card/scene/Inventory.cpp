@@ -1,3 +1,4 @@
+#include <iostream>
 #include "../game/StateMachine.hpp"
 #include "../game/globals.hpp"
 #include "../sdl2/TextureManager.hpp"
@@ -40,7 +41,11 @@ bool InventoryScene::onEnter() {
 
 void InventoryScene::update(StateMachine &stateMachine) {
 	if (m_objectActionMenu.isOpen()) {
-		if (m_userActions.getActionState("BACK")) {
+		bool pressedBack = m_userActions.getActionState("BACK"),
+			 pressedAction = m_userActions.getActionState("USE_CARD");
+		if (pressedBack ||
+			(pressedAction && m_objectActionMenu.getSelectedAction() == BACK)
+		) {
 			m_objectActionMenu.close();
 		}
 		else if (m_userActions.getActionState("CURSOR_UP")) {
@@ -48,6 +53,10 @@ void InventoryScene::update(StateMachine &stateMachine) {
 		}
 		else if (m_userActions.getActionState("CURSOR_DOWN")) {
 			m_objectActionMenu.selectNext();
+		}
+		else if (pressedAction) {
+			_executeMenuAction(m_objectActionMenu.getSelectedAction());
+			m_objectActionMenu.close();
 		}
 	}
 	else {
@@ -71,6 +80,26 @@ void InventoryScene::update(StateMachine &stateMachine) {
 				m_objectActionMenu.open(m_player.getInventoryItem(_getCardIndex()));
 			}
 		}
+	}
+}
+
+void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action) {
+	if (action == USE) {
+		std::cout << "Use object\n";
+		m_player.removeInventoryItem(_getCardIndex());
+	}
+	else if (action == EQUIP) {
+		std::cout << "Equip object\n";
+	}
+	else if (action == INFO) {
+		std::cout << "Info object\n";
+	}
+	else if (action == DISCARD) {
+		std::cout << "Discard object\n";
+		m_player.removeInventoryItem(_getCardIndex());
+	}
+	else if (action == ADD_TO_ACTIONBAR) {
+		std::cout << "Add object to actionbar\n";
 	}
 }
 
