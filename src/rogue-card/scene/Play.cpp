@@ -14,6 +14,7 @@ PlayScene::PlayScene(UserActions &userActions, Player &player, std::shared_ptr<S
 	m_player(player),
 	m_renderer(renderer),
 	m_deck(CardDeck()),
+	m_actionBar(ActionBar()),
 	m_notification(Text())
 {
 	m_mCursorPositions[Action] = {16, 160};
@@ -103,8 +104,8 @@ void PlayScene::_renderCards() {
 	}
 	for (int i = (int) Object1; i < MAX_OBJECTS; ++i) {
 		PlayCursorPosition pos = (PlayCursorPosition) i;
-		if (m_objectCards[pos] != nullptr) {
-			m_objectCards[pos]->render(
+		if (m_actionBar.getCard(pos) != nullptr) {
+			m_actionBar.getCard(pos)->render(
 				m_renderer->getRenderer(),
 				m_mCursorPositions[pos].first,
 				m_mCursorPositions[pos].second
@@ -187,11 +188,7 @@ void PlayScene::_action() {
 }
 
 void PlayScene::_useObject(int objectIndex) {
-	if (objectIndex >= MAX_OBJECTS) {
-		return;
-	}
-
-	if (m_objectCards[objectIndex] != nullptr) {
+	if (m_actionBar.getCard(objectIndex) != nullptr) {
 		_notify("Use object");
 	}
 }
