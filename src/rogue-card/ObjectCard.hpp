@@ -14,6 +14,7 @@ class ObjectCard : public Card {
 	static ResourceManager<S_ObjectMeta> m_objectMeta;
 	char m_sName[MAX_CHAR_OBJECT_NAME];
 
+	int m_iMetaIndex = -1;
 	char m_iFlags = 0;
 	char m_iEquipableFlags = 0;
 

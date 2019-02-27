@@ -17,6 +17,7 @@ ObjectCard::ObjectCard() : Card(ObjectCardType) {
 void ObjectCard::create() {
 	std::map<int, S_ObjectMeta> &meta = m_objectMeta.getParsedResources();
 	int index = rand() % (int) meta.size();
+	m_iMetaIndex = index;
 	strncpy(m_sName, meta[index].name, MAX_CHAR_OBJECT_NAME);
 	m_iTileX = meta[index].tilesetX;
 	m_iTileY = meta[index].tilesetY;
