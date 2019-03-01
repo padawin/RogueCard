@@ -3,6 +3,7 @@
 #include "../game/globals.hpp"
 #include "../sdl2/TextureManager.hpp"
 #include "Inventory.hpp"
+#include "QuickActionBar.hpp"
 #include "ObjectCard.hpp"
 
 InventoryScene::InventoryScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
@@ -55,7 +56,10 @@ void InventoryScene::update(StateMachine &stateMachine) {
 			m_objectActionMenu.selectNext();
 		}
 		else if (pressedAction) {
-			_executeMenuAction(m_objectActionMenu.getSelectedAction());
+			_executeMenuAction(
+				m_objectActionMenu.getSelectedAction(),
+				stateMachine
+			);
 			m_objectActionMenu.close();
 		}
 	}
@@ -83,7 +87,7 @@ void InventoryScene::update(StateMachine &stateMachine) {
 	}
 }
 
-void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action) {
+void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMachine &stateMachine) {
 	if (action == USE) {
 		std::cout << "Use object\n";
 		m_player.removeInventoryItem(_getCardIndex());
@@ -99,7 +103,7 @@ void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action) {
 		m_player.removeInventoryItem(_getCardIndex());
 	}
 	else if (action == ADD_TO_ACTIONBAR) {
-		std::cout << "Add object to actionbar\n";
+		stateMachine.pushState(new QuickActionBarScene(m_userActions, m_renderer));
 	}
 }
 
