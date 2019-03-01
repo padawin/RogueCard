@@ -3,9 +3,14 @@
 #include "../game/StateMachine.hpp"
 #include "QuickActionBar.hpp"
 
-QuickActionBarScene::QuickActionBarScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer) :
+QuickActionBarScene::QuickActionBarScene(
+	UserActions &userActions,
+	ActionBar &actionBar,
+	std::shared_ptr<SDL2Renderer> renderer
+) :
 	State(userActions),
-	m_renderer(renderer)
+	m_renderer(renderer),
+	m_actionBar(actionBar)
 {}
 
 std::string QuickActionBarScene::getStateID() const {

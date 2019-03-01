@@ -52,7 +52,9 @@ void PlayScene::update(StateMachine &stateMachine) {
 		stateMachine.changeState(new GameOverScene(m_userActions));
 	}
 	else if (m_userActions.getActionState("INVENTORY")) {
-		stateMachine.pushState(new InventoryScene(m_userActions, m_player, m_renderer));
+		stateMachine.pushState(
+			new InventoryScene(m_userActions, m_actionBar, m_player, m_renderer)
+		);
 	}
 	else if (m_userActions.getActionState("USE_CARD")) {
 		_useCardUnderCursor();

@@ -6,11 +6,17 @@
 #include "QuickActionBar.hpp"
 #include "ObjectCard.hpp"
 
-InventoryScene::InventoryScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
+InventoryScene::InventoryScene(
+	UserActions &userActions,
+	ActionBar &actionBar,
+	Player &player,
+	std::shared_ptr<SDL2Renderer> renderer
+) :
 	State(userActions),
 	m_player(player),
 	m_renderer(renderer),
-	m_objectActionMenu(ObjectAction(renderer))
+	m_objectActionMenu(ObjectAction(renderer)),
+	m_actionBar(actionBar)
 {
 	m_mCursorPositions[0] = {16, 16};
 	m_mCursorPositions[1] = {64, 16};
@@ -103,7 +109,9 @@ void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMach
 		m_player.removeInventoryItem(_getCardIndex());
 	}
 	else if (action == ADD_TO_ACTIONBAR) {
-		stateMachine.pushState(new QuickActionBarScene(m_userActions, m_renderer));
+		stateMachine.pushState(
+			new QuickActionBarScene(m_userActions, m_actionBar, m_renderer)
+		);
 	}
 }
 
