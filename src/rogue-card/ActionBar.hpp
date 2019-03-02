@@ -4,11 +4,11 @@
 #include <memory>
 #include "Card.hpp"
 
-const int MAX_OBJECTS = 4;
+const int ACTION_BAR_SIZE= 4;
 
 class ActionBar {
 	private:
-	std::shared_ptr<Card> m_objectCards[MAX_OBJECTS] = {nullptr, nullptr, nullptr, nullptr};
+	std::shared_ptr<Card> m_objectCards[ACTION_BAR_SIZE] = {nullptr, nullptr, nullptr, nullptr};
 
 	public:
 	std::shared_ptr<Card> getCard(int index) const;

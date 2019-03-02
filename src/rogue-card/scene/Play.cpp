@@ -104,7 +104,7 @@ void PlayScene::_renderCards() {
 	if (m_pickedCard) {
 		m_pickedCard->render(m_renderer->getRenderer(), 138, 64);
 	}
-	for (int i = (int) Object1; i < MAX_OBJECTS; ++i) {
+	for (int i = (int) Object1; i < ACTION_BAR_SIZE; ++i) {
 		PlayCursorPosition pos = (PlayCursorPosition) i;
 		if (m_actionBar.getCard(pos) != nullptr) {
 			m_actionBar.getCard(pos)->render(
