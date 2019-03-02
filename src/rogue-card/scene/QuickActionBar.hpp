@@ -10,8 +10,11 @@ class QuickActionBarScene : public State {
 	private:
 	std::shared_ptr<SDL2Renderer> m_renderer;
 	ActionBar &m_actionBar;
+	int m_cursorPosition = 0;
+	std::pair<int, int> m_mCursorPositions[ACTION_BAR_SIZE] = {};
 
 	void _renderBackground() const;
+	void _renderCursor() const;
 
 	public:
 	QuickActionBarScene(
