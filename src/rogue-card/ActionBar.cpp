@@ -10,3 +10,9 @@ std::shared_ptr<ObjectCard> ActionBar::getCard(int index) const {
 void ActionBar::setCard(int index, std::shared_ptr<ObjectCard> card) {
 	m_objectCards[index] = card;
 }
+
+bool ActionBar::hasCard(std::shared_ptr<ObjectCard> card) const {
+	int index = 0;
+	for (; index < ACTION_BAR_SIZE && m_objectCards[index] != card; ++index) {}
+	return index < ACTION_BAR_SIZE;
+}
