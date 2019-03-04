@@ -13,6 +13,7 @@ class ActionBar {
 	public:
 	std::shared_ptr<ObjectCard> getCard(int index) const;
 	void setCard(int index, std::shared_ptr<ObjectCard> card);
+	void removeCard(std::shared_ptr<ObjectCard> card);
 	bool hasCard(std::shared_ptr<ObjectCard> card) const;
 };
 

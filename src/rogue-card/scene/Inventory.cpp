@@ -110,14 +110,20 @@ void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMach
 		m_player.removeInventoryItem(_getCardIndex());
 	}
 	else if (action == ACTIONBAR) {
-		stateMachine.pushState(
-			new QuickActionBarScene(
-				m_userActions,
-				m_actionBar,
-				m_player.getInventoryItem(_getCardIndex()),
-				m_renderer
-			)
-		);
+		auto card = m_player.getInventoryItem(_getCardIndex());
+		if (m_actionBar.hasCard(card)) {
+			m_actionBar.removeCard(card);
+		}
+		else {
+			stateMachine.pushState(
+				new QuickActionBarScene(
+					m_userActions,
+					m_actionBar,
+					card,
+					m_renderer
+				)
+			);
+		}
 	}
 }
 
