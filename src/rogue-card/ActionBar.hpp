@@ -12,6 +12,7 @@ class ActionBar {
 
 	public:
 	std::shared_ptr<ObjectCard> getCard(int index) const;
+	void setCard(int index, std::shared_ptr<ObjectCard> card);
 };
 
 #endif

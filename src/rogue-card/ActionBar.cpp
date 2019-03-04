@@ -6,3 +6,7 @@ std::shared_ptr<ObjectCard> ActionBar::getCard(int index) const {
 	}
 	return m_objectCards[index];
 }
+
+void ActionBar::setCard(int index, std::shared_ptr<ObjectCard> card) {
+	m_objectCards[index] = card;
+}

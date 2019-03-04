@@ -38,6 +38,10 @@ void QuickActionBarScene::update(StateMachine &stateMachine) {
 	else if (m_userActions.getActionState("CURSOR_RIGHT")) {
 		m_cursorPosition = ((m_cursorPosition + 1) % ACTION_BAR_SIZE);
 	}
+	else if (m_userActions.getActionState("USE_CARD")) {
+		m_actionBar.setCard(m_cursorPosition, m_card);
+		stateMachine.popState();
+	}
 }
 
 void QuickActionBarScene::render() {
