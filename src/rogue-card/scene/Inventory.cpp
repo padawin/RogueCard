@@ -3,13 +3,20 @@
 #include "../game/globals.hpp"
 #include "../sdl2/TextureManager.hpp"
 #include "Inventory.hpp"
+#include "QuickActionBar.hpp"
 #include "ObjectCard.hpp"
 
-InventoryScene::InventoryScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
+InventoryScene::InventoryScene(
+	UserActions &userActions,
+	ActionBar &actionBar,
+	Player &player,
+	std::shared_ptr<SDL2Renderer> renderer
+) :
 	State(userActions),
 	m_player(player),
 	m_renderer(renderer),
-	m_objectActionMenu(ObjectAction(renderer))
+	m_objectActionMenu(ObjectAction(renderer)),
+	m_actionBar(actionBar)
 {
 	m_mCursorPositions[0] = {16, 16};
 	m_mCursorPositions[1] = {64, 16};
@@ -55,7 +62,10 @@ void InventoryScene::update(StateMachine &stateMachine) {
 			m_objectActionMenu.selectNext();
 		}
 		else if (pressedAction) {
-			_executeMenuAction(m_objectActionMenu.getSelectedAction());
+			_executeMenuAction(
+				m_objectActionMenu.getSelectedAction(),
+				stateMachine
+			);
 			m_objectActionMenu.close();
 		}
 	}
@@ -77,13 +87,14 @@ void InventoryScene::update(StateMachine &stateMachine) {
 		}
 		else if (m_userActions.getActionState("USE_CARD")) {
 			if (m_player.getInventoryItem(_getCardIndex()) != nullptr) {
-				m_objectActionMenu.open(m_player.getInventoryItem(_getCardIndex()));
+				auto card = m_player.getInventoryItem(_getCardIndex());
+				m_objectActionMenu.open(card, m_actionBar.hasCard(card));
 			}
 		}
 	}
 }
 
-void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action) {
+void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMachine &stateMachine) {
 	if (action == USE) {
 		std::cout << "Use object\n";
 		m_player.removeInventoryItem(_getCardIndex());
@@ -98,8 +109,21 @@ void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action) {
 		std::cout << "Discard object\n";
 		m_player.removeInventoryItem(_getCardIndex());
 	}
-	else if (action == ADD_TO_ACTIONBAR) {
-		std::cout << "Add object to actionbar\n";
+	else if (action == ACTIONBAR) {
+		auto card = m_player.getInventoryItem(_getCardIndex());
+		if (m_actionBar.hasCard(card)) {
+			m_actionBar.removeCard(card);
+		}
+		else {
+			stateMachine.pushState(
+				new QuickActionBarScene(
+					m_userActions,
+					m_actionBar,
+					card,
+					m_renderer
+				)
+			);
+		}
 	}
 }
 

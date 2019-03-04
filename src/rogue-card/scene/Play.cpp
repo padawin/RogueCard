@@ -14,6 +14,7 @@ PlayScene::PlayScene(UserActions &userActions, Player &player, std::shared_ptr<S
 	m_player(player),
 	m_renderer(renderer),
 	m_deck(CardDeck()),
+	m_actionBar(ActionBar()),
 	m_notification(Text())
 {
 	m_mCursorPositions[Action] = {16, 160};
@@ -51,7 +52,9 @@ void PlayScene::update(StateMachine &stateMachine) {
 		stateMachine.changeState(new GameOverScene(m_userActions));
 	}
 	else if (m_userActions.getActionState("INVENTORY")) {
-		stateMachine.pushState(new InventoryScene(m_userActions, m_player, m_renderer));
+		stateMachine.pushState(
+			new InventoryScene(m_userActions, m_actionBar, m_player, m_renderer)
+		);
 	}
 	else if (m_userActions.getActionState("USE_CARD")) {
 		_useCardUnderCursor();
@@ -101,14 +104,10 @@ void PlayScene::_renderCards() {
 	if (m_pickedCard) {
 		m_pickedCard->render(m_renderer->getRenderer(), 138, 64);
 	}
-	for (int i = (int) Object1; i < MAX_OBJECTS; ++i) {
-		PlayCursorPosition pos = (PlayCursorPosition) i;
-		if (m_objectCards[pos] != nullptr) {
-			m_objectCards[pos]->render(
-				m_renderer->getRenderer(),
-				m_mCursorPositions[pos].first,
-				m_mCursorPositions[pos].second
-			);
+	for (int i = 0; i < ACTION_BAR_SIZE; ++i) {
+		std::pair<int, int> pos = m_mCursorPositions[(PlayCursorPosition)(Object1 + i)];
+		if (m_actionBar.getCard(i) != nullptr) {
+			m_actionBar.getCard(i)->render(m_renderer->getRenderer(), pos.first, pos.second);
 		}
 	}
 	if (m_floorCard) {
@@ -187,11 +186,7 @@ void PlayScene::_action() {
 }
 
 void PlayScene::_useObject(int objectIndex) {
-	if (objectIndex >= MAX_OBJECTS) {
-		return;
-	}
-
-	if (m_objectCards[objectIndex] != nullptr) {
+	if (m_actionBar.getCard(objectIndex) != nullptr) {
 		_notify("Use object");
 	}
 }
