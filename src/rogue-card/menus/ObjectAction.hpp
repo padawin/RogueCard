@@ -6,7 +6,7 @@
 #include "../sdl2/Text.hpp"
 #include "../ObjectCard.hpp"
 
-enum E_ObjectActionMenuItem {USE, EQUIP, INFO, DISCARD, ADD_TO_ACTIONBAR, BACK};
+enum E_ObjectActionMenuItem {USE, EQUIP, INFO, DISCARD, ACTIONBAR, BACK, NB_ITEMS};
 
 class ObjectAction {
 	int m_iNbVisibleItems = 0;
@@ -28,7 +28,7 @@ class ObjectAction {
 
 	public:
 	ObjectAction(std::shared_ptr<SDL2Renderer> m_renderer);
-	void open(std::shared_ptr<ObjectCard> card);
+	void open(std::shared_ptr<ObjectCard> card, bool inActionBar);
 	bool isOpen() const;
 	void close();
 	void render();

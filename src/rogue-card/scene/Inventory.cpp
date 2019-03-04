@@ -87,7 +87,8 @@ void InventoryScene::update(StateMachine &stateMachine) {
 		}
 		else if (m_userActions.getActionState("USE_CARD")) {
 			if (m_player.getInventoryItem(_getCardIndex()) != nullptr) {
-				m_objectActionMenu.open(m_player.getInventoryItem(_getCardIndex()));
+				auto card = m_player.getInventoryItem(_getCardIndex());
+				m_objectActionMenu.open(card, m_actionBar.hasCard(card));
 			}
 		}
 	}
@@ -108,7 +109,7 @@ void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMach
 		std::cout << "Discard object\n";
 		m_player.removeInventoryItem(_getCardIndex());
 	}
-	else if (action == ADD_TO_ACTIONBAR) {
+	else if (action == ACTIONBAR) {
 		stateMachine.pushState(
 			new QuickActionBarScene(
 				m_userActions,

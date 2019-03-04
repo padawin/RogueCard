@@ -31,22 +31,27 @@ ObjectAction::ObjectAction(std::shared_ptr<SDL2Renderer> renderer) :
 	m_itemTexts[DISCARD].first.setText("Discard");
 	m_itemTexts[DISCARD].second = 0;
 
-	m_itemTexts[ADD_TO_ACTIONBAR].first = Text();
-	m_itemTexts[ADD_TO_ACTIONBAR].first.setText("Add to ActionBar");
-	m_itemTexts[ADD_TO_ACTIONBAR].second = FLAG_USABLE;
+	m_itemTexts[ACTIONBAR].first = Text();
+	m_itemTexts[ACTIONBAR].first.setText("ActionBar");
+	m_itemTexts[ACTIONBAR].second = FLAG_USABLE;
 
 	m_itemTexts[BACK].first = Text();
 	m_itemTexts[BACK].first.setText("Back");
 	m_itemTexts[BACK].second = 0;
 }
 
-void ObjectAction::open(std::shared_ptr<ObjectCard> card) {
+void ObjectAction::open(std::shared_ptr<ObjectCard> card, bool inActionBar) {
 	_reset();
 	m_card = card;
 	for (int i = 0; i < NB_ITEMS; ++i) {
 		if (m_card->hasFlags(m_itemTexts[i].second)) {
 			++m_iNbVisibleItems;
 		}
+	}
+	if (m_card->hasFlags(m_itemTexts[ACTIONBAR].second)) {
+		m_itemTexts[ACTIONBAR].first.setText(
+			inActionBar ? "Remove from ActionBar" : "Add to ActionBar"
+		);
 	}
 	_setSelectedAction();
 	_setCursorPosition();
