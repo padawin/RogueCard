@@ -6,11 +6,13 @@
 QuickActionBarScene::QuickActionBarScene(
 	UserActions &userActions,
 	ActionBar &actionBar,
+	std::shared_ptr<ObjectCard> card,
 	std::shared_ptr<SDL2Renderer> renderer
 ) :
 	State(userActions),
 	m_renderer(renderer),
-	m_actionBar(actionBar)
+	m_actionBar(actionBar),
+	m_card(card)
 {
 	m_mCursorPositions[0] = {64, 64};
 	m_mCursorPositions[1] = {112, 64};

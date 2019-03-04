@@ -110,7 +110,12 @@ void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMach
 	}
 	else if (action == ADD_TO_ACTIONBAR) {
 		stateMachine.pushState(
-			new QuickActionBarScene(m_userActions, m_actionBar, m_renderer)
+			new QuickActionBarScene(
+				m_userActions,
+				m_actionBar,
+				m_player.getInventoryItem(_getCardIndex()),
+				m_renderer
+			)
 		);
 	}
 }

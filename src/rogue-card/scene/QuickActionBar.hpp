@@ -10,6 +10,7 @@ class QuickActionBarScene : public State {
 	private:
 	std::shared_ptr<SDL2Renderer> m_renderer;
 	ActionBar &m_actionBar;
+	std::shared_ptr<ObjectCard> m_card = nullptr;
 	int m_cursorPosition = 0;
 	std::pair<int, int> m_mCursorPositions[ACTION_BAR_SIZE] = {};
 
@@ -20,6 +21,7 @@ class QuickActionBarScene : public State {
 	QuickActionBarScene(
 		UserActions &userActions,
 		ActionBar &actionBar,
+		std::shared_ptr<ObjectCard> card,
 		std::shared_ptr<SDL2Renderer> renderer
 	);
 	bool onEnter();
