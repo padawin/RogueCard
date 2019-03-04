@@ -15,6 +15,7 @@ class QuickActionBarScene : public State {
 	std::pair<int, int> m_mCursorPositions[ACTION_BAR_SIZE] = {};
 
 	void _renderBackground() const;
+	void _renderCards() const;
 	void _renderCursor() const;
 
 	public:

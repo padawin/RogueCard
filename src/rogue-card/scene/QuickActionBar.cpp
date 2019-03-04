@@ -46,6 +46,7 @@ void QuickActionBarScene::update(StateMachine &stateMachine) {
 
 void QuickActionBarScene::render() {
 	_renderBackground();
+	_renderCards();
 	_renderCursor();
 }
 
@@ -53,6 +54,18 @@ void QuickActionBarScene::_renderBackground() const {
 	TextureManager::Instance()->draw(
 		"quick-action-bar",  0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, m_renderer->getRenderer()
 	);
+}
+
+void QuickActionBarScene::_renderCards() const {
+	for (int pos = 0; pos < ACTION_BAR_SIZE; ++pos) {
+		if (m_actionBar.getCard(pos) != nullptr) {
+			m_actionBar.getCard(pos)->render(
+				m_renderer->getRenderer(),
+				m_mCursorPositions[pos].first,
+				m_mCursorPositions[pos].second
+			);
+		}
+	}
 }
 
 void QuickActionBarScene::_renderCursor() const {
