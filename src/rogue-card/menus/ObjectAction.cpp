@@ -15,35 +15,35 @@ const int TEXT_MAX_WIDTH = MENU_WIDTH - MARGIN_X * 2;
 ObjectAction::ObjectAction(std::shared_ptr<SDL2Renderer> renderer) :
 	m_renderer(renderer)
 {
-	m_itemTexts[0].first = Text();
-	m_itemTexts[0].first.setText("Use");
-	m_itemTexts[0].second = FLAG_USABLE;
+	m_itemTexts[USE].first = Text();
+	m_itemTexts[USE].first.setText("Use");
+	m_itemTexts[USE].second = FLAG_USABLE;
 
-	m_itemTexts[1].first = Text();
-	m_itemTexts[1].first.setText("Equip");
-	m_itemTexts[1].second = FLAG_EQUIPABLE;
+	m_itemTexts[EQUIP].first = Text();
+	m_itemTexts[EQUIP].first.setText("Equip");
+	m_itemTexts[EQUIP].second = FLAG_EQUIPABLE;
 
-	m_itemTexts[2].first = Text();
-	m_itemTexts[2].first.setText("Info");
-	m_itemTexts[2].second = 0;
+	m_itemTexts[INFO].first = Text();
+	m_itemTexts[INFO].first.setText("Info");
+	m_itemTexts[INFO].second = 0;
 
-	m_itemTexts[3].first = Text();
-	m_itemTexts[3].first.setText("Discard");
-	m_itemTexts[3].second = 0;
+	m_itemTexts[DISCARD].first = Text();
+	m_itemTexts[DISCARD].first.setText("Discard");
+	m_itemTexts[DISCARD].second = 0;
 
-	m_itemTexts[4].first = Text();
-	m_itemTexts[4].first.setText("Add to ActionBar");
-	m_itemTexts[4].second = FLAG_USABLE;
+	m_itemTexts[ADD_TO_ACTIONBAR].first = Text();
+	m_itemTexts[ADD_TO_ACTIONBAR].first.setText("Add to ActionBar");
+	m_itemTexts[ADD_TO_ACTIONBAR].second = FLAG_USABLE;
 
-	m_itemTexts[5].first = Text();
-	m_itemTexts[5].first.setText("Back");
-	m_itemTexts[5].second = 0;
+	m_itemTexts[BACK].first = Text();
+	m_itemTexts[BACK].first.setText("Back");
+	m_itemTexts[BACK].second = 0;
 }
 
 void ObjectAction::open(std::shared_ptr<ObjectCard> card) {
 	_reset();
 	m_card = card;
-	for (int i = 0; i < m_iNbItems; ++i) {
+	for (int i = 0; i < NB_ITEMS; ++i) {
 		if (m_card->hasFlags(m_itemTexts[i].second)) {
 			++m_iNbVisibleItems;
 		}
@@ -84,7 +84,7 @@ E_ObjectActionMenuItem ObjectAction::getSelectedAction() const {
 }
 
 void ObjectAction::_setSelectedAction() {
-	for (int renderIndex = 0, itemIndex = 0; itemIndex < m_iNbItems; ++itemIndex) {
+	for (int renderIndex = 0, itemIndex = 0; itemIndex < NB_ITEMS; ++itemIndex) {
 		if (m_card->hasFlags(m_itemTexts[itemIndex].second)) {
 			if (renderIndex == m_iSelectedItemIndex) {
 				m_selectedAction = (E_ObjectActionMenuItem) itemIndex;
@@ -106,7 +106,7 @@ void ObjectAction::render() {
 
 void ObjectAction::_renderItems() {
 	_renderBackground(0, POSITION_Y);
-	for (int renderIndex = 0, itemIndex = 0; itemIndex < m_iNbItems; ++itemIndex) {
+	for (int renderIndex = 0, itemIndex = 0; itemIndex < NB_ITEMS; ++itemIndex) {
 		if (m_card->hasFlags(m_itemTexts[itemIndex].second)) {
 			_renderBackground(1, TEXT_POS_Y + renderIndex * 16);
 			_renderItem(itemIndex, renderIndex);
