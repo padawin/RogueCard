@@ -104,14 +104,10 @@ void PlayScene::_renderCards() {
 	if (m_pickedCard) {
 		m_pickedCard->render(m_renderer->getRenderer(), 138, 64);
 	}
-	for (int i = (int) Object1; i < ACTION_BAR_SIZE; ++i) {
-		PlayCursorPosition pos = (PlayCursorPosition) i;
-		if (m_actionBar.getCard(pos) != nullptr) {
-			m_actionBar.getCard(pos)->render(
-				m_renderer->getRenderer(),
-				m_mCursorPositions[pos].first,
-				m_mCursorPositions[pos].second
-			);
+	for (int i = 0; i < ACTION_BAR_SIZE; ++i) {
+		std::pair<int, int> pos = m_mCursorPositions[(PlayCursorPosition)(Object1 + i)];
+		if (m_actionBar.getCard(i) != nullptr) {
+			m_actionBar.getCard(i)->render(m_renderer->getRenderer(), pos.first, pos.second);
 		}
 	}
 	if (m_floorCard) {
