@@ -97,7 +97,7 @@ void Save::_savePlayer() {
 	std::string playerPath = Utils::getDataPath() + "/" + PLAYER_FILE;
 	FILE *playerFile = fopen(playerPath.c_str(), "w");
 	fprintf(playerFile, "h %d\n", m_player.getHealth());
-	fprintf(playerFile, "H %d\n", m_player.getHealth());
+	fprintf(playerFile, "H %d\n", m_player.getMaxHealth());
 	fprintf(playerFile, "s %d\n", m_player.getStrength());
 	fprintf(playerFile, "d %d\n", m_player.getDefence());
 	fprintf(playerFile, "f %d\n", m_player.getFloor());
