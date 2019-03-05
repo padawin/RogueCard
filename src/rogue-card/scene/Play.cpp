@@ -151,7 +151,7 @@ void PlayScene::_pickCard() {
 	}
 }
 
-void PlayScene::_pickObject() {
+void PlayScene::_lootObject() {
 	std::shared_ptr<ObjectCard> objectCard(std::static_pointer_cast<ObjectCard>(m_pickedCard));
 	if (!m_player.hasSpaceInInventory()) {
 		_notify("Your inventory is full");
@@ -170,7 +170,7 @@ void PlayScene::_action() {
 		_pickCard();
 	}
 	else if (m_pickedCard->getType() == ObjectCardType) {
-		_pickObject();
+		_lootObject();
 	}
 	else if (m_pickedCard->getType() == FloorCardType) {
 		_notify("Found next floor");

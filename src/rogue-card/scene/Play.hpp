@@ -33,7 +33,7 @@ class PlayScene : public State {
 	void _useCardUnderCursor();
 
 	void _pickCard();
-	void _pickObject();
+	void _lootObject();
 	void _action();
 	void _useObject(int objectIndex);
 	void _changeFloor();
