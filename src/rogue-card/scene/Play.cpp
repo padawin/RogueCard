@@ -161,6 +161,7 @@ void PlayScene::_pickObject() {
 		m_player.addItemToInventory(objectCard);
 		snprintf(message, 44, "You picked %s", objectCard->getName());
 		_notify(message);
+		m_pickedCard = nullptr;
 	}
 }
 
@@ -170,7 +171,6 @@ void PlayScene::_action() {
 	}
 	else if (m_pickedCard->getType() == ObjectCardType) {
 		_pickObject();
-		m_pickedCard = nullptr;
 	}
 	else if (m_pickedCard->getType() == FloorCardType) {
 		_notify("Found next floor");
