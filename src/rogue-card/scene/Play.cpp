@@ -149,9 +149,6 @@ void PlayScene::_pickCard() {
 	if (m_pickedCard == nullptr) {
 		m_pickedCard = m_deck.pickCard(m_player, m_floorCard != nullptr);
 	}
-	else {
-		_notify("A card is already picked");
-	}
 }
 
 void PlayScene::_pickObject() {
@@ -194,9 +191,6 @@ void PlayScene::_useObject(int objectIndex) {
 void PlayScene::_changeFloor() {
 	if (m_floorCard != nullptr) {
 		_notify("Change floor");
-	}
-	else {
-		_notify("You haven't found the next floor yet");
 	}
 }
 
