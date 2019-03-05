@@ -71,6 +71,7 @@ void PlayScene::render() {
 	_renderBackground();
 	_renderNotification();
 	_renderCards();
+	_renderHealth();
 	_renderCursor();
 }
 
@@ -87,6 +88,13 @@ void PlayScene::_renderNotification() const {
 			80, 16
 		);
 	}
+}
+
+void PlayScene::_renderHealth() const {
+	int healthWidth = m_player.getHealth() * 138 / m_player.getMaxHealth();
+	TextureManager::Instance()->draw(
+		"health-color", 20, 146, healthWidth, 10, m_renderer->getRenderer()
+	);
 }
 
 void PlayScene::_renderCursor() {
