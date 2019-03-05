@@ -149,9 +149,6 @@ void PlayScene::_pickCard() {
 	if (m_pickedCard == nullptr) {
 		m_pickedCard = m_deck.pickCard(m_player, m_floorCard != nullptr);
 	}
-	else {
-		_notify("A card is already picked");
-	}
 }
 
 void PlayScene::_pickObject() {
@@ -164,6 +161,7 @@ void PlayScene::_pickObject() {
 		m_player.addItemToInventory(objectCard);
 		snprintf(message, 44, "You picked %s", objectCard->getName());
 		_notify(message);
+		m_pickedCard = nullptr;
 	}
 }
 
@@ -173,7 +171,6 @@ void PlayScene::_action() {
 	}
 	else if (m_pickedCard->getType() == ObjectCardType) {
 		_pickObject();
-		m_pickedCard = nullptr;
 	}
 	else if (m_pickedCard->getType() == FloorCardType) {
 		_notify("Found next floor");
@@ -194,9 +191,6 @@ void PlayScene::_useObject(int objectIndex) {
 void PlayScene::_changeFloor() {
 	if (m_floorCard != nullptr) {
 		_notify("Change floor");
-	}
-	else {
-		_notify("You haven't found the next floor yet");
 	}
 }
 
