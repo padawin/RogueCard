@@ -27,6 +27,7 @@ class PlayScene : public State {
 
 	void _renderBackground() const;
 	void _renderNotification() const;
+	void _renderHealth() const;
 	void _renderCursor();
 	void _renderCards();
 
