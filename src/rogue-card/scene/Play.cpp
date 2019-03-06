@@ -4,6 +4,7 @@
 #include "../sdl2/TextureManager.hpp"
 #include "GameOver.hpp"
 #include "Inventory.hpp"
+#include "Equipment.hpp"
 #include "Play.hpp"
 #include "EnemyCard.hpp"
 #include "ObjectCard.hpp"
@@ -55,6 +56,9 @@ void PlayScene::update(StateMachine &stateMachine) {
 		stateMachine.pushState(
 			new InventoryScene(m_userActions, m_actionBar, m_player, m_renderer)
 		);
+	}
+	else if (m_userActions.getActionState("EQUIPMENT")) {
+		stateMachine.pushState(new EquipmentScene(m_userActions, m_renderer));
 	}
 	else if (m_userActions.getActionState("USE_CARD")) {
 		_useCardUnderCursor();
