@@ -93,7 +93,6 @@ void writeObject(std::ofstream &fileOutStream, S_ObjectMeta object) {
 		<< object.tilesetY << " "
 		<< object.usable << " "
 		<< object.consumable << " "
-		<< object.equipable << " "
 		<< object.applyOnSelf << " "
 		<< object.isHelm << " "
 		<< object.isShoulders << " "

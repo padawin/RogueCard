@@ -27,9 +27,6 @@ void ObjectCard::createFromMeta(int metaIndex) {
 	m_iTileX = meta[metaIndex].tilesetX;
 	m_iTileY = meta[metaIndex].tilesetY;
 	_setFlags(meta[metaIndex]);
-	if (meta[metaIndex].equipable) {
-		_setEquipableFlags(meta[metaIndex]);
-	}
 }
 
 int ObjectCard::getMetaIndex() const {
@@ -37,13 +34,14 @@ int ObjectCard::getMetaIndex() const {
 }
 
 void ObjectCard::_setFlags(const S_ObjectMeta &meta) {
+	_setEquipableFlags(meta);
 	if (meta.usable) {
 		m_iFlags |= FLAG_USABLE;
 	}
 	if (meta.consumable) {
 		m_iFlags |= FLAG_CONSUMABLE;
 	}
-	if (meta.equipable) {
+	if (m_iEquipableFlags) {
 		m_iFlags |= FLAG_EQUIPABLE;
 	}
 	if (meta.applyOnSelf) {

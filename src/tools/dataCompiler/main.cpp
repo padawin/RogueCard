@@ -108,7 +108,7 @@ bool readEnemyFileLine(char line[MAX_CHARS_PER_LINE], S_EnemyMeta &data) {
 }
 
 bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
-	int usable, equipable, consumable, applyOnSelf, isHelm, isShoulders, isGlove, isChest,
+	int usable, consumable, applyOnSelf, isHelm, isShoulders, isGlove, isChest,
 		isBelt, isShoe, isWeapon, isShield;
 	int result = sscanf(
 		line,
@@ -118,7 +118,6 @@ bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
 		&data.tilesetY,
 		&usable,
 		&consumable,
-		&equipable,
 		&applyOnSelf,
 		&isHelm,
 		&isShoulders,
@@ -131,7 +130,6 @@ bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
 	);
 	data.usable = (bool) usable;
 	data.consumable = (bool) consumable;
-	data.equipable = (bool) equipable;
 	data.applyOnSelf = (bool) applyOnSelf;
 	data.isHelm = (bool) isHelm;
 	data.isShoulders = (bool) isShoulders;
@@ -141,7 +139,7 @@ bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
 	data.isShoe = (bool) isShoe;
 	data.isWeapon = (bool) isWeapon;
 	data.isShield = (bool) isShield;
-	return result == 15;
+	return result == 14;
 }
 
 bool readFontFileLine(char line[MAX_CHARS_PER_LINE], S_FontAtlasCoord &data) {

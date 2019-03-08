@@ -30,7 +30,6 @@ struct S_ObjectMeta {
 	int tilesetY;
 	bool usable;
 	bool consumable;
-	bool equipable;
 	bool applyOnSelf;
 	bool isHelm;
 	bool isShoulders;
