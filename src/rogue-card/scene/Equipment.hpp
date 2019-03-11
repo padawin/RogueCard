@@ -18,6 +18,8 @@ class EquipmentScene : public State {
 	void _renderBackground() const;
 	void _renderCursor();
 
+	void _openListObjects();
+
 	public:
 	EquipmentScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer);
 	bool onEnter();

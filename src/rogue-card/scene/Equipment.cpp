@@ -35,6 +35,9 @@ void EquipmentScene::update(StateMachine &stateMachine) {
 	else if (m_userActions.getActionState("CURSOR_RIGHT")) {
 		m_cursorPosition = (m_cursorPosition + 1) % EQUIPMENT_SIZE;
 	}
+	else if (m_userActions.getActionState("USE_CARD")) {
+		_openListObjects();
+	}
 }
 
 void EquipmentScene::render() {
@@ -57,4 +60,8 @@ void EquipmentScene::_renderCursor() {
 		64,
 		m_renderer->getRenderer()
 	);
+}
+
+void EquipmentScene::_openListObjects() {
+
 }
