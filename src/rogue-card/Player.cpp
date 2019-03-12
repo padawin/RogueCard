@@ -45,7 +45,7 @@ bool Player::hasSpaceInInventory() const {
 
 }
 
-void Player::setInventoryItem(std::shared_ptr<ObjectCard> card, int index) {
+void Player::setInventoryItem(int index, std::shared_ptr<ObjectCard> card) {
 	if (index < MAX_INVENTORY_SIZE) {
 		m_inventory[index] = card;
 	}

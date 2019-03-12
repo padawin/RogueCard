@@ -44,7 +44,7 @@ class Player {
 	bool isDead() const;
 
 	bool hasSpaceInInventory() const;
-	void setInventoryItem(std::shared_ptr<ObjectCard> card, int index);
+	void setInventoryItem(int index, std::shared_ptr<ObjectCard> card);
 	void addItemToInventory(std::shared_ptr<ObjectCard> card);
 	void removeInventoryItem(int index);
 	std::shared_ptr<ObjectCard> getInventoryItem(int index) const;

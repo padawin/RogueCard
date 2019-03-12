@@ -72,7 +72,7 @@ void Save::_loadPlayer() {
 			if (cardMetaIndex != -1) {
 				std::shared_ptr<ObjectCard> card = std::shared_ptr<ObjectCard>(new ObjectCard());
 				card->createFromMeta(cardMetaIndex);
-				m_player.setInventoryItem(card, inventoryIndex);
+				m_player.setInventoryItem(inventoryIndex, card);
 			}
 		}
 	}
