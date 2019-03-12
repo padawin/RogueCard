@@ -1,6 +1,8 @@
 #include "Player.hpp"
 #include "EnemyCard.hpp"
 
+Player::Player() : m_inventory(ObjectCardCollection()) {}
+
 int Player::getHealth() const { return m_iHealth; }
 int Player::getMaxHealth() const { return m_iMaxHealth; }
 int Player::getStrength() const { return m_iStrength; }
@@ -39,35 +41,21 @@ bool Player::isDead() const {
 }
 
 bool Player::hasSpaceInInventory() const {
-	int i;
-	for (i = 0; i < MAX_INVENTORY_SIZE && m_inventory[i] != nullptr; ++i) {}
-	return i < MAX_INVENTORY_SIZE;
-
+	return !m_inventory.isFull();
 }
 
 void Player::setInventoryItem(unsigned int index, std::shared_ptr<ObjectCard> card) {
-	if (index < MAX_INVENTORY_SIZE) {
-		m_inventory[index] = card;
-	}
+	m_inventory.setCard(index, card);
 }
 
 void Player::addItemToInventory(std::shared_ptr<ObjectCard> card) {
-	int i = 0;
-	while (i < MAX_INVENTORY_SIZE && m_inventory[i] != nullptr) {
-		++i;
-	}
-	if (i < MAX_INVENTORY_SIZE) {
-		m_inventory[i] = card;
-	}
+	m_inventory.addCard(card);
 }
 
 void Player::removeInventoryItem(unsigned int index) {
-	m_inventory[index] = nullptr;
+	m_inventory.removeCard(index);
 }
 
 std::shared_ptr<ObjectCard> Player::getInventoryItem(unsigned int index) const {
-	if (index >= MAX_INVENTORY_SIZE) {
-		return nullptr;
-	}
-	return m_inventory[index];
+	return m_inventory.getCard(index);
 }
