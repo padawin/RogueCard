@@ -83,6 +83,10 @@ bool ObjectCard::hasFlags(int flags) const {
 	return (m_iFlags & flags) == flags;
 }
 
+bool ObjectCard::hasEquipableFlag(unsigned int flag) const {
+	return m_iEquipableFlags & flag;
+}
+
 bool ObjectCard::isUsable() const {
 	return m_iFlags & FLAG_USABLE;
 }

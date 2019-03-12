@@ -40,6 +40,7 @@ class ObjectCard : public Card {
 	const char* getName() const;
 
 	bool hasFlags(int flags) const;
+	bool hasEquipableFlag(unsigned int flag) const;
 	bool isUsable() const;
 	bool isConsumable() const;
 	bool canBeEquipped() const;
