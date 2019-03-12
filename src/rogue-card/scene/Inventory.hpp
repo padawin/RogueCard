@@ -17,12 +17,12 @@ class InventoryScene : public State {
 	ObjectAction m_objectActionMenu;
 	ActionBar &m_actionBar;
 
-	int m_cursorPosition = 0;
+	unsigned int m_cursorPosition = 0;
 	std::pair<int, int> m_mCursorPositions[INVENTORY_PAGE_SIZE] = {};
-	int m_iPage = 1;
+	unsigned int m_iPage = 1;
 
 	void _moveCursor(char direction);
-	int _getCardIndex() const;
+	unsigned int _getCardIndex() const;
 
 	void _renderBackground() const;
 	void _renderCards();
