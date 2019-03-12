@@ -1,14 +1,5 @@
 #include "ObjectCard.hpp"
 
-const unsigned char FLAG_EQUIPMENT_HEAD =      0x01;
-const unsigned char FLAG_EQUIPMENT_SHOULDERS = 0x02;
-const unsigned char FLAG_EQUIPMENT_HANDS =     0x04;
-const unsigned char FLAG_EQUIPMENT_CHEST =     0x08;
-const unsigned char FLAG_EQUIPMENT_BELT =      0x10;
-const unsigned char FLAG_EQUIPMENT_FEET =      0x20;
-const unsigned char FLAG_EQUIPMENT_WEAPON =    0x40;
-const unsigned char FLAG_EQUIPMENT_SHIELD =    0x80;
-
 ResourceManager<S_ObjectMeta> ObjectCard::m_objectMeta = ResourceManager<S_ObjectMeta>();
 
 ObjectCard::ObjectCard() : Card(ObjectCardType) {
