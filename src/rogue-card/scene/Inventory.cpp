@@ -205,10 +205,10 @@ void InventoryScene::_renderCursor() {
 }
 
 void InventoryScene::_renderCards() {
-	int startCard = (m_iPage - 1) * 6;
-	int endCard = startCard + INVENTORY_PAGE_SIZE;
+	unsigned int startCard = (m_iPage - 1) * 6;
+	unsigned int endCard = startCard + INVENTORY_PAGE_SIZE;
 
-	for (int c = startCard; c < endCard; ++c) {
+	for (unsigned int c = startCard; c < endCard; ++c) {
 		auto card = m_player.getInventoryItem(c);
 		if (card == nullptr) {
 			continue;
@@ -224,6 +224,6 @@ void InventoryScene::_renderCards() {
 /**
  * Return the index in the player's inventory of the card under the cursor.
  */
-int InventoryScene::_getCardIndex() const {
+unsigned int InventoryScene::_getCardIndex() const {
 	return (m_iPage - 1) * 6 + m_cursorPosition;
 }

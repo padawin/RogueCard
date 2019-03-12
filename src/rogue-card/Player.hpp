@@ -5,13 +5,14 @@
 
 #include <memory>
 #include "ObjectCard.hpp"
+#include "ObjectCardCollection.hpp"
 
 class EnemyCard;
 
 class Player {
 	private:
 	// Equipment m_equipment;
-	std::shared_ptr<ObjectCard> m_inventory[MAX_INVENTORY_SIZE] = {};
+	ObjectCardCollection m_inventory;
 	int m_iHealth = 30;
 	int m_iMaxHealth = 30;
 	int m_iStrength = 5;
@@ -21,6 +22,7 @@ class Player {
 	int m_iLevel = 1;
 
 	public:
+	Player();
 	~Player() {}
 	int getHealth() const;
 	int getMaxHealth() const;
@@ -44,10 +46,10 @@ class Player {
 	bool isDead() const;
 
 	bool hasSpaceInInventory() const;
-	void setInventoryItem(std::shared_ptr<ObjectCard> card, int index);
+	void setInventoryItem(unsigned int index, std::shared_ptr<ObjectCard> card);
 	void addItemToInventory(std::shared_ptr<ObjectCard> card);
-	void removeInventoryItem(int index);
-	std::shared_ptr<ObjectCard> getInventoryItem(int index) const;
+	void removeInventoryItem(unsigned int index);
+	std::shared_ptr<ObjectCard> getInventoryItem(unsigned int index) const;
 };
 
 #endif
