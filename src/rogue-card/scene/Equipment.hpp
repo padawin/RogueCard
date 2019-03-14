@@ -15,7 +15,10 @@ class EquipmentScene : public State {
 	int m_cursorPosition = 0;
 	S_Coordinates m_mCursorPositions[EQUIPMENT_SIZE] = {};
 
+	bool m_bSelectViewOpen = false;
+
 	void _renderBackground() const;
+	void _renderSelectBackground() const;
 	void _renderCursor();
 
 	void _openListObjects();

@@ -26,28 +26,44 @@ bool EquipmentScene::onEnter() {
 }
 
 void EquipmentScene::update(StateMachine &stateMachine) {
-	if (m_userActions.getActionState("BACK")) {
-		stateMachine.popState();
+	if (m_bSelectViewOpen) {
+		if (m_userActions.getActionState("BACK")) {
+			m_bSelectViewOpen = false;
+		}
 	}
-	else if (m_userActions.getActionState("CURSOR_LEFT")) {
-		m_cursorPosition = (EQUIPMENT_SIZE + m_cursorPosition - 1) % EQUIPMENT_SIZE;
-	}
-	else if (m_userActions.getActionState("CURSOR_RIGHT")) {
-		m_cursorPosition = (m_cursorPosition + 1) % EQUIPMENT_SIZE;
-	}
-	else if (m_userActions.getActionState("USE_CARD")) {
-		_openListObjects();
+	else {
+		if (m_userActions.getActionState("BACK")) {
+			stateMachine.popState();
+		}
+		else if (m_userActions.getActionState("CURSOR_LEFT")) {
+			m_cursorPosition = (EQUIPMENT_SIZE + m_cursorPosition - 1) % EQUIPMENT_SIZE;
+		}
+		else if (m_userActions.getActionState("CURSOR_RIGHT")) {
+			m_cursorPosition = (m_cursorPosition + 1) % EQUIPMENT_SIZE;
+		}
+		else if (m_userActions.getActionState("USE_CARD")) {
+			_openListObjects();
+		}
 	}
 }
 
 void EquipmentScene::render() {
 	_renderBackground();
+	if (m_bSelectViewOpen) {
+		_renderSelectBackground();
+	}
 	_renderCursor();
 }
 
 void EquipmentScene::_renderBackground() const {
 	TextureManager::Instance()->draw(
 		"ui-equipment", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, m_renderer->getRenderer()
+	);
+}
+
+void EquipmentScene::_renderSelectBackground() const {
+	TextureManager::Instance()->draw(
+		"ui-equipment-select", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, m_renderer->getRenderer()
 	);
 }
 
@@ -63,5 +79,5 @@ void EquipmentScene::_renderCursor() {
 }
 
 void EquipmentScene::_openListObjects() {
-
+	m_bSelectViewOpen = true;
 }

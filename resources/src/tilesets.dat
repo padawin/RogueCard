@@ -5,6 +5,7 @@ font atlas.png
 ui ui.png
 ui-inventory ui-inventory.png
 ui-equipment ui-equipment.png
+ui-equipment-select ui-equipment-select.png
 cursor cursor.png
 card card.png
 objects objects.png
