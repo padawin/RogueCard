@@ -3,9 +3,11 @@
 #include "../sdl2/TextureManager.hpp"
 #include "Equipment.hpp"
 
-EquipmentScene::EquipmentScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer) :
+EquipmentScene::EquipmentScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
 	State(userActions),
-	m_renderer(renderer)
+	m_renderer(renderer),
+	m_availableCards(ObjectCardCollection()),
+	m_player(player)
 {
 	m_mCursorPositions[0] = {16, 8};
 	m_mCursorPositions[1] = {64, 8};
@@ -15,6 +17,14 @@ EquipmentScene::EquipmentScene(UserActions &userActions, std::shared_ptr<SDL2Ren
 	m_mCursorPositions[5] = {256, 8};
 	m_mCursorPositions[6] = {16, 72};
 	m_mCursorPositions[7] = {256, 72};
+	m_equipmentFlags[0] = FLAG_EQUIPMENT_HEAD;
+	m_equipmentFlags[1] = FLAG_EQUIPMENT_SHOULDERS;
+	m_equipmentFlags[2] = FLAG_EQUIPMENT_CHEST;
+	m_equipmentFlags[3] = FLAG_EQUIPMENT_BELT;
+	m_equipmentFlags[4] = FLAG_EQUIPMENT_FEET;
+	m_equipmentFlags[5] = FLAG_EQUIPMENT_HANDS;
+	m_equipmentFlags[6] = FLAG_EQUIPMENT_WEAPON;
+	m_equipmentFlags[7] = FLAG_EQUIPMENT_SHIELD;
 }
 
 std::string EquipmentScene::getStateID() const {
@@ -79,5 +89,13 @@ void EquipmentScene::_renderCursor() {
 }
 
 void EquipmentScene::_openListObjects() {
+	m_availableCards.clear();
+	m_player.getInventory().reset();
+	do {
+		auto card = m_player.getInventory().current();
+		if (card->hasEquipableFlag(m_equipmentFlags[m_cursorPosition])) {
+			m_availableCards.addCard(card);
+		}
+	} while (m_player.getInventory().next());
 	m_bSelectViewOpen = true;
 }

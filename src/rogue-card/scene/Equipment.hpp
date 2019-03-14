@@ -6,6 +6,7 @@
 #include "../game/State.hpp"
 #include "../game/types.hpp"
 #include "../sdl2/Renderer.hpp"
+#include "Player.hpp"
 
 #define EQUIPMENT_SIZE 8
 
@@ -14,6 +15,9 @@ class EquipmentScene : public State {
 	std::shared_ptr<SDL2Renderer> m_renderer;
 	int m_cursorPosition = 0;
 	S_Coordinates m_mCursorPositions[EQUIPMENT_SIZE] = {};
+	unsigned int m_equipmentFlags[EQUIPMENT_SIZE] = {};
+	ObjectCardCollection m_availableCards;
+	Player &m_player;
 
 	bool m_bSelectViewOpen = false;
 
@@ -24,7 +28,7 @@ class EquipmentScene : public State {
 	void _openListObjects();
 
 	public:
-	EquipmentScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer);
+	EquipmentScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer);
 	bool onEnter();
 	void update(StateMachine &stateMachine);
 	void render();

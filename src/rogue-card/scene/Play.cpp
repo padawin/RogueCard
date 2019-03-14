@@ -58,7 +58,7 @@ void PlayScene::update(StateMachine &stateMachine) {
 		);
 	}
 	else if (m_userActions.getActionState("EQUIPMENT")) {
-		stateMachine.pushState(new EquipmentScene(m_userActions, m_renderer));
+		stateMachine.pushState(new EquipmentScene(m_userActions, m_player, m_renderer));
 	}
 	else if (m_userActions.getActionState("USE_CARD")) {
 		_useCardUnderCursor();
