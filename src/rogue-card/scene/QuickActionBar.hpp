@@ -4,6 +4,7 @@
 #include <string.h>
 #include "../sdl2/Renderer.hpp"
 #include "../game/State.hpp"
+#include "../game/types.hpp"
 #include "../ActionBar.hpp"
 
 class QuickActionBarScene : public State {
@@ -12,7 +13,7 @@ class QuickActionBarScene : public State {
 	ActionBar &m_actionBar;
 	std::shared_ptr<ObjectCard> m_card = nullptr;
 	int m_cursorPosition = 0;
-	std::pair<int, int> m_mCursorPositions[ACTION_BAR_SIZE] = {};
+	S_Coordinates m_mCursorPositions[ACTION_BAR_SIZE] = {};
 
 	void _renderBackground() const;
 	void _renderCards() const;

@@ -4,6 +4,7 @@
 #include <string.h>
 #include <map>
 #include "../game/State.hpp"
+#include "../game/types.hpp"
 #include "../sdl2/Renderer.hpp"
 #include "../sdl2/Text.hpp"
 #include "../Player.hpp"
@@ -21,7 +22,7 @@ class PlayScene : public State {
 	Text m_notification;
 
 	PlayCursorPosition m_cursorPosition = Action;
-	std::map<PlayCursorPosition, std::pair<int, int>> m_mCursorPositions = {};
+	std::map<PlayCursorPosition, S_Coordinates> m_mCursorPositions = {};
 	std::shared_ptr<Card> m_pickedCard = nullptr;
 	std::shared_ptr<Card> m_floorCard = nullptr;
 

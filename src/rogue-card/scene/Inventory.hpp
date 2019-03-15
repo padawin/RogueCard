@@ -2,6 +2,7 @@
 #define __INVENTORY_STATE__
 
 #include <string.h>
+#include "../game/types.hpp"
 #include "../game/State.hpp"
 #include "../sdl2/Renderer.hpp"
 #include "../Player.hpp"
@@ -18,7 +19,7 @@ class InventoryScene : public State {
 	ActionBar &m_actionBar;
 
 	unsigned int m_cursorPosition = 0;
-	std::pair<int, int> m_mCursorPositions[INVENTORY_PAGE_SIZE] = {};
+	S_Coordinates m_mCursorPositions[INVENTORY_PAGE_SIZE] = {};
 	unsigned int m_iPage = 1;
 
 	void _moveCursor(char direction);

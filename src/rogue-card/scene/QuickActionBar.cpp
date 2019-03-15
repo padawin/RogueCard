@@ -61,8 +61,8 @@ void QuickActionBarScene::_renderCards() const {
 		if (m_actionBar.getCard(pos) != nullptr) {
 			m_actionBar.getCard(pos)->render(
 				m_renderer->getRenderer(),
-				m_mCursorPositions[pos].first,
-				m_mCursorPositions[pos].second
+				m_mCursorPositions[pos].x,
+				m_mCursorPositions[pos].y
 			);
 		}
 	}
@@ -71,8 +71,8 @@ void QuickActionBarScene::_renderCards() const {
 void QuickActionBarScene::_renderCursor() const {
 	TextureManager::Instance()->draw(
 		"cursor",
-		m_mCursorPositions[m_cursorPosition].first,
-		m_mCursorPositions[m_cursorPosition].second,
+		m_mCursorPositions[m_cursorPosition].x,
+		m_mCursorPositions[m_cursorPosition].y,
 		48,
 		64,
 		m_renderer->getRenderer()

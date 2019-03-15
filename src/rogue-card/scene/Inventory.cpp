@@ -196,8 +196,8 @@ void InventoryScene::_renderBackground() const {
 void InventoryScene::_renderCursor() {
 	TextureManager::Instance()->draw(
 		"cursor",
-		m_mCursorPositions[m_cursorPosition].first,
-		m_mCursorPositions[m_cursorPosition].second,
+		m_mCursorPositions[m_cursorPosition].x,
+		m_mCursorPositions[m_cursorPosition].y,
 		48,
 		64,
 		m_renderer->getRenderer()
@@ -215,8 +215,8 @@ void InventoryScene::_renderCards() {
 		}
 		card->render(
 			m_renderer->getRenderer(),
-			m_mCursorPositions[c - startCard].first,
-			m_mCursorPositions[c - startCard].second
+			m_mCursorPositions[c - startCard].x,
+			m_mCursorPositions[c - startCard].y
 		);
 	}
 }

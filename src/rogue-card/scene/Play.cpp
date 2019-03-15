@@ -100,8 +100,8 @@ void PlayScene::_renderHealth() const {
 void PlayScene::_renderCursor() {
 	TextureManager::Instance()->draw(
 		"cursor",
-		m_mCursorPositions[m_cursorPosition].first,
-		m_mCursorPositions[m_cursorPosition].second,
+		m_mCursorPositions[m_cursorPosition].x,
+		m_mCursorPositions[m_cursorPosition].y,
 		48,
 		64,
 		m_renderer->getRenderer()
@@ -113,16 +113,16 @@ void PlayScene::_renderCards() {
 		m_pickedCard->render(m_renderer->getRenderer(), 138, 64);
 	}
 	for (int i = 0; i < ACTION_BAR_SIZE; ++i) {
-		std::pair<int, int> pos = m_mCursorPositions[(PlayCursorPosition)(Object1 + i)];
+		S_Coordinates pos = m_mCursorPositions[(PlayCursorPosition)(Object1 + i)];
 		if (m_actionBar.getCard(i) != nullptr) {
-			m_actionBar.getCard(i)->render(m_renderer->getRenderer(), pos.first, pos.second);
+			m_actionBar.getCard(i)->render(m_renderer->getRenderer(), pos.x, pos.y);
 		}
 	}
 	if (m_floorCard) {
 		m_floorCard->render(
 			m_renderer->getRenderer(),
-			m_mCursorPositions[Floor].first,
-			m_mCursorPositions[Floor].second
+			m_mCursorPositions[Floor].x,
+			m_mCursorPositions[Floor].y
 		);
 	}
 }
