@@ -1,10 +1,12 @@
 #ifndef __GAME_TYPES__
 #define __GAME_TYPES__
 
-typedef struct {
+struct S_Coordinates {
 	int x = -1;
 	int y = -1;
-} S_Coordinates;
+	S_Coordinates() : x(0), y(0) {}
+	S_Coordinates(int newX, int newY) : x(newX), y(newY) {}
+};
 
 typedef struct {
 	int x = 0;
