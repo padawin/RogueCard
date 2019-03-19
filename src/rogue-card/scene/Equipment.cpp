@@ -9,14 +9,14 @@ EquipmentScene::EquipmentScene(UserActions &userActions, Player &player, std::sh
 	m_availableCards(ObjectCardCollection()),
 	m_player(player)
 {
-	m_mCursorPositions[0] = {16, 8};
-	m_mCursorPositions[1] = {64, 8};
-	m_mCursorPositions[2] = {112, 8};
-	m_mCursorPositions[3] = {160, 8};
-	m_mCursorPositions[4] = {208, 8};
-	m_mCursorPositions[5] = {256, 8};
-	m_mCursorPositions[6] = {16, 72};
-	m_mCursorPositions[7] = {256, 72};
+	m_mCursorPositions[0] = {16, 16};
+	m_mCursorPositions[1] = {64, 16};
+	m_mCursorPositions[2] = {112, 16};
+	m_mCursorPositions[3] = {160, 16};
+	m_mCursorPositions[4] = {208, 16};
+	m_mCursorPositions[5] = {256, 16};
+	m_mCursorPositions[6] = {16, 80};
+	m_mCursorPositions[7] = {256, 80};
 	m_equipmentFlags[0] = FLAG_EQUIPMENT_HEAD;
 	m_equipmentFlags[1] = FLAG_EQUIPMENT_SHOULDERS;
 	m_equipmentFlags[2] = FLAG_EQUIPMENT_CHEST;
