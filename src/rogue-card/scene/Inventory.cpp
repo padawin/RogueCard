@@ -198,8 +198,8 @@ void InventoryScene::_renderCursor() {
 		"cursor",
 		m_mCursorPositions[m_cursorPosition].x,
 		m_mCursorPositions[m_cursorPosition].y,
-		48,
-		64,
+		CARD_WIDTH,
+		CARD_HEIGHT,
 		m_renderer->getRenderer()
 	);
 }
