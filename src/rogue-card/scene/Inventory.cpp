@@ -17,7 +17,11 @@ InventoryScene::InventoryScene(
 	m_renderer(renderer),
 	m_objectActionMenu(ObjectAction(renderer)),
 	m_cardsRenderer(ObjectCardCollectionRenderer(
-		player.getInventory(), 18, "ui-inventory", m_renderer
+		userActions,
+		player.getInventory(),
+		18,
+		"ui-inventory",
+		m_renderer
 	)),
 	m_actionBar(actionBar)
 {
@@ -54,28 +58,17 @@ void InventoryScene::update(StateMachine &stateMachine) {
 			m_objectActionMenu.close();
 		}
 	}
+	else if (m_userActions.getActionState("BACK")) {
+		stateMachine.popState();
+	}
+	else if (m_userActions.getActionState("USE_CARD")) {
+		if (m_player.getInventoryItem(_getCardIndex()) != nullptr) {
+			auto card = m_player.getInventoryItem(_getCardIndex());
+			m_objectActionMenu.open(card, m_actionBar.hasCard(card));
+		}
+	}
 	else {
-		if (m_userActions.getActionState("BACK")) {
-			stateMachine.popState();
-		}
-		else if (m_userActions.getActionState("CURSOR_UP")) {
-			m_cardsRenderer.moveCursorUp();
-		}
-		else if (m_userActions.getActionState("CURSOR_DOWN")) {
-			m_cardsRenderer.moveCursorDown();
-		}
-		else if (m_userActions.getActionState("CURSOR_LEFT")) {
-			m_cardsRenderer.moveCursorLeft();
-		}
-		else if (m_userActions.getActionState("CURSOR_RIGHT")) {
-			m_cardsRenderer.moveCursorRight();
-		}
-		else if (m_userActions.getActionState("USE_CARD")) {
-			if (m_player.getInventoryItem(_getCardIndex()) != nullptr) {
-				auto card = m_player.getInventoryItem(_getCardIndex());
-				m_objectActionMenu.open(card, m_actionBar.hasCard(card));
-			}
-		}
+		m_cardsRenderer.update();
 	}
 }
 

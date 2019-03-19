@@ -7,6 +7,7 @@
 #define PAGE_WIDTH_CARDS 6
 
 ObjectCardCollectionRenderer::ObjectCardCollectionRenderer(
+	UserActions &userActions,
 	ObjectCardCollection &collection,
 	unsigned int pageSize,
 	std::string background,
@@ -14,10 +15,26 @@ ObjectCardCollectionRenderer::ObjectCardCollectionRenderer(
 ) :
 	m_iPageSize(pageSize),
 	m_sBackground(background),
+	m_userActions(userActions),
 	m_collection(collection),
 	m_renderer(renderer)
 {
 	m_iLastPage = (CARD_COLLECTION_SIZE - m_iPageSize) / PAGE_WIDTH_CARDS + 1;
+}
+
+void ObjectCardCollectionRenderer::update() {
+	if (m_userActions.getActionState("CURSOR_UP")) {
+		moveCursorUp();
+	}
+	else if (m_userActions.getActionState("CURSOR_DOWN")) {
+		moveCursorDown();
+	}
+	else if (m_userActions.getActionState("CURSOR_LEFT")) {
+		moveCursorLeft();
+	}
+	else if (m_userActions.getActionState("CURSOR_RIGHT")) {
+		moveCursorRight();
+	}
 }
 
 void ObjectCardCollectionRenderer::moveCursorUp() {
