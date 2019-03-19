@@ -7,6 +7,7 @@
 #include "../game/types.hpp"
 #include "../sdl2/Renderer.hpp"
 #include "Player.hpp"
+#include "ObjectCardCollectionRenderer.hpp"
 
 #define EQUIPMENT_SIZE 8
 
@@ -17,6 +18,7 @@ class EquipmentScene : public State {
 	S_Coordinates m_mCursorPositions[EQUIPMENT_SIZE] = {};
 	unsigned int m_equipmentFlags[EQUIPMENT_SIZE] = {};
 	ObjectCardCollection m_availableCards;
+	ObjectCardCollectionRenderer m_availableCardsRenderer;
 	Player &m_player;
 
 	bool m_bSelectViewOpen = false;

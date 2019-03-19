@@ -7,6 +7,13 @@ EquipmentScene::EquipmentScene(UserActions &userActions, Player &player, std::sh
 	State(userActions),
 	m_renderer(renderer),
 	m_availableCards(ObjectCardCollection()),
+	m_availableCardsRenderer(ObjectCardCollectionRenderer(
+		userActions,
+		m_availableCards,
+		12,
+		"ui-equipment-select",
+		m_renderer
+	)),
 	m_player(player)
 {
 	m_mCursorPositions[0] = {16, 16};
@@ -62,22 +69,18 @@ void EquipmentScene::update(StateMachine &stateMachine) {
 }
 
 void EquipmentScene::render() {
-	_renderBackground();
 	if (m_bSelectViewOpen) {
-		_renderSelectBackground();
+		m_availableCardsRenderer.render();
 	}
-	_renderCursor();
+	else {
+		_renderBackground();
+		_renderCursor();
+	}
 }
 
 void EquipmentScene::_renderBackground() const {
 	TextureManager::Instance()->draw(
 		"ui-equipment", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, m_renderer->getRenderer()
-	);
-}
-
-void EquipmentScene::_renderSelectBackground() const {
-	TextureManager::Instance()->draw(
-		"ui-equipment-select", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, m_renderer->getRenderer()
 	);
 }
 
