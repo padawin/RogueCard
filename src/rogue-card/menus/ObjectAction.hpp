@@ -28,6 +28,7 @@ class ObjectAction {
 
 	public:
 	ObjectAction(std::shared_ptr<SDL2Renderer> m_renderer);
+	~ObjectAction() {}
 	void open(std::shared_ptr<ObjectCard> card, bool inActionBar);
 	bool isOpen() const;
 	void close();

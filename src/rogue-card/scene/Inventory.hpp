@@ -8,6 +8,7 @@
 #include "../Player.hpp"
 #include "../ActionBar.hpp"
 #include "../menus/ObjectAction.hpp"
+#include "../ObjectCardCollectionRenderer.hpp"
 
 #define INVENTORY_PAGE_SIZE 18
 
@@ -16,18 +17,13 @@ class InventoryScene : public State {
 	Player &m_player;
 	std::shared_ptr<SDL2Renderer> m_renderer;
 	ObjectAction m_objectActionMenu;
+	ObjectCardCollectionRenderer m_cardsRenderer;
 	ActionBar &m_actionBar;
 
-	unsigned int m_cursorPosition = 0;
-	S_Coordinates m_mCursorPositions[INVENTORY_PAGE_SIZE] = {};
-	unsigned int m_iPage = 1;
-
-	void _moveCursor(char direction);
 	unsigned int _getCardIndex() const;
 
 	void _renderBackground() const;
 	void _renderCards();
-	void _renderCursor();
 
 	/* Menu actions */
 	void _executeMenuAction(E_ObjectActionMenuItem action, StateMachine &stateMachine);
