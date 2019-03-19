@@ -40,6 +40,10 @@ bool Player::isDead() const {
 	return m_iHealth == 0;
 }
 
+ObjectCardCollection &Player::getInventory() {
+	return m_inventory;
+}
+
 bool Player::hasSpaceInInventory() const {
 	return !m_inventory.isFull();
 }
