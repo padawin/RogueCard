@@ -39,6 +39,10 @@ void EquipmentScene::update(StateMachine &stateMachine) {
 	if (m_bSelectViewOpen) {
 		if (m_userActions.getActionState("BACK")) {
 			m_bSelectViewOpen = false;
+			m_availableCardsRenderer.reset();
+		}
+		else {
+			m_availableCardsRenderer.update();
 		}
 	}
 	else {

@@ -38,6 +38,7 @@ class ObjectCardCollectionRenderer {
 	void moveCursorRight();
 	void render() const;
 	unsigned int getSelectedCardIndex() const;
+	void reset();
 };
 
 #endif
