@@ -10,8 +10,6 @@
 #include "../menus/ObjectAction.hpp"
 #include "../ObjectCardCollectionRenderer.hpp"
 
-#define INVENTORY_PAGE_SIZE 18
-
 class InventoryScene : public State {
 	private:
 	Player &m_player;

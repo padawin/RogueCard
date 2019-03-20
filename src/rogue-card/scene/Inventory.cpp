@@ -36,9 +36,9 @@ bool InventoryScene::onEnter() {
 }
 
 void InventoryScene::update(StateMachine &stateMachine) {
+	bool pressedBack = m_userActions.getActionState("BACK"),
+		 pressedAction = m_userActions.getActionState("USE_CARD");
 	if (m_objectActionMenu.isOpen()) {
-		bool pressedBack = m_userActions.getActionState("BACK"),
-			 pressedAction = m_userActions.getActionState("USE_CARD");
 		if (pressedBack ||
 			(pressedAction && m_objectActionMenu.getSelectedAction() == BACK)
 		) {
@@ -58,10 +58,10 @@ void InventoryScene::update(StateMachine &stateMachine) {
 			m_objectActionMenu.close();
 		}
 	}
-	else if (m_userActions.getActionState("BACK")) {
+	else if (pressedBack) {
 		stateMachine.popState();
 	}
-	else if (m_userActions.getActionState("USE_CARD")) {
+	else if (pressedAction) {
 		if (m_player.getInventoryItem(_getCardIndex()) != nullptr) {
 			auto card = m_player.getInventoryItem(_getCardIndex());
 			m_objectActionMenu.open(card, m_actionBar.hasCard(card));

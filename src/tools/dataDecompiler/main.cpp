@@ -93,15 +93,15 @@ void writeObject(std::ofstream &fileOutStream, S_ObjectMeta object) {
 		<< object.tilesetY << " "
 		<< object.usable << " "
 		<< object.consumable << " "
-		<< object.equipable << " "
 		<< object.applyOnSelf << " "
-		<< object.equipHead << " "
-		<< object.equipShoulders << " "
-		<< object.equipLeftHand << " "
-		<< object.equipRightHand << " "
-		<< object.equipChest << " "
-		<< object.equipLegs << " "
-		<< object.equipFeet << "\n";
+		<< object.isHelm << " "
+		<< object.isShoulders << " "
+		<< object.isGlove << " "
+		<< object.isChest << " "
+		<< object.isBelt << " "
+		<< object.isShoe << " "
+		<< object.isWeapon << " "
+		<< object.isShield << "\n";
 }
 
 void writeFontAtlas(std::ofstream &fileOutStream, S_FontAtlasCoord object) {

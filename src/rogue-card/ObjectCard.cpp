@@ -1,13 +1,5 @@
 #include "ObjectCard.hpp"
 
-const int BODY_PART_HEAD =       0x01;
-const int BODY_PART_SHOULDERS =  0x02;
-const int BODY_PART_LEFT_HAND =  0x04;
-const int BODY_PART_RIGHT_HAND = 0x08;
-const int BODY_PART_CHEST =      0x10;
-const int BODY_PART_LEGS =       0x20;
-const int BODY_PART_FEET =       0x40;
-
 ResourceManager<S_ObjectMeta> ObjectCard::m_objectMeta = ResourceManager<S_ObjectMeta>();
 
 ObjectCard::ObjectCard() : Card(ObjectCardType) {
@@ -26,9 +18,6 @@ void ObjectCard::createFromMeta(int metaIndex) {
 	m_iTileX = meta[metaIndex].tilesetX;
 	m_iTileY = meta[metaIndex].tilesetY;
 	_setFlags(meta[metaIndex]);
-	if (meta[metaIndex].equipable) {
-		_setEquipableFlags(meta[metaIndex]);
-	}
 }
 
 int ObjectCard::getMetaIndex() const {
@@ -36,13 +25,14 @@ int ObjectCard::getMetaIndex() const {
 }
 
 void ObjectCard::_setFlags(const S_ObjectMeta &meta) {
+	_setEquipableFlags(meta);
 	if (meta.usable) {
 		m_iFlags |= FLAG_USABLE;
 	}
 	if (meta.consumable) {
 		m_iFlags |= FLAG_CONSUMABLE;
 	}
-	if (meta.equipable) {
+	if (m_iEquipableFlags) {
 		m_iFlags |= FLAG_EQUIPABLE;
 	}
 	if (meta.applyOnSelf) {
@@ -51,26 +41,29 @@ void ObjectCard::_setFlags(const S_ObjectMeta &meta) {
 }
 
 void ObjectCard::_setEquipableFlags(const S_ObjectMeta &meta) {
-	if (meta.equipHead) {
-		m_iEquipableFlags |= BODY_PART_HEAD;
+	if (meta.isHelm) {
+		m_iEquipableFlags |= FLAG_EQUIPMENT_HEAD;
 	}
-	if (meta.equipShoulders) {
-		m_iEquipableFlags |= BODY_PART_SHOULDERS;
+	if (meta.isShoulders) {
+		m_iEquipableFlags |= FLAG_EQUIPMENT_SHOULDERS;
 	}
-	if (meta.equipLeftHand) {
-		m_iEquipableFlags |= BODY_PART_LEFT_HAND;
+	if (meta.isGlove) {
+		m_iEquipableFlags |= FLAG_EQUIPMENT_HANDS;
 	}
-	if (meta.equipRightHand) {
-		m_iEquipableFlags |= BODY_PART_RIGHT_HAND;
+	if (meta.isChest) {
+		m_iEquipableFlags |= FLAG_EQUIPMENT_CHEST;
 	}
-	if (meta.equipChest) {
-		m_iEquipableFlags |= BODY_PART_CHEST;
+	if (meta.isBelt) {
+		m_iEquipableFlags |= FLAG_EQUIPMENT_BELT;
 	}
-	if (meta.equipLegs) {
-		m_iEquipableFlags |= BODY_PART_LEGS;
+	if (meta.isShoe) {
+		m_iEquipableFlags |= FLAG_EQUIPMENT_FEET;
 	}
-	if (meta.equipFeet) {
-		m_iEquipableFlags |= BODY_PART_FEET;
+	if (meta.isWeapon) {
+		m_iEquipableFlags |= FLAG_EQUIPMENT_WEAPON;
+	}
+	if (meta.isShield) {
+		m_iEquipableFlags |= FLAG_EQUIPMENT_SHIELD;
 	}
 }
 
@@ -88,6 +81,10 @@ const char* ObjectCard::getName() const {
 
 bool ObjectCard::hasFlags(int flags) const {
 	return (m_iFlags & flags) == flags;
+}
+
+bool ObjectCard::hasEquipableFlag(unsigned int flag) const {
+	return m_iEquipableFlags & flag;
 }
 
 bool ObjectCard::isUsable() const {

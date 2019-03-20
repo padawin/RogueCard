@@ -132,3 +132,8 @@ void ObjectCardCollectionRenderer::_renderCursor() const {
 unsigned int ObjectCardCollectionRenderer::getSelectedCardIndex() const {
 	return (m_iPage - 1) * PAGE_WIDTH_CARDS + m_cursorPosition;
 }
+
+void ObjectCardCollectionRenderer::reset() {
+	m_cursorPosition = 0;
+	m_iPage = 1;
+}
