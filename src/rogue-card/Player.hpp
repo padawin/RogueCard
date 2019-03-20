@@ -5,13 +5,14 @@
 
 #include <memory>
 #include "ObjectCard.hpp"
+#include "Equipment.hpp"
 #include "ObjectCardCollection.hpp"
 
 class EnemyCard;
 
 class Player {
 	private:
-	// Equipment m_equipment;
+	Equipment m_equipment;
 	ObjectCardCollection m_inventory;
 	int m_iHealth = 30;
 	int m_iMaxHealth = 30;
@@ -51,6 +52,9 @@ class Player {
 	void addItemToInventory(std::shared_ptr<ObjectCard> card);
 	void removeInventoryItem(unsigned int index);
 	std::shared_ptr<ObjectCard> getInventoryItem(unsigned int index) const;
+
+	void equip(std::shared_ptr<ObjectCard> card);
+	Equipment &getEquipment();
 };
 
 #endif

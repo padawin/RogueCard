@@ -1,7 +1,10 @@
 #include "Player.hpp"
 #include "EnemyCard.hpp"
 
-Player::Player() : m_inventory(ObjectCardCollection()) {}
+Player::Player() :
+	m_equipment(Equipment()),
+	m_inventory(ObjectCardCollection())
+{}
 
 int Player::getHealth() const { return m_iHealth; }
 int Player::getMaxHealth() const { return m_iMaxHealth; }
@@ -62,4 +65,12 @@ void Player::removeInventoryItem(unsigned int index) {
 
 std::shared_ptr<ObjectCard> Player::getInventoryItem(unsigned int index) const {
 	return m_inventory.getCard(index);
+}
+
+void Player::equip(std::shared_ptr<ObjectCard> card) {
+	m_equipment.equip(card);
+}
+
+Equipment &Player::getEquipment() {
+	return m_equipment;
 }

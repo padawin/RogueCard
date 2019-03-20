@@ -41,6 +41,7 @@ class ObjectCard : public Card {
 
 	bool hasFlags(int flags) const;
 	bool hasEquipableFlag(unsigned int flag) const;
+	unsigned int getEquipableflags() const;
 	bool isUsable() const;
 	bool isConsumable() const;
 	bool canBeEquipped() const;

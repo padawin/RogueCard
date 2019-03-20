@@ -48,6 +48,15 @@ void EquipmentScene::update(StateMachine &stateMachine) {
 			m_bSelectViewOpen = false;
 			m_availableCardsRenderer.reset();
 		}
+		else if (m_userActions.getActionState("USE_CARD")) {
+			auto card = m_availableCards.getCard(
+				m_availableCardsRenderer.getSelectedCardIndex()
+			);
+			if (card != nullptr) {
+				m_player.equip(card);
+				m_bSelectViewOpen = false;
+			}
+		}
 		else {
 			m_availableCardsRenderer.update();
 		}
@@ -57,10 +66,10 @@ void EquipmentScene::update(StateMachine &stateMachine) {
 			stateMachine.popState();
 		}
 		else if (m_userActions.getActionState("CURSOR_LEFT")) {
-			m_cursorPosition = (EQUIPMENT_SIZE + m_cursorPosition - 1) % EQUIPMENT_SIZE;
+			m_cursorPosition = (SIZE_EQUIPMENT + m_cursorPosition - 1) % SIZE_EQUIPMENT;
 		}
 		else if (m_userActions.getActionState("CURSOR_RIGHT")) {
-			m_cursorPosition = (m_cursorPosition + 1) % EQUIPMENT_SIZE;
+			m_cursorPosition = (m_cursorPosition + 1) % SIZE_EQUIPMENT;
 		}
 		else if (m_userActions.getActionState("USE_CARD")) {
 			_openListObjects();
@@ -74,6 +83,7 @@ void EquipmentScene::render() {
 	}
 	else {
 		_renderBackground();
+		_renderCards();
 		_renderCursor();
 	}
 }
@@ -82,6 +92,19 @@ void EquipmentScene::_renderBackground() const {
 	TextureManager::Instance()->draw(
 		"ui-equipment", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, m_renderer->getRenderer()
 	);
+}
+
+void EquipmentScene::_renderCards() const {
+	for (int c = 0; c < SIZE_EQUIPMENT; ++c) {
+		auto card = m_player.getEquipment().getCardWithFlag(m_equipmentFlags[c]);
+		if (card != nullptr) {
+			card->render(
+				m_renderer->getRenderer(),
+				m_mCursorPositions[c].x,
+				m_mCursorPositions[c].y
+			);
+		}
+	}
 }
 
 void EquipmentScene::_renderCursor() {
