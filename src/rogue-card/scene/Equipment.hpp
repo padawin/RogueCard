@@ -23,6 +23,7 @@ class EquipmentScene : public State {
 
 	void _renderBackground() const;
 	void _renderSelectBackground() const;
+	void _renderCards() const;
 	void _renderCursor();
 
 	void _openListObjects();
