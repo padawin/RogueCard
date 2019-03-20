@@ -37,3 +37,12 @@ bool Equipment::remove(std::shared_ptr<ObjectCard> card) {
 	}
 	return false;
 }
+
+std::shared_ptr<ObjectCard> Equipment::getCardWithFlag(unsigned int flag) const {
+	for (int c = 0; c < SIZE_EQUIPMENT; ++c) {
+		if (m_cards[c] != nullptr && m_cards[c]->hasEquipableFlag(flag)) {
+			return m_cards[c];
+		}
+	}
+	return nullptr;
+}
