@@ -57,10 +57,10 @@ void EquipmentScene::update(StateMachine &stateMachine) {
 			stateMachine.popState();
 		}
 		else if (m_userActions.getActionState("CURSOR_LEFT")) {
-			m_cursorPosition = (EQUIPMENT_SIZE + m_cursorPosition - 1) % EQUIPMENT_SIZE;
+			m_cursorPosition = (SIZE_EQUIPMENT + m_cursorPosition - 1) % SIZE_EQUIPMENT;
 		}
 		else if (m_userActions.getActionState("CURSOR_RIGHT")) {
-			m_cursorPosition = (m_cursorPosition + 1) % EQUIPMENT_SIZE;
+			m_cursorPosition = (m_cursorPosition + 1) % SIZE_EQUIPMENT;
 		}
 		else if (m_userActions.getActionState("USE_CARD")) {
 			_openListObjects();

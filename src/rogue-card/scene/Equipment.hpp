@@ -9,14 +9,12 @@
 #include "Player.hpp"
 #include "ObjectCardCollectionRenderer.hpp"
 
-#define EQUIPMENT_SIZE 8
-
 class EquipmentScene : public State {
 	private:
 	std::shared_ptr<SDL2Renderer> m_renderer;
 	int m_cursorPosition = 0;
-	S_Coordinates m_mCursorPositions[EQUIPMENT_SIZE] = {};
-	unsigned int m_equipmentFlags[EQUIPMENT_SIZE] = {};
+	S_Coordinates m_mCursorPositions[SIZE_EQUIPMENT] = {};
+	unsigned int m_equipmentFlags[SIZE_EQUIPMENT] = {};
 	ObjectCardCollection m_availableCards;
 	ObjectCardCollectionRenderer m_availableCardsRenderer;
 	Player &m_player;
