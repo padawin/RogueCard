@@ -22,7 +22,6 @@ class EquipmentScene : public State {
 	bool m_bSelectViewOpen = false;
 
 	void _renderBackground() const;
-	void _renderSelectBackground() const;
 	void _renderCards() const;
 	void _renderCursor();
 
