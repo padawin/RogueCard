@@ -112,7 +112,7 @@ bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
 		isBelt, isShoe, isWeapon, isShield;
 	int result = sscanf(
 		line,
-		"%s %d %d %d %d %d %d %d %d %d %d %d %d %d\n",
+		"%s %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n",
 		data.name,
 		&data.tilesetX,
 		&data.tilesetY,
@@ -126,7 +126,10 @@ bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
 		&isBelt,
 		&isShoe,
 		&isWeapon,
-		&isShield
+		&isShield,
+		&data.stats.points,
+		&data.stats.healthPoints,
+		&data.stats.firePoints
 	);
 	data.usable = (bool) usable;
 	data.consumable = (bool) consumable;
@@ -139,7 +142,7 @@ bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
 	data.isShoe = (bool) isShoe;
 	data.isWeapon = (bool) isWeapon;
 	data.isShield = (bool) isShield;
-	return result == 14;
+	return result == 17;
 }
 
 bool readFontFileLine(char line[MAX_CHARS_PER_LINE], S_FontAtlasCoord &data) {

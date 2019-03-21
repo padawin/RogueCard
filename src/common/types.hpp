@@ -12,6 +12,12 @@ struct S_TilesetMapping {
 	char filePath[MAX_CHAR_RESOURCE_PATH];
 };
 
+struct S_CardStats {
+	int points; // For damages and armor points
+	int healthPoints; // For health boost/recovery
+	int firePoints; // For fire damage/resistance
+};
+
 struct S_EnemyMeta {
 	char name[MAX_CHAR_ENEMY_NAME];
 	int health;
@@ -39,6 +45,7 @@ struct S_ObjectMeta {
 	bool isShoe;
 	bool isWeapon;
 	bool isShield;
+	S_CardStats stats;
 };
 
 struct S_FontAtlasCoord {

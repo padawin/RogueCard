@@ -1,5 +1,6 @@
 # format
-# ObjectName tilesetX tilesetY usable consumable applyOnSelf isHelm isShoulders isGlove isChest isBelt isShoe isWeapon isShield
+# points = armor or damage points depending on if applyOnSelf is true or false
+# ObjectName tilesetX tilesetY usable consumable applyOnSelf isHelm isShoulders isGlove isChest isBelt isShoe isWeapon isShield points healthPoints firePoints
 # Belt
 # Belt
 # Belt
@@ -55,15 +56,15 @@
 # Pendant
 # Armor
 # Armor
-MonkRobe 10 3 0 0 1 0 0 0 1 0 0 0 0
+MonkRobe 10 3 0 0 1 0 0 0 1 0 0 0 0 0 0 0
 # Armor
-PaddedArmor 12 3 0 0 1 0 0 0 1 0 0 0 0
-LeatherArmor 13 3 0 0 1 0 0 0 1 0 0 0 0
-SteelArmor 14 3 0 0 1 0 0 0 1 0 0 0 0
-KnightArmor 15 3 0 0 1 0 0 0 1 0 0 0 0
-HeavyKnightArmor 0 4 0 0 1 0 0 0 1 0 0 0 0
-PaladinArmor 1 4 0 0 1 0 0 0 1 0 0 0 0
-HeroArmor 2 4 0 0 1 0 0 0 1 0 0 0 0
+PaddedArmor 12 3 0 0 1 0 0 0 1 0 0 0 0 1 0 0
+LeatherArmor 13 3 0 0 1 0 0 0 1 0 0 0 0 2 0 0
+SteelArmor 14 3 0 0 1 0 0 0 1 0 0 0 0 3 0 0
+KnightArmor 15 3 0 0 1 0 0 0 1 0 0 0 0 4 0 0
+HeavyKnightArmor 0 4 0 0 1 0 0 0 1 0 0 0 0 5 0 0
+PaladinArmor 1 4 0 0 1 0 0 0 1 0 0 0 0 6 0 0
+HeroArmor 2 4 0 0 1 0 0 0 1 0 0 0 0 7 0 0
 # armor
 # armor
 # armor
@@ -605,7 +606,7 @@ HeroArmor 2 4 0 0 1 0 0 0 1 0 0 0 0
 # pills
 # pills
 # Large Health potion
-HealthPotionLrg 14 36 1 1 1 0 0 0 0 0 0 0 0
+HealthPotionLrg 14 36 1 1 1 0 0 0 0 0 0 0 0 0 50 0
 # potions
 # potions
 # potions
@@ -1197,7 +1198,7 @@ HealthPotionLrg 14 36 1 1 1 0 0 0 0 0 0 0 0
 # Shield
 # Shield
 # Spells
-FireBall 11 73 1 0 0 0 0 0 0 0 0 0 0
+FireBall 11 73 1 0 0 0 0 0 0 0 0 0 0 0 0 10
 # Spells
 # Spells
 # Spells
