@@ -38,7 +38,7 @@ void ObjectCardCollection::clear() {
 bool ObjectCardCollection::isFull() const {
 	unsigned int c;
 	for (c = 0; c < CARD_COLLECTION_SIZE && m_cards[c] != nullptr; ++c) {}
-	return c < CARD_COLLECTION_SIZE;
+	return c == CARD_COLLECTION_SIZE;
 }
 
 // Looping methods
