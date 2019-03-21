@@ -123,7 +123,7 @@ void EquipmentScene::_openListObjects() {
 	m_player.getInventory().reset();
 	do {
 		auto card = m_player.getInventory().current();
-		if (card->hasEquipableFlag(m_equipmentFlags[m_cursorPosition])) {
+		if (card != nullptr && card->hasEquipableFlag(m_equipmentFlags[m_cursorPosition])) {
 			m_availableCards.addCard(card);
 		}
 	} while (m_player.getInventory().next());
