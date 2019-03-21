@@ -107,3 +107,7 @@ bool ObjectCard::canBeEquipped() const {
 bool ObjectCard::applyOnSelf() const {
 	return m_iFlags & FLAG_APPLY_ON_SELF;
 }
+
+S_CardStats ObjectCard::getStats() const {
+	return m_sStats;
+}

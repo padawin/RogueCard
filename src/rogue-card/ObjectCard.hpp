@@ -48,6 +48,8 @@ class ObjectCard : public Card {
 	bool isConsumable() const;
 	bool canBeEquipped() const;
 	bool applyOnSelf() const;
+
+	S_CardStats getStats() const;
 };
 
 #endif
