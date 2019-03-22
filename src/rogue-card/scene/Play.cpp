@@ -210,8 +210,8 @@ void PlayScene::_attack() {
 	char message[80];
 	std::shared_ptr<EnemyCard> enemyCard(std::static_pointer_cast<EnemyCard>(m_pickedCard));
 	int damagesDealtToEnemy = m_player.attack(enemyCard);
-	int damagesDealtToPlayer = enemyCard->attack(m_player);
 	if (!enemyCard->isDead()) {
+		int damagesDealtToPlayer = enemyCard->attack(m_player);
 		snprintf(
 			message,
 			80,
