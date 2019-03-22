@@ -24,6 +24,8 @@ class Player {
 
 	bool m_bFighting = false;
 
+	int _getEquipmentPoints(bool applyOnSelf) const;
+
 	public:
 	Player();
 	~Player() {}

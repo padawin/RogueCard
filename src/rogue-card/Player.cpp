@@ -24,11 +24,13 @@ void Player::setGold(long gold) { m_iGold = gold;}
 void Player::setLevel(int level) { m_iLevel = level;}
 
 int Player::attack(std::shared_ptr<EnemyCard> card) const {
-	return card->setDamages(m_iStrength);
+	int damages = m_iStrength + _getEquipmentPoints(false);
+	return card->setDamages(damages);
 }
 
 int Player::setDamages(int damages) {
-	int finalDamages = damages - m_iDefence;
+	int gearDefence = _getEquipmentPoints(true);
+	int finalDamages = damages - (m_iDefence + gearDefence);
 	if (finalDamages < 0) {
 		finalDamages = 1;
 	}
@@ -37,6 +39,17 @@ int Player::setDamages(int damages) {
 		m_iHealth = 0;
 	}
 	return finalDamages;
+}
+
+int Player::_getEquipmentPoints(bool applyOnSelf) const {
+	int points = 0;
+	for (int c = 0; c < SIZE_EQUIPMENT; ++c) {
+		auto card = m_equipment.getCard(c);
+		if (card != nullptr && applyOnSelf == card->hasFlags(FLAG_APPLY_ON_SELF)) {
+			points += m_equipment.getCard(c)->getStats().points;
+		}
+	}
+	return points;
 }
 
 bool Player::isDead() const {
