@@ -99,9 +99,29 @@ std::shared_ptr<ObjectCard> Player::getInventoryItem(unsigned int index) const {
 }
 
 void Player::equip(std::shared_ptr<ObjectCard> card) {
+	applyCardStats(card);
 	m_equipment.equip(card);
 }
 
 Equipment &Player::getEquipment() {
 	return m_equipment;
+}
+
+void Player::applyCardStats(std::shared_ptr<ObjectCard> card) {
+	// The player's health depends on the max health, so if the player equips a
+	// piece of equipment altering the max health and if the health is full,
+	// adapt it to the max health
+	int cardMaxHealthStat = card->getStats().maxHealthPoints;
+	int cardHealthStat = card->getStats().healthPoints;
+	int currPlayerMaxHealth = getMaxHealth();
+	if (cardMaxHealthStat != 0 && getHealth() == getMaxHealth()) {
+		setHealth(currPlayerMaxHealth + cardMaxHealthStat);
+	}
+
+	if (cardHealthStat != 0) {
+		setHealth(getHealth() + cardHealthStat);
+		if (getHealth() > getMaxHealth()) {
+			setHealth(getMaxHealth());
+		}
+	}
 }

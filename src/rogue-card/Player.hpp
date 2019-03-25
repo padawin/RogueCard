@@ -62,6 +62,8 @@ class Player {
 
 	void equip(std::shared_ptr<ObjectCard> card);
 	Equipment &getEquipment();
+
+	void applyCardStats(std::shared_ptr<ObjectCard> card);
 };
 
 #endif

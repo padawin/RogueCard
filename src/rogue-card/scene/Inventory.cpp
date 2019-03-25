@@ -86,6 +86,9 @@ bool InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMach
 		if (m_player.isFighting()) {
 			ret = true;
 		}
+		if (card->hasFlags(FLAG_APPLY_ON_SELF)) {
+			m_player.applyCardStats(card);
+		}
 	}
 	else if (action == INFO) {
 		std::cout << "Info object\n";
