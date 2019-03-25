@@ -14,6 +14,7 @@ class Equipment {
 	bool equip(std::shared_ptr<ObjectCard> card);
 	bool remove(std::shared_ptr<ObjectCard> card);
 	std::shared_ptr<ObjectCard> getCardWithFlag(unsigned int flag) const;
+	std::shared_ptr<ObjectCard> getCard(int index) const;
 };
 
 #endif

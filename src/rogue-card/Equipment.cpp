@@ -46,3 +46,10 @@ std::shared_ptr<ObjectCard> Equipment::getCardWithFlag(unsigned int flag) const 
 	}
 	return nullptr;
 }
+
+std::shared_ptr<ObjectCard> Equipment::getCard(int index) const {
+	if (index >= SIZE_EQUIPMENT) {
+		return nullptr;
+	}
+	return m_cards[index];
+}

@@ -101,7 +101,11 @@ void writeObject(std::ofstream &fileOutStream, S_ObjectMeta object) {
 		<< object.isBelt << " "
 		<< object.isShoe << " "
 		<< object.isWeapon << " "
-		<< object.isShield << "\n";
+		<< object.isShield << " "
+		<< object.stats.points << " "
+		<< object.stats.healthPoints << " "
+		<< object.stats.maxHealthPoints << " "
+		<< object.stats.firePoints << "\n";
 }
 
 void writeFontAtlas(std::ofstream &fileOutStream, S_FontAtlasCoord object) {

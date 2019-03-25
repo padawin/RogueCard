@@ -24,6 +24,8 @@ class Player {
 
 	bool m_bFighting = false;
 
+	S_CardStats _getEquipmentStats(bool applyOnSelf) const;
+
 	public:
 	Player();
 	~Player() {}
@@ -60,6 +62,8 @@ class Player {
 
 	void equip(std::shared_ptr<ObjectCard> card);
 	Equipment &getEquipment();
+
+	void applyCardStats(std::shared_ptr<ObjectCard> card);
 };
 
 #endif

@@ -17,6 +17,7 @@ void ObjectCard::createFromMeta(int metaIndex) {
 	strncpy(m_sName, meta[metaIndex].name, MAX_CHAR_OBJECT_NAME);
 	m_iTileX = meta[metaIndex].tilesetX;
 	m_iTileY = meta[metaIndex].tilesetY;
+	m_sStats = meta[metaIndex].stats;
 	_setFlags(meta[metaIndex]);
 }
 
@@ -105,4 +106,8 @@ bool ObjectCard::canBeEquipped() const {
 
 bool ObjectCard::applyOnSelf() const {
 	return m_iFlags & FLAG_APPLY_ON_SELF;
+}
+
+S_CardStats ObjectCard::getStats() const {
+	return m_sStats;
 }
