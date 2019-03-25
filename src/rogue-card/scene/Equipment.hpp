@@ -24,8 +24,11 @@ class EquipmentScene : public State {
 	void _renderBackground() const;
 	void _renderCards() const;
 	void _renderCursor();
+	void _renderCurrentCardStats() const;
 
 	void _openListObjects();
+
+	int _boundVal(int val, int minVal, int maxVal) const;
 
 	public:
 	EquipmentScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer);

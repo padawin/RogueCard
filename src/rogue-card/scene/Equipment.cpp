@@ -1,7 +1,15 @@
 #include "../game/globals.hpp"
 #include "../game/StateMachine.hpp"
+#include "../sdl2/Text.hpp"
 #include "../sdl2/TextureManager.hpp"
 #include "Equipment.hpp"
+
+const int CURRENT_EQUIP_STAT_X = 16;
+const int CURRENT_EQUIP_STAT_Y = 152;
+const int CURRENT_EQUIP_STAT_VAL_X = 88;
+
+const int NEW_EQUIP_STAT_X = 160;
+const int NEW_EQUIP_STAT_Y = 152;
 
 EquipmentScene::EquipmentScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
 	State(userActions),
@@ -86,6 +94,7 @@ void EquipmentScene::render() {
 		_renderCards();
 		_renderCursor();
 	}
+	_renderCurrentCardStats();
 }
 
 void EquipmentScene::_renderBackground() const {
@@ -128,4 +137,63 @@ void EquipmentScene::_openListObjects() {
 		}
 	} while (m_player.getInventory().next());
 	m_bSelectViewOpen = true;
+}
+
+void EquipmentScene::_renderCurrentCardStats() const {
+	auto equipedCard = m_player.getEquipment().getCardWithFlag(
+		m_equipmentFlags[m_cursorPosition]
+	);
+	if (equipedCard == nullptr) {
+		return;
+	}
+	Text statLabel = Text();
+	Text statValue = Text();
+	char statStr[4];
+	int y = CURRENT_EQUIP_STAT_Y;
+	S_CardStats stats = equipedCard->getStats();
+	if (stats.points != 0) {
+		if (equipedCard->hasFlags(FLAG_APPLY_ON_SELF)) {
+			statLabel.setText("DEFENCE");
+		}
+		else {
+			statLabel.setText("ATTACK");
+		}
+		statLabel.render(m_renderer->getRenderer(), CURRENT_EQUIP_STAT_X, y);
+		sprintf(statStr, "%d", _boundVal(stats.points, -99, 999));
+		statValue.setText(statStr);
+		statValue.render(m_renderer->getRenderer(), CURRENT_EQUIP_STAT_VAL_X, y);
+	}
+	if (stats.maxHealthPoints != 0) {
+		y += 16;
+		statLabel.setText("MAX HP");
+		statLabel.render(m_renderer->getRenderer(), CURRENT_EQUIP_STAT_X, y);
+		sprintf(statStr, "%d", _boundVal(stats.maxHealthPoints, -99, 999));
+		statValue.setText(statStr);
+		statValue.render(m_renderer->getRenderer(), CURRENT_EQUIP_STAT_VAL_X, y);
+	}
+	if (stats.firePoints != 0) {
+		y += 16;
+		if (equipedCard->hasFlags(FLAG_APPLY_ON_SELF)) {
+			statLabel.setText("FIR DEF");
+		}
+		else {
+			statLabel.setText("FIR ATK");
+		}
+		statLabel.render(m_renderer->getRenderer(), CURRENT_EQUIP_STAT_X, y);
+		sprintf(statStr, "%d", _boundVal(stats.firePoints, -99, 999));
+		statValue.setText(statStr);
+		statValue.render(m_renderer->getRenderer(), CURRENT_EQUIP_STAT_VAL_X, y);
+	}
+}
+
+int EquipmentScene::_boundVal(int val, int minVal, int maxVal) const {
+	if (val > maxVal) {
+		return maxVal;
+	}
+	else if (val < minVal) {
+		return minVal;
+	}
+	else {
+		return val;
+	}
 }
