@@ -230,6 +230,7 @@ void PlayScene::_attack() {
 			enemyCard->getName()
 		);
 		m_pickedCard = nullptr;
+		m_player.setFighting(false);
 	}
 	_notify(message);
 }
