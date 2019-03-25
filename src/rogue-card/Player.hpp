@@ -22,6 +22,8 @@ class Player {
 	long m_iGold = 0;
 	int m_iLevel = 1;
 
+	bool m_bFighting = false;
+
 	public:
 	Player();
 	~Player() {}
@@ -45,6 +47,9 @@ class Player {
 	int attack(std::shared_ptr<EnemyCard> card) const;
 
 	bool isDead() const;
+	bool isFighting() const;
+
+	void setFighting(bool fighting);
 
 	ObjectCardCollection &getInventory();
 	bool hasSpaceInInventory() const;

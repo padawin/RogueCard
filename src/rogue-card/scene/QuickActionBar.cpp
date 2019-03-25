@@ -6,12 +6,14 @@
 QuickActionBarScene::QuickActionBarScene(
 	UserActions &userActions,
 	ActionBar &actionBar,
+	Player &player,
 	std::shared_ptr<ObjectCard> card,
 	std::shared_ptr<SDL2Renderer> renderer
 ) :
 	State(userActions),
 	m_renderer(renderer),
 	m_actionBar(actionBar),
+	m_player(player),
 	m_card(card)
 {
 	m_mCursorPositions[0] = {64, 64};
@@ -41,6 +43,12 @@ void QuickActionBarScene::update(StateMachine &stateMachine) {
 	else if (m_userActions.getActionState("USE_CARD")) {
 		m_actionBar.setCard(m_cursorPosition, m_card);
 		stateMachine.popState();
+		// If fighting, remove the Inventory state.
+		// This assumes the current state comes from the inventory, which is
+		// the case at the time of writing of the code
+		if (m_player.isFighting()) {
+			stateMachine.popState();
+		}
 	}
 }
 

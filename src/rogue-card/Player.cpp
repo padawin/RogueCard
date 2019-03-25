@@ -43,6 +43,14 @@ bool Player::isDead() const {
 	return m_iHealth == 0;
 }
 
+bool Player::isFighting() const {
+	return m_bFighting;
+}
+
+void Player::setFighting(bool fighting) {
+	m_bFighting = fighting;
+}
+
 ObjectCardCollection &Player::getInventory() {
 	return m_inventory;
 }

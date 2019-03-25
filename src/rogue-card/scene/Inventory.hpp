@@ -24,7 +24,7 @@ class InventoryScene : public State {
 	void _renderCards();
 
 	/* Menu actions */
-	void _executeMenuAction(E_ObjectActionMenuItem action, StateMachine &stateMachine);
+	bool _executeMenuAction(E_ObjectActionMenuItem action, StateMachine &stateMachine);
 	void _useObject();
 	void _equipObject();
 	void _getObjectInfo();
