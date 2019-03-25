@@ -75,10 +75,10 @@ void InventoryScene::update(StateMachine &stateMachine) {
 void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMachine &stateMachine) {
 	if (action == USE) {
 		std::cout << "Use object\n";
-		m_player.removeInventoryItem(_getCardIndex());
-	}
-	else if (action == EQUIP) {
-		std::cout << "Equip object\n";
+		auto card = m_player.getInventoryItem(_getCardIndex());
+		if (card->hasFlags(FLAG_CONSUMABLE)) {
+			m_player.removeInventoryItem(_getCardIndex());
+		}
 	}
 	else if (action == INFO) {
 		std::cout << "Info object\n";
