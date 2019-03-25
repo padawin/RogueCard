@@ -51,11 +51,14 @@ void InventoryScene::update(StateMachine &stateMachine) {
 			m_objectActionMenu.selectNext();
 		}
 		else if (pressedAction) {
-			_executeMenuAction(
+			bool quitInventory = _executeMenuAction(
 				m_objectActionMenu.getSelectedAction(),
 				stateMachine
 			);
 			m_objectActionMenu.close();
+			if (quitInventory) {
+				stateMachine.popState();
+			}
 		}
 	}
 	else if (pressedBack) {
@@ -72,12 +75,16 @@ void InventoryScene::update(StateMachine &stateMachine) {
 	}
 }
 
-void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMachine &stateMachine) {
+bool InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMachine &stateMachine) {
+	bool ret = false;
 	if (action == USE) {
 		std::cout << "Use object\n";
 		auto card = m_player.getInventoryItem(_getCardIndex());
 		if (card->hasFlags(FLAG_CONSUMABLE)) {
 			m_player.removeInventoryItem(_getCardIndex());
+		}
+		if (m_player.isFighting()) {
+			ret = true;
 		}
 	}
 	else if (action == INFO) {
@@ -86,6 +93,9 @@ void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMach
 	else if (action == DISCARD) {
 		std::cout << "Discard object\n";
 		m_player.removeInventoryItem(_getCardIndex());
+		if (m_player.isFighting()) {
+			ret = true;
+		}
 	}
 	else if (action == ACTIONBAR) {
 		auto card = m_player.getInventoryItem(_getCardIndex());
@@ -97,12 +107,14 @@ void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMach
 				new QuickActionBarScene(
 					m_userActions,
 					m_actionBar,
+					m_player,
 					card,
 					m_renderer
 				)
 			);
 		}
 	}
+	return ret;
 }
 
 void InventoryScene::render() {
