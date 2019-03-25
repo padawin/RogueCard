@@ -3,6 +3,14 @@
 #include "../sdl2/TextureManager.hpp"
 #include "Equipment.hpp"
 
+const int CURRENT_EQUIP_STAT_X = 16;
+const int CURRENT_EQUIP_STAT_Y = 152;
+
+const int SELECTED_EQUIP_STAT_X = 160;
+const int SELECTED_EQUIP_STAT_Y = 152;
+
+const int STAT_VAL_X_SHIFT = 72;
+
 EquipmentScene::EquipmentScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
 	State(userActions),
 	m_renderer(renderer),
@@ -14,7 +22,9 @@ EquipmentScene::EquipmentScene(UserActions &userActions, Player &player, std::sh
 		"ui-equipment-select",
 		m_renderer
 	)),
-	m_player(player)
+	m_player(player),
+	m_statLabel(Text()),
+	m_statValue(Text())
 {
 	m_mCursorPositions[0] = {16, 16};
 	m_mCursorPositions[1] = {64, 16};
@@ -78,14 +88,24 @@ void EquipmentScene::update(StateMachine &stateMachine) {
 }
 
 void EquipmentScene::render() {
+	std::shared_ptr<ObjectCard> equippedCard = nullptr,
+								selectedCard = nullptr;
+	equippedCard = m_player.getEquipment().getCardWithFlag(
+		m_equipmentFlags[m_cursorPosition]
+	);
 	if (m_bSelectViewOpen) {
 		m_availableCardsRenderer.render();
+		selectedCard = m_availableCards.getCard(
+			m_availableCardsRenderer.getSelectedCardIndex()
+		);
 	}
 	else {
 		_renderBackground();
 		_renderCards();
 		_renderCursor();
 	}
+	_renderCardStats(equippedCard, selectedCard, CURRENT_EQUIP_STAT_X);
+	_renderCardStats(selectedCard, equippedCard, SELECTED_EQUIP_STAT_X);
 }
 
 void EquipmentScene::_renderBackground() const {
@@ -128,4 +148,81 @@ void EquipmentScene::_openListObjects() {
 		}
 	} while (m_player.getInventory().next());
 	m_bSelectViewOpen = true;
+}
+
+void EquipmentScene::_renderCardStats(std::shared_ptr<ObjectCard> card, std::shared_ptr<ObjectCard> compareCard, int x) {
+	if (card == nullptr) {
+		return;
+	}
+	char statStr[4];
+	int y = CURRENT_EQUIP_STAT_Y;
+	S_CardStats stats = card->getStats();
+	S_CardStats compareStats;
+	if (compareCard == nullptr) {
+		compareStats = card->getStats();
+	}
+	else {
+		compareStats = compareCard->getStats();
+	}
+
+	if (stats.points != 0) {
+		if (card->hasFlags(FLAG_APPLY_ON_SELF)) {
+			m_statLabel.setText("DEFENCE");
+		}
+		else {
+			m_statLabel.setText("ATTACK");
+		}
+		m_statLabel.render(m_renderer->getRenderer(), x, y);
+		sprintf(statStr, "%d", _boundVal(stats.points, -99, 999));
+		m_statValue.setFont(_getStatColor(stats.points, compareStats.points));
+		m_statValue.setText(statStr);
+		m_statValue.render(m_renderer->getRenderer(), x + STAT_VAL_X_SHIFT, y);
+	}
+	if (stats.maxHealthPoints != 0) {
+		y += 16;
+		m_statLabel.setText("MAX HP");
+		m_statLabel.render(m_renderer->getRenderer(), x, y);
+		sprintf(statStr, "%d", _boundVal(stats.maxHealthPoints, -99, 999));
+		m_statValue.setFont(_getStatColor(stats.maxHealthPoints, compareStats.maxHealthPoints));
+		m_statValue.setText(statStr);
+		m_statValue.render(m_renderer->getRenderer(), x + STAT_VAL_X_SHIFT, y);
+	}
+	if (stats.firePoints != 0) {
+		y += 16;
+		if (card->hasFlags(FLAG_APPLY_ON_SELF)) {
+			m_statLabel.setText("FIR DEF");
+		}
+		else {
+			m_statLabel.setText("FIR ATK");
+		}
+		m_statLabel.render(m_renderer->getRenderer(), x, y);
+		sprintf(statStr, "%d", _boundVal(stats.firePoints, -99, 999));
+		m_statValue.setFont(_getStatColor(stats.firePoints, compareStats.firePoints));
+		m_statValue.setText(statStr);
+		m_statValue.render(m_renderer->getRenderer(), x + STAT_VAL_X_SHIFT, y);
+	}
+}
+
+int EquipmentScene::_boundVal(int val, int minVal, int maxVal) const {
+	if (val > maxVal) {
+		return maxVal;
+	}
+	else if (val < minVal) {
+		return minVal;
+	}
+	else {
+		return val;
+	}
+}
+
+std::string EquipmentScene::_getStatColor(int stat1, int stat2) const {
+	if (stat1 == stat2) {
+		return "font";
+	}
+	else if (stat1 > stat2) {
+		return "font-green";
+	}
+	else {
+		return "font-red";
+	}
 }

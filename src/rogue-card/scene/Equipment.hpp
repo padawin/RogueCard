@@ -6,6 +6,7 @@
 #include "../game/State.hpp"
 #include "../game/types.hpp"
 #include "../sdl2/Renderer.hpp"
+#include "../sdl2/Text.hpp"
 #include "Player.hpp"
 #include "ObjectCardCollectionRenderer.hpp"
 
@@ -19,13 +20,20 @@ class EquipmentScene : public State {
 	ObjectCardCollectionRenderer m_availableCardsRenderer;
 	Player &m_player;
 
+	Text m_statLabel;
+	Text m_statValue;
+
 	bool m_bSelectViewOpen = false;
 
 	void _renderBackground() const;
 	void _renderCards() const;
 	void _renderCursor();
+	void _renderCardStats(std::shared_ptr<ObjectCard> card, std::shared_ptr<ObjectCard> compareCard, int x);
 
 	void _openListObjects();
+
+	int _boundVal(int val, int minVal, int maxVal) const;
+	std::string _getStatColor(int stat1, int stat2) const;
 
 	public:
 	EquipmentScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer);

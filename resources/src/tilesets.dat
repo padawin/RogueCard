@@ -2,6 +2,8 @@
 # tilesetName tilesetFile
 menu-background menu-background.png
 font atlas.png
+font-red atlas-red.png
+font-green atlas-green.png
 ui ui.png
 ui-inventory ui-inventory.png
 ui-equipment ui-equipment.png

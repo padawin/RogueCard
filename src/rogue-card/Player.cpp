@@ -100,6 +100,11 @@ std::shared_ptr<ObjectCard> Player::getInventoryItem(unsigned int index) const {
 
 void Player::equip(std::shared_ptr<ObjectCard> card) {
 	applyCardStats(card);
+	// If there was a previously equipped card boosting the player's max HP,
+	// make sure the current HP are still <= max HP
+	if (getHealth() > getMaxHealth()) {
+		setHealth(getMaxHealth());
+	}
 	m_equipment.equip(card);
 }
 

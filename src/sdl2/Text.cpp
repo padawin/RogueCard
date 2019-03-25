@@ -6,6 +6,10 @@
 
 ResourceManager<S_FontAtlasCoord> Text::m_fontAtlas = ResourceManager<S_FontAtlasCoord>();
 
+void Text::setFont(std::string fontName) {
+	m_sFont = fontName;
+}
+
 bool Text::hasText() const {
 	return m_sText != "";
 }
@@ -52,7 +56,7 @@ void Text::render(SDL_Renderer* renderer, const int x, const int y) const {
 			continue;
 		}
 		textureManager->drawFrame(
-			"font",
+			m_sFont,
 			charPosX,
 			charPosY,
 			character.w,
