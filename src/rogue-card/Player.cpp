@@ -7,7 +7,10 @@ Player::Player() :
 {}
 
 int Player::getHealth() const { return m_iHealth; }
-int Player::getMaxHealth() const { return m_iMaxHealth; }
+int Player::getMaxHealth() const {
+	int equipmentHealth = _getEquipmentStats(false).maxHealthPoints;
+	return m_iMaxHealth + equipmentHealth;
+}
 int Player::getStrength() const { return m_iStrength; }
 int Player::getDefence() const { return m_iDefence; }
 int Player::getFloor() const { return m_iFloor; }
@@ -45,12 +48,14 @@ S_CardStats Player::_getEquipmentStats(bool applyOnSelf) const {
 	S_CardStats stats;
 	stats.points = 0;
 	stats.healthPoints = 0;
+	stats.maxHealthPoints = 0;
 	stats.firePoints = 0;
 	for (int c = 0; c < SIZE_EQUIPMENT; ++c) {
 		auto card = m_equipment.getCard(c);
 		if (card != nullptr && applyOnSelf == card->hasFlags(FLAG_APPLY_ON_SELF)) {
 			stats.points += m_equipment.getCard(c)->getStats().points;
 			stats.healthPoints += m_equipment.getCard(c)->getStats().healthPoints;
+			stats.maxHealthPoints += m_equipment.getCard(c)->getStats().maxHealthPoints;
 			stats.firePoints += m_equipment.getCard(c)->getStats().firePoints;
 		}
 	}

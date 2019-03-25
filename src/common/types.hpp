@@ -14,7 +14,8 @@ struct S_TilesetMapping {
 
 struct S_CardStats {
 	int points; // For damages and armor points
-	int healthPoints; // For health boost/recovery
+	int healthPoints; // For health recovery
+	int maxHealthPoints; // For health boost
 	int firePoints; // For fire damage/resistance
 };
 

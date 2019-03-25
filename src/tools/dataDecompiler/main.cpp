@@ -104,6 +104,7 @@ void writeObject(std::ofstream &fileOutStream, S_ObjectMeta object) {
 		<< object.isShield << " "
 		<< object.stats.points << " "
 		<< object.stats.healthPoints << " "
+		<< object.stats.maxHealthPoints << " "
 		<< object.stats.firePoints << "\n";
 }
 
