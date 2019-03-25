@@ -9,8 +9,10 @@
 class Text {
 	static ResourceManager<S_FontAtlasCoord> m_fontAtlas;
 	std::string m_sText = "";
+	std::string m_sFont = "font";
 
 	public:
+	void setFont(std::string fontName);
 	static bool prepareMeta(std::string file);
 	bool hasText() const;
 	void setText(std::string text);
