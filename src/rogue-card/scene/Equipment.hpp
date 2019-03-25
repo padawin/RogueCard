@@ -6,6 +6,7 @@
 #include "../game/State.hpp"
 #include "../game/types.hpp"
 #include "../sdl2/Renderer.hpp"
+#include "../sdl2/Text.hpp"
 #include "Player.hpp"
 #include "ObjectCardCollectionRenderer.hpp"
 
@@ -19,12 +20,15 @@ class EquipmentScene : public State {
 	ObjectCardCollectionRenderer m_availableCardsRenderer;
 	Player &m_player;
 
+	Text m_statLabel;
+	Text m_statValue;
+
 	bool m_bSelectViewOpen = false;
 
 	void _renderBackground() const;
 	void _renderCards() const;
 	void _renderCursor();
-	void _renderCurrentCardStats() const;
+	void _renderCurrentCardStats();
 
 	void _openListObjects();
 
