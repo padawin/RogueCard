@@ -77,9 +77,6 @@ void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMach
 		std::cout << "Use object\n";
 		m_player.removeInventoryItem(_getCardIndex());
 	}
-	else if (action == EQUIP) {
-		std::cout << "Equip object\n";
-	}
 	else if (action == INFO) {
 		std::cout << "Info object\n";
 	}

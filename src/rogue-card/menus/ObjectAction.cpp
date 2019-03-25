@@ -19,10 +19,6 @@ ObjectAction::ObjectAction(std::shared_ptr<SDL2Renderer> renderer) :
 	m_itemTexts[USE].first.setText("Use");
 	m_itemTexts[USE].second = FLAG_USABLE;
 
-	m_itemTexts[EQUIP].first = Text();
-	m_itemTexts[EQUIP].first.setText("Equip");
-	m_itemTexts[EQUIP].second = FLAG_EQUIPABLE;
-
 	m_itemTexts[INFO].first = Text();
 	m_itemTexts[INFO].first.setText("Info");
 	m_itemTexts[INFO].second = 0;
