@@ -28,11 +28,12 @@ class EquipmentScene : public State {
 	void _renderBackground() const;
 	void _renderCards() const;
 	void _renderCursor();
-	void _renderCurrentCardStats();
+	void _renderCardStats(std::shared_ptr<ObjectCard> card, std::shared_ptr<ObjectCard> compareCard, int x);
 
 	void _openListObjects();
 
 	int _boundVal(int val, int minVal, int maxVal) const;
+	std::string _getStatColor(int stat1, int stat2) const;
 
 	public:
 	EquipmentScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer);
