@@ -17,8 +17,13 @@ bool ObjectCardCollection::addCard(std::shared_ptr<ObjectCard> card) {
 	return false;
 }
 
-void ObjectCardCollection::removeCard(unsigned int index) {
-	setCard(index, nullptr);
+void ObjectCardCollection::removeCard(std::shared_ptr<ObjectCard> card) {
+	for (unsigned int c = 0; c < CARD_COLLECTION_SIZE; ++c) {
+		if (m_cards[c] == card) {
+			setCard(c, nullptr);
+			return;
+		}
+	}
 }
 
 std::shared_ptr<ObjectCard> ObjectCardCollection::getCard(unsigned int index) const {

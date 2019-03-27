@@ -90,8 +90,8 @@ void Player::addItemToInventory(std::shared_ptr<ObjectCard> card) {
 	m_inventory.addCard(card);
 }
 
-void Player::removeInventoryItem(unsigned int index) {
-	m_inventory.removeCard(index);
+void Player::removeInventoryCard(std::shared_ptr<ObjectCard> card) {
+	m_inventory.removeCard(card);
 }
 
 std::shared_ptr<ObjectCard> Player::getInventoryItem(unsigned int index) const {
