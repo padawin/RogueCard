@@ -17,7 +17,7 @@ ObjectAction::ObjectAction(std::shared_ptr<SDL2Renderer> renderer) :
 {
 	m_itemTexts[USE].first = Text();
 	m_itemTexts[USE].first.setText("Use");
-	m_itemTexts[USE].second = FLAG_USABLE;
+	m_itemTexts[USE].second = FLAG_USABLE | FLAG_APPLY_ON_SELF;
 
 	m_itemTexts[INFO].first = Text();
 	m_itemTexts[INFO].first.setText("Info");
