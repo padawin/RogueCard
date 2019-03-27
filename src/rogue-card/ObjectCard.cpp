@@ -80,7 +80,7 @@ const char* ObjectCard::getName() const {
 	return m_sName;
 }
 
-bool ObjectCard::hasFlags(int flags) const {
+bool ObjectCard::hasFlags(unsigned int flags) const {
 	return (m_iFlags & flags) == flags;
 }
 

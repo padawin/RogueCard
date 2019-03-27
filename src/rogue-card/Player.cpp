@@ -26,13 +26,19 @@ void Player::setFloor(int floorLevel) { m_iFloor = floorLevel;}
 void Player::setGold(long gold) { m_iGold = gold;}
 void Player::setLevel(int level) { m_iLevel = level;}
 
-int Player::attack(std::shared_ptr<EnemyCard> card) const {
-	int damages = m_iStrength + _getEquipmentStats(false).points;
+int Player::attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> attackCard) const {
+	int damages;
+	if (attackCard == nullptr) {
+		damages = m_iStrength + _getEquipmentStats(0).points;
+	}
+	else {
+		damages = attackCard->getStats().points;
+	}
 	return card->setDamages(damages);
 }
 
 int Player::setDamages(int damages) {
-	int gearDefence = _getEquipmentStats(true).points;
+	int gearDefence = _getEquipmentStats(FLAG_APPLY_ON_SELF).points;
 	int finalDamages = damages - (m_iDefence + gearDefence);
 	if (finalDamages < 0) {
 		finalDamages = 1;
@@ -44,15 +50,16 @@ int Player::setDamages(int damages) {
 	return finalDamages;
 }
 
-S_CardStats Player::_getEquipmentStats(bool applyOnSelf) const {
+S_CardStats Player::_getEquipmentStats(unsigned int applyOnSelfFlag) const {
 	S_CardStats stats;
 	stats.points = 0;
 	stats.healthPoints = 0;
 	stats.maxHealthPoints = 0;
 	stats.firePoints = 0;
+	applyOnSelfFlag &= FLAG_APPLY_ON_SELF;
 	for (int c = 0; c < SIZE_EQUIPMENT; ++c) {
 		auto card = m_equipment.getCard(c);
-		if (card != nullptr && applyOnSelf == card->hasFlags(FLAG_APPLY_ON_SELF)) {
+		if (card != nullptr && card->hasFlags(applyOnSelfFlag)) {
 			stats.points += m_equipment.getCard(c)->getStats().points;
 			stats.healthPoints += m_equipment.getCard(c)->getStats().healthPoints;
 			stats.maxHealthPoints += m_equipment.getCard(c)->getStats().maxHealthPoints;
@@ -90,8 +97,8 @@ void Player::addItemToInventory(std::shared_ptr<ObjectCard> card) {
 	m_inventory.addCard(card);
 }
 
-void Player::removeInventoryItem(unsigned int index) {
-	m_inventory.removeCard(index);
+void Player::removeInventoryCard(std::shared_ptr<ObjectCard> card) {
+	m_inventory.removeCard(card);
 }
 
 std::shared_ptr<ObjectCard> Player::getInventoryItem(unsigned int index) const {

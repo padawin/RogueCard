@@ -14,7 +14,7 @@ class ObjectAction {
 	E_ObjectActionMenuItem m_selectedAction = USE;
 	int m_iCursorPosition = 0;
 	std::shared_ptr<ObjectCard> m_card = nullptr;
-	std::pair<Text, int> m_itemTexts[NB_ITEMS]= {};
+	std::pair<Text, unsigned int> m_itemTexts[NB_ITEMS]= {};
 	std::shared_ptr<SDL2Renderer> m_renderer;
 
 	protected:

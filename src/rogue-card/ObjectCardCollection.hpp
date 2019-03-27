@@ -14,7 +14,7 @@ class ObjectCardCollection {
 	public:
 	void setCard(unsigned int index, std::shared_ptr<ObjectCard> card);
 	bool addCard(std::shared_ptr<ObjectCard> card);
-	void removeCard(unsigned int index);
+	void removeCard(std::shared_ptr<ObjectCard> card);
 	std::shared_ptr<ObjectCard> getCard(unsigned int index) const;
 	void clear();
 	bool isFull() const;

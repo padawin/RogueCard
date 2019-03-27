@@ -77,11 +77,10 @@ void InventoryScene::update(StateMachine &stateMachine) {
 
 bool InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMachine &stateMachine) {
 	bool ret = false;
+	auto card = m_player.getInventoryItem(_getCardIndex());
 	if (action == USE) {
-		std::cout << "Use object\n";
-		auto card = m_player.getInventoryItem(_getCardIndex());
 		if (card->hasFlags(FLAG_CONSUMABLE)) {
-			m_player.removeInventoryItem(_getCardIndex());
+			m_player.removeInventoryCard(card);
 		}
 		if (m_player.isFighting()) {
 			ret = true;
@@ -95,13 +94,12 @@ bool InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMach
 	}
 	else if (action == DISCARD) {
 		std::cout << "Discard object\n";
-		m_player.removeInventoryItem(_getCardIndex());
+		m_player.removeInventoryCard(card);
 		if (m_player.isFighting()) {
 			ret = true;
 		}
 	}
 	else if (action == ACTIONBAR) {
-		auto card = m_player.getInventoryItem(_getCardIndex());
 		if (m_actionBar.hasCard(card)) {
 			m_actionBar.removeCard(card);
 		}

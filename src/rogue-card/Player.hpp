@@ -24,7 +24,7 @@ class Player {
 
 	bool m_bFighting = false;
 
-	S_CardStats _getEquipmentStats(bool applyOnSelf) const;
+	S_CardStats _getEquipmentStats(unsigned int applyOnSelfFlag) const;
 
 	public:
 	Player();
@@ -46,7 +46,7 @@ class Player {
 	void setLevel(int level);
 
 	int setDamages(int damages);
-	int attack(std::shared_ptr<EnemyCard> card) const;
+	int attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> attackCard) const;
 
 	bool isDead() const;
 	bool isFighting() const;
@@ -57,7 +57,7 @@ class Player {
 	bool hasSpaceInInventory() const;
 	void setInventoryItem(unsigned int index, std::shared_ptr<ObjectCard> card);
 	void addItemToInventory(std::shared_ptr<ObjectCard> card);
-	void removeInventoryItem(unsigned int index);
+	void removeInventoryCard(std::shared_ptr<ObjectCard> card);
 	std::shared_ptr<ObjectCard> getInventoryItem(unsigned int index) const;
 
 	void equip(std::shared_ptr<ObjectCard> card);

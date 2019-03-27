@@ -40,7 +40,7 @@ class PlayScene : public State {
 	void _useObject(int objectIndex);
 	void _changeFloor();
 
-	void _attack();
+	void _attack(std::shared_ptr<ObjectCard> attackCard = nullptr);
 
 	void _notify(std::string message);
 
