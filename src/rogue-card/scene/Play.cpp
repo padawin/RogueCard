@@ -206,10 +206,10 @@ void PlayScene::_changeFloor() {
 	}
 }
 
-void PlayScene::_attack() {
+void PlayScene::_attack(std::shared_ptr<ObjectCard> attackCard) {
 	char message[80];
 	std::shared_ptr<EnemyCard> enemyCard(std::static_pointer_cast<EnemyCard>(m_pickedCard));
-	int damagesDealtToEnemy = m_player.attack(enemyCard);
+	int damagesDealtToEnemy = m_player.attack(enemyCard, attackCard);
 	if (!enemyCard->isDead()) {
 		int damagesDealtToPlayer = enemyCard->attack(m_player);
 		snprintf(

@@ -46,7 +46,7 @@ class Player {
 	void setLevel(int level);
 
 	int setDamages(int damages);
-	int attack(std::shared_ptr<EnemyCard> card) const;
+	int attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> attackCard) const;
 
 	bool isDead() const;
 	bool isFighting() const;

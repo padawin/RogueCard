@@ -26,8 +26,14 @@ void Player::setFloor(int floorLevel) { m_iFloor = floorLevel;}
 void Player::setGold(long gold) { m_iGold = gold;}
 void Player::setLevel(int level) { m_iLevel = level;}
 
-int Player::attack(std::shared_ptr<EnemyCard> card) const {
-	int damages = m_iStrength + _getEquipmentStats(false).points;
+int Player::attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> attackCard) const {
+	int damages;
+	if (attackCard == nullptr) {
+		damages = m_iStrength + _getEquipmentStats(false).points;
+	}
+	else {
+		damages = attackCard->getStats().points;
+	}
 	return card->setDamages(damages);
 }
 
