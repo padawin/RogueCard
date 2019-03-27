@@ -195,8 +195,24 @@ void PlayScene::_action() {
 }
 
 void PlayScene::_useObject(int objectIndex) {
-	if (m_actionBar.getCard(objectIndex) != nullptr) {
-		_notify("Use object");
+	auto card = m_actionBar.getCard(objectIndex);
+	if (card != nullptr) {
+		bool isFighting = m_player.isFighting();
+		bool used = true;
+		if (card->hasFlags(FLAG_APPLY_ON_SELF)) {
+			m_player.applyCardStats(card);
+		}
+		else if (isFighting) {
+			_attack(card);
+		}
+		else {
+			used = false;
+		}
+
+		if (used && card->hasFlags(FLAG_CONSUMABLE)) {
+			m_player.removeInventoryCard(card);
+			m_actionBar.removeCard(card);
+		}
 	}
 }
 
