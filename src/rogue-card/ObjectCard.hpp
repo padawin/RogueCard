@@ -4,6 +4,7 @@
 #include "../common/types.hpp"
 #include "../common/ResourceManager.hpp"
 #include "Card.hpp"
+#include "../sdl2/Text.hpp"
 
 const int FLAG_USABLE =        0x01;
 const int FLAG_EQUIPABLE =     0x02;
@@ -19,6 +20,8 @@ const unsigned char FLAG_EQUIPMENT_FEET =      0x20;
 const unsigned char FLAG_EQUIPMENT_WEAPON =    0x40;
 const unsigned char FLAG_EQUIPMENT_SHIELD =    0x80;
 
+const int MAX_QUANTITY = 10;
+
 class ObjectCard : public Card {
 	static ResourceManager<S_ObjectMeta> m_objectMeta;
 	char m_sName[MAX_CHAR_OBJECT_NAME];
@@ -27,16 +30,24 @@ class ObjectCard : public Card {
 	unsigned char m_iFlags = 0;
 	unsigned char m_iEquipableFlags = 0;
 
+	int m_iQuantity = 1;
+
+	Text m_quantityText;
+
 	S_CardStats m_sStats = {};
 
 	void _setFlags(const S_ObjectMeta &meta);
 	void _setEquipableFlags(const S_ObjectMeta &meta);
+
+	void _setQuantityText();
 
 	public:
 	ObjectCard();
 	void create();
 	void createFromMeta(int metaIndex);
 	static bool prepareMeta(std::string file);
+
+	void render(SDL_Renderer *renderer, int x, int y);
 
 	int getMetaIndex() const;
 	const char* getName() const;
@@ -48,8 +59,15 @@ class ObjectCard : public Card {
 	bool isConsumable() const;
 	bool canBeEquipped() const;
 	bool applyOnSelf() const;
+	int getQuantity() const;
+	void setQuantity(int quantity);
+	bool reachedMaxQuantity() const;
+	void addInstance();
+	void consume();
 
 	S_CardStats getStats() const;
+
+	bool isSameAs(std::shared_ptr<ObjectCard> card) const;
 };
 
 #endif

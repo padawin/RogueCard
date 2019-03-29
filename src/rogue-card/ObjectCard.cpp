@@ -1,9 +1,14 @@
+#include <memory>
 #include "ObjectCard.hpp"
+
+const int CARD_QUANTITY_X = 32;
+const int CARD_QUANTITY_Y = 43;
 
 ResourceManager<S_ObjectMeta> ObjectCard::m_objectMeta = ResourceManager<S_ObjectMeta>();
 
-ObjectCard::ObjectCard() : Card(ObjectCardType) {
+ObjectCard::ObjectCard() : Card(ObjectCardType), m_quantityText(Text()) {
 	m_sImage = "objects";
+	m_quantityText.setFont("font-black");
 }
 
 void ObjectCard::create() {
@@ -19,6 +24,15 @@ void ObjectCard::createFromMeta(int metaIndex) {
 	m_iTileY = meta[metaIndex].tilesetY;
 	m_sStats = meta[metaIndex].stats;
 	_setFlags(meta[metaIndex]);
+}
+
+void ObjectCard::render(SDL_Renderer *renderer, int x, int y) {
+	Card::render(renderer, x, y);
+	if (isConsumable()) {
+		m_quantityText.render(
+			renderer, CARD_QUANTITY_X + x, CARD_QUANTITY_Y + y
+		);
+	}
 }
 
 int ObjectCard::getMetaIndex() const {
@@ -108,6 +122,42 @@ bool ObjectCard::applyOnSelf() const {
 	return m_iFlags & FLAG_APPLY_ON_SELF;
 }
 
+int ObjectCard::getQuantity() const {
+	return m_iQuantity;
+}
+
+void ObjectCard::setQuantity(int quantity) {
+	m_iQuantity = quantity;
+	_setQuantityText();
+}
+
+bool ObjectCard::reachedMaxQuantity() const {
+	return !isConsumable() || m_iQuantity == MAX_QUANTITY;
+}
+
+void ObjectCard::addInstance() {
+	if (!reachedMaxQuantity()) {
+		++m_iQuantity;
+		_setQuantityText();
+	}
+}
+
+void ObjectCard::consume() {
+	--m_iQuantity;
+	_setQuantityText();
+}
+
 S_CardStats ObjectCard::getStats() const {
 	return m_sStats;
+}
+
+bool ObjectCard::isSameAs(std::shared_ptr<ObjectCard> card) const {
+	int compRes = strncmp(getName(), card->getName(), MAX_CHAR_OBJECT_NAME);
+	return compRes == 0;
+}
+
+void ObjectCard::_setQuantityText() {
+	char text[3];
+	sprintf(text, "%d", m_iQuantity);
+	m_quantityText.setText(text);
 }

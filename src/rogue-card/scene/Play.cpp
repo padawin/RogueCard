@@ -199,7 +199,7 @@ void PlayScene::_useObject(int objectIndex) {
 	if (card != nullptr) {
 		bool isFighting = m_player.isFighting();
 		bool used = true;
-		if (card->hasFlags(FLAG_APPLY_ON_SELF)) {
+		if (card->applyOnSelf()) {
 			m_player.applyCardStats(card);
 		}
 		else if (isFighting) {
@@ -209,9 +209,12 @@ void PlayScene::_useObject(int objectIndex) {
 			used = false;
 		}
 
-		if (used && card->hasFlags(FLAG_CONSUMABLE)) {
-			m_player.removeInventoryCard(card);
-			m_actionBar.removeCard(card);
+		if (used && card->isConsumable()) {
+			card->consume();
+			if (card->getQuantity() == 0) {
+				m_player.removeInventoryCard(card);
+				m_actionBar.removeCard(card);
+			}
 		}
 	}
 }

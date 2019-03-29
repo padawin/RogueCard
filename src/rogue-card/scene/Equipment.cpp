@@ -166,7 +166,7 @@ void EquipmentScene::_renderCardStats(std::shared_ptr<ObjectCard> card, std::sha
 	}
 
 	if (stats.points != 0) {
-		if (card->hasFlags(FLAG_APPLY_ON_SELF)) {
+		if (card->applyOnSelf()) {
 			m_statLabel.setText("DEFENCE");
 		}
 		else {
@@ -189,7 +189,7 @@ void EquipmentScene::_renderCardStats(std::shared_ptr<ObjectCard> card, std::sha
 	}
 	if (stats.firePoints != 0) {
 		y += 16;
-		if (card->hasFlags(FLAG_APPLY_ON_SELF)) {
+		if (card->applyOnSelf()) {
 			m_statLabel.setText("FIR DEF");
 		}
 		else {
