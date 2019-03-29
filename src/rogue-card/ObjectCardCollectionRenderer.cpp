@@ -9,7 +9,7 @@
 ObjectCardCollectionRenderer::ObjectCardCollectionRenderer(
 	UserActions &userActions,
 	ObjectCardCollection &collection,
-	unsigned int pageSize,
+	int pageSize,
 	std::string background,
 	std::shared_ptr<SDL2Renderer> renderer
 ) :
@@ -102,16 +102,16 @@ void ObjectCardCollectionRenderer::_renderBackground() const {
 }
 
 void ObjectCardCollectionRenderer::_renderCards() const {
-	unsigned int startCard = (m_iPage - 1) * PAGE_WIDTH_CARDS;
-	unsigned int endCard = startCard + m_iPageSize;
+	int startCard = (m_iPage - 1) * PAGE_WIDTH_CARDS;
+	int endCard = startCard + m_iPageSize;
 
-	for (unsigned int c = startCard; c < endCard; ++c) {
+	for (int c = startCard; c < endCard; ++c) {
 		auto card = m_collection.getCard(c);
 		if (card == nullptr) {
 			continue;
 		}
-		unsigned int positionIndexX = (c - startCard) % PAGE_WIDTH_CARDS;
-		unsigned int positionIndexY = (c - startCard) / PAGE_WIDTH_CARDS;
+		int positionIndexX = (c - startCard) % PAGE_WIDTH_CARDS;
+		int positionIndexY = (c - startCard) / PAGE_WIDTH_CARDS;
 		int x = OFFSET_X + CARD_WIDTH * (int) positionIndexX;
 		int y = OFFSET_Y + CARD_HEIGHT * (int) positionIndexY;
 		card->render(m_renderer->getRenderer(), x, y);
@@ -129,7 +129,7 @@ void ObjectCardCollectionRenderer::_renderCursor() const {
 /**
  * Return the index in the player's inventory of the card under the cursor.
  */
-unsigned int ObjectCardCollectionRenderer::getSelectedCardIndex() const {
+int ObjectCardCollectionRenderer::getSelectedCardIndex() const {
 	return (m_iPage - 1) * PAGE_WIDTH_CARDS + m_cursorPosition;
 }
 

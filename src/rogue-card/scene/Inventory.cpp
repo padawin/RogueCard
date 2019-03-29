@@ -131,6 +131,6 @@ void InventoryScene::render() {
 /**
  * Return the index in the player's inventory of the card under the cursor.
  */
-unsigned int InventoryScene::_getCardIndex() const {
+int InventoryScene::_getCardIndex() const {
 	return m_cardsRenderer.getSelectedCardIndex();
 }
