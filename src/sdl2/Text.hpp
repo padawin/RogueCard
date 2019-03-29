@@ -12,6 +12,7 @@ class Text {
 	std::string m_sFont = "font";
 
 	public:
+	~Text() {}
 	void setFont(std::string fontName);
 	static bool prepareMeta(std::string file);
 	bool hasText() const;

@@ -15,6 +15,7 @@ class ObjectCardCollection {
 	bool _addConsumableCard(std::shared_ptr<ObjectCard> card);
 
 	public:
+	~ObjectCardCollection() {}
 	void setCard(unsigned int index, std::shared_ptr<ObjectCard> card);
 	bool addCard(std::shared_ptr<ObjectCard> card);
 	void removeCard(std::shared_ptr<ObjectCard> card);
