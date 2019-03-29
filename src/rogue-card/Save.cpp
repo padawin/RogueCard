@@ -69,10 +69,16 @@ void Save::_loadPlayer() {
 		if (type == 'i') {
 			unsigned int inventoryIndex;
 			int cardMetaIndex;
-			sscanf(line, "i %u %d\n", &inventoryIndex, &cardMetaIndex);
+			int cardQuantity;
+			sscanf(
+				line,
+				"i %u %d %d\n",
+				&inventoryIndex, &cardMetaIndex, &cardQuantity
+			);
 			if (cardMetaIndex != -1) {
 				std::shared_ptr<ObjectCard> card = std::shared_ptr<ObjectCard>(new ObjectCard());
 				card->createFromMeta(cardMetaIndex);
+				card->setQuantity(cardQuantity);
 				m_player.setInventoryItem(inventoryIndex, card);
 			}
 		}
@@ -107,7 +113,11 @@ void Save::_savePlayer() {
 	for (unsigned int i = 0; i < MAX_INVENTORY_SIZE; ++i) {
 		std::shared_ptr<ObjectCard> card = m_player.getInventoryItem(i);
 		if (card != nullptr) {
-			fprintf(playerFile, "i %d %d\n", i, card->getMetaIndex());
+			fprintf(
+				playerFile,
+				"i %d %d %d\n",
+				i, card->getMetaIndex(), card->getQuantity()
+			);
 		}
 	}
 	fclose(playerFile);
