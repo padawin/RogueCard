@@ -9,6 +9,7 @@
 #include "../sdl2/Text.hpp"
 #include "../Player.hpp"
 #include "../CardDeck.hpp"
+#include "../ActionCard.hpp"
 #include "../ActionBar.hpp"
 
 enum PlayCursorPosition {Action, Object1, Object2, Object3, Object4, Floor, NbPositions};
@@ -19,6 +20,7 @@ class PlayScene : public State {
 	private:
 	Player &m_player;
 	std::shared_ptr<SDL2Renderer> m_renderer;
+	ActionCard m_actionCard;
 	CardDeck m_deck;
 	ActionBar m_actionBar;
 	Text m_notification;
@@ -35,6 +37,7 @@ class PlayScene : public State {
 	void _renderHealth() const;
 	void _renderCursor();
 	void _renderCards();
+	void _renderActionCard();
 
 	void _useCardUnderCursor();
 

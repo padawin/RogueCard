@@ -14,6 +14,7 @@ PlayScene::PlayScene(UserActions &userActions, Player &player, std::shared_ptr<S
 	State(userActions),
 	m_player(player),
 	m_renderer(renderer),
+	m_actionCard(ActionCard()),
 	m_deck(CardDeck()),
 	m_actionBar(ActionBar()),
 	m_notification(Text())
@@ -113,6 +114,7 @@ void PlayScene::_renderCursor() {
 }
 
 void PlayScene::_renderCards() {
+	_renderActionCard();
 	if (m_pickedCard) {
 		m_pickedCard->render(m_renderer->getRenderer(), 138, 64);
 	}
@@ -128,6 +130,36 @@ void PlayScene::_renderCards() {
 			m_mCursorPositions[Floor].x,
 			m_mCursorPositions[Floor].y
 		);
+	}
+}
+
+void PlayScene::_renderActionCard() {
+	switch (m_action) {
+		case PickAction:
+			m_actionCard.renderPick(
+				m_renderer->getRenderer(),
+				m_mCursorPositions[Action].x,
+				m_mCursorPositions[Action].y
+			);
+			break;
+		case FloorAction:
+		case LootAction:
+			m_actionCard.renderLoot(
+				m_renderer->getRenderer(),
+				m_mCursorPositions[Action].x,
+				m_mCursorPositions[Action].y
+			);
+			break;
+		case AttackAction:
+			m_actionCard.renderAttack(
+				m_renderer->getRenderer(),
+				m_mCursorPositions[Action].x,
+				m_mCursorPositions[Action].y,
+				m_player.getEquipment().getCardWithFlag(FLAG_EQUIPMENT_WEAPON)
+			);
+			break;
+		default:
+			break;
 	}
 }
 
