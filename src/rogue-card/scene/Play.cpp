@@ -210,8 +210,11 @@ void PlayScene::_useObject(int objectIndex) {
 		}
 
 		if (used && card->isConsumable()) {
-			m_player.removeInventoryCard(card);
-			m_actionBar.removeCard(card);
+			card->consume();
+			if (card->getQuantity() == 0) {
+				m_player.removeInventoryCard(card);
+				m_actionBar.removeCard(card);
+			}
 		}
 	}
 }

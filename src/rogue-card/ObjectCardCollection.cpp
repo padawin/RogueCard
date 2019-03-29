@@ -7,10 +7,39 @@ void ObjectCardCollection::setCard(unsigned int index, std::shared_ptr<ObjectCar
 }
 
 bool ObjectCardCollection::addCard(std::shared_ptr<ObjectCard> card) {
-	unsigned int c = 0;
+	if (card->isConsumable()) {
+		return _addConsumableCard(card);
+	}
+	else {
+		return _addUniqueCard(card);
+	}
+}
+
+bool ObjectCardCollection::_addUniqueCard(std::shared_ptr<ObjectCard> card) {
+	int c = 0;
 	for (c = 0; c < CARD_COLLECTION_SIZE && m_cards[c] != nullptr; ++c) {}
 	if (c < CARD_COLLECTION_SIZE) {
 		m_cards[c] = card;
+		return true;
+	}
+	return false;
+}
+
+bool ObjectCardCollection::_addConsumableCard(std::shared_ptr<ObjectCard> card) {
+	int c = 0, firstEmpty = -1;
+	for (c = 0; c < CARD_COLLECTION_SIZE; ++c) {
+		if (m_cards[c] == nullptr) {
+			if (firstEmpty == -1) {
+				firstEmpty = c;
+			}
+		}
+		else if (m_cards[c]->isSameAs(card)) {
+			m_cards[c]->addInstance();
+			return true;
+		}
+	}
+	if (firstEmpty != -1) {
+		m_cards[firstEmpty] = card;
 		return true;
 	}
 

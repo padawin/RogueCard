@@ -11,6 +11,9 @@ class ObjectCardCollection {
 	std::shared_ptr<ObjectCard> m_cards[CARD_COLLECTION_SIZE] = {};
 	int m_iCurrentCard = 0;
 
+	bool _addUniqueCard(std::shared_ptr<ObjectCard> card);
+	bool _addConsumableCard(std::shared_ptr<ObjectCard> card);
+
 	public:
 	void setCard(unsigned int index, std::shared_ptr<ObjectCard> card);
 	bool addCard(std::shared_ptr<ObjectCard> card);

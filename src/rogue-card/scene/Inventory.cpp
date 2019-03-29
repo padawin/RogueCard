@@ -80,7 +80,10 @@ bool InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMach
 	auto card = m_player.getInventoryItem(_getCardIndex());
 	if (action == USE) {
 		if (card->isConsumable()) {
-			m_player.removeInventoryCard(card);
+			card->consume();
+			if (card->getQuantity() == 0) {
+				m_player.removeInventoryCard(card);
+			}
 		}
 		if (m_player.isFighting()) {
 			ret = true;
