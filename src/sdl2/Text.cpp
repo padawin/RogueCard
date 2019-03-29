@@ -1,4 +1,3 @@
-#include <iostream>
 #include "../game/globals.hpp"
 #include "../common/types.hpp"
 #include "TextureManager.hpp"
