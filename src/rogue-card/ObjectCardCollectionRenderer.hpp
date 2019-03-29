@@ -9,10 +9,10 @@
 
 class ObjectCardCollectionRenderer {
 	private:
-	unsigned int m_cursorPosition = 0;
-	unsigned int m_iPage = 1;
-	unsigned int m_iLastPage = 1;
-	unsigned int m_iPageSize;
+	int m_cursorPosition = 0;
+	int m_iPage = 1;
+	int m_iLastPage = 1;
+	int m_iPageSize;
 
 	std::string m_sBackground;
 	UserActions &m_userActions;
@@ -27,7 +27,7 @@ class ObjectCardCollectionRenderer {
 	ObjectCardCollectionRenderer(
 		UserActions &userActions,
 		ObjectCardCollection &collection,
-		unsigned int pageSize,
+		int pageSize,
 		std::string background,
 		std::shared_ptr<SDL2Renderer> renderer
 	);
@@ -37,7 +37,7 @@ class ObjectCardCollectionRenderer {
 	void moveCursorLeft();
 	void moveCursorRight();
 	void render() const;
-	unsigned int getSelectedCardIndex() const;
+	int getSelectedCardIndex() const;
 	void reset();
 };
 

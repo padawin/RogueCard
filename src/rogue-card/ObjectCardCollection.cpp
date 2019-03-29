@@ -1,6 +1,6 @@
 #include "ObjectCardCollection.hpp"
 
-void ObjectCardCollection::setCard(unsigned int index, std::shared_ptr<ObjectCard> card) {
+void ObjectCardCollection::setCard(int index, std::shared_ptr<ObjectCard> card) {
 	if (index < CARD_COLLECTION_SIZE) {
 		m_cards[index] = card;
 	}
@@ -47,7 +47,7 @@ bool ObjectCardCollection::_addConsumableCard(std::shared_ptr<ObjectCard> card) 
 }
 
 void ObjectCardCollection::removeCard(std::shared_ptr<ObjectCard> card) {
-	for (unsigned int c = 0; c < CARD_COLLECTION_SIZE; ++c) {
+	for (int c = 0; c < CARD_COLLECTION_SIZE; ++c) {
 		if (m_cards[c] == card) {
 			setCard(c, nullptr);
 			return;
@@ -55,7 +55,7 @@ void ObjectCardCollection::removeCard(std::shared_ptr<ObjectCard> card) {
 	}
 }
 
-std::shared_ptr<ObjectCard> ObjectCardCollection::getCard(unsigned int index) const {
+std::shared_ptr<ObjectCard> ObjectCardCollection::getCard(int index) const {
 	if (index >= CARD_COLLECTION_SIZE) {
 		return nullptr;
 	}
@@ -64,13 +64,13 @@ std::shared_ptr<ObjectCard> ObjectCardCollection::getCard(unsigned int index) co
 }
 
 void ObjectCardCollection::clear() {
-	for (unsigned int c = 0; c < CARD_COLLECTION_SIZE; ++c) {
+	for (int c = 0; c < CARD_COLLECTION_SIZE; ++c) {
 		setCard(c, nullptr);
 	}
 }
 
 bool ObjectCardCollection::isFull() const {
-	unsigned int c;
+	int c;
 	for (c = 0; c < CARD_COLLECTION_SIZE && m_cards[c] != nullptr; ++c) {}
 	return c == CARD_COLLECTION_SIZE;
 }

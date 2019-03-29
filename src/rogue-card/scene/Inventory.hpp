@@ -18,7 +18,7 @@ class InventoryScene : public State {
 	ObjectCardCollectionRenderer m_cardsRenderer;
 	ActionBar &m_actionBar;
 
-	unsigned int _getCardIndex() const;
+	int _getCardIndex() const;
 
 	void _renderBackground() const;
 	void _renderCards();

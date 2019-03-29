@@ -89,7 +89,7 @@ bool Player::hasSpaceInInventory() const {
 	return !m_inventory.isFull();
 }
 
-void Player::setInventoryItem(unsigned int index, std::shared_ptr<ObjectCard> card) {
+void Player::setInventoryItem(int index, std::shared_ptr<ObjectCard> card) {
 	m_inventory.setCard(index, card);
 }
 
@@ -101,7 +101,7 @@ void Player::removeInventoryCard(std::shared_ptr<ObjectCard> card) {
 	m_inventory.removeCard(card);
 }
 
-std::shared_ptr<ObjectCard> Player::getInventoryItem(unsigned int index) const {
+std::shared_ptr<ObjectCard> Player::getInventoryItem(int index) const {
 	return m_inventory.getCard(index);
 }
 

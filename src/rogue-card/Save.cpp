@@ -67,12 +67,12 @@ void Save::_loadPlayer() {
 			m_player.setLevel(level);
 		}
 		if (type == 'i') {
-			unsigned int inventoryIndex;
+			int inventoryIndex;
 			int cardMetaIndex;
 			int cardQuantity;
 			sscanf(
 				line,
-				"i %u %d %d\n",
+				"i %d %d %d\n",
 				&inventoryIndex, &cardMetaIndex, &cardQuantity
 			);
 			if (cardMetaIndex != -1) {
@@ -110,7 +110,7 @@ void Save::_savePlayer() {
 	fprintf(playerFile, "f %d\n", m_player.getFloor());
 	fprintf(playerFile, "g %ld\n", m_player.getGold());
 	fprintf(playerFile, "l %d\n", m_player.getLevel());
-	for (unsigned int i = 0; i < MAX_INVENTORY_SIZE; ++i) {
+	for (int i = 0; i < MAX_INVENTORY_SIZE; ++i) {
 		std::shared_ptr<ObjectCard> card = m_player.getInventoryItem(i);
 		if (card != nullptr) {
 			fprintf(
