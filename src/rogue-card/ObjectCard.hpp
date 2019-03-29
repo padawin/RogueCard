@@ -4,6 +4,7 @@
 #include "../common/types.hpp"
 #include "../common/ResourceManager.hpp"
 #include "Card.hpp"
+#include "../sdl2/Text.hpp"
 
 const int FLAG_USABLE =        0x01;
 const int FLAG_EQUIPABLE =     0x02;
@@ -31,16 +32,22 @@ class ObjectCard : public Card {
 
 	int m_iQuantity = 1;
 
+	Text m_quantityText;
+
 	S_CardStats m_sStats = {};
 
 	void _setFlags(const S_ObjectMeta &meta);
 	void _setEquipableFlags(const S_ObjectMeta &meta);
+
+	void _setQuantityText();
 
 	public:
 	ObjectCard();
 	void create();
 	void createFromMeta(int metaIndex);
 	static bool prepareMeta(std::string file);
+
+	void render(SDL_Renderer *renderer, int x, int y);
 
 	int getMetaIndex() const;
 	const char* getName() const;
