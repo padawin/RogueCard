@@ -90,7 +90,7 @@ bool readEnemyFileLine(char line[MAX_CHARS_PER_LINE], S_EnemyMeta &data) {
 	int dropRate, minItems, maxItems;
 	int result = sscanf(
 		line,
-		"%s %d %d %d %d %d %d %d %d\n",
+		"\"%[^\"]\" %d %d %d %d %d %d %d %d\n",
 		data.name,
 		&data.health,
 		&data.strength,
@@ -112,7 +112,7 @@ bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
 		isBelt, isShoe, isWeapon, isShield;
 	int result = sscanf(
 		line,
-		"%s %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n",
+		"\"%[^\"]\" %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n",
 		data.name,
 		&data.tilesetX,
 		&data.tilesetY,

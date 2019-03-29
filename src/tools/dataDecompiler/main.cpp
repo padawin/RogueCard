@@ -74,8 +74,7 @@ void writeTilesetMapping(std::ofstream &fileOutStream, S_TilesetMapping tile) {
 }
 
 void writeEnemy(std::ofstream &fileOutStream, S_EnemyMeta enemy) {
-	fileOutStream << " "
-		<< enemy.name << " "
+	fileOutStream << "\"" << enemy.name << "\" "
 		<< enemy.health << " "
 		<< enemy.strength << " "
 		<< enemy.defence << " "
@@ -87,8 +86,7 @@ void writeEnemy(std::ofstream &fileOutStream, S_EnemyMeta enemy) {
 }
 
 void writeObject(std::ofstream &fileOutStream, S_ObjectMeta object) {
-	fileOutStream << " "
-		<< object.name << " "
+	fileOutStream << "\"" << object.name << "\" "
 		<< object.tilesetX << " "
 		<< object.tilesetY << " "
 		<< object.usable << " "
