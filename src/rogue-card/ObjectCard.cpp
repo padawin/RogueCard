@@ -108,6 +108,28 @@ bool ObjectCard::applyOnSelf() const {
 	return m_iFlags & FLAG_APPLY_ON_SELF;
 }
 
+int ObjectCard::getQuantity() const {
+	return m_iQuantity;
+}
+
+void ObjectCard::setQuantity(int quantity) {
+	m_iQuantity = quantity;
+}
+
+bool ObjectCard::reachedMaxQuantity() const {
+	return !isConsumable() || m_iQuantity == MAX_QUANTITY;
+}
+
+void ObjectCard::addInstance() {
+	if (!reachedMaxQuantity()) {
+		++m_iQuantity;
+	}
+}
+
+void ObjectCard::consume() {
+	--m_iQuantity;
+}
+
 S_CardStats ObjectCard::getStats() const {
 	return m_sStats;
 }

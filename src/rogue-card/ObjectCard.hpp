@@ -19,6 +19,8 @@ const unsigned char FLAG_EQUIPMENT_FEET =      0x20;
 const unsigned char FLAG_EQUIPMENT_WEAPON =    0x40;
 const unsigned char FLAG_EQUIPMENT_SHIELD =    0x80;
 
+const int MAX_QUANTITY = 10;
+
 class ObjectCard : public Card {
 	static ResourceManager<S_ObjectMeta> m_objectMeta;
 	char m_sName[MAX_CHAR_OBJECT_NAME];
@@ -26,6 +28,8 @@ class ObjectCard : public Card {
 	int m_iMetaIndex = -1;
 	unsigned char m_iFlags = 0;
 	unsigned char m_iEquipableFlags = 0;
+
+	int m_iQuantity = 1;
 
 	S_CardStats m_sStats = {};
 
@@ -48,6 +52,11 @@ class ObjectCard : public Card {
 	bool isConsumable() const;
 	bool canBeEquipped() const;
 	bool applyOnSelf() const;
+	int getQuantity() const;
+	void setQuantity(int quantity);
+	bool reachedMaxQuantity() const;
+	void addInstance();
+	void consume();
 
 	S_CardStats getStats() const;
 };
