@@ -1,3 +1,4 @@
+#include <memory>
 #include "ObjectCard.hpp"
 
 ResourceManager<S_ObjectMeta> ObjectCard::m_objectMeta = ResourceManager<S_ObjectMeta>();
@@ -132,4 +133,9 @@ void ObjectCard::consume() {
 
 S_CardStats ObjectCard::getStats() const {
 	return m_sStats;
+}
+
+bool ObjectCard::isSameAs(std::shared_ptr<ObjectCard> card) const {
+	int compRes = strncmp(getName(), card->getName(), MAX_CHAR_OBJECT_NAME);
+	return compRes == 0;
 }

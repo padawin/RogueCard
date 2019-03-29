@@ -59,6 +59,8 @@ class ObjectCard : public Card {
 	void consume();
 
 	S_CardStats getStats() const;
+
+	bool isSameAs(std::shared_ptr<ObjectCard> card) const;
 };
 
 #endif
