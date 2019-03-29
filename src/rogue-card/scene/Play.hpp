@@ -13,6 +13,8 @@
 
 enum PlayCursorPosition {Action, Object1, Object2, Object3, Object4, Floor, NbPositions};
 
+enum ActionType {PickAction, LootAction, FloorAction, AttackAction};
+
 class PlayScene : public State {
 	private:
 	Player &m_player;
@@ -20,6 +22,8 @@ class PlayScene : public State {
 	CardDeck m_deck;
 	ActionBar m_actionBar;
 	Text m_notification;
+
+	ActionType m_action = PickAction;
 
 	PlayCursorPosition m_cursorPosition = Action;
 	std::map<PlayCursorPosition, S_Coordinates> m_mCursorPositions = {};

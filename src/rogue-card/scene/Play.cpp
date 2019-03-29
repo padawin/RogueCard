@@ -160,6 +160,15 @@ void PlayScene::_useCardUnderCursor() {
 void PlayScene::_pickCard() {
 	if (m_pickedCard == nullptr) {
 		m_pickedCard = m_deck.pickCard(m_player, m_floorCard != nullptr);
+		if (m_pickedCard->getType() == ObjectCardType) {
+			m_action = LootAction;
+		}
+		else if (m_pickedCard->getType() == FloorCardType) {
+			m_action = FloorAction;
+		}
+		else if (m_pickedCard->getType() == EnemyCardType) {
+			m_action = AttackAction;
+		}
 	}
 }
 
@@ -178,19 +187,27 @@ void PlayScene::_lootObject() {
 }
 
 void PlayScene::_action() {
+	switch (m_action) {
+		case PickAction:
+			_pickCard();
+			break;
+		case LootAction:
+			_lootObject();
+			break;
+		case FloorAction:
+			_notify("Found next floor");
+			m_floorCard = m_pickedCard;
+			m_pickedCard = nullptr;
+			break;
+		case AttackAction:
+			_attack();
+			break;
+		default:
+			break;
+	}
+
 	if (m_pickedCard == nullptr) {
-		_pickCard();
-	}
-	else if (m_pickedCard->getType() == ObjectCardType) {
-		_lootObject();
-	}
-	else if (m_pickedCard->getType() == FloorCardType) {
-		_notify("Found next floor");
-		m_floorCard = m_pickedCard;
-		m_pickedCard = nullptr;
-	}
-	else if (m_pickedCard->getType() == EnemyCardType) {
-		_attack();
+		m_action = PickAction;
 	}
 }
 
