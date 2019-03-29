@@ -62,7 +62,7 @@
 "Leather armor" 13 3 0 0 1 0 0 0 1 0 0 0 0 2 0 0 0
 "Steel armor" 14 3 0 0 1 0 0 0 1 0 0 0 0 3 0 0 0
 "Knight armor" 15 3 0 0 1 0 0 0 1 0 0 0 0 4 0 0 0
-"HeavyKnight armor" 0 4 0 0 1 0 0 0 1 0 0 0 0 5 0 0 0
+"Heavy knight armor" 0 4 0 0 1 0 0 0 1 0 0 0 0 5 0 0 0
 "Paladin armor" 1 4 0 0 1 0 0 0 1 0 0 0 0 6 0 0 0
 "Hero armor" 2 4 0 0 1 0 0 0 1 0 0 0 0 7 0 0 0
 # armor
