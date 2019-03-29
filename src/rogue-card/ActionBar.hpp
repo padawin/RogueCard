@@ -11,6 +11,7 @@ class ActionBar {
 	std::shared_ptr<ObjectCard> m_objectCards[ACTION_BAR_SIZE] = {nullptr, nullptr, nullptr, nullptr};
 
 	public:
+	~ActionBar() {}
 	std::shared_ptr<ObjectCard> getCard(int index) const;
 	void setCard(int index, std::shared_ptr<ObjectCard> card);
 	void removeCard(std::shared_ptr<ObjectCard> card);

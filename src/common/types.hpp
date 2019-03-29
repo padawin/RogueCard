@@ -13,10 +13,10 @@ struct S_TilesetMapping {
 };
 
 struct S_CardStats {
-	int points; // For damages and armor points
-	int healthPoints; // For health recovery
-	int maxHealthPoints; // For health boost
-	int firePoints; // For fire damage/resistance
+	int points = 0; // For damages and armor points
+	int healthPoints = 0; // For health recovery
+	int maxHealthPoints = 0; // For health boost
+	int firePoints = 0; // For fire damage/resistance
 };
 
 struct S_EnemyMeta {
@@ -33,20 +33,20 @@ struct S_EnemyMeta {
 
 struct S_ObjectMeta {
 	char name[MAX_CHAR_OBJECT_NAME];
-	int tilesetX;
-	int tilesetY;
-	bool usable;
-	bool consumable;
-	bool applyOnSelf;
-	bool isHelm;
-	bool isShoulders;
-	bool isGlove;
-	bool isChest;
-	bool isBelt;
-	bool isShoe;
-	bool isWeapon;
-	bool isShield;
-	S_CardStats stats;
+	int tilesetX = 0;
+	int tilesetY = 0;
+	bool usable = false;
+	bool consumable = false;
+	bool applyOnSelf = false;
+	bool isHelm = false;
+	bool isShoulders = false;
+	bool isGlove = false;
+	bool isChest = false;
+	bool isBelt = false;
+	bool isShoe = false;
+	bool isWeapon = false;
+	bool isShield = false;
+	S_CardStats stats = {};
 };
 
 struct S_FontAtlasCoord {

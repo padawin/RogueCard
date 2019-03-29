@@ -6,10 +6,10 @@
 #include "Card.hpp"
 #include "../sdl2/Text.hpp"
 
-const int FLAG_USABLE =        0x01;
-const int FLAG_EQUIPABLE =     0x02;
-const int FLAG_CONSUMABLE =    0x04;
-const int FLAG_APPLY_ON_SELF = 0x08;
+const unsigned char FLAG_USABLE =        0x01;
+const unsigned char FLAG_EQUIPABLE =     0x02;
+const unsigned char FLAG_CONSUMABLE =    0x04;
+const unsigned char FLAG_APPLY_ON_SELF = 0x08;
 
 const unsigned char FLAG_EQUIPMENT_HEAD =      0x01;
 const unsigned char FLAG_EQUIPMENT_SHOULDERS = 0x02;
