@@ -171,7 +171,7 @@ void PlayScene::_lootObject() {
 	else {
 		char message[44];
 		m_player.addItemToInventory(objectCard);
-		snprintf(message, 44, "You picked %s", objectCard->getName());
+		snprintf(message, 44, "You picked:\n%s", objectCard->getName());
 		_notify(message);
 		m_pickedCard = nullptr;
 	}
