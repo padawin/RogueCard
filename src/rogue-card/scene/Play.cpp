@@ -32,7 +32,7 @@ std::string PlayScene::getStateID() const {
 }
 
 bool PlayScene::onEnter() {
-	Save s = Save(m_player);
+	Save s = Save(m_player, m_actionBar);
 	if (s.exists()) {
 		std::clog << "Save found, load\n";
 		s.load();
@@ -46,7 +46,7 @@ bool PlayScene::onEnter() {
 
 void PlayScene::update(StateMachine &stateMachine) {
 	if (m_userActions.getActionState("QUIT")) {
-		Save s = Save(m_player);
+		Save s = Save(m_player, m_actionBar);
 		s.save();
 		stateMachine.clean();
 	}

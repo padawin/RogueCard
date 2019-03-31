@@ -5,7 +5,10 @@
 
 const char* PLAYER_FILE = "player.dat";
 
-Save::Save(Player &player) : m_player(player) {}
+Save::Save(Player &player, ActionBar &actionBar) :
+	m_player(player),
+	m_actionBar(actionBar)
+{}
 
 bool Save::exists() {
 	struct stat st;
