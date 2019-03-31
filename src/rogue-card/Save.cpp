@@ -85,6 +85,18 @@ void Save::_loadPlayer() {
 				m_player.setInventoryItem(inventoryIndex, card);
 			}
 		}
+		if (type == 'a') {
+			int actionBarIndex;
+			int cardIndex;
+			sscanf(
+				line,
+				"a %d %d\n",
+				&actionBarIndex, &cardIndex
+			);
+			m_actionBar.setCard(
+				actionBarIndex, m_player.getInventoryItem(cardIndex)
+			);
+		}
 	}
 
 	fin.close();
@@ -123,5 +135,19 @@ void Save::_savePlayer() {
 			);
 		}
 	}
+	// Action bar must be saved after the inventory as it references the
+	// inventory indexes
+	m_actionBar.reset();
+	do {
+		auto card = m_actionBar.current();
+		if (card != nullptr) {
+			fprintf(
+				playerFile,
+				"a %d %d\n",
+				m_actionBar.getCurrentIndex(),
+				m_player.getInventory().getCardIndex(card)
+			);
+		}
+	} while (m_actionBar.next());
 	fclose(playerFile);
 }

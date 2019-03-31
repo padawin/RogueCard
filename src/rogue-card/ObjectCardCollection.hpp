@@ -22,6 +22,7 @@ class ObjectCardCollection : public IObjectCardsLoopable {
 	std::shared_ptr<ObjectCard> getCard(int index) const;
 	void clear();
 	bool isFull() const;
+	int getCardIndex(std::shared_ptr<ObjectCard> card) const;
 
 	// Looping methods
 	bool next();
