@@ -24,3 +24,21 @@ bool ActionBar::hasCard(std::shared_ptr<ObjectCard> card) const {
 	for (; index < ACTION_BAR_SIZE && m_objectCards[index] != card; ++index) {}
 	return index < ACTION_BAR_SIZE;
 }
+
+// Looping methods
+bool ActionBar::next() {
+	if (m_iCurrentCard >= ACTION_BAR_SIZE - 1) {
+		return false;
+	}
+
+	++m_iCurrentCard;
+	return true;
+}
+
+std::shared_ptr<ObjectCard> ActionBar::current() const {
+	return m_objectCards[m_iCurrentCard];
+}
+
+void ActionBar::reset() {
+	m_iCurrentCard = 0;
+}
