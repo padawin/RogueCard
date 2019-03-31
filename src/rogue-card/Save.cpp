@@ -125,16 +125,19 @@ void Save::_savePlayer() {
 	fprintf(playerFile, "f %d\n", m_player.getFloor());
 	fprintf(playerFile, "g %ld\n", m_player.getGold());
 	fprintf(playerFile, "l %d\n", m_player.getLevel());
-	for (int i = 0; i < MAX_INVENTORY_SIZE; ++i) {
-		std::shared_ptr<ObjectCard> card = m_player.getInventoryItem(i);
+	m_player.getInventory().reset();
+	do {
+		auto card = m_player.getInventory().current();
 		if (card != nullptr) {
 			fprintf(
 				playerFile,
 				"i %d %d %d\n",
-				i, card->getMetaIndex(), card->getQuantity()
+				m_player.getInventory().getCurrentIndex(),
+				card->getMetaIndex(),
+				card->getQuantity()
 			);
 		}
-	}
+	} while (m_player.getInventory().next());
 	// Action bar must be saved after the inventory as it references the
 	// inventory indexes
 	m_actionBar.reset();
