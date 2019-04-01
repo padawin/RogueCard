@@ -14,6 +14,7 @@ class Player {
 	Equipment m_equipment;
 	ObjectCardCollection m_inventory;
 	Floor m_floor;
+	FloorDirection m_floorDirection = FLOOR_DOWN;
 	int m_iHealth = 30;
 	int m_iMaxHealth = 30;
 	int m_iStrength = 5;
@@ -62,6 +63,8 @@ class Player {
 	Equipment &getEquipment();
 
 	void applyCardStats(std::shared_ptr<ObjectCard> card);
+
+	FloorDirection getDirection() const;
 };
 
 #endif

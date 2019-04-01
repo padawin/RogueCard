@@ -1,7 +1,7 @@
 #include "FloorCard.hpp"
 
-FloorCard::FloorCard() : Card(FloorCardType) {
-	m_sImage = "door";
+FloorCard::FloorCard(FloorDirection direction) : Card(FloorCardType) {
+	m_sImage = direction == FLOOR_DOWN ? "door-down" : "door-up";
 }
 
 void FloorCard::create() {

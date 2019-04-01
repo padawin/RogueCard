@@ -22,7 +22,8 @@ std::shared_ptr<Card> CardDeck::pickCard(Player &player, bool foundNextFloor) {
 		card = std::shared_ptr<ObjectCard>(new ObjectCard());
 	}
 	else if (type == FloorCardType) {
-		card = std::shared_ptr<FloorCard>(new FloorCard());
+		FloorDirection floorDirection = player.getDirection() ? FLOOR_DOWN : FLOOR_UP;
+		card = std::shared_ptr<FloorCard>(new FloorCard(floorDirection));
 	}
 	else if (type == EnemyCardType) {
 		card = std::shared_ptr<EnemyCard>(new EnemyCard(player.getLevel()));

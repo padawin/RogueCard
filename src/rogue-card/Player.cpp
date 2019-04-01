@@ -137,3 +137,7 @@ void Player::applyCardStats(std::shared_ptr<ObjectCard> card) {
 		}
 	}
 }
+
+FloorDirection Player::getDirection() const {
+	return m_floorDirection;
+}

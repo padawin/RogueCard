@@ -13,7 +13,8 @@ cursor cursor.png
 card card.png
 action-pick action-pick.png
 objects objects.png
-door door.png
+door-down door-down.png
+door-up door-up.png
 monsters monsters.png
 quick-action-bar quick-action-bar.png
 health-color health-color.png

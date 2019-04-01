@@ -1,6 +1,8 @@
 #ifndef __FLOOR__
 #define __FLOOR__
 
+enum FloorDirection {FLOOR_DOWN, FLOOR_UP};
+
 class Floor {
 	private:
 	int m_iLevel = 1;
