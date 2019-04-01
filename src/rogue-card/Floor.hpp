@@ -10,6 +10,7 @@ class Floor {
 	void setLevel(int level);
 	void toNextLevel();
 	void toPreviousLevel();
+	bool reachedMaxLevel() const;
 };
 
 #endif
