@@ -57,7 +57,7 @@ void Save::_loadPlayer() {
 		if (type == 'f') {
 			int floorLevel = 0;
 			sscanf(line, "f %d\n", &floorLevel);
-			m_player.setFloor(floorLevel);
+			m_player.getFloor().setLevel(floorLevel);
 		}
 		if (type == 'g') {
 			long gold = 0;
@@ -122,7 +122,7 @@ void Save::_savePlayer() {
 	fprintf(playerFile, "H %d\n", m_player.getMaxHealth());
 	fprintf(playerFile, "s %d\n", m_player.getStrength());
 	fprintf(playerFile, "d %d\n", m_player.getDefence());
-	fprintf(playerFile, "f %d\n", m_player.getFloor());
+	fprintf(playerFile, "f %d\n", m_player.getFloor().getLevel());
 	fprintf(playerFile, "g %ld\n", m_player.getGold());
 	fprintf(playerFile, "l %d\n", m_player.getLevel());
 	m_player.getInventory().reset();

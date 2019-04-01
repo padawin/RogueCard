@@ -3,7 +3,8 @@
 
 Player::Player() :
 	m_equipment(Equipment()),
-	m_inventory(ObjectCardCollection())
+	m_inventory(ObjectCardCollection()),
+	m_floor(Floor())
 {}
 
 int Player::getHealth() const { return m_iHealth; }
@@ -13,7 +14,7 @@ int Player::getMaxHealth() const {
 }
 int Player::getStrength() const { return m_iStrength; }
 int Player::getDefence() const { return m_iDefence; }
-int Player::getFloor() const { return m_iFloor; }
+Floor &Player::getFloor() { return m_floor; }
 long Player::getGold() const { return m_iGold; }
 int Player::getLevel() const { return m_iLevel; }
 
@@ -22,7 +23,6 @@ void Player::setMaxHealth(int maxHealth) { m_iMaxHealth = maxHealth;}
 void Player::setStrength(int strength) { m_iStrength = strength;}
 void Player::setDefence(int defence) { m_iDefence = defence;}
 
-void Player::setFloor(int floorLevel) { m_iFloor = floorLevel;}
 void Player::setGold(long gold) { m_iGold = gold;}
 void Player::setLevel(int level) { m_iLevel = level;}
 
@@ -135,5 +135,18 @@ void Player::applyCardStats(std::shared_ptr<ObjectCard> card) {
 		if (getHealth() > getMaxHealth()) {
 			setHealth(getMaxHealth());
 		}
+	}
+}
+
+FloorDirection Player::getDirection() const {
+	return m_floorDirection;
+}
+
+void Player::toNextFloor() {
+	if (m_floorDirection == FLOOR_DOWN) {
+		getFloor().toNextLevel();
+	}
+	else {
+		getFloor().toPreviousLevel();
 	}
 }
