@@ -3,13 +3,13 @@
 
 #include <memory>
 #include "ObjectCard.hpp"
+#include "ObjectCardsLoopable.hpp"
 
 #define CARD_COLLECTION_SIZE 36
 
-class ObjectCardCollection {
+class ObjectCardCollection : public IObjectCardsLoopable {
 	private:
 	std::shared_ptr<ObjectCard> m_cards[CARD_COLLECTION_SIZE] = {};
-	int m_iCurrentCard = 0;
 
 	bool _addUniqueCard(std::shared_ptr<ObjectCard> card);
 	bool _addConsumableCard(std::shared_ptr<ObjectCard> card);
@@ -22,6 +22,7 @@ class ObjectCardCollection {
 	std::shared_ptr<ObjectCard> getCard(int index) const;
 	void clear();
 	bool isFull() const;
+	int getCardIndex(std::shared_ptr<ObjectCard> card) const;
 
 	// Looping methods
 	bool next();

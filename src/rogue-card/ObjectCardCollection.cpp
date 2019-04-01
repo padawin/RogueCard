@@ -75,6 +75,12 @@ bool ObjectCardCollection::isFull() const {
 	return c == CARD_COLLECTION_SIZE;
 }
 
+int ObjectCardCollection::getCardIndex(std::shared_ptr<ObjectCard> card) const {
+	int c;
+	for (c = 0; c < CARD_COLLECTION_SIZE && m_cards[c] != card; ++c) {}
+	return c == CARD_COLLECTION_SIZE ? -1 : c;
+}
+
 // Looping methods
 bool ObjectCardCollection::next() {
 	if (m_iCurrentCard >= CARD_COLLECTION_SIZE - 1) {

@@ -5,7 +5,10 @@
 
 const char* PLAYER_FILE = "player.dat";
 
-Save::Save(Player &player) : m_player(player) {}
+Save::Save(Player &player, ActionBar &actionBar) :
+	m_player(player),
+	m_actionBar(actionBar)
+{}
 
 bool Save::exists() {
 	struct stat st;
@@ -82,6 +85,18 @@ void Save::_loadPlayer() {
 				m_player.setInventoryItem(inventoryIndex, card);
 			}
 		}
+		if (type == 'a') {
+			int actionBarIndex;
+			int cardIndex;
+			sscanf(
+				line,
+				"a %d %d\n",
+				&actionBarIndex, &cardIndex
+			);
+			m_actionBar.setCard(
+				actionBarIndex, m_player.getInventoryItem(cardIndex)
+			);
+		}
 	}
 
 	fin.close();
@@ -110,15 +125,32 @@ void Save::_savePlayer() {
 	fprintf(playerFile, "f %d\n", m_player.getFloor());
 	fprintf(playerFile, "g %ld\n", m_player.getGold());
 	fprintf(playerFile, "l %d\n", m_player.getLevel());
-	for (int i = 0; i < MAX_INVENTORY_SIZE; ++i) {
-		std::shared_ptr<ObjectCard> card = m_player.getInventoryItem(i);
+	m_player.getInventory().reset();
+	do {
+		auto card = m_player.getInventory().current();
 		if (card != nullptr) {
 			fprintf(
 				playerFile,
 				"i %d %d %d\n",
-				i, card->getMetaIndex(), card->getQuantity()
+				m_player.getInventory().getCurrentIndex(),
+				card->getMetaIndex(),
+				card->getQuantity()
 			);
 		}
-	}
+	} while (m_player.getInventory().next());
+	// Action bar must be saved after the inventory as it references the
+	// inventory indexes
+	m_actionBar.reset();
+	do {
+		auto card = m_actionBar.current();
+		if (card != nullptr) {
+			fprintf(
+				playerFile,
+				"a %d %d\n",
+				m_actionBar.getCurrentIndex(),
+				m_player.getInventory().getCardIndex(card)
+			);
+		}
+	} while (m_actionBar.next());
 	fclose(playerFile);
 }

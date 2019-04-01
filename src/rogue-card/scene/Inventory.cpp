@@ -83,6 +83,9 @@ bool InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMach
 			card->consume();
 			if (card->getQuantity() == 0) {
 				m_player.removeInventoryCard(card);
+				if (m_actionBar.hasCard(card)) {
+					m_actionBar.removeCard(card);
+				}
 			}
 		}
 		if (m_player.isFighting()) {
@@ -98,6 +101,10 @@ bool InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMach
 	else if (action == DISCARD) {
 		std::cout << "Discard object\n";
 		m_player.removeInventoryCard(card);
+		m_player.getEquipment().remove(card);
+		if (m_actionBar.hasCard(card)) {
+			m_actionBar.removeCard(card);
+		}
 		if (m_player.isFighting()) {
 			ret = true;
 		}
