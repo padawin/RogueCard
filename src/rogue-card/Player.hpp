@@ -3,6 +3,7 @@
 
 #include <memory>
 #include "ObjectCard.hpp"
+#include "Floor.hpp"
 #include "Equipment.hpp"
 #include "ObjectCardCollection.hpp"
 
@@ -12,11 +13,11 @@ class Player {
 	private:
 	Equipment m_equipment;
 	ObjectCardCollection m_inventory;
+	Floor m_floor;
 	int m_iHealth = 30;
 	int m_iMaxHealth = 30;
 	int m_iStrength = 5;
 	int m_iDefence = 5;
-	int m_iFloor = 0;
 	long m_iGold = 0;
 	int m_iLevel = 1;
 
@@ -32,14 +33,13 @@ class Player {
 	int getStrength() const;
 	int getDefence() const;
 	short getInventorySize() const;
-	int getFloor() const;
+	Floor &getFloor();
 	long getGold() const;
 	int getLevel() const;
 	void setHealth(int health);
 	void setMaxHealth(int maxHealth);
 	void setStrength(int strength);
 	void setDefence(int defence);
-	void setFloor(int floorLevel);
 	void setGold(long gold);
 	void setLevel(int level);
 
