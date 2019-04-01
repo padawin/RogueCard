@@ -65,6 +65,7 @@ class Player {
 	void applyCardStats(std::shared_ptr<ObjectCard> card);
 
 	FloorDirection getDirection() const;
+	void toNextFloor();
 };
 
 #endif

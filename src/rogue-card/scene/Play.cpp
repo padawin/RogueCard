@@ -270,7 +270,21 @@ void PlayScene::_useObject(int objectIndex) {
 
 void PlayScene::_changeFloor() {
 	if (m_floorCard != nullptr) {
-		_notify("Change floor");
+		if (m_player.isFighting()) {
+			_notify("Can't change floor while\nfighting");
+		}
+		else {
+			m_floorCard = nullptr;
+			m_player.toNextFloor();
+			char floorStr[25];
+			snprintf(
+				floorStr,
+				20,
+				"You reached floor %d",
+				m_player.getFloor().getLevel()
+			);
+			_notify(floorStr);
+		}
 	}
 }
 
