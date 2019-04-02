@@ -187,6 +187,10 @@ void PlayScene::_useCardUnderCursor() {
 		default:
 			break;
 	}
+
+	if (m_pickedCard == nullptr) {
+		m_action = PickAction;
+	}
 }
 
 void PlayScene::_pickCard() {
@@ -236,10 +240,6 @@ void PlayScene::_action() {
 			break;
 		default:
 			break;
-	}
-
-	if (m_pickedCard == nullptr) {
-		m_action = PickAction;
 	}
 }
 
