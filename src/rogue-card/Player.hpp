@@ -25,7 +25,7 @@ class Player {
 
 	bool m_bFighting = false;
 
-	S_CardStats _getEquipmentStats(unsigned int applyOnSelfFlag) const;
+	S_CardStats _getEquipmentStats(bool applyOnSelf) const;
 
 	public:
 	Player();
