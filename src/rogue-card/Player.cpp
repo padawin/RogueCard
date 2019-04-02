@@ -9,8 +9,7 @@ Player::Player() :
 
 int Player::getHealth() const { return m_iHealth; }
 int Player::getMaxHealth() const {
-	int equipmentHealth = _getEquipmentStats(false).maxHealthPoints;
-	return m_iMaxHealth + equipmentHealth;
+	return m_iMaxHealth + m_iEquipmentMaxHealth;
 }
 int Player::getStrength() const { return m_iStrength; }
 int Player::getDefence() const { return m_iDefence; }
@@ -106,13 +105,24 @@ std::shared_ptr<ObjectCard> Player::getInventoryItem(int index) const {
 }
 
 void Player::equip(std::shared_ptr<ObjectCard> card) {
-	applyCardStats(card);
+	m_equipment.equip(card);
+
+	int health = getHealth(),
+		newMaxHealth;
+	bool isHealthMax = health == getMaxHealth();
+
+	// Update equipment max health bonus
+	S_CardStats equipmentStats = _getEquipmentStats(FLAG_APPLY_ON_SELF);
+	m_iEquipmentMaxHealth = equipmentStats.maxHealthPoints;
+
+	newMaxHealth = getMaxHealth();
 	// If there was a previously equipped card boosting the player's max HP,
 	// make sure the current HP are still <= max HP
-	if (getHealth() > getMaxHealth()) {
-		setHealth(getMaxHealth());
+	// Or if the health was at the max, and now an object boosts max health,
+	// keep the health at the max still
+	if (health > newMaxHealth || (isHealthMax && health < newMaxHealth)) {
+		setHealth(newMaxHealth);
 	}
-	m_equipment.equip(card);
 }
 
 Equipment &Player::getEquipment() {
@@ -120,20 +130,14 @@ Equipment &Player::getEquipment() {
 }
 
 void Player::applyCardStats(std::shared_ptr<ObjectCard> card) {
-	// The player's health depends on the max health, so if the player equips a
-	// piece of equipment altering the max health and if the health is full,
-	// adapt it to the max health
-	int cardMaxHealthStat = card->getStats().maxHealthPoints;
-	int cardHealthStat = card->getStats().healthPoints;
-	int currPlayerMaxHealth = getMaxHealth();
-	if (cardMaxHealthStat != 0 && getHealth() == getMaxHealth()) {
-		setHealth(currPlayerMaxHealth + cardMaxHealthStat);
-	}
-
-	if (cardHealthStat != 0) {
-		setHealth(getHealth() + cardHealthStat);
-		if (getHealth() > getMaxHealth()) {
-			setHealth(getMaxHealth());
+	int cardHealth = card->getStats().healthPoints;
+	int currentHealth = getHealth();
+	int currentMaxHealth = getMaxHealth();
+	if (cardHealth != 0) {
+		int health = currentHealth + cardHealth;
+		setHealth(health);
+		if (health > currentMaxHealth) {
+			setHealth(currentMaxHealth);
 		}
 	}
 }

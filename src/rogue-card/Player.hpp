@@ -17,6 +17,7 @@ class Player {
 	FloorDirection m_floorDirection = FLOOR_DOWN;
 	int m_iHealth = 30;
 	int m_iMaxHealth = 30;
+	int m_iEquipmentMaxHealth = 0;
 	int m_iStrength = 5;
 	int m_iDefence = 5;
 	long m_iGold = 0;
