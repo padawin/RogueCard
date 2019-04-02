@@ -25,7 +25,7 @@ class Player {
 
 	bool m_bFighting = false;
 
-	S_CardStats _getEquipmentStats(bool applyOnSelf) const;
+	S_CardStats _getEquipmentStats(bool applyOnSelf);
 
 	public:
 	Player();
@@ -46,7 +46,7 @@ class Player {
 	void setLevel(int level);
 
 	int setDamages(int damages);
-	int attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> attackCard) const;
+	int attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> attackCard);
 
 	bool isDead() const;
 	bool isFighting() const;
