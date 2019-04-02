@@ -47,9 +47,20 @@ std::shared_ptr<ObjectCard> Equipment::getCardWithFlag(unsigned int flag) const 
 	return nullptr;
 }
 
-std::shared_ptr<ObjectCard> Equipment::getCard(int index) const {
-	if (index >= SIZE_EQUIPMENT) {
-		return nullptr;
+// Looping methods
+bool Equipment::next() {
+	if (m_iCurrentCard >= SIZE_EQUIPMENT - 1) {
+		return false;
 	}
-	return m_cards[index];
+
+	++m_iCurrentCard;
+	return true;
+}
+
+std::shared_ptr<ObjectCard> Equipment::current() const {
+	return m_cards[m_iCurrentCard];
+}
+
+void Equipment::reset() {
+	m_iCurrentCard = 0;
 }

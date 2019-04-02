@@ -25,7 +25,7 @@ void Player::setDefence(int defence) { m_iDefence = defence;}
 void Player::setGold(long gold) { m_iGold = gold;}
 void Player::setLevel(int level) { m_iLevel = level;}
 
-int Player::attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> attackCard) const {
+int Player::attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> attackCard) {
 	int damages;
 	if (attackCard == nullptr) {
 		damages = m_iStrength + _getEquipmentStats(false).points;
@@ -49,21 +49,22 @@ int Player::setDamages(int damages) {
 	return finalDamages;
 }
 
-S_CardStats Player::_getEquipmentStats(bool applyOnSelf) const {
+S_CardStats Player::_getEquipmentStats(bool applyOnSelf) {
 	S_CardStats stats;
 	stats.points = 0;
 	stats.healthPoints = 0;
 	stats.maxHealthPoints = 0;
 	stats.firePoints = 0;
-	for (int c = 0; c < SIZE_EQUIPMENT; ++c) {
-		auto card = m_equipment.getCard(c);
+	m_equipment.reset();
+	do {
+		auto card = m_equipment.current();
 		if (card != nullptr && applyOnSelf == card->hasFlags(FLAG_APPLY_ON_SELF)) {
-			stats.points += m_equipment.getCard(c)->getStats().points;
-			stats.healthPoints += m_equipment.getCard(c)->getStats().healthPoints;
-			stats.maxHealthPoints += m_equipment.getCard(c)->getStats().maxHealthPoints;
-			stats.firePoints += m_equipment.getCard(c)->getStats().firePoints;
+			stats.points += card->getStats().points;
+			stats.healthPoints += card->getStats().healthPoints;
+			stats.maxHealthPoints += card->getStats().maxHealthPoints;
+			stats.firePoints += card->getStats().firePoints;
 		}
-	}
+	} while (m_equipment.next());
 	return stats;
 }
 
