@@ -326,7 +326,9 @@ void PlayScene::_attack(std::shared_ptr<ObjectCard> attackCard) {
 
 void PlayScene::_getFinalGoal() {
 	m_pickedCard = nullptr;
+	m_player.setFoundFinalGoal();
 	m_floorCard = m_deck.createFloorCard(FLOOR_UP);
+	_notify("You found the Artefact of Power");
 }
 
 void PlayScene::_notify(std::string message) {
