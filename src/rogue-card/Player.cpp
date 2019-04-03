@@ -154,3 +154,11 @@ void Player::toNextFloor() {
 		getFloor().toPreviousLevel();
 	}
 }
+
+void Player::setFoundFinalGoal() {
+	m_bFoundFinalGoal = true;
+}
+
+bool Player::foundFinalGoal() const {
+	return m_bFoundFinalGoal;
+}

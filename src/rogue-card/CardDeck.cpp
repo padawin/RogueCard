@@ -8,11 +8,10 @@ std::shared_ptr<Card> CardDeck::pickCard(Player &player, bool foundNextFloor) {
 	bool isLastFloor = player.getFloor().isLast();
 	int proba = rand() % 1000;
 	std::shared_ptr<Card> card = nullptr;
-	if (isLastFloor && proba < 10) {
+	if (isLastFloor && !player.foundFinalGoal() && proba < 50) {
 		card = std::shared_ptr<FinalGoalCard>(new FinalGoalCard());
-		m_bFoundFinalGoal = true;
 	}
-	else if (!m_bFoundFinalGoal && !isLastFloor && !foundNextFloor && proba < 50) {
+	else if (!player.foundFinalGoal() && !isLastFloor && !foundNextFloor && proba < 50) {
 		FloorDirection floorDirection = player.getDirection() ? FLOOR_DOWN : FLOOR_UP;
 		card = createFloorCard(floorDirection);
 	}

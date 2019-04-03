@@ -326,7 +326,7 @@ void PlayScene::_attack(std::shared_ptr<ObjectCard> attackCard) {
 
 void PlayScene::_getFinalGoal() {
 	m_pickedCard = nullptr;
-	// @TODO Complete
+	m_floorCard = m_deck.createFloorCard(FLOOR_UP);
 }
 
 void PlayScene::_notify(std::string message) {
