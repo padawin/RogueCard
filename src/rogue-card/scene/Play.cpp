@@ -281,15 +281,25 @@ void PlayScene::_changeFloor() {
 			_notify("Can't change floor while\nfighting");
 		}
 		else {
-			m_floorCard = nullptr;
 			m_player.toNextFloor();
 			char floorStr[25];
-			snprintf(
-				floorStr,
-				20,
-				"You reached floor %d",
-				m_player.getFloor().getLevel()
-			);
+			if (!m_player.foundFinalGoal()) {
+				m_floorCard = nullptr;
+				snprintf(
+					floorStr,
+					25,
+					"You reached floor %d",
+					m_player.getFloor().getLevel()
+				);
+			}
+			else {
+				snprintf(
+					floorStr,
+					25,
+					"You go back to floor %d",
+					m_player.getFloor().getLevel()
+				);
+			}
 			_notify(floorStr);
 		}
 	}
