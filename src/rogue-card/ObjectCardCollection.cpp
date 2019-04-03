@@ -33,7 +33,7 @@ bool ObjectCardCollection::_addConsumableCard(std::shared_ptr<ObjectCard> card) 
 				firstEmpty = c;
 			}
 		}
-		else if (m_cards[c]->isSameAs(card)) {
+		else if (m_cards[c]->isSameAs(card) && !m_cards[c]->reachedMaxQuantity()) {
 			m_cards[c]->addInstance();
 			return true;
 		}
