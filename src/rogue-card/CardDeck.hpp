@@ -1,5 +1,5 @@
 #ifndef __CARD_DECK__
-#define __CARD___
+#define __CARD_DECK___
 
 #include <memory>
 #include "Card.hpp"
