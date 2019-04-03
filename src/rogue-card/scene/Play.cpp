@@ -3,6 +3,7 @@
 #include "../Save.hpp"
 #include "../sdl2/TextureManager.hpp"
 #include "GameOver.hpp"
+#include "Win.hpp"
 #include "Inventory.hpp"
 #include "Equipment.hpp"
 #include "Play.hpp"
@@ -72,6 +73,11 @@ void PlayScene::update(StateMachine &stateMachine) {
 	}
 	else if (m_userActions.getActionState("CURSOR_RIGHT")) {
 		m_cursorPosition = (PlayCursorPosition) ((m_cursorPosition + 1) % NbPositions);
+	}
+
+	// Reached the top
+	if (m_player.getFloor().getLevel() == 0) {
+		stateMachine.changeState(new WinScene(m_userActions));
 	}
 }
 

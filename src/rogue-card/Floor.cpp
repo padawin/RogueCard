@@ -17,7 +17,7 @@ void Floor::toNextLevel() {
 }
 
 void Floor::toPreviousLevel() {
-	if (m_iLevel > 1) {
+	if (m_iLevel >= 1) {
 		--m_iLevel;
 	}
 }
