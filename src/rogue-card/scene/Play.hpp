@@ -14,7 +14,13 @@
 
 enum PlayCursorPosition {Action, Object1, Object2, Object3, Object4, Floor, NbPositions};
 
-enum ActionType {PickAction, LootAction, FloorAction, AttackAction};
+enum ActionType {
+	PickAction,
+	LootAction,
+	FloorAction,
+	AttackAction,
+	GetFinalGoalAction
+};
 
 class PlayScene : public State {
 	private:
@@ -48,6 +54,7 @@ class PlayScene : public State {
 	void _changeFloor();
 
 	void _attack(std::shared_ptr<ObjectCard> attackCard = nullptr);
+	void _getFinalGoal();
 
 	void _notify(std::string message);
 

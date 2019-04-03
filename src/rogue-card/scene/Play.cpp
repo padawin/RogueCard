@@ -136,6 +136,7 @@ void PlayScene::_renderCards() {
 void PlayScene::_renderActionCard() {
 	switch (m_action) {
 		case PickAction:
+		case GetFinalGoalAction:
 			m_actionCard.renderPick(
 				m_renderer->getRenderer(),
 				m_mCursorPositions[Action].x,
@@ -206,6 +207,9 @@ void PlayScene::_pickCard() {
 		else if (type == EnemyCardType) {
 			m_action = AttackAction;
 		}
+		else if (type == FinalGoalCardType) {
+			m_action = GetFinalGoalAction;
+		}
 	}
 }
 
@@ -237,6 +241,9 @@ void PlayScene::_action() {
 			break;
 		case AttackAction:
 			_attack();
+			break;
+		case GetFinalGoalAction:
+			_getFinalGoal();
 			break;
 		default:
 			break;
@@ -315,6 +322,11 @@ void PlayScene::_attack(std::shared_ptr<ObjectCard> attackCard) {
 		m_player.setFighting(false);
 	}
 	_notify(message);
+}
+
+void PlayScene::_getFinalGoal() {
+	m_pickedCard = nullptr;
+	// @TODO Complete
 }
 
 void PlayScene::_notify(std::string message) {
