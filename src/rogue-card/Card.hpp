@@ -11,7 +11,14 @@
 #include <string>
 #include <SDL2/SDL.h>
 
-enum E_CardType : short {ActionCardType, ObjectCardType, FloorCardType, EnemyCardType, None};
+enum E_CardType : short {
+	ActionCardType,
+	ObjectCardType,
+	FloorCardType,
+	EnemyCardType,
+	FinalGoalCardType,
+	None
+};
 
 class Card {
 	protected:

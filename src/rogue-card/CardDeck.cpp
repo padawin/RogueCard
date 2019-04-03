@@ -3,11 +3,16 @@
 #include "ObjectCard.hpp"
 #include "FloorCard.hpp"
 #include "EnemyCard.hpp"
+#include "FinalGoalCard.hpp"
 
 std::shared_ptr<Card> CardDeck::pickCard(Player &player, bool foundNextFloor) {
 	int proba = rand() % 1000;
 	std::shared_ptr<Card> card = nullptr;
-	if (!foundNextFloor && proba < 50) {
+	if (player.getFloor().isLast() && proba < 10) {
+		card = std::shared_ptr<FinalGoalCard>(new FinalGoalCard());
+		m_bFoundFinalGoal = true;
+	}
+	else if (!m_bFoundFinalGoal && !foundNextFloor && proba < 50) {
 		FloorDirection floorDirection = player.getDirection() ? FLOOR_DOWN : FLOOR_UP;
 		card = std::shared_ptr<FloorCard>(new FloorCard(floorDirection));
 	}

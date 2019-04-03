@@ -6,6 +6,9 @@
 #include "Player.hpp"
 
 class CardDeck {
+	private:
+	bool m_bFoundFinalGoal = false;
+
 	public:
 	std::shared_ptr<Card> pickCard(Player &player, bool foundNextFloor);
 };
