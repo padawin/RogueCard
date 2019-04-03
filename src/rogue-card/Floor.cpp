@@ -11,17 +11,17 @@ void Floor::setLevel(int level) {
 }
 
 void Floor::toNextLevel() {
-	if (!reachedMaxLevel()) {
+	if (!isLast()) {
 		++m_iLevel;
 	}
 }
 
 void Floor::toPreviousLevel() {
-	if (m_iLevel > 1) {
+	if (m_iLevel >= 1) {
 		--m_iLevel;
 	}
 }
 
-bool Floor::reachedMaxLevel() const {
+bool Floor::isLast() const {
 	return m_iLevel == MAX_LEVEL;
 }

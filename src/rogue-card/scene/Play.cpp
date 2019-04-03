@@ -3,6 +3,7 @@
 #include "../Save.hpp"
 #include "../sdl2/TextureManager.hpp"
 #include "GameOver.hpp"
+#include "Win.hpp"
 #include "Inventory.hpp"
 #include "Equipment.hpp"
 #include "Play.hpp"
@@ -36,6 +37,9 @@ bool PlayScene::onEnter() {
 	if (s.exists()) {
 		std::clog << "Save found, load\n";
 		s.load();
+		if (m_player.foundFinalGoal()) {
+			m_floorCard = m_deck.createFloorCard(FLOOR_UP);
+		}
 	}
 	else {
 		std::clog << "No save found, create new one\n";
@@ -69,6 +73,11 @@ void PlayScene::update(StateMachine &stateMachine) {
 	}
 	else if (m_userActions.getActionState("CURSOR_RIGHT")) {
 		m_cursorPosition = (PlayCursorPosition) ((m_cursorPosition + 1) % NbPositions);
+	}
+
+	// Reached the top
+	if (m_player.getFloor().getLevel() == 0) {
+		stateMachine.changeState(new WinScene(m_userActions));
 	}
 }
 
@@ -136,6 +145,7 @@ void PlayScene::_renderCards() {
 void PlayScene::_renderActionCard() {
 	switch (m_action) {
 		case PickAction:
+		case GetFinalGoalAction:
 			m_actionCard.renderPick(
 				m_renderer->getRenderer(),
 				m_mCursorPositions[Action].x,
@@ -196,14 +206,18 @@ void PlayScene::_useCardUnderCursor() {
 void PlayScene::_pickCard() {
 	if (m_pickedCard == nullptr) {
 		m_pickedCard = m_deck.pickCard(m_player, m_floorCard != nullptr);
-		if (m_pickedCard->getType() == ObjectCardType) {
+		E_CardType type = m_pickedCard->getType();
+		if (type == ObjectCardType) {
 			m_action = LootAction;
 		}
-		else if (m_pickedCard->getType() == FloorCardType) {
+		else if (type == FloorCardType) {
 			m_action = FloorAction;
 		}
-		else if (m_pickedCard->getType() == EnemyCardType) {
+		else if (type == EnemyCardType) {
 			m_action = AttackAction;
+		}
+		else if (type == FinalGoalCardType) {
+			m_action = GetFinalGoalAction;
 		}
 	}
 }
@@ -236,6 +250,9 @@ void PlayScene::_action() {
 			break;
 		case AttackAction:
 			_attack();
+			break;
+		case GetFinalGoalAction:
+			_getFinalGoal();
 			break;
 		default:
 			break;
@@ -273,15 +290,25 @@ void PlayScene::_changeFloor() {
 			_notify("Can't change floor while\nfighting");
 		}
 		else {
-			m_floorCard = nullptr;
 			m_player.toNextFloor();
 			char floorStr[25];
-			snprintf(
-				floorStr,
-				20,
-				"You reached floor %d",
-				m_player.getFloor().getLevel()
-			);
+			if (!m_player.foundFinalGoal()) {
+				m_floorCard = nullptr;
+				snprintf(
+					floorStr,
+					25,
+					"You reached floor %d",
+					m_player.getFloor().getLevel()
+				);
+			}
+			else {
+				snprintf(
+					floorStr,
+					25,
+					"You go back to floor %d",
+					m_player.getFloor().getLevel()
+				);
+			}
 			_notify(floorStr);
 		}
 	}
@@ -314,6 +341,13 @@ void PlayScene::_attack(std::shared_ptr<ObjectCard> attackCard) {
 		m_player.setFighting(false);
 	}
 	_notify(message);
+}
+
+void PlayScene::_getFinalGoal() {
+	m_pickedCard = nullptr;
+	m_player.setFoundFinalGoal();
+	m_floorCard = m_deck.createFloorCard(FLOOR_UP);
+	_notify("You found the Artefact of Power");
 }
 
 void PlayScene::_notify(std::string message) {

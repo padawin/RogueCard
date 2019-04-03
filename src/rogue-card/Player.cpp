@@ -142,15 +142,19 @@ void Player::applyCardStats(std::shared_ptr<ObjectCard> card) {
 	}
 }
 
-FloorDirection Player::getDirection() const {
-	return m_floorDirection;
-}
-
 void Player::toNextFloor() {
-	if (m_floorDirection == FLOOR_DOWN) {
-		getFloor().toNextLevel();
-	}
-	else {
+	if (m_bFoundFinalGoal) {
 		getFloor().toPreviousLevel();
 	}
+	else {
+		getFloor().toNextLevel();
+	}
+}
+
+void Player::setFoundFinalGoal() {
+	m_bFoundFinalGoal = true;
+}
+
+bool Player::foundFinalGoal() const {
+	return m_bFoundFinalGoal;
 }

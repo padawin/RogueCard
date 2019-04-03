@@ -14,7 +14,6 @@ class Player {
 	Equipment m_equipment;
 	ObjectCardCollection m_inventory;
 	Floor m_floor;
-	FloorDirection m_floorDirection = FLOOR_DOWN;
 	int m_iHealth = 30;
 	int m_iMaxHealth = 30;
 	int m_iEquipmentMaxHealth = 0;
@@ -24,6 +23,7 @@ class Player {
 	int m_iLevel = 1;
 
 	bool m_bFighting = false;
+	bool m_bFoundFinalGoal = false;
 
 	S_CardStats _getEquipmentStats(bool applyOnSelf);
 
@@ -67,6 +67,9 @@ class Player {
 
 	FloorDirection getDirection() const;
 	void toNextFloor();
+
+	void setFoundFinalGoal();
+	bool foundFinalGoal() const;
 };
 
 #endif
