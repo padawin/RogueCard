@@ -196,13 +196,14 @@ void PlayScene::_useCardUnderCursor() {
 void PlayScene::_pickCard() {
 	if (m_pickedCard == nullptr) {
 		m_pickedCard = m_deck.pickCard(m_player, m_floorCard != nullptr);
-		if (m_pickedCard->getType() == ObjectCardType) {
+		E_CardType type = m_pickedCard->getType();
+		if (type == ObjectCardType) {
 			m_action = LootAction;
 		}
-		else if (m_pickedCard->getType() == FloorCardType) {
+		else if (type == FloorCardType) {
 			m_action = FloorAction;
 		}
-		else if (m_pickedCard->getType() == EnemyCardType) {
+		else if (type == EnemyCardType) {
 			m_action = AttackAction;
 		}
 	}
