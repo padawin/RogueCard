@@ -210,12 +210,11 @@ void PlayScene::_pickCard() {
 
 void PlayScene::_lootObject() {
 	std::shared_ptr<ObjectCard> objectCard(std::static_pointer_cast<ObjectCard>(m_pickedCard));
-	if (!m_player.hasSpaceInInventory()) {
+	if (!m_player.addItemToInventory(objectCard)) {
 		_notify("Your inventory is full");
 	}
 	else {
 		char message[44];
-		m_player.addItemToInventory(objectCard);
 		snprintf(message, 44, "You picked:\n%s", objectCard->getName());
 		_notify(message);
 		m_pickedCard = nullptr;
