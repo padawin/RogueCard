@@ -12,8 +12,7 @@ std::shared_ptr<Card> CardDeck::pickCard(Player &player, bool foundNextFloor) {
 		card = std::shared_ptr<FinalGoalCard>(new FinalGoalCard());
 	}
 	else if (!player.foundFinalGoal() && !isLastFloor && !foundNextFloor && proba < 50) {
-		FloorDirection floorDirection = player.getDirection() ? FLOOR_DOWN : FLOOR_UP;
-		card = createFloorCard(floorDirection);
+		card = createFloorCard(FLOOR_DOWN);
 	}
 	else if (proba < 600) {
 		card = std::shared_ptr<EnemyCard>(new EnemyCard(player.getFloor().getLevel()));
