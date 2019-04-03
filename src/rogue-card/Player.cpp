@@ -92,8 +92,8 @@ void Player::setInventoryItem(int index, std::shared_ptr<ObjectCard> card) {
 	m_inventory.setCard(index, card);
 }
 
-void Player::addItemToInventory(std::shared_ptr<ObjectCard> card) {
-	m_inventory.addCard(card);
+bool Player::addItemToInventory(std::shared_ptr<ObjectCard> card) {
+	return m_inventory.addCard(card);
 }
 
 void Player::removeInventoryCard(std::shared_ptr<ObjectCard> card) {
