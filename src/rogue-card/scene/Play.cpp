@@ -36,6 +36,9 @@ bool PlayScene::onEnter() {
 	if (s.exists()) {
 		std::clog << "Save found, load\n";
 		s.load();
+		if (m_player.foundFinalGoal()) {
+			m_floorCard = m_deck.createFloorCard(FLOOR_UP);
+		}
 	}
 	else {
 		std::clog << "No save found, create new one\n";

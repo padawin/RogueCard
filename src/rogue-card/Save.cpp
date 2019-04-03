@@ -69,6 +69,13 @@ void Save::_loadPlayer() {
 			sscanf(line, "l %d\n", &level);
 			m_player.setLevel(level);
 		}
+		if (type == 'S') {
+			int foundFinalGoal;
+			sscanf(line, "S %d\n", &foundFinalGoal);
+			if (foundFinalGoal == 1) {
+				m_player.setFoundFinalGoal();
+			}
+		}
 		if (type == 'i') {
 			int inventoryIndex;
 			int cardMetaIndex;
@@ -130,6 +137,7 @@ void Save::_savePlayer() {
 	fprintf(playerFile, "f %d\n", m_player.getFloor().getLevel());
 	fprintf(playerFile, "g %ld\n", m_player.getGold());
 	fprintf(playerFile, "l %d\n", m_player.getLevel());
+	fprintf(playerFile, "S %d\n", m_player.foundFinalGoal());
 	m_player.getInventory().reset();
 	do {
 		auto card = m_player.getInventory().current();
