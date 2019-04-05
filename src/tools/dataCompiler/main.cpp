@@ -109,10 +109,10 @@ bool readEnemyFileLine(char line[MAX_CHARS_PER_LINE], S_EnemyMeta &data) {
 
 bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
 	int usable, consumable, applyOnSelf, isHelm, isShoulders, isGlove, isChest,
-		isBelt, isShoe, isWeapon, isShield;
+		isBelt, isShoe, isWeapon, isShield, xpSkill;
 	int result = sscanf(
 		line,
-		"\"%[^\"]\" %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n",
+		"\"%[^\"]\" %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n",
 		data.name,
 		&data.tilesetX,
 		&data.tilesetY,
@@ -130,8 +130,11 @@ bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
 		&data.stats.points,
 		&data.stats.healthPoints,
 		&data.stats.maxHealthPoints,
-		&data.stats.firePoints
+		&data.stats.firePoints,
+		&xpSkill,
+		&data.stats.xp
 	);
+	data.stats.xpSkill = (E_XPSkill) xpSkill;
 	data.usable = (bool) usable;
 	data.consumable = (bool) consumable;
 	data.applyOnSelf = (bool) applyOnSelf;
@@ -143,7 +146,7 @@ bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
 	data.isShoe = (bool) isShoe;
 	data.isWeapon = (bool) isWeapon;
 	data.isShield = (bool) isShield;
-	return result == 18;
+	return result == 20;
 }
 
 bool readFontFileLine(char line[MAX_CHARS_PER_LINE], S_FontAtlasCoord &data) {
