@@ -14,12 +14,28 @@ E_SkillIncreaseResult Levelling::increaseSkillXP(E_XPSkill skill, int amount) {
 		int oldAmount = m_aSkillXP[skill];
 		m_aSkillXP[skill] += amount;
 		if (_convertSkillToLevel(oldAmount) != _convertSkillToLevel(m_aSkillXP[skill])) {
-			return SKILL_LEVEL_UP;
+			_skillLevelUp();
 		}
 		return SKILL_ONLY;
 	}
 
 	return NO_CHANGE;
+}
+
+E_SkillIncreaseResult Levelling::_skillLevelUp() {
+	--m_iStepsBeforeNextLevel;
+	if (m_iStepsBeforeNextLevel < 0) {
+		_levelUp();
+		return GLOBAL_LEVEL_UP;
+	}
+	else {
+		return SKILL_LEVEL_UP;
+	}
+}
+
+void Levelling::_levelUp() {
+	m_iStepsBeforeNextLevel = m_iStepsBeforeNextLevel + STEPS_TO_NEXT_LEVEL;
+	++m_iLevel;
 }
 
 int Levelling::getSkillLevel(E_XPSkill skill) const {
