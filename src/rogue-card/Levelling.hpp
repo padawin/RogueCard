@@ -3,6 +3,8 @@
 
 #include "../common/types.hpp"
 
+enum E_SkillIncreaseResult {NO_CHANGE, SKILL_ONLY, SKILL_LEVEL_UP};
+
 class Levelling {
 	private:
 	int m_iLevel = 1;
@@ -14,7 +16,7 @@ class Levelling {
 	void setLevel(int level);
 	int getLevel() const;
 
-	void increaseSkillXP(E_XPSkill skill, int amount);
+	E_SkillIncreaseResult increaseSkillXP(E_XPSkill skill, int amount);
 	int getSkillLevel(E_XPSkill skill) const;
 };
 

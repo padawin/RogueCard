@@ -9,10 +9,17 @@ int Levelling::getLevel() const {
 	return m_iLevel;
 }
 
-void Levelling::increaseSkillXP(E_XPSkill skill, int amount) {
+E_SkillIncreaseResult Levelling::increaseSkillXP(E_XPSkill skill, int amount) {
 	if (skill < NB_XP_SKILLS) {
+		int oldAmount = m_aSkillXP[skill];
 		m_aSkillXP[skill] += amount;
+		if (_convertSkillToLevel(oldAmount) != _convertSkillToLevel(m_aSkillXP[skill])) {
+			return SKILL_LEVEL_UP;
+		}
+		return SKILL_ONLY;
 	}
+
+	return NO_CHANGE;
 }
 
 int Levelling::getSkillLevel(E_XPSkill skill) const {
