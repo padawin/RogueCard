@@ -19,7 +19,8 @@ enum E_XPSkill {
 	AXE,
 	MAGIC,
 	PERCEPTION,
-	SPEED
+	SPEED,
+	NB_XP_SKILLS
 };
 
 struct S_TilesetMapping {
