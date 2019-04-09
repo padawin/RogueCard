@@ -11,6 +11,7 @@
 #include "../CardDeck.hpp"
 #include "../ActionCard.hpp"
 #include "../ActionBar.hpp"
+#include "../Fight.hpp"
 
 enum PlayCursorPosition {Action, Object1, Object2, Object3, Object4, Floor, NbPositions};
 
@@ -30,6 +31,7 @@ class PlayScene : public State {
 	CardDeck m_deck;
 	ActionBar m_actionBar;
 	Text m_notification;
+	Fight m_fight;
 
 	ActionType m_action = PickAction;
 
