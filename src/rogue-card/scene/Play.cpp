@@ -18,7 +18,8 @@ PlayScene::PlayScene(UserActions &userActions, Player &player, std::shared_ptr<S
 	m_actionCard(ActionCard()),
 	m_deck(CardDeck()),
 	m_actionBar(ActionBar()),
-	m_notification(Text())
+	m_notification(Text()),
+	m_fight(Fight(m_player))
 {
 	m_mCursorPositions[Action] = {16, 160};
 	m_mCursorPositions[Object1] = {64, 160};
@@ -215,6 +216,7 @@ void PlayScene::_pickCard() {
 		}
 		else if (type == EnemyCardType) {
 			m_action = AttackAction;
+			m_fight.start(std::static_pointer_cast<EnemyCard>(m_pickedCard));
 		}
 		else if (type == FinalGoalCardType) {
 			m_action = GetFinalGoalAction;
@@ -262,7 +264,7 @@ void PlayScene::_action() {
 void PlayScene::_useObject(int objectIndex) {
 	auto card = m_actionBar.getCard(objectIndex);
 	if (card != nullptr) {
-		bool isFighting = m_player.isFighting();
+		bool isFighting = m_fight.isFighting();
 		bool used = true;
 		if (card->applyOnSelf()) {
 			m_player.applyCardStats(card);
@@ -286,7 +288,7 @@ void PlayScene::_useObject(int objectIndex) {
 
 void PlayScene::_changeFloor() {
 	if (m_floorCard != nullptr) {
-		if (m_player.isFighting()) {
+		if (m_fight.isFighting()) {
 			_notify("Can't change floor while\nfighting");
 		}
 		else {
@@ -315,32 +317,11 @@ void PlayScene::_changeFloor() {
 }
 
 void PlayScene::_attack(std::shared_ptr<ObjectCard> attackCard) {
-	char message[80];
-	std::shared_ptr<EnemyCard> enemyCard(std::static_pointer_cast<EnemyCard>(m_pickedCard));
-	int damagesDealtToEnemy = m_player.attack(enemyCard, attackCard);
-	if (!enemyCard->isDead()) {
-		int damagesDealtToPlayer = enemyCard->attack(m_player);
-		snprintf(
-			message,
-			80,
-			"You hit %s (%d DP)\n%s hits you (%d DP)",
-			enemyCard->getName(),
-			damagesDealtToEnemy,
-			enemyCard->getName(),
-			damagesDealtToPlayer
-		);
-	}
-	else {
-		snprintf(
-			message,
-			80,
-			"You defeated %s",
-			enemyCard->getName()
-		);
+	std::string res = m_fight.turn(attackCard);
+	_notify(res);
+	if (!m_fight.isFighting()) {
 		m_pickedCard = nullptr;
-		m_player.setFighting(false);
 	}
-	_notify(message);
 }
 
 void PlayScene::_getFinalGoal() {
