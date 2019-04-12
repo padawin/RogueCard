@@ -39,44 +39,44 @@ void Save::_loadPlayer() {
 			sscanf(line, "h %d\n", &health);
 			m_player.setHealth(health);
 		}
-		if (type == 'H') {
+		else if (type == 'H') {
 			int maxHealth = 0;
 			sscanf(line, "H %d\n", &maxHealth);
 			m_player.setMaxHealth(maxHealth);
 		}
-		if (type == 's') {
+		else if (type == 's') {
 			int strength = 0;
 			sscanf(line, "s %d\n", &strength);
 			m_player.setStrength(strength);
 		}
-		if (type == 'd') {
+		else if (type == 'd') {
 			int defence = 0;
 			sscanf(line, "d %d\n", &defence);
 			m_player.setDefence(defence);
 		}
-		if (type == 'f') {
+		else if (type == 'f') {
 			int floorLevel = 0;
 			sscanf(line, "f %d\n", &floorLevel);
 			m_player.getFloor().setLevel(floorLevel);
 		}
-		if (type == 'g') {
+		else if (type == 'g') {
 			long gold = 0;
 			sscanf(line, "g %ld\n", &gold);
 			m_player.setGold(gold);
 		}
-		if (type == 'l') {
+		else if (type == 'l') {
 			int level = 1;
 			sscanf(line, "l %d\n", &level);
 			m_player.setLevel(level);
 		}
-		if (type == 'S') {
+		else if (type == 'V') {
 			int foundFinalGoal;
 			sscanf(line, "S %d\n", &foundFinalGoal);
 			if (foundFinalGoal == 1) {
 				m_player.setFoundFinalGoal();
 			}
 		}
-		if (type == 'i') {
+		else if (type == 'i') {
 			int inventoryIndex;
 			int cardMetaIndex;
 			int cardQuantity;
@@ -92,7 +92,7 @@ void Save::_loadPlayer() {
 				m_player.setInventoryItem(inventoryIndex, card);
 			}
 		}
-		if (type == 'a') {
+		else if (type == 'a') {
 			int actionBarIndex;
 			int cardIndex;
 			sscanf(
@@ -104,12 +104,12 @@ void Save::_loadPlayer() {
 				actionBarIndex, m_player.getInventoryItem(cardIndex)
 			);
 		}
-		if (type == 'e') {
+		else if (type == 'e') {
 			int cardIndex;
 			sscanf(line, "e %d\n", &cardIndex);
 			m_player.getEquipment().equip(m_player.getInventoryItem(cardIndex));
 		}
-		if (type == 'x') {
+		else if (type == 'x') {
 			int skill, xp;
 			sscanf(line, "x %d %d\n", &skill, &xp);
 			if (skill < NB_XP_SKILLS) {
