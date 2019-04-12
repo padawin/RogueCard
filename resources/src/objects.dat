@@ -1,6 +1,19 @@
 # format
 # points = armor or damage points depending on if applyOnSelf is true or false
-# ObjectName tilesetX tilesetY usable consumable applyOnSelf isHelm isShoulders isGlove isChest isBelt isShoe isWeapon isShield points healthPoints maxHealthPoints firePoints
+# ObjectName tilesetX tilesetY usable consumable applyOnSelf isHelm isShoulders isGlove isChest isBelt isShoe isWeapon isShield points healthPoints maxHealthPoints firePoints associatedStat XP
+# Stats:
+# 0: None
+# 1: Light armor
+# 2: Medium armor
+# 3: Heavy armor
+# 4: Hand fight
+# 5: Sword
+# 6: Lance
+# 7: Spears
+# 8: Axe
+# 9: Magic
+# 10: Perception
+# 11: speed
 # Belt
 # Belt
 # Belt
@@ -56,15 +69,15 @@
 # Pendant
 # Armor
 # Armor
-"Monk robe" 10 3 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0
+"Monk robe" 10 3 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 1 1
 # Armor
-"Padded armor" 12 3 0 0 1 0 0 0 1 0 0 0 0 1 0 0 0
-"Leather armor" 13 3 0 0 1 0 0 0 1 0 0 0 0 2 0 0 0
-"Steel armor" 14 3 0 0 1 0 0 0 1 0 0 0 0 3 0 0 0
-"Knight armor" 15 3 0 0 1 0 0 0 1 0 0 0 0 4 0 0 0
-"Heavy knight armor" 0 4 0 0 1 0 0 0 1 0 0 0 0 5 0 0 0
-"Paladin armor" 1 4 0 0 1 0 0 0 1 0 0 0 0 6 0 0 0
-"Hero armor" 2 4 0 0 1 0 0 0 1 0 0 0 0 7 0 0 0
+"Padded armor" 12 3 0 0 1 0 0 0 1 0 0 0 0 1 0 0 0 1 2
+"Leather armor" 13 3 0 0 1 0 0 0 1 0 0 0 0 2 0 0 0 1 3
+"Steel armor" 14 3 0 0 1 0 0 0 1 0 0 0 0 3 0 0 0 2 1
+"Knight armor" 15 3 0 0 1 0 0 0 1 0 0 0 0 4 0 0 0 2 2
+"Heavy knight armor" 0 4 0 0 1 0 0 0 1 0 0 0 0 5 0 0 0 3 1
+"Paladin armor" 1 4 0 0 1 0 0 0 1 0 0 0 0 6 0 0 0 3 2
+"Hero armor" 2 4 0 0 1 0 0 0 1 0 0 0 0 7 0 0 0 3 4
 # armor
 # armor
 # armor
@@ -606,7 +619,7 @@
 # pills
 # pills
 # Large Health potion
-"Large health potion" 14 36 1 1 1 0 0 0 0 0 0 0 0 0 50 0 0
+"Large health potion" 14 36 1 1 1 0 0 0 0 0 0 0 0 0 50 0 0 0 0
 # potions
 # potions
 # potions
@@ -1155,7 +1168,7 @@
 # Ring
 # Ring
 # Shield
-"Wooden shield" 0 71 0 0 1 0 0 0 0 0 0 0 1 2 0 0 0
+"Wooden shield" 0 71 0 0 1 0 0 0 0 0 0 0 1 2 0 0 0 2 1
 # Shield
 # Shield
 # Shield
@@ -1199,7 +1212,7 @@
 # Shield
 # Shield
 # Spells
-"Fireball spell" 11 73 1 0 0 0 0 0 0 0 0 0 0 0 0 0 10
+"Fireball spell" 11 73 1 0 0 0 0 0 0 0 0 0 0 0 0 0 10 9 1
 # Spells
 # Spells
 # Spells
@@ -1491,6 +1504,6 @@
 # Arrow
 # Arrow
 # Wooden axe
-"Fire axe" 6 91 0 0 0 0 0 0 0 0 0 1 0 10 0 0 0
+"Fire axe" 6 91 0 0 0 0 0 0 0 0 0 1 0 10 0 0 0 8 2
 # Ice axe
 # Poison axe

@@ -4,6 +4,7 @@
 #include <memory>
 #include "ObjectCard.hpp"
 #include "Floor.hpp"
+#include "Levelling.hpp"
 #include "Equipment.hpp"
 #include "ObjectCardCollection.hpp"
 
@@ -14,13 +15,13 @@ class Player {
 	Equipment m_equipment;
 	ObjectCardCollection m_inventory;
 	Floor m_floor;
+	Levelling m_levelling;
 	int m_iHealth = 30;
 	int m_iMaxHealth = 30;
 	int m_iEquipmentMaxHealth = 0;
 	int m_iStrength = 5;
 	int m_iDefence = 5;
 	long m_iGold = 0;
-	int m_iLevel = 1;
 
 	bool m_bFighting = false;
 	bool m_bFoundFinalGoal = false;
@@ -37,7 +38,7 @@ class Player {
 	short getInventorySize() const;
 	Floor &getFloor();
 	long getGold() const;
-	int getLevel() const;
+	Levelling &getLevelling();
 	void setHealth(int health);
 	void setMaxHealth(int maxHealth);
 	void setStrength(int strength);
@@ -47,6 +48,8 @@ class Player {
 
 	int setDamages(int damages);
 	int attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> attackCard);
+	void getXPAttack(std::shared_ptr<ObjectCard> weapon, int xp[NB_XP_SKILLS]);
+	void getXPDefence(int xp[NB_XP_SKILLS]);
 
 	bool isDead() const;
 	bool isFighting() const;

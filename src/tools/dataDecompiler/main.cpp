@@ -103,7 +103,9 @@ void writeObject(std::ofstream &fileOutStream, S_ObjectMeta object) {
 		<< object.stats.points << " "
 		<< object.stats.healthPoints << " "
 		<< object.stats.maxHealthPoints << " "
-		<< object.stats.firePoints << "\n";
+		<< object.stats.firePoints << " "
+		<< object.stats.xpSkill << " "
+		<< object.stats.xp << "\n";
 }
 
 void writeFontAtlas(std::ofstream &fileOutStream, S_FontAtlasCoord object) {

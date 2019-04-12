@@ -206,6 +206,7 @@ void PlayScene::_useCardUnderCursor() {
 
 void PlayScene::_pickCard() {
 	if (m_pickedCard == nullptr) {
+		_notify("");
 		m_pickedCard = m_deck.pickCard(m_player, m_floorCard != nullptr);
 		E_CardType type = m_pickedCard->getType();
 		if (type == ObjectCardType) {
@@ -318,10 +319,19 @@ void PlayScene::_changeFloor() {
 
 void PlayScene::_attack(std::shared_ptr<ObjectCard> attackCard) {
 	std::string res = m_fight.turn(attackCard);
-	_notify(res);
 	if (!m_fight.isFighting()) {
 		m_pickedCard = nullptr;
+		res += "\nYou earned:\n";
+		for (int skill = NONE; skill < NB_XP_SKILLS; ++skill) {
+			int points = m_fight.pointsEarnedIn((E_XPSkill) skill);
+			if (points > 0) {
+				char xpStr[50];
+				snprintf(xpStr, 50, "%d XP in %s\n", points, getSkillLabel((E_XPSkill) skill).c_str());
+				res += xpStr;
+			}
+		}
 	}
+	_notify(res);
 }
 
 void PlayScene::_getFinalGoal() {
