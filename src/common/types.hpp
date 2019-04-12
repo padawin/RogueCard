@@ -1,6 +1,8 @@
 #ifndef __TYPES__
 #define __TYPES__
 
+#include <string>
+
 #define MAX_LENGTH_TILESET_NAME 32
 #define MAX_CHAR_RESOURCE_PATH 255
 
@@ -22,6 +24,8 @@ enum E_XPSkill {
 	SPEED,
 	NB_XP_SKILLS
 };
+
+std::string getSkillLabel(E_XPSkill skill);
 
 struct S_TilesetMapping {
 	char tileset[MAX_LENGTH_TILESET_NAME];
