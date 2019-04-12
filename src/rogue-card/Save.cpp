@@ -71,7 +71,7 @@ void Save::_loadPlayer() {
 		}
 		else if (type == 'V') {
 			int foundFinalGoal;
-			sscanf(line, "S %d\n", &foundFinalGoal);
+			sscanf(line, "V %d\n", &foundFinalGoal);
 			if (foundFinalGoal == 1) {
 				m_player.setFoundFinalGoal();
 			}
@@ -144,7 +144,7 @@ void Save::_savePlayer() {
 	fprintf(playerFile, "f %d\n", m_player.getFloor().getLevel());
 	fprintf(playerFile, "g %ld\n", m_player.getGold());
 	fprintf(playerFile, "l %d\n", m_player.getLevelling().getLevel());
-	fprintf(playerFile, "S %d\n", m_player.foundFinalGoal());
+	fprintf(playerFile, "V %d\n", m_player.foundFinalGoal());
 	m_player.getInventory().reset();
 	do {
 		auto card = m_player.getInventory().current();
