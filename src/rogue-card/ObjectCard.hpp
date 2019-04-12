@@ -20,6 +20,14 @@ const unsigned char FLAG_EQUIPMENT_FEET =      0x20;
 const unsigned char FLAG_EQUIPMENT_WEAPON =    0x40;
 const unsigned char FLAG_EQUIPMENT_SHIELD =    0x80;
 
+const unsigned char FLAG_EQUIPMENT_ARMOR = FLAG_EQUIPMENT_HEAD
+										 | FLAG_EQUIPMENT_SHOULDERS
+										 | FLAG_EQUIPMENT_HANDS
+										 | FLAG_EQUIPMENT_CHEST
+										 | FLAG_EQUIPMENT_BELT
+										 | FLAG_EQUIPMENT_FEET
+										 | FLAG_EQUIPMENT_SHIELD;
+
 const int MAX_QUANTITY = 10;
 
 class ObjectCard : public Card {

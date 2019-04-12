@@ -48,6 +48,8 @@ class Player {
 
 	int setDamages(int damages);
 	int attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> attackCard);
+	void getXPAttack(std::shared_ptr<ObjectCard> weapon, int xp[NB_XP_SKILLS]);
+	void getXPDefence(int xp[NB_XP_SKILLS]);
 
 	bool isDead() const;
 	bool isFighting() const;

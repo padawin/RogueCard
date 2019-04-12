@@ -37,6 +37,33 @@ int Player::attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> 
 	return card->setDamages(damages);
 }
 
+void Player::getXPAttack(std::shared_ptr<ObjectCard> weapon, int xp[NB_XP_SKILLS]) {
+	if (weapon == nullptr) {
+		weapon = m_equipment.getCardWithFlag(FLAG_EQUIPMENT_WEAPON);
+	}
+
+	if (weapon != nullptr) {
+		E_XPSkill skill = weapon->getStats().xpSkill;
+		int points = weapon->getStats().xp;
+		xp[skill] = points;
+	}
+	else {
+		// @TODO handle bare hand fight XP
+	}
+}
+
+void Player::getXPDefence(int xp[NB_XP_SKILLS]) {
+	m_equipment.reset();
+	do {
+		auto card = m_equipment.current();
+		if (card != nullptr && card->hasFlag(FLAG_EQUIPMENT_ARMOR)) {
+			E_XPSkill skill = card->getStats().xpSkill;
+			int points = card->getStats().xp;
+			xp[skill] = points;
+		}
+	} while (m_equipment.next());
+}
+
 int Player::setDamages(int damages) {
 	int gearDefence = _getEquipmentStats(true).points;
 	int finalDamages = damages - (m_iDefence + gearDefence);
