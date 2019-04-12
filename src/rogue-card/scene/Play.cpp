@@ -312,6 +312,7 @@ void PlayScene::_changeFloor() {
 					m_player.getFloor().getLevel()
 				);
 			}
+			m_pickedCard = nullptr;
 			_notify(floorStr);
 		}
 	}
