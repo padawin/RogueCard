@@ -21,7 +21,7 @@ class Fight {
 	Fight(Player &player);
 	void start(std::shared_ptr<EnemyCard> enemy);
 	std::string turn(std::shared_ptr<ObjectCard> weapon);
-
+	int pointsEarnedIn(E_XPSkill skill) const;
 	bool isFighting() const;
 };
 

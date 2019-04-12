@@ -51,3 +51,7 @@ void Fight::_finalise() {
 bool Fight::isFighting() const {
 	return m_enemy != nullptr;
 }
+
+int Fight::pointsEarnedIn(E_XPSkill skill) const {
+	return m_fightXP[skill];
+}
