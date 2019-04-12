@@ -23,6 +23,7 @@ class Levelling {
 
 	E_SkillIncreaseResult increaseSkillXP(E_XPSkill skill, int amount);
 	int getSkillLevel(E_XPSkill skill) const;
+	int getSkill(E_XPSkill skill) const;
 };
 
 #endif

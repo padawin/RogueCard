@@ -38,6 +38,10 @@ void Levelling::_levelUp() {
 	++m_iLevel;
 }
 
+int Levelling::getSkill(E_XPSkill skill) const {
+	return m_aSkillXP[skill];
+}
+
 int Levelling::getSkillLevel(E_XPSkill skill) const {
 	if (skill >= NB_XP_SKILLS) {
 		return 0;
