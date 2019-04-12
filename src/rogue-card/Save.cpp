@@ -136,7 +136,7 @@ void Save::_savePlayer() {
 	fprintf(playerFile, "d %d\n", m_player.getDefence());
 	fprintf(playerFile, "f %d\n", m_player.getFloor().getLevel());
 	fprintf(playerFile, "g %ld\n", m_player.getGold());
-	fprintf(playerFile, "l %d\n", m_player.getLevel());
+	fprintf(playerFile, "l %d\n", m_player.getLevelling().getLevel());
 	fprintf(playerFile, "S %d\n", m_player.foundFinalGoal());
 	m_player.getInventory().reset();
 	do {

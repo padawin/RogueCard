@@ -43,6 +43,9 @@ std::string Fight::turn(std::shared_ptr<ObjectCard> weapon) {
 void Fight::_finalise() {
 	m_enemy = nullptr;
 	m_player.setFighting(false);
+	for (int skill = NONE; skill < NB_XP_SKILLS; ++skill) {
+		m_player.getLevelling().increaseSkillXP((E_XPSkill) skill, m_fightXP[skill]);
+	}
 }
 
 bool Fight::isFighting() const {

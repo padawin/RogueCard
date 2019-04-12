@@ -38,7 +38,7 @@ class Player {
 	short getInventorySize() const;
 	Floor &getFloor();
 	long getGold() const;
-	int getLevel() const;
+	Levelling &getLevelling();
 	void setHealth(int health);
 	void setMaxHealth(int maxHealth);
 	void setStrength(int strength);

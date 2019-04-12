@@ -16,7 +16,8 @@ int Player::getStrength() const { return m_iStrength; }
 int Player::getDefence() const { return m_iDefence; }
 Floor &Player::getFloor() { return m_floor; }
 long Player::getGold() const { return m_iGold; }
-int Player::getLevel() const { return m_levelling.getLevel(); }
+
+Levelling &Player::getLevelling() { return m_levelling; }
 
 void Player::setHealth(int health) { m_iHealth = health;}
 void Player::setMaxHealth(int maxHealth) { m_iMaxHealth = maxHealth;}
