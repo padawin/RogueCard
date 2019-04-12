@@ -109,6 +109,13 @@ void Save::_loadPlayer() {
 			sscanf(line, "e %d\n", &cardIndex);
 			m_player.getEquipment().equip(m_player.getInventoryItem(cardIndex));
 		}
+		if (type == 'x') {
+			int skill, xp;
+			sscanf(line, "x %d %d\n", &skill, &xp);
+			if (skill < NB_XP_SKILLS) {
+				m_player.getLevelling().increaseSkillXP((E_XPSkill) skill, xp);
+			}
+		}
 	}
 
 	fin.close();
@@ -176,5 +183,15 @@ void Save::_savePlayer() {
 			);
 		}
 	} while (m_player.getEquipment().next());
+
+	// Save levelling
+	for (int s = 0; s < NB_XP_SKILLS; ++s) {
+		fprintf(
+			playerFile,
+			"x %d %d\n",
+			s,
+			m_player.getLevelling().getSkill((E_XPSkill) s)
+		);
+	}
 	fclose(playerFile);
 }
