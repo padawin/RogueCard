@@ -30,10 +30,14 @@ std::string Fight::turn(std::shared_ptr<ObjectCard> weapon) {
 			"You defeated %s",
 			m_enemy->getName()
 		);
-		m_enemy = nullptr;
-		m_player.setFighting(false);
+		_finalise();
 	}
 	return message;
+}
+
+void Fight::_finalise() {
+	m_enemy = nullptr;
+	m_player.setFighting(false);
 }
 
 bool Fight::isFighting() const {

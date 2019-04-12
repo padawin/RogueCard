@@ -12,6 +12,8 @@ class Fight {
 	std::shared_ptr<EnemyCard> m_enemy = nullptr;
 	std::shared_ptr<ObjectCard> m_playerWeapon = nullptr;
 
+	void _finalise();
+
 	public:
 	~Fight() {}
 	Fight(Player &player);
