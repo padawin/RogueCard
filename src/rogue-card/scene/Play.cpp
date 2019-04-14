@@ -5,6 +5,7 @@
 #include "GameOver.hpp"
 #include "Win.hpp"
 #include "Inventory.hpp"
+#include "FightResult.hpp"
 #include "Equipment.hpp"
 #include "Play.hpp"
 #include "EnemyCard.hpp"
@@ -67,7 +68,14 @@ void PlayScene::update(StateMachine &stateMachine) {
 		stateMachine.pushState(new EquipmentScene(m_userActions, m_player, m_renderer));
 	}
 	else if (m_userActions.getActionState("USE_CARD")) {
+		bool wasFighting = m_fight.isFighting();
 		_useCardUnderCursor();
+		// Killed the enemy
+		if (wasFighting && !m_fight.isFighting()) {
+			stateMachine.pushState(
+				new FightResultScene(m_userActions, m_fight, m_renderer)
+			);
+		}
 	}
 	else if (m_userActions.getActionState("CURSOR_LEFT")) {
 		m_cursorPosition = (PlayCursorPosition) ((NbPositions + m_cursorPosition - 1) % NbPositions);
@@ -319,20 +327,23 @@ void PlayScene::_changeFloor() {
 }
 
 void PlayScene::_attack(std::shared_ptr<ObjectCard> attackCard) {
-	std::string res = m_fight.turn(attackCard);
+	S_FightTurnResult res = m_fight.turn(attackCard);
 	if (!m_fight.isFighting()) {
 		m_pickedCard = nullptr;
-		res += "\nYou earned:\n";
-		for (int skill = NONE; skill < NB_XP_SKILLS; ++skill) {
-			int points = m_fight.pointsEarnedIn((E_XPSkill) skill);
-			if (points > 0) {
-				char xpStr[50];
-				snprintf(xpStr, 50, "%d XP in %s\n", points, getSkillLabel((E_XPSkill) skill).c_str());
-				res += xpStr;
-			}
-		}
 	}
-	_notify(res);
+	else {
+		char message[80];
+		snprintf(
+			message,
+			80,
+			"You hit %s (%d DP)\n%s hits you (%d DP)",
+			m_fight.getEnemy()->getName(),
+			res.damagesDealtToEnemy,
+			m_fight.getEnemy()->getName(),
+			res.damagesDealtToPlayer
+		);
+		_notify(message);
+	}
 }
 
 void PlayScene::_getFinalGoal() {

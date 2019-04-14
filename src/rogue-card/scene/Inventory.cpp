@@ -99,7 +99,6 @@ bool InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMach
 		std::cout << "Info object\n";
 	}
 	else if (action == DISCARD) {
-		std::cout << "Discard object\n";
 		m_player.removeInventoryCard(card);
 		m_player.getEquipment().remove(card);
 		if (m_actionBar.hasCard(card)) {

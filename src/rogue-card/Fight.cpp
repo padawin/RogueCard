@@ -11,36 +11,18 @@ void Fight::start(std::shared_ptr<EnemyCard> enemy) {
 	}
 }
 
-std::string Fight::turn(std::shared_ptr<ObjectCard> weapon) {
-	char message[80];
-	int damagesDealtToEnemy = m_player.attack(m_enemy, weapon);
+S_FightTurnResult Fight::turn(std::shared_ptr<ObjectCard> weapon) {
+	S_FightTurnResult res;
+	res.damagesDealtToEnemy = m_player.attack(m_enemy, weapon);
 	m_player.getXPAttack(weapon, m_fightXP);
 	if (!m_enemy->isDead()) {
-		int damagesDealtToPlayer = m_enemy->attack(m_player);
+		res.damagesDealtToPlayer = m_enemy->attack(m_player);
 		m_player.getXPDefence(m_fightXP);
-		snprintf(
-			message,
-			80,
-			"You hit %s (%d DP)\n%s hits you (%d DP)",
-			m_enemy->getName(),
-			damagesDealtToEnemy,
-			m_enemy->getName(),
-			damagesDealtToPlayer
-		);
 	}
-	else {
-		snprintf(
-			message,
-			80,
-			"You defeated %s",
-			m_enemy->getName()
-		);
-		_finalise();
-	}
-	return message;
+	return res;
 }
 
-void Fight::_finalise() {
+void Fight::finalise() {
 	m_enemy = nullptr;
 	m_player.setFighting(false);
 	for (int skill = NONE; skill < NB_XP_SKILLS; ++skill) {
@@ -49,9 +31,13 @@ void Fight::_finalise() {
 }
 
 bool Fight::isFighting() const {
-	return m_enemy != nullptr;
+	return m_enemy != nullptr && !m_enemy->isDead();
 }
 
 int Fight::pointsEarnedIn(E_XPSkill skill) const {
 	return m_fightXP[skill];
+}
+
+std::shared_ptr<EnemyCard> Fight::getEnemy() const {
+	return m_enemy;
 }

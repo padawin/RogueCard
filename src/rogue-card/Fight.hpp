@@ -6,6 +6,11 @@
 #include "ObjectCard.hpp"
 #include "Player.hpp"
 
+struct S_FightTurnResult {
+	int damagesDealtToEnemy = 0;
+	int damagesDealtToPlayer = 0;
+};
+
 class Fight {
 	private:
 	Player &m_player;
@@ -14,15 +19,16 @@ class Fight {
 
 	int m_fightXP[NB_XP_SKILLS] = {};
 
-	void _finalise();
 
 	public:
 	~Fight() {}
 	Fight(Player &player);
 	void start(std::shared_ptr<EnemyCard> enemy);
-	std::string turn(std::shared_ptr<ObjectCard> weapon);
+	S_FightTurnResult turn(std::shared_ptr<ObjectCard> weapon);
 	int pointsEarnedIn(E_XPSkill skill) const;
 	bool isFighting() const;
+	std::shared_ptr<EnemyCard> getEnemy() const;
+	void finalise();
 };
 
 #endif
