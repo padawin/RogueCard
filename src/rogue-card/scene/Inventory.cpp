@@ -95,6 +95,9 @@ bool InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMach
 			m_player.applyCardStats(card);
 		}
 	}
+	else if (action == SORT) {
+		m_player.getInventory().sort();
+	}
 	else if (action == INFO) {
 		std::cout << "Info object\n";
 	}

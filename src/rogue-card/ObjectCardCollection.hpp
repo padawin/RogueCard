@@ -14,6 +14,8 @@ class ObjectCardCollection : public IObjectCardsLoopable {
 	bool _addUniqueCard(std::shared_ptr<ObjectCard> card);
 	bool _addConsumableCard(std::shared_ptr<ObjectCard> card);
 
+	void _group(int start);
+
 	public:
 	~ObjectCardCollection() {}
 	void setCard(int index, std::shared_ptr<ObjectCard> card);
@@ -23,6 +25,8 @@ class ObjectCardCollection : public IObjectCardsLoopable {
 	void clear();
 	bool isFull() const;
 	int getCardIndex(std::shared_ptr<ObjectCard> card) const;
+
+	void sort();
 
 	// Looping methods
 	bool next();

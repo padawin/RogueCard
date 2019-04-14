@@ -6,7 +6,7 @@
 #include "../sdl2/Text.hpp"
 #include "../ObjectCard.hpp"
 
-enum E_ObjectActionMenuItem {USE, INFO, DISCARD, ACTIONBAR, BACK, NB_ITEMS};
+enum E_ObjectActionMenuItem {USE, INFO, DISCARD, ACTIONBAR, SORT, BACK, NB_ITEMS};
 
 class ObjectAction {
 	int m_iNbVisibleItems = 0;
