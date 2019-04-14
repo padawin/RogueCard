@@ -35,12 +35,11 @@ std::string Fight::turn(std::shared_ptr<ObjectCard> weapon) {
 			"You defeated %s",
 			m_enemy->getName()
 		);
-		_finalise();
 	}
 	return message;
 }
 
-void Fight::_finalise() {
+void Fight::finalise() {
 	m_enemy = nullptr;
 	m_player.setFighting(false);
 	for (int skill = NONE; skill < NB_XP_SKILLS; ++skill) {
@@ -49,9 +48,13 @@ void Fight::_finalise() {
 }
 
 bool Fight::isFighting() const {
-	return m_enemy != nullptr;
+	return m_enemy != nullptr && !m_enemy->isDead();
 }
 
 int Fight::pointsEarnedIn(E_XPSkill skill) const {
 	return m_fightXP[skill];
+}
+
+std::shared_ptr<EnemyCard> Fight::getEnemy() const {
+	return m_enemy;
 }
