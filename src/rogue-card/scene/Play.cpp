@@ -327,11 +327,23 @@ void PlayScene::_changeFloor() {
 }
 
 void PlayScene::_attack(std::shared_ptr<ObjectCard> attackCard) {
-	std::string res = m_fight.turn(attackCard);
+	S_FightTurnResult res = m_fight.turn(attackCard);
 	if (!m_fight.isFighting()) {
 		m_pickedCard = nullptr;
 	}
-	_notify(res);
+	else {
+		char message[80];
+		snprintf(
+			message,
+			80,
+			"You hit %s (%d DP)\n%s hits you (%d DP)",
+			m_fight.getEnemy()->getName(),
+			res.damagesDealtToEnemy,
+			m_fight.getEnemy()->getName(),
+			res.damagesDealtToPlayer
+		);
+		_notify(message);
+	}
 }
 
 void PlayScene::_getFinalGoal() {

@@ -11,32 +11,15 @@ void Fight::start(std::shared_ptr<EnemyCard> enemy) {
 	}
 }
 
-std::string Fight::turn(std::shared_ptr<ObjectCard> weapon) {
-	char message[80];
-	int damagesDealtToEnemy = m_player.attack(m_enemy, weapon);
+S_FightTurnResult Fight::turn(std::shared_ptr<ObjectCard> weapon) {
+	S_FightTurnResult res;
+	res.damagesDealtToEnemy = m_player.attack(m_enemy, weapon);
 	m_player.getXPAttack(weapon, m_fightXP);
 	if (!m_enemy->isDead()) {
-		int damagesDealtToPlayer = m_enemy->attack(m_player);
+		res.damagesDealtToPlayer = m_enemy->attack(m_player);
 		m_player.getXPDefence(m_fightXP);
-		snprintf(
-			message,
-			80,
-			"You hit %s (%d DP)\n%s hits you (%d DP)",
-			m_enemy->getName(),
-			damagesDealtToEnemy,
-			m_enemy->getName(),
-			damagesDealtToPlayer
-		);
 	}
-	else {
-		snprintf(
-			message,
-			80,
-			"You defeated %s",
-			m_enemy->getName()
-		);
-	}
-	return message;
+	return res;
 }
 
 void Fight::finalise() {
