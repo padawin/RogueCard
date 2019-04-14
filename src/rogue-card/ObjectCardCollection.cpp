@@ -81,6 +81,49 @@ int ObjectCardCollection::getCardIndex(std::shared_ptr<ObjectCard> card) const {
 	return c == CARD_COLLECTION_SIZE ? -1 : c;
 }
 
+void ObjectCardCollection::_group(int start) {
+	int i, j;
+	// find first nullptr
+	for (i = start; m_cards[i] != nullptr && i < CARD_COLLECTION_SIZE; ++i) {}
+	if (i == CARD_COLLECTION_SIZE) {
+		return;
+	}
+	// find last non nullptr
+	for (j = CARD_COLLECTION_SIZE - 1; m_cards[j] == nullptr && j > i; --j) {}
+	if (j == i) {
+		return;
+	}
+	m_cards[i] = m_cards[j];
+	m_cards[j] = nullptr;
+	_group(i + 1);
+}
+
+void ObjectCardCollection::sort() {
+	// Shitty bubble sort but the collection is small anyway, so meh.
+	_group(0);
+	int current = 0;
+	int j;
+	int tmpIndexToSwap;
+	while (m_cards[current] != nullptr && current < CARD_COLLECTION_SIZE - 1) {
+		j = current + 1;
+		tmpIndexToSwap = current;
+		while (m_cards[j] != nullptr && j < CARD_COLLECTION_SIZE) {
+			if (m_cards[current]->getMetaIndex() > m_cards[j]->getMetaIndex()) {
+				if (m_cards[tmpIndexToSwap]->getMetaIndex() > m_cards[j]->getMetaIndex()) {
+					tmpIndexToSwap = j;
+				}
+			}
+			++j;
+		}
+		if (tmpIndexToSwap != current) {
+			auto tmp = m_cards[tmpIndexToSwap];
+			m_cards[tmpIndexToSwap] = m_cards[current];
+			m_cards[current] = tmp;
+		}
+		++current;
+	}
+}
+
 // Looping methods
 bool ObjectCardCollection::next() {
 	if (m_iCurrentCard >= CARD_COLLECTION_SIZE - 1) {

@@ -27,6 +27,10 @@ ObjectAction::ObjectAction(std::shared_ptr<SDL2Renderer> renderer) :
 	m_itemTexts[DISCARD].first.setText("Discard");
 	m_itemTexts[DISCARD].second = 0;
 
+	m_itemTexts[SORT].first = Text();
+	m_itemTexts[SORT].first.setText("Sort");
+	m_itemTexts[SORT].second = 0;
+
 	m_itemTexts[ACTIONBAR].first = Text();
 	m_itemTexts[ACTIONBAR].first.setText("ActionBar");
 	m_itemTexts[ACTIONBAR].second = FLAG_USABLE;
