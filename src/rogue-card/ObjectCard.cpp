@@ -1,8 +1,9 @@
 #include <memory>
 #include "ObjectCard.hpp"
 
-const int CARD_QUANTITY_X = 32;
-const int CARD_QUANTITY_Y = 43;
+const int CARD_QUANTITY_LOW_X = 32;
+const int CARD_QUANTITY_HIGH_X = 23;
+const int CARD_QUANTITY_Y = 46;
 
 ResourceManager<S_ObjectMeta> ObjectCard::m_objectMeta = ResourceManager<S_ObjectMeta>();
 
@@ -29,8 +30,11 @@ void ObjectCard::createFromMeta(int metaIndex) {
 void ObjectCard::render(SDL_Renderer *renderer, int x, int y) {
 	Card::render(renderer, x, y);
 	if (isConsumable()) {
+		int xPos = m_quantityText.getText().length() == 2 ? CARD_QUANTITY_HIGH_X : CARD_QUANTITY_LOW_X;
 		m_quantityText.render(
-			renderer, CARD_QUANTITY_X + x, CARD_QUANTITY_Y + y
+			renderer,
+			x + xPos,
+			y + CARD_QUANTITY_Y
 		);
 	}
 }

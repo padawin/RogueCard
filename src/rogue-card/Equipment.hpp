@@ -13,6 +13,7 @@ class Equipment : public IObjectCardsLoopable {
 
 	public:
 	~Equipment() {}
+	bool isEquipped(std::shared_ptr<ObjectCard> card) const;
 	bool equip(std::shared_ptr<ObjectCard> card);
 	bool remove(std::shared_ptr<ObjectCard> card);
 	std::shared_ptr<ObjectCard> getCardWithFlag(unsigned int flag) const;

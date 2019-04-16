@@ -18,6 +18,7 @@ EquipmentScene::EquipmentScene(UserActions &userActions, Player &player, std::sh
 	m_availableCardsRenderer(ObjectCardCollectionRenderer(
 		userActions,
 		m_availableCards,
+		player.getEquipment(),
 		12,
 		"ui-equipment-select",
 		m_renderer

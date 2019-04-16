@@ -6,9 +6,13 @@
 #define OFFSET_Y 16
 #define PAGE_WIDTH_CARDS 6
 
+const int CARD_EQUIPPED_X = 7;
+const int CARD_EQUIPPED_Y = 46;
+
 ObjectCardCollectionRenderer::ObjectCardCollectionRenderer(
 	UserActions &userActions,
 	ObjectCardCollection &collection,
+	Equipment &equipment,
 	int pageSize,
 	std::string background,
 	std::shared_ptr<SDL2Renderer> renderer
@@ -17,8 +21,12 @@ ObjectCardCollectionRenderer::ObjectCardCollectionRenderer(
 	m_sBackground(background),
 	m_userActions(userActions),
 	m_collection(collection),
+	m_equipment(equipment),
+	m_equippedText(Text()),
 	m_renderer(renderer)
 {
+	m_equippedText.setText("E");
+	m_equippedText.setFont("font-black");
 	m_iLastPage = (CARD_COLLECTION_SIZE - m_iPageSize) / PAGE_WIDTH_CARDS + 1;
 }
 
@@ -115,6 +123,11 @@ void ObjectCardCollectionRenderer::_renderCards() const {
 		int x = OFFSET_X + CARD_WIDTH * (int) positionIndexX;
 		int y = OFFSET_Y + CARD_HEIGHT * (int) positionIndexY;
 		card->render(m_renderer->getRenderer(), x, y);
+		if (m_equipment.isEquipped(card)) {
+			m_equippedText.render(
+				m_renderer->getRenderer(), CARD_EQUIPPED_X + x, CARD_EQUIPPED_Y + y
+			);
+		}
 	}
 }
 
