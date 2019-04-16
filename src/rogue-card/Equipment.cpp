@@ -1,6 +1,12 @@
 #include <iostream>
 #include "Equipment.hpp"
 
+bool Equipment::isEquipped(std::shared_ptr<ObjectCard> card) const {
+	int i = 0;
+	for (; i < SIZE_EQUIPMENT && m_cards[i] != card; ++i) {}
+	return i < SIZE_EQUIPMENT;
+}
+
 bool Equipment::equip(std::shared_ptr<ObjectCard> card) {
 	unsigned int cardEquipableFlags = card->getEquipableflags();
 	int candidate = SIZE_EQUIPMENT, i = 0;
