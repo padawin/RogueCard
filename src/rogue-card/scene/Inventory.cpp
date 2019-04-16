@@ -19,6 +19,7 @@ InventoryScene::InventoryScene(
 	m_cardsRenderer(ObjectCardCollectionRenderer(
 		userActions,
 		player.getInventory(),
+		player.getEquipment(),
 		18,
 		"ui-inventory",
 		m_renderer

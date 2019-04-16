@@ -9,6 +9,7 @@
 ObjectCardCollectionRenderer::ObjectCardCollectionRenderer(
 	UserActions &userActions,
 	ObjectCardCollection &collection,
+	Equipment &equipment,
 	int pageSize,
 	std::string background,
 	std::shared_ptr<SDL2Renderer> renderer
@@ -17,6 +18,7 @@ ObjectCardCollectionRenderer::ObjectCardCollectionRenderer(
 	m_sBackground(background),
 	m_userActions(userActions),
 	m_collection(collection),
+	m_equipment(equipment),
 	m_renderer(renderer)
 {
 	m_iLastPage = (CARD_COLLECTION_SIZE - m_iPageSize) / PAGE_WIDTH_CARDS + 1;
