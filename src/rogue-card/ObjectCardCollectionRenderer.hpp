@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include "../sdl2/Renderer.hpp"
+#include "../sdl2/Text.hpp"
 #include "../game/UserActions.hpp"
 #include "ObjectCardCollection.hpp"
 #include "Equipment.hpp"
@@ -19,6 +20,7 @@ class ObjectCardCollectionRenderer {
 	UserActions &m_userActions;
 	ObjectCardCollection &m_collection;
 	Equipment &m_equipment;
+	Text m_equippedText;
 	std::shared_ptr<SDL2Renderer> m_renderer;
 
 	void _renderBackground() const;
