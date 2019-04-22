@@ -5,6 +5,7 @@ Fight::Fight(Player &player) : m_player(player) {
 
 void Fight::start(std::shared_ptr<EnemyCard> enemy) {
 	m_player.setFighting(true);
+	m_bRanaway = false;
 	m_enemy = enemy;
 	for (int skill = NONE; skill < NB_XP_SKILLS; ++skill) {
 		m_fightXP[skill] = 0;
@@ -31,7 +32,7 @@ void Fight::finalise() {
 }
 
 bool Fight::isFighting() const {
-	return m_enemy != nullptr && !m_enemy->isDead();
+	return !m_bRanaway && m_enemy != nullptr && !m_enemy->isDead();
 }
 
 int Fight::pointsEarnedIn(E_XPSkill skill) const {
@@ -40,4 +41,15 @@ int Fight::pointsEarnedIn(E_XPSkill skill) const {
 
 std::shared_ptr<EnemyCard> Fight::getEnemy() const {
 	return m_enemy;
+}
+
+void Fight::runaway() {
+	// @TODO Use speed skill to try to runaway
+	if (!isFighting()) {
+		return;
+	}
+	int proba = rand() % 1000;
+	if (proba >= 500) {
+		m_bRanaway = true;
+	}
 }

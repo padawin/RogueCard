@@ -13,6 +13,7 @@ struct S_FightTurnResult {
 
 class Fight {
 	private:
+	bool m_bRanaway = false;
 	Player &m_player;
 	std::shared_ptr<EnemyCard> m_enemy = nullptr;
 	std::shared_ptr<ObjectCard> m_playerWeapon = nullptr;
@@ -29,6 +30,7 @@ class Fight {
 	bool isFighting() const;
 	std::shared_ptr<EnemyCard> getEnemy() const;
 	void finalise();
+	void runaway();
 };
 
 #endif

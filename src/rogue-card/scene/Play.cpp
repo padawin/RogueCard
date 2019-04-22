@@ -387,7 +387,19 @@ void PlayScene::_notify(std::string message) {
 }
 
 void PlayScene::_discardCard() {
+	char message[51];
+	auto objectCard(std::static_pointer_cast<ObjectCard>(m_pickedCard));
+	snprintf(message, 51, "You discard card:\n%s", objectCard->getName());
+	_notify(message);
+	m_pickedCard = nullptr;
 }
 
 void PlayScene::_runaway() {
+	m_fight.runaway();
+	if (!m_fight.isFighting()) {
+		_notify("You run away");
+	}
+	else {
+		_notify("You failed run away");
+	}
 }
