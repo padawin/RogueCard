@@ -43,13 +43,19 @@ std::shared_ptr<EnemyCard> Fight::getEnemy() const {
 	return m_enemy;
 }
 
-void Fight::runaway() {
-	// @TODO Use speed skill to try to runaway
+S_FightTurnResult Fight::runaway() {
+	S_FightTurnResult res;
 	if (!isFighting()) {
-		return;
+		return res;
 	}
+	// @TODO Use speed skill to try to runaway
 	int proba = rand() % 1000;
 	if (proba >= 500) {
 		m_bRanaway = true;
 	}
+	else {
+		res.damagesDealtToPlayer = m_enemy->attack(m_player);
+		m_player.getXPDefence(m_fightXP);
+	}
+	return res;
 }

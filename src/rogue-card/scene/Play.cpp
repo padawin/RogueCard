@@ -396,11 +396,20 @@ void PlayScene::_discardCard() {
 }
 
 void PlayScene::_runaway() {
-	m_fight.runaway();
+	S_FightTurnResult res = m_fight.runaway();
 	if (!m_fight.isFighting()) {
 		_notify("You run away");
 	}
 	else {
-		_notify("You failed run away");
+		_notify("");
+		char message[80];
+		snprintf(
+			message,
+			80,
+			"You failed run away\n%s hits you (%d DP)",
+			m_fight.getEnemy()->getName(),
+			res.damagesDealtToPlayer
+		);
+		_notify(message);
 	}
 }
