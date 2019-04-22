@@ -88,11 +88,22 @@ void PlayScene::update(StateMachine &stateMachine) {
 	else if (m_userActions.getActionState("CURSOR_RIGHT")) {
 		m_cursorPosition = (PlayCursorPosition) ((m_cursorPosition + 1) % NbPositions);
 	}
+	else if (m_userActions.getActionState("CURSOR_UP")) {
+		_setNextAction(1);
+	}
+	else if (m_userActions.getActionState("CURSOR_DOWN")) {
+		_setNextAction(-1);
+	}
 
 	// Reached the top
 	if (m_player.getFloor().getLevel() == 0) {
 		stateMachine.changeState(new WinScene(m_userActions));
 	}
+}
+
+void PlayScene::_setNextAction(int way) {
+	way = way > 0 ? 1 : 0;
+	m_action = (ActionType) POSSIBLE_ACTIONS[m_action][way];
 }
 
 void PlayScene::render() {
@@ -182,6 +193,20 @@ void PlayScene::_renderActionCard() {
 				m_player.getEquipment().getCardWithFlag(FLAG_EQUIPMENT_WEAPON)
 			);
 			break;
+		case RunawayAction:
+			m_actionCard.renderRunaway(
+				m_renderer->getRenderer(),
+				m_mCursorPositions[Action].x,
+				m_mCursorPositions[Action].y
+			);
+			break;
+		case DiscardAction:
+			m_actionCard.renderDiscard(
+				m_renderer->getRenderer(),
+				m_mCursorPositions[Action].x,
+				m_mCursorPositions[Action].y
+			);
+			break;
 		default:
 			break;
 	}
@@ -265,6 +290,12 @@ void PlayScene::_action() {
 			break;
 		case GetFinalGoalAction:
 			_getFinalGoal();
+			break;
+		case RunawayAction:
+			_runaway();
+			break;
+		case DiscardAction:
+			_discardCard();
 			break;
 		default:
 			break;
@@ -353,4 +384,10 @@ void PlayScene::_getFinalGoal() {
 
 void PlayScene::_notify(std::string message) {
 	m_notification.setText(message);
+}
+
+void PlayScene::_discardCard() {
+}
+
+void PlayScene::_runaway() {
 }

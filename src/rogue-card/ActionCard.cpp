@@ -21,6 +21,14 @@ void ActionCard::renderLoot(SDL_Renderer *renderer, int x, int y) {
 	);
 }
 
+void ActionCard::renderRunaway(SDL_Renderer *renderer, int x, int y) {
+	Card::render(renderer, x, y);
+}
+
+void ActionCard::renderDiscard(SDL_Renderer *renderer, int x, int y) {
+	Card::render(renderer, x, y);
+}
+
 void ActionCard::renderAttack(SDL_Renderer *renderer, int x, int y, std::shared_ptr<ObjectCard> weapon) {
 	if (weapon != nullptr) {
 		weapon->render(renderer, x, y);
