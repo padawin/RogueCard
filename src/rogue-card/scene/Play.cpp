@@ -73,6 +73,7 @@ void PlayScene::update(StateMachine &stateMachine) {
 		// Killed the enemy
 		if (wasFighting && !m_fight.isFighting()) {
 			m_pickedCard = nullptr;
+			_notify("");
 			stateMachine.pushState(
 				new FightResultScene(m_userActions, m_fight, m_renderer)
 			);
