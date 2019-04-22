@@ -46,7 +46,7 @@ void Player::getXPAttack(std::shared_ptr<ObjectCard> weapon, int xp[NB_XP_SKILLS
 	if (weapon != nullptr) {
 		E_XPSkill skill = weapon->getStats().xpSkill;
 		int points = weapon->getStats().xp;
-		xp[skill] = points;
+		xp[skill] += points;
 	}
 	else {
 		// @TODO handle bare hand fight XP
@@ -60,7 +60,7 @@ void Player::getXPDefence(int xp[NB_XP_SKILLS]) {
 		if (card != nullptr && card->hasEquipableFlag(FLAG_EQUIPMENT_ARMOR)) {
 			E_XPSkill skill = card->getStats().xpSkill;
 			int points = card->getStats().xp;
-			xp[skill] = points;
+			xp[skill] += points;
 		}
 	} while (m_equipment.next());
 }
