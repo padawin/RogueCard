@@ -57,7 +57,7 @@ void Player::getXPDefence(int xp[NB_XP_SKILLS]) {
 	m_equipment.reset();
 	do {
 		auto card = m_equipment.current();
-		if (card != nullptr && card->hasFlag(FLAG_EQUIPMENT_ARMOR)) {
+		if (card != nullptr && card->hasEquipableFlag(FLAG_EQUIPMENT_ARMOR)) {
 			E_XPSkill skill = card->getStats().xpSkill;
 			int points = card->getStats().xp;
 			xp[skill] = points;
