@@ -72,9 +72,14 @@ void PlayScene::update(StateMachine &stateMachine) {
 		_useCardUnderCursor();
 		// Killed the enemy
 		if (wasFighting && !m_fight.isFighting()) {
+			m_pickedCard = nullptr;
 			stateMachine.pushState(
 				new FightResultScene(m_userActions, m_fight, m_renderer)
 			);
+		}
+
+		if (m_pickedCard == nullptr) {
+			m_action = PickAction;
 		}
 	}
 	else if (m_userActions.getActionState("CURSOR_LEFT")) {
@@ -206,10 +211,6 @@ void PlayScene::_useCardUnderCursor() {
 		default:
 			break;
 	}
-
-	if (m_pickedCard == nullptr) {
-		m_action = PickAction;
-	}
 }
 
 void PlayScene::_pickCard() {
@@ -328,10 +329,7 @@ void PlayScene::_changeFloor() {
 
 void PlayScene::_attack(std::shared_ptr<ObjectCard> attackCard) {
 	S_FightTurnResult res = m_fight.turn(attackCard);
-	if (!m_fight.isFighting()) {
-		m_pickedCard = nullptr;
-	}
-	else {
+	if (m_fight.isFighting()) {
 		char message[80];
 		snprintf(
 			message,
