@@ -8,13 +8,18 @@
 
 enum E_ObjectActionMenuItem {USE, INFO, DISCARD, ACTIONBAR, SORT, BACK, NB_ITEMS};
 
+struct S_MenuItem {
+	Text text;
+	unsigned int objectFlags;
+};
+
 class ObjectAction {
 	int m_iNbVisibleItems = 0;
 	int m_iSelectedItemIndex = 0;
 	E_ObjectActionMenuItem m_selectedAction = USE;
 	int m_iCursorPosition = 0;
 	std::shared_ptr<ObjectCard> m_card = nullptr;
-	std::pair<Text, unsigned int> m_itemTexts[NB_ITEMS]= {};
+	S_MenuItem m_itemTexts[NB_ITEMS]= {};
 	std::shared_ptr<SDL2Renderer> m_renderer;
 
 	protected:
