@@ -16,6 +16,9 @@ void ActionCard::renderPick(SDL_Renderer *renderer, int x, int y) {
 
 void ActionCard::renderLoot(SDL_Renderer *renderer, int x, int y) {
 	Card::render(renderer, x, y);
+	TextureManager::Instance()->draw(
+		"action-loot", x, y, CARD_WIDTH, CARD_HEIGHT, renderer
+	);
 }
 
 void ActionCard::renderAttack(SDL_Renderer *renderer, int x, int y, std::shared_ptr<ObjectCard> weapon) {
@@ -24,5 +27,8 @@ void ActionCard::renderAttack(SDL_Renderer *renderer, int x, int y, std::shared_
 	}
 	else {
 		Card::render(renderer, x, y);
+		TextureManager::Instance()->draw(
+			"action-attack", x, y, CARD_WIDTH, CARD_HEIGHT, renderer
+		);
 	}
 }
