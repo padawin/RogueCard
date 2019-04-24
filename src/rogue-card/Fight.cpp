@@ -52,10 +52,19 @@ S_FightTurnResult Fight::runaway() {
 	int proba = rand() % 1000;
 	if (proba >= 500) {
 		m_bRanaway = true;
+		return res;
 	}
 	else {
-		res.damagesDealtToPlayer = m_enemy->attack(m_player);
-		m_player.getXPDefence(m_fightXP);
+		return skip();
 	}
+}
+
+S_FightTurnResult Fight::skip() {
+	S_FightTurnResult res;
+	if (!isFighting()) {
+		return res;
+	}
+	res.damagesDealtToPlayer = m_enemy->attack(m_player);
+	m_player.getXPDefence(m_fightXP);
 	return res;
 }

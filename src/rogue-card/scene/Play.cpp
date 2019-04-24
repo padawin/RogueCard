@@ -310,6 +310,9 @@ void PlayScene::_useObject(int objectIndex) {
 		bool used = true;
 		if (card->applyOnSelf()) {
 			m_player.applyCardStats(card);
+			if (isFighting) {
+				m_fight.skip();
+			}
 		}
 		else if (isFighting) {
 			_attack(card);

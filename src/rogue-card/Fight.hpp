@@ -27,6 +27,7 @@ class Fight {
 	void start(std::shared_ptr<EnemyCard> enemy);
 	S_FightTurnResult turn(std::shared_ptr<ObjectCard> weapon);
 	S_FightTurnResult runaway();
+	S_FightTurnResult skip();
 	int pointsEarnedIn(E_XPSkill skill) const;
 	bool isFighting() const;
 	std::shared_ptr<EnemyCard> getEnemy() const;
