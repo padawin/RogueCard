@@ -11,6 +11,7 @@ enum E_ObjectActionMenuItem {USE, INFO, DISCARD, ACTIONBAR, SORT, BACK, NB_ITEMS
 struct S_MenuItem {
 	Text text;
 	unsigned int objectFlags;
+	bool valid;
 };
 
 class ObjectAction {
@@ -30,6 +31,7 @@ class ObjectAction {
 	void _setSelectedAction();
 	void _setCursorPosition();
 	void _reset();
+	bool _isActionValid(int actionIndex) const;
 
 	public:
 	ObjectAction(std::shared_ptr<SDL2Renderer> m_renderer);
