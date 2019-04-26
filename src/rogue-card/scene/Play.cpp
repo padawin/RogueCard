@@ -12,6 +12,10 @@
 #include "ObjectCard.hpp"
 #include <iostream>
 
+#define ATTACK_RES_TPL "You hit %s (%d DP)\n%s hits you (%d DP)"
+#define USE_OBJECT_TPL "%s used"
+#define USE_OBJECT_IN_FIGHT_TPL "%s used\n%s hits you (%d DP)"
+
 PlayScene::PlayScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
 	State(userActions),
 	m_player(player),
@@ -72,9 +76,15 @@ void PlayScene::update(StateMachine &stateMachine) {
 		_useCardUnderCursor();
 		// Killed the enemy
 		if (wasFighting && !m_fight.isFighting()) {
+			m_pickedCard = nullptr;
+			_notify("");
 			stateMachine.pushState(
 				new FightResultScene(m_userActions, m_fight, m_renderer)
 			);
+		}
+
+		if (m_pickedCard == nullptr) {
+			m_action = PickAction;
 		}
 	}
 	else if (m_userActions.getActionState("CURSOR_LEFT")) {
@@ -83,11 +93,22 @@ void PlayScene::update(StateMachine &stateMachine) {
 	else if (m_userActions.getActionState("CURSOR_RIGHT")) {
 		m_cursorPosition = (PlayCursorPosition) ((m_cursorPosition + 1) % NbPositions);
 	}
+	else if (m_userActions.getActionState("CURSOR_UP")) {
+		_setNextAction(1);
+	}
+	else if (m_userActions.getActionState("CURSOR_DOWN")) {
+		_setNextAction(-1);
+	}
 
 	// Reached the top
 	if (m_player.getFloor().getLevel() == 0) {
 		stateMachine.changeState(new WinScene(m_userActions));
 	}
+}
+
+void PlayScene::_setNextAction(int way) {
+	way = way > 0 ? 1 : 0;
+	m_action = (ActionType) POSSIBLE_ACTIONS[m_action][way];
 }
 
 void PlayScene::render() {
@@ -177,6 +198,20 @@ void PlayScene::_renderActionCard() {
 				m_player.getEquipment().getCardWithFlag(FLAG_EQUIPMENT_WEAPON)
 			);
 			break;
+		case RunawayAction:
+			m_actionCard.renderRunaway(
+				m_renderer->getRenderer(),
+				m_mCursorPositions[Action].x,
+				m_mCursorPositions[Action].y
+			);
+			break;
+		case DiscardAction:
+			m_actionCard.renderDiscard(
+				m_renderer->getRenderer(),
+				m_mCursorPositions[Action].x,
+				m_mCursorPositions[Action].y
+			);
+			break;
 		default:
 			break;
 	}
@@ -205,10 +240,6 @@ void PlayScene::_useCardUnderCursor() {
 		case NbPositions:
 		default:
 			break;
-	}
-
-	if (m_pickedCard == nullptr) {
-		m_action = PickAction;
 	}
 }
 
@@ -265,6 +296,12 @@ void PlayScene::_action() {
 		case GetFinalGoalAction:
 			_getFinalGoal();
 			break;
+		case RunawayAction:
+			_runaway();
+			break;
+		case DiscardAction:
+			_discardCard();
+			break;
 		default:
 			break;
 	}
@@ -277,6 +314,27 @@ void PlayScene::_useObject(int objectIndex) {
 		bool used = true;
 		if (card->applyOnSelf()) {
 			m_player.applyCardStats(card);
+			char message[80];
+			if (isFighting) {
+				S_FightTurnResult res = m_fight.skip();
+				snprintf(
+					message,
+					80,
+					USE_OBJECT_IN_FIGHT_TPL,
+					card->getName(),
+					m_fight.getEnemy()->getName(),
+					res.damagesDealtToPlayer
+				);
+			}
+			else {
+				snprintf(
+					message,
+					80,
+					USE_OBJECT_TPL,
+					card->getName()
+				);
+			}
+			_notify(message);
 		}
 		else if (isFighting) {
 			_attack(card);
@@ -328,15 +386,12 @@ void PlayScene::_changeFloor() {
 
 void PlayScene::_attack(std::shared_ptr<ObjectCard> attackCard) {
 	S_FightTurnResult res = m_fight.turn(attackCard);
-	if (!m_fight.isFighting()) {
-		m_pickedCard = nullptr;
-	}
-	else {
+	if (m_fight.isFighting()) {
 		char message[80];
 		snprintf(
 			message,
 			80,
-			"You hit %s (%d DP)\n%s hits you (%d DP)",
+			ATTACK_RES_TPL,
 			m_fight.getEnemy()->getName(),
 			res.damagesDealtToEnemy,
 			m_fight.getEnemy()->getName(),
@@ -355,4 +410,31 @@ void PlayScene::_getFinalGoal() {
 
 void PlayScene::_notify(std::string message) {
 	m_notification.setText(message);
+}
+
+void PlayScene::_discardCard() {
+	char message[51];
+	auto objectCard(std::static_pointer_cast<ObjectCard>(m_pickedCard));
+	snprintf(message, 51, "You discard card:\n%s", objectCard->getName());
+	_notify(message);
+	m_pickedCard = nullptr;
+}
+
+void PlayScene::_runaway() {
+	S_FightTurnResult res = m_fight.runaway();
+	if (!m_fight.isFighting()) {
+		_notify("You run away");
+	}
+	else {
+		_notify("");
+		char message[80];
+		snprintf(
+			message,
+			80,
+			"You failed run away\n%s hits you (%d DP)",
+			m_fight.getEnemy()->getName(),
+			res.damagesDealtToPlayer
+		);
+		_notify(message);
+	}
 }

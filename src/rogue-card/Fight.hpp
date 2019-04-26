@@ -13,6 +13,7 @@ struct S_FightTurnResult {
 
 class Fight {
 	private:
+	bool m_bRanaway = false;
 	Player &m_player;
 	std::shared_ptr<EnemyCard> m_enemy = nullptr;
 	std::shared_ptr<ObjectCard> m_playerWeapon = nullptr;
@@ -25,6 +26,8 @@ class Fight {
 	Fight(Player &player);
 	void start(std::shared_ptr<EnemyCard> enemy);
 	S_FightTurnResult turn(std::shared_ptr<ObjectCard> weapon);
+	S_FightTurnResult runaway();
+	S_FightTurnResult skip();
 	int pointsEarnedIn(E_XPSkill skill) const;
 	bool isFighting() const;
 	std::shared_ptr<EnemyCard> getEnemy() const;

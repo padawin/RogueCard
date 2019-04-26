@@ -18,9 +18,24 @@ enum PlayCursorPosition {Action, Object1, Object2, Object3, Object4, Floor, NbPo
 enum ActionType {
 	PickAction,
 	LootAction,
+	DiscardAction,
 	FloorAction,
 	AttackAction,
-	GetFinalGoalAction
+	RunawayAction,
+	GetFinalGoalAction,
+};
+
+// Yuck
+// first element is the previous action,
+// second enement is the next action
+const int POSSIBLE_ACTIONS[][2] = {
+	{(int) PickAction, (int) PickAction},
+	{(int) DiscardAction, (int) DiscardAction},
+	{(int) LootAction, (int) LootAction},
+	{(int) FloorAction, (int) FloorAction},
+	{(int) RunawayAction, (int) RunawayAction},
+	{(int) AttackAction, (int) AttackAction},
+	{(int) GetFinalGoalAction, (int) GetFinalGoalAction}
 };
 
 class PlayScene : public State {
@@ -54,12 +69,15 @@ class PlayScene : public State {
 	void _action();
 	void _useObject(int objectIndex);
 	void _changeFloor();
+	void _discardCard();
+	void _runaway();
 
 	void _attack(std::shared_ptr<ObjectCard> attackCard = nullptr);
 	void _getFinalGoal();
 
 	void _notify(std::string message);
 
+	void _setNextAction(int way);
 	public:
 	PlayScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer);
 	bool onEnter();
