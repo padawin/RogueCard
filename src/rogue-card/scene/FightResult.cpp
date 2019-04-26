@@ -1,6 +1,11 @@
 #include "FightResult.hpp"
 #include <string>
 
+const unsigned int PAGE_SKILLS = 0x1;
+const unsigned int PAGE_SKILLS_LEVEL = 0x2;
+const unsigned int PAGE_LEVEL = 0x4;
+const unsigned int LAST_PAGE = PAGE_LEVEL;
+
 FightResultScene::FightResultScene(UserActions &userActions, Fight &fight, std::shared_ptr<SDL2Renderer> renderer) :
 	State(userActions),
 	m_renderer(renderer),
@@ -16,6 +21,22 @@ FightResultScene::FightResultScene(UserActions &userActions, Fight &fight, std::
 		m_fight.getEnemy()->getName()
 	);
 	m_title.setText(title);
+
+	m_iPage = PAGE_SKILLS;
+	if (_wouldSkillLevelUp()) {
+		m_iPagesToSee = m_iPagesToSee | PAGE_SKILLS_LEVEL;
+	}
+	if (_wouldLevelUp()) {
+		m_iPagesToSee = m_iPagesToSee | PAGE_LEVEL;
+	}
+}
+
+bool FightResultScene::_wouldSkillLevelUp() const {
+	return false;
+}
+
+bool FightResultScene::_wouldLevelUp() const {
+	return false;
 }
 
 std::string FightResultScene::getStateID() const {
@@ -23,13 +44,31 @@ std::string FightResultScene::getStateID() const {
 }
 
 void FightResultScene::update(StateMachine &stateMachine) {
-	if (m_userActions.getActionState("CONFIRM") || m_userActions.getActionState("QUIT")) {
-		m_fight.finalise();
-		stateMachine.popState();
+	if (m_userActions.getActionState("CONFIRM")) {
+		do {
+			m_iPage = m_iPage << 1;
+		} while (!(m_iPage & m_iPagesToSee) && m_iPage <= LAST_PAGE);
+
+		if (m_iPage > LAST_PAGE) {
+			m_fight.finalise();
+			stateMachine.popState();
+		}
 	}
 }
 
 void FightResultScene::render() {
+	if (m_iPage == PAGE_SKILLS) {
+		_renderSkillsXP();
+	}
+	else if (m_iPage == PAGE_SKILLS_LEVEL) {
+		_renderSkillsLevels();
+	}
+	else if (m_iPage == PAGE_LEVEL) {
+		_renderLevel();
+	}
+}
+
+void FightResultScene::_renderSkillsXP() {
 	m_title.render(m_renderer->getRenderer(), 18, 16);
 	std::string resTitle = "You earned:\n";
 	std::string res = "";
@@ -45,4 +84,12 @@ void FightResultScene::render() {
 		m_summary.setText(resTitle + res);
 		m_summary.render(m_renderer->getRenderer(), 18, 48);
 	}
+}
+
+void FightResultScene::_renderSkillsLevels() {
+
+}
+
+void FightResultScene::_renderLevel() {
+
 }
