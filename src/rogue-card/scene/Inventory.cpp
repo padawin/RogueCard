@@ -52,14 +52,11 @@ void InventoryScene::update(StateMachine &stateMachine) {
 			m_objectActionMenu.selectNext();
 		}
 		else if (pressedAction) {
-			bool quitInventory = _executeMenuAction(
+			_executeMenuAction(
 				m_objectActionMenu.getSelectedAction(),
 				stateMachine
 			);
 			m_objectActionMenu.close();
-			if (quitInventory) {
-				stateMachine.popState();
-			}
 		}
 	}
 	else if (pressedBack) {
@@ -68,7 +65,11 @@ void InventoryScene::update(StateMachine &stateMachine) {
 	else if (pressedAction) {
 		if (m_player.getInventoryItem(_getCardIndex()) != nullptr) {
 			auto card = m_player.getInventoryItem(_getCardIndex());
-			m_objectActionMenu.open(card, m_actionBar.hasCard(card));
+			m_objectActionMenu.setContext(
+				(!m_player.isFighting() ? FLAG_CONTEXT_NOT_IN_FIGHT : 0)
+				| (m_actionBar.hasCard(card) ? FLAG_CONTEXT_CARD_IN_ACTIONBAR : FLAG_CONTEXT_CARD_NOT_IN_ACTIONBAR)
+			);
+			m_objectActionMenu.open(card);
 		}
 	}
 	else {
@@ -76,8 +77,7 @@ void InventoryScene::update(StateMachine &stateMachine) {
 	}
 }
 
-bool InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMachine &stateMachine) {
-	bool ret = false;
+void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMachine &stateMachine) {
 	auto card = m_player.getInventoryItem(_getCardIndex());
 	if (action == USE) {
 		if (card->isConsumable()) {
@@ -88,9 +88,6 @@ bool InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMach
 					m_actionBar.removeCard(card);
 				}
 			}
-		}
-		if (m_player.isFighting()) {
-			ret = true;
 		}
 		if (card->applyOnSelf()) {
 			m_player.applyCardStats(card);
@@ -108,27 +105,21 @@ bool InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMach
 		if (m_actionBar.hasCard(card)) {
 			m_actionBar.removeCard(card);
 		}
-		if (m_player.isFighting()) {
-			ret = true;
-		}
 	}
-	else if (action == ACTIONBAR) {
-		if (m_actionBar.hasCard(card)) {
-			m_actionBar.removeCard(card);
-		}
-		else {
-			stateMachine.pushState(
-				new QuickActionBarScene(
-					m_userActions,
-					m_actionBar,
-					m_player,
-					card,
-					m_renderer
-				)
-			);
-		}
+	else if (action == ADD_ACTIONBAR && !m_actionBar.hasCard(card)) {
+		stateMachine.pushState(
+			new QuickActionBarScene(
+				m_userActions,
+				m_actionBar,
+				m_player,
+				card,
+				m_renderer
+			)
+		);
 	}
-	return ret;
+	else if (action == REMOVE_ACTIONBAR && m_actionBar.hasCard(card)) {
+		m_actionBar.removeCard(card);
+	}
 }
 
 void InventoryScene::render() {

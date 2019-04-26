@@ -18,40 +18,62 @@ ObjectAction::ObjectAction(std::shared_ptr<SDL2Renderer> renderer) :
 	m_itemTexts[USE].text = Text();
 	m_itemTexts[USE].text.setText("Use");
 	m_itemTexts[USE].objectFlags = FLAG_USABLE | FLAG_APPLY_ON_SELF;
+	m_itemTexts[USE].context = FLAG_CONTEXT_NOT_IN_FIGHT;
 	m_itemTexts[USE].valid = false;
 
 	m_itemTexts[INFO].text = Text();
 	m_itemTexts[INFO].text.setText("Info");
 	m_itemTexts[INFO].objectFlags = 0;
+	m_itemTexts[INFO].context = 0;
 	m_itemTexts[INFO].valid = false;
 
 	m_itemTexts[DISCARD].text = Text();
 	m_itemTexts[DISCARD].text.setText("Discard");
 	m_itemTexts[DISCARD].objectFlags = 0;
+	m_itemTexts[DISCARD].context = 0;
 	m_itemTexts[DISCARD].valid = false;
 
 	m_itemTexts[SORT].text = Text();
 	m_itemTexts[SORT].text.setText("Sort");
 	m_itemTexts[SORT].objectFlags = 0;
+	m_itemTexts[SORT].context = 0;
 	m_itemTexts[SORT].valid = false;
 
-	m_itemTexts[ACTIONBAR].text = Text();
-	m_itemTexts[ACTIONBAR].text.setText("ActionBar");
-	m_itemTexts[ACTIONBAR].objectFlags = FLAG_USABLE;
-	m_itemTexts[ACTIONBAR].valid = false;
+	m_itemTexts[ADD_ACTIONBAR].text = Text();
+	m_itemTexts[ADD_ACTIONBAR].text.setText("Add to ActionBar");
+	m_itemTexts[ADD_ACTIONBAR].objectFlags = FLAG_USABLE;
+	m_itemTexts[ADD_ACTIONBAR].context = FLAG_CONTEXT_CARD_NOT_IN_ACTIONBAR | FLAG_CONTEXT_NOT_IN_FIGHT;
+	m_itemTexts[ADD_ACTIONBAR].valid = false;
+
+	m_itemTexts[REMOVE_ACTIONBAR].text = Text();
+	m_itemTexts[REMOVE_ACTIONBAR].text.setText("Remove from ActionBar");
+	m_itemTexts[REMOVE_ACTIONBAR].objectFlags = FLAG_USABLE;
+	m_itemTexts[REMOVE_ACTIONBAR].context = FLAG_CONTEXT_CARD_IN_ACTIONBAR | FLAG_CONTEXT_NOT_IN_FIGHT;
+	m_itemTexts[REMOVE_ACTIONBAR].valid = false;
 
 	m_itemTexts[BACK].text = Text();
 	m_itemTexts[BACK].text.setText("Back");
 	m_itemTexts[BACK].objectFlags = 0;
+	m_itemTexts[BACK].context = 0;
 	m_itemTexts[BACK].valid = false;
+}
+
+void ObjectAction::setContext(unsigned int context) {
+	m_iContext = context;
 }
 
 bool ObjectAction::_isActionValid(int actionIndex) const {
 	unsigned int context = m_itemTexts[actionIndex].context;
-	return m_card->hasFlags(m_itemTexts[actionIndex].objectFlags);
+	return (
+		m_card->hasFlags(m_itemTexts[actionIndex].objectFlags)
+		&& (
+			context == 0
+			|| (context & m_iContext) == context
+		)
+	);
 }
 
-void ObjectAction::open(std::shared_ptr<ObjectCard> card, bool inActionBar) {
+void ObjectAction::open(std::shared_ptr<ObjectCard> card) {
 	_reset();
 	m_card = card;
 	for (int i = 0; i < NB_ITEMS; ++i) {
@@ -62,11 +84,6 @@ void ObjectAction::open(std::shared_ptr<ObjectCard> card, bool inActionBar) {
 		else {
 			m_itemTexts[i].valid = false;
 		}
-	}
-	if (m_card->hasFlags(m_itemTexts[ACTIONBAR].second)) {
-		m_itemTexts[ACTIONBAR].first.setText(
-			inActionBar ? "Remove from ActionBar" : "Add to ActionBar"
-		);
 	}
 	_setSelectedAction();
 	_setCursorPosition();
