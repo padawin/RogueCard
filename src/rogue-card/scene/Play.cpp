@@ -13,6 +13,8 @@
 #include <iostream>
 
 #define ATTACK_RES_TPL "You hit %s (%d DP)\n%s hits you (%d DP)"
+#define USE_OBJECT_TPL "%s used"
+#define USE_OBJECT_IN_FIGHT_TPL "%s used\n%s hits you (%d DP)"
 
 PlayScene::PlayScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
 	State(userActions),
@@ -312,9 +314,27 @@ void PlayScene::_useObject(int objectIndex) {
 		bool used = true;
 		if (card->applyOnSelf()) {
 			m_player.applyCardStats(card);
+			char message[80];
 			if (isFighting) {
-				m_fight.skip();
+				S_FightTurnResult res = m_fight.skip();
+				snprintf(
+					message,
+					80,
+					USE_OBJECT_IN_FIGHT_TPL,
+					card->getName(),
+					m_fight.getEnemy()->getName(),
+					res.damagesDealtToPlayer
+				);
 			}
+			else {
+				snprintf(
+					message,
+					80,
+					USE_OBJECT_TPL,
+					card->getName()
+				);
+			}
+			_notify(message);
 		}
 		else if (isFighting) {
 			_attack(card);
