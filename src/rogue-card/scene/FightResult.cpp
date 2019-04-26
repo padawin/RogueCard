@@ -31,7 +31,8 @@ void FightResultScene::update(StateMachine &stateMachine) {
 
 void FightResultScene::render() {
 	m_title.render(m_renderer->getRenderer(), 18, 16);
-	std::string res = "You earned:\n";
+	std::string resTitle = "You earned:\n";
+	std::string res = "";
 	for (int skill = NONE; skill < NB_XP_SKILLS; ++skill) {
 		int points = m_fight.pointsEarnedIn((E_XPSkill) skill);
 		if (points > 0) {
@@ -40,6 +41,8 @@ void FightResultScene::render() {
 			res += xpStr;
 		}
 	}
-	m_summary.setText(res);
-	m_summary.render(m_renderer->getRenderer(), 18, 48);
+	if (res != "") {
+		m_summary.setText(resTitle + res);
+		m_summary.render(m_renderer->getRenderer(), 18, 48);
+	}
 }
