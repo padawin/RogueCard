@@ -15,43 +15,75 @@ const int TEXT_MAX_WIDTH = MENU_WIDTH - MARGIN_X * 2;
 ObjectAction::ObjectAction(std::shared_ptr<SDL2Renderer> renderer) :
 	m_renderer(renderer)
 {
-	m_itemTexts[USE].first = Text();
-	m_itemTexts[USE].first.setText("Use");
-	m_itemTexts[USE].second = FLAG_USABLE | FLAG_APPLY_ON_SELF;
+	m_itemTexts[USE].text = Text();
+	m_itemTexts[USE].text.setText("Use");
+	m_itemTexts[USE].objectFlags = FLAG_USABLE | FLAG_APPLY_ON_SELF;
+	m_itemTexts[USE].context = FLAG_CONTEXT_NOT_IN_FIGHT;
+	m_itemTexts[USE].valid = false;
 
-	m_itemTexts[INFO].first = Text();
-	m_itemTexts[INFO].first.setText("Info");
-	m_itemTexts[INFO].second = 0;
+	m_itemTexts[INFO].text = Text();
+	m_itemTexts[INFO].text.setText("Info");
+	m_itemTexts[INFO].objectFlags = 0;
+	m_itemTexts[INFO].context = 0;
+	m_itemTexts[INFO].valid = false;
 
-	m_itemTexts[DISCARD].first = Text();
-	m_itemTexts[DISCARD].first.setText("Discard");
-	m_itemTexts[DISCARD].second = 0;
+	m_itemTexts[DISCARD].text = Text();
+	m_itemTexts[DISCARD].text.setText("Discard");
+	m_itemTexts[DISCARD].objectFlags = 0;
+	m_itemTexts[DISCARD].context = 0;
+	m_itemTexts[DISCARD].valid = false;
 
-	m_itemTexts[SORT].first = Text();
-	m_itemTexts[SORT].first.setText("Sort");
-	m_itemTexts[SORT].second = 0;
+	m_itemTexts[SORT].text = Text();
+	m_itemTexts[SORT].text.setText("Sort");
+	m_itemTexts[SORT].objectFlags = 0;
+	m_itemTexts[SORT].context = 0;
+	m_itemTexts[SORT].valid = false;
 
-	m_itemTexts[ACTIONBAR].first = Text();
-	m_itemTexts[ACTIONBAR].first.setText("ActionBar");
-	m_itemTexts[ACTIONBAR].second = FLAG_USABLE;
+	m_itemTexts[ADD_ACTIONBAR].text = Text();
+	m_itemTexts[ADD_ACTIONBAR].text.setText("Add to ActionBar");
+	m_itemTexts[ADD_ACTIONBAR].objectFlags = FLAG_USABLE;
+	m_itemTexts[ADD_ACTIONBAR].context = FLAG_CONTEXT_CARD_NOT_IN_ACTIONBAR | FLAG_CONTEXT_NOT_IN_FIGHT;
+	m_itemTexts[ADD_ACTIONBAR].valid = false;
 
-	m_itemTexts[BACK].first = Text();
-	m_itemTexts[BACK].first.setText("Back");
-	m_itemTexts[BACK].second = 0;
+	m_itemTexts[REMOVE_ACTIONBAR].text = Text();
+	m_itemTexts[REMOVE_ACTIONBAR].text.setText("Remove from ActionBar");
+	m_itemTexts[REMOVE_ACTIONBAR].objectFlags = FLAG_USABLE;
+	m_itemTexts[REMOVE_ACTIONBAR].context = FLAG_CONTEXT_CARD_IN_ACTIONBAR | FLAG_CONTEXT_NOT_IN_FIGHT;
+	m_itemTexts[REMOVE_ACTIONBAR].valid = false;
+
+	m_itemTexts[BACK].text = Text();
+	m_itemTexts[BACK].text.setText("Back");
+	m_itemTexts[BACK].objectFlags = 0;
+	m_itemTexts[BACK].context = 0;
+	m_itemTexts[BACK].valid = false;
 }
 
-void ObjectAction::open(std::shared_ptr<ObjectCard> card, bool inActionBar) {
+void ObjectAction::setContext(unsigned int context) {
+	m_iContext = context;
+}
+
+bool ObjectAction::_isActionValid(int actionIndex) const {
+	unsigned int context = m_itemTexts[actionIndex].context;
+	return (
+		m_card->hasFlags(m_itemTexts[actionIndex].objectFlags)
+		&& (
+			context == 0
+			|| (context & m_iContext) == context
+		)
+	);
+}
+
+void ObjectAction::open(std::shared_ptr<ObjectCard> card) {
 	_reset();
 	m_card = card;
 	for (int i = 0; i < NB_ITEMS; ++i) {
-		if (m_card->hasFlags(m_itemTexts[i].second)) {
+		if (_isActionValid(i)) {
 			++m_iNbVisibleItems;
+			m_itemTexts[i].valid = true;
 		}
-	}
-	if (m_card->hasFlags(m_itemTexts[ACTIONBAR].second)) {
-		m_itemTexts[ACTIONBAR].first.setText(
-			inActionBar ? "Remove from ActionBar" : "Add to ActionBar"
-		);
+		else {
+			m_itemTexts[i].valid = false;
+		}
 	}
 	_setSelectedAction();
 	_setCursorPosition();
@@ -62,6 +94,9 @@ bool ObjectAction::isOpen() const {
 }
 
 void ObjectAction::close() {
+	for (int i = 0; i < NB_ITEMS; ++i) {
+		m_itemTexts[i].valid = false;
+	}
 	_reset();
 }
 
@@ -90,7 +125,7 @@ E_ObjectActionMenuItem ObjectAction::getSelectedAction() const {
 
 void ObjectAction::_setSelectedAction() {
 	for (int renderIndex = 0, itemIndex = 0; itemIndex < NB_ITEMS; ++itemIndex) {
-		if (m_card->hasFlags(m_itemTexts[itemIndex].second)) {
+		if (m_itemTexts[itemIndex].valid) {
 			if (renderIndex == m_iSelectedItemIndex) {
 				m_selectedAction = (E_ObjectActionMenuItem) itemIndex;
 				break;
@@ -112,7 +147,7 @@ void ObjectAction::render() {
 void ObjectAction::_renderItems() {
 	_renderBackground(0, POSITION_Y);
 	for (int renderIndex = 0, itemIndex = 0; itemIndex < NB_ITEMS; ++itemIndex) {
-		if (m_card->hasFlags(m_itemTexts[itemIndex].second)) {
+		if (m_itemTexts[itemIndex].valid) {
 			_renderBackground(1, TEXT_POS_Y + renderIndex * 16);
 			_renderItem(itemIndex, renderIndex);
 			if (renderIndex == m_iSelectedItemIndex) {
@@ -149,7 +184,7 @@ void ObjectAction::_renderCursor() {
 }
 
 void ObjectAction::_renderItem(int itemIndex, int visibleIndex) {
-	const int x = TEXT_POS_X + (TEXT_MAX_WIDTH - m_itemTexts[itemIndex].first.getLength()) / 2;
+	const int x = TEXT_POS_X + (TEXT_MAX_WIDTH - m_itemTexts[itemIndex].text.getLength()) / 2;
 	const int y = TEXT_POS_Y + visibleIndex * 16;
-	m_itemTexts[itemIndex].first.render(m_renderer->getRenderer(), x, y);
+	m_itemTexts[itemIndex].text.render(m_renderer->getRenderer(), x, y);
 }
