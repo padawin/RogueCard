@@ -12,6 +12,8 @@
 #include "ObjectCard.hpp"
 #include <iostream>
 
+#define ATTACK_RES_TPL "You hit %s (%d DP)\n%s hits you (%d DP)"
+
 PlayScene::PlayScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
 	State(userActions),
 	m_player(player),
@@ -369,7 +371,7 @@ void PlayScene::_attack(std::shared_ptr<ObjectCard> attackCard) {
 		snprintf(
 			message,
 			80,
-			"You hit %s (%d DP)\n%s hits you (%d DP)",
+			ATTACK_RES_TPL,
 			m_fight.getEnemy()->getName(),
 			res.damagesDealtToEnemy,
 			m_fight.getEnemy()->getName(),
