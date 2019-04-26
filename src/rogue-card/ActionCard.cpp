@@ -23,6 +23,9 @@ void ActionCard::renderLoot(SDL_Renderer *renderer, int x, int y) {
 
 void ActionCard::renderRunaway(SDL_Renderer *renderer, int x, int y) {
 	Card::render(renderer, x, y);
+	TextureManager::Instance()->draw(
+		"action-runaway", x, y, CARD_WIDTH, CARD_HEIGHT, renderer
+	);
 }
 
 void ActionCard::renderDiscard(SDL_Renderer *renderer, int x, int y) {
