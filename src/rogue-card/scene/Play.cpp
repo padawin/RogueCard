@@ -150,6 +150,23 @@ void PlayScene::_renderCursor() {
 		CARD_HEIGHT,
 		m_renderer->getRenderer()
 	);
+
+	if (m_cursorPosition == Action) {
+		if (POSSIBLE_ACTIONS[m_action][0] != m_action) {
+			m_actionCard.renderPrevious(
+				m_renderer->getRenderer(),
+				m_mCursorPositions[Action].x,
+				m_mCursorPositions[Action].y
+			);
+		}
+		if (POSSIBLE_ACTIONS[m_action][1] != m_action) {
+			m_actionCard.renderNext(
+				m_renderer->getRenderer(),
+				m_mCursorPositions[Action].x,
+				m_mCursorPositions[Action].y
+			);
+		}
+	}
 }
 
 void PlayScene::_renderCards() {

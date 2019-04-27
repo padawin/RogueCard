@@ -14,6 +14,9 @@ class ActionCard : public Card {
 	void renderRunaway(SDL_Renderer *renderer, int x, int y);
 	void renderDiscard(SDL_Renderer *renderer, int x, int y);
 	void renderAttack(SDL_Renderer *renderer, int x, int y, std::shared_ptr<ObjectCard> weapon);
+
+	void renderPrevious(SDL_Renderer *renderer, int x, int y);
+	void renderNext(SDL_Renderer *renderer, int x, int y);
 };
 
 #endif
