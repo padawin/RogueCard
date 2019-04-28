@@ -16,9 +16,9 @@
 #define USE_OBJECT_TPL "%s used"
 #define USE_OBJECT_IN_FIGHT_TPL "%s used\n%s hits you (%d DP)"
 
-PlayScene::PlayScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
+PlayScene::PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer) :
 	State(userActions),
-	m_player(player),
+	m_player(Player()),
 	m_renderer(renderer),
 	m_actionCard(ActionCard()),
 	m_deck(CardDeck()),

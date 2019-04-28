@@ -10,7 +10,7 @@
 class Game {
 	private:
 	bool m_bIsRunning = false;
-	char m_sBinaryPath[PATH_MAX];
+	static std::string m_sBinaryPath;
 	StateMachine m_stateMachine;
 	std::shared_ptr<Renderer> m_renderer;
 	std::shared_ptr<InputHandler> m_inputHandler;
@@ -22,11 +22,12 @@ class Game {
 		std::shared_ptr<InputHandler> inputHandler
 	);
 	~Game() { }
-	bool init(char binaryPath[PATH_MAX]);
+	bool init();
 	void mainLoop();
 	void frame();
 	void shutdown() const;
-	const char* getBinaryPath() const;
+	static void setBinaryPath(std::string binaryPath);
+	static const std::string getBinaryPath();
 };
 
 #endif

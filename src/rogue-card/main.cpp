@@ -8,7 +8,7 @@
 #include "EnemyCard.hpp"
 #include "ObjectCard.hpp"
 #include "ResourceManager.hpp"
-#include "scene/Play.hpp"
+#include "scene/Intro.hpp"
 #include <iostream>
 #include <memory> // shared_ptr
 #include <libgen.h> // dirname
@@ -53,12 +53,12 @@ int main(int argc, char* args[]) {
 		return 1;
 	}
 
-	Player p = Player();
+	Game::setBinaryPath(binaryPath);
 	StateMachine stateMachine = StateMachine();
-	stateMachine.pushState(new PlayScene(userActions, p, renderer));
+	stateMachine.pushState(new IntroScene(userActions, renderer));
 	Game g(stateMachine, renderer, inputHandler);
 	_prepareTilesets(binaryPath, renderer);
-	if (g.init(binaryPath)) {
+	if (g.init()) {
 		g.mainLoop();
 	}
 
