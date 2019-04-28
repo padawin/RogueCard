@@ -53,9 +53,8 @@ int main(int argc, char* args[]) {
 		return 1;
 	}
 
-	Player p = Player();
 	StateMachine stateMachine = StateMachine();
-	stateMachine.pushState(new PlayScene(userActions, p, renderer));
+	stateMachine.pushState(new PlayScene(userActions, renderer));
 	Game::setBinaryPath(binaryPath);
 	Game g(stateMachine, renderer, inputHandler);
 	_prepareTilesets(binaryPath, renderer);
