@@ -56,9 +56,10 @@ int main(int argc, char* args[]) {
 	Player p = Player();
 	StateMachine stateMachine = StateMachine();
 	stateMachine.pushState(new PlayScene(userActions, p, renderer));
+	Game::setBinaryPath(binaryPath);
 	Game g(stateMachine, renderer, inputHandler);
 	_prepareTilesets(binaryPath, renderer);
-	if (g.init(binaryPath)) {
+	if (g.init()) {
 		g.mainLoop();
 	}
 

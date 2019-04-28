@@ -1,6 +1,8 @@
 #include "Game.hpp"
 #include <string.h>
 
+std::string Game::m_sBinaryPath = "";
+
 Game::Game(
 	StateMachine stateMachine,
 	std::shared_ptr<Renderer> renderer,
@@ -12,9 +14,8 @@ Game::Game(
 {
 }
 
-bool Game::init(char binaryPath[PATH_MAX]) {
+bool Game::init() {
 	bool res;
-	strncpy(m_sBinaryPath, binaryPath, PATH_MAX - 1);
 	res = m_renderer->init();
 	m_bIsRunning = res;
 	return res;
@@ -38,6 +39,10 @@ void Game::shutdown() const {
 	m_renderer->shutdown();
 }
 
-const char* Game::getBinaryPath() const {
+void Game::setBinaryPath(std::string binaryPath) {
+	m_sBinaryPath = binaryPath;
+}
+
+const std::string Game::getBinaryPath() {
 	return m_sBinaryPath;
 }
