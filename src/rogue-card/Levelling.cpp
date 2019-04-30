@@ -50,5 +50,5 @@ int Levelling::getSkillLevel(E_XPSkill skill) const {
 }
 
 int Levelling::_convertSkillToLevel(int skillValue) const {
-	return (int) floor(sqrt(skillValue / 17+ 1));
+	return (int) floor(sqrt(skillValue / 17 + 1));
 }
