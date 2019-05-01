@@ -32,6 +32,24 @@ game window is rather small.
 Nonetheless, if you own no GCW-Zero (or other opendingux console), you can test
 it on the computer. The mappings are described below.
 
+### Requirements
+
+The following libraries are needed:
+
+- SDL2
+- SDL2_image
+- SDL2_ttf
+
+### Usage
+
+Compile the game with:
+
+    make
+
+Then, run it with:
+
+    ./bin/card-rogue
+
 ### Key mappings
 
 - Pick a card/Action: **RETURN**
