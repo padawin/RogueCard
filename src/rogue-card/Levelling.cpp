@@ -24,7 +24,7 @@ E_SkillIncreaseResult Levelling::increaseSkillXP(E_XPSkill skill, int amount) {
 
 E_SkillIncreaseResult Levelling::_skillLevelUp() {
 	--m_iStepsBeforeNextLevel;
-	if (m_iStepsBeforeNextLevel < 0) {
+	if (m_iStepsBeforeNextLevel <= 0) {
 		_levelUp();
 		return GLOBAL_LEVEL_UP;
 	}
