@@ -105,9 +105,35 @@ void FightResultScene::_renderSkillsXP() {
 }
 
 void FightResultScene::_renderSkillsLevels() {
-
+	m_title.render(m_renderer->getRenderer(), 18, 16);
+	std::string res = "Skills Level Up:\n";
+	for (int skill = NONE; skill < NB_XP_SKILLS; ++skill) {
+		if (m_aSkillLevels[skill].first < m_aSkillLevels[skill].second) {
+			char xpStr[50];
+			snprintf(
+				xpStr,
+				50,
+				"%s: %d -> %d\n",
+				getSkillLabel((E_XPSkill) skill).c_str(),
+				m_aSkillLevels[skill].first,
+				m_aSkillLevels[skill].second
+			);
+			res += xpStr;
+		}
+	}
+	m_summary.setText(res);
+	m_summary.render(m_renderer->getRenderer(), 18, 48);
 }
 
 void FightResultScene::_renderLevel() {
-
+	m_title.render(m_renderer->getRenderer(), 18, 16);
+	char levelStr[30];
+	snprintf(
+		levelStr,
+		30,
+		"You are now level %d",
+		m_fight.getPlayer().getLevelling().getLevel() + 1
+	);
+	m_summary.setText(levelStr);
+	m_summary.render(m_renderer->getRenderer(), 18, 48);
 }
