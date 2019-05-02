@@ -22,11 +22,13 @@ class Levelling {
 	void setLevel(int level);
 	int getLevel() const;
 
+	void setSkillXP(E_XPSkill skill, int amount);
 	E_SkillIncreaseResult increaseSkillXP(E_XPSkill skill, int amount);
 	int getSkillLevel(E_XPSkill skill) const;
 	int getPointsForNextLevel(E_XPSkill skill) const;
 	int getSkill(E_XPSkill skill) const;
 	int getStepsBeforeLevelUp() const;
+	void setStepsBeforeLevelUp(int steps);
 };
 
 #endif

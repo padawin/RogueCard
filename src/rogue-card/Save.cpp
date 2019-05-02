@@ -69,6 +69,11 @@ void Save::_loadPlayer() {
 			sscanf(line, "l %d\n", &level);
 			m_player.setLevel(level);
 		}
+		else if (type == 'L') {
+			int steps = 0;
+			sscanf(line, "L %d\n", &steps);
+			m_player.getLevelling().setStepsBeforeLevelUp(steps);
+		}
 		else if (type == 'V') {
 			int foundFinalGoal;
 			sscanf(line, "V %d\n", &foundFinalGoal);
@@ -144,6 +149,7 @@ void Save::_savePlayer() {
 	fprintf(playerFile, "f %d\n", m_player.getFloor().getLevel());
 	fprintf(playerFile, "g %ld\n", m_player.getGold());
 	fprintf(playerFile, "l %d\n", m_player.getLevelling().getLevel());
+	fprintf(playerFile, "L %d\n", m_player.getLevelling().getStepsBeforeLevelUp());
 	fprintf(playerFile, "V %d\n", m_player.foundFinalGoal());
 	m_player.getInventory().reset();
 	do {
