@@ -30,6 +30,7 @@ class Fight {
 	S_FightTurnResult skip();
 	int pointsEarnedIn(E_XPSkill skill) const;
 	bool isFighting() const;
+	Player &getPlayer() const;
 	std::shared_ptr<EnemyCard> getEnemy() const;
 	void finalise();
 };

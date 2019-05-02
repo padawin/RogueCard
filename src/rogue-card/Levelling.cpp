@@ -9,6 +9,12 @@ int Levelling::getLevel() const {
 	return m_iLevel;
 }
 
+void Levelling::setSkillXP(E_XPSkill skill, int amount) {
+	if (skill < NB_XP_SKILLS) {
+		m_aSkillXP[skill] = amount;
+	}
+}
+
 E_SkillIncreaseResult Levelling::increaseSkillXP(E_XPSkill skill, int amount) {
 	if (skill < NB_XP_SKILLS) {
 		int oldAmount = m_aSkillXP[skill];
@@ -24,7 +30,7 @@ E_SkillIncreaseResult Levelling::increaseSkillXP(E_XPSkill skill, int amount) {
 
 E_SkillIncreaseResult Levelling::_skillLevelUp() {
 	--m_iStepsBeforeNextLevel;
-	if (m_iStepsBeforeNextLevel < 0) {
+	if (m_iStepsBeforeNextLevel <= 0) {
 		_levelUp();
 		return GLOBAL_LEVEL_UP;
 	}
@@ -50,5 +56,23 @@ int Levelling::getSkillLevel(E_XPSkill skill) const {
 }
 
 int Levelling::_convertSkillToLevel(int skillValue) const {
-	return (int) floor(sqrt(skillValue / 17+ 1));
+	return (int) floor(sqrt(skillValue / 17 + 1));
+}
+
+int Levelling::_convertLevelToSkillXP(int level) const {
+	return 17 * (level * level - 1);
+}
+
+int Levelling::getPointsForNextLevel(E_XPSkill skill) const {
+	int skillCurrentLevel = getSkillLevel(skill);
+	int xpNextLevel = _convertLevelToSkillXP(skillCurrentLevel + 1);
+	return xpNextLevel - m_aSkillXP[skill];
+}
+
+int Levelling::getStepsBeforeLevelUp() const {
+	return m_iStepsBeforeNextLevel;
+}
+
+void Levelling::setStepsBeforeLevelUp(int steps) {
+	m_iStepsBeforeNextLevel = steps;
 }

@@ -43,6 +43,10 @@ std::shared_ptr<EnemyCard> Fight::getEnemy() const {
 	return m_enemy;
 }
 
+Player &Fight::getPlayer() const {
+	return m_player;
+}
+
 S_FightTurnResult Fight::runaway() {
 	S_FightTurnResult res;
 	if (!isFighting()) {
