@@ -16,8 +16,8 @@ FightResultScene::FightResultScene(UserActions &userActions, Fight &fight, std::
 	char title[MAX_CHAR_ENEMY_NAME + 14];
 	snprintf(
 		title,
-		MAX_CHAR_ENEMY_NAME + 14,
-		"You defeated %s",
+		MAX_CHAR_ENEMY_NAME + 20,
+		m_fight.ranAway() ? "You fled from %s" : "You defeated %s",
 		m_fight.getEnemy()->getName()
 	);
 	m_title.setText(title);

@@ -35,6 +35,10 @@ bool Fight::isFighting() const {
 	return !m_bRanaway && m_enemy != nullptr && !m_enemy->isDead();
 }
 
+bool Fight::ranAway() const {
+	return m_bRanaway;
+}
+
 int Fight::pointsEarnedIn(E_XPSkill skill) const {
 	return m_fightXP[skill];
 }
