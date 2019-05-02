@@ -52,3 +52,17 @@ int Levelling::getSkillLevel(E_XPSkill skill) const {
 int Levelling::_convertSkillToLevel(int skillValue) const {
 	return (int) floor(sqrt(skillValue / 17 + 1));
 }
+
+int Levelling::_convertLevelToSkillXP(int level) const {
+	return 17 * (level * level - 1);
+}
+
+int Levelling::getPointsForNextLevel(E_XPSkill skill) const {
+	int skillCurrentLevel = getSkillLevel(skill);
+	int xpNextLevel = _convertLevelToSkillXP(skillCurrentLevel + 1);
+	return xpNextLevel - m_aSkillXP[skill];
+}
+
+int Levelling::getStepsBeforeLevelUp() const {
+	return m_iStepsBeforeNextLevel;
+}

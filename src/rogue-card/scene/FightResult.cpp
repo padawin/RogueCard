@@ -23,20 +23,38 @@ FightResultScene::FightResultScene(UserActions &userActions, Fight &fight, std::
 	m_title.setText(title);
 
 	m_iPage = PAGE_SKILLS;
-	if (_wouldSkillLevelUp()) {
+	if (_handleSkillsLevelUp()) {
 		m_iPagesToSee = m_iPagesToSee | PAGE_SKILLS_LEVEL;
 	}
-	if (_wouldLevelUp()) {
+	if (_handleLevelUp()) {
 		m_iPagesToSee = m_iPagesToSee | PAGE_LEVEL;
 	}
 }
 
-bool FightResultScene::_wouldSkillLevelUp() const {
-	return false;
+bool FightResultScene::_handleSkillsLevelUp() {
+	Levelling &levelling = m_fight.getPlayer().getLevelling();
+	bool res = false;
+	for (int skill = NONE; skill < NB_XP_SKILLS; ++skill) {
+		E_XPSkill xpSkill = (E_XPSkill) skill;
+		m_aSkillLevels[skill].first = levelling.getSkillLevel(xpSkill);
+		m_aSkillLevels[skill].second = levelling.getSkillLevel(xpSkill);
+		if (levelling.getPointsForNextLevel(xpSkill) <= m_fight.pointsEarnedIn(xpSkill)) {
+			m_aSkillLevels[skill].second++;
+			res = true;
+		}
+	}
+	return res;
 }
 
-bool FightResultScene::_wouldLevelUp() const {
-	return false;
+bool FightResultScene::_handleLevelUp() const {
+	int nbSkillsLevelUp = 0;
+	Levelling &levelling = m_fight.getPlayer().getLevelling();
+	for (int skill = NONE; skill < NB_XP_SKILLS; ++skill) {
+		if (m_aSkillLevels[skill].first < m_aSkillLevels[skill].second) {
+			++nbSkillsLevelUp;
+		}
+	}
+	return nbSkillsLevelUp >= levelling.getStepsBeforeLevelUp();
 }
 
 std::string FightResultScene::getStateID() const {

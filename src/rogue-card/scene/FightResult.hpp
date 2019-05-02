@@ -15,9 +15,10 @@ class FightResultScene : public State {
 	unsigned int m_iPagesToSee = 0;
 	Text m_title;
 	Text m_summary;
+	std::pair<int, int> m_aSkillLevels[NB_XP_SKILLS] = {};
 
-	bool _wouldSkillLevelUp() const;
-	bool _wouldLevelUp() const;
+	bool _handleSkillsLevelUp();
+	bool _handleLevelUp() const;
 
 	void _renderSkillsXP();
 	void _renderSkillsLevels();
