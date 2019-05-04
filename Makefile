@@ -3,7 +3,7 @@ BUILDDIR := build
 BUILDDIRGCW := build-gcw
 BINDIR := bin
 
-PROG   := card-rogue
+PROG   := rogue-card
 TARGET := $(PROG)
 TARGETDIST := $(PROG).opk
 CC     := $(CROSS_COMPILE)g++ -std=c++11
@@ -75,9 +75,12 @@ gcw: $(OBJGCW)
 	$(CC) -o $(BINDIR)/$(PROG) $^ $(CCDYNAMICFLAGS)
 
 opk: tools build-resources
-	mkdir -p dist/bin
-	cp -r config dist/
+	mkdir -p dist/bin dist/resources
 	cp $(BINDIR)/$(PROG) dist/bin/
+	cp resources/intro.txt dist/resources/
+	cp resources/tilesets.dat resources/enemies.dat resources/objects.dat resources/font-atlas.dat dist/resources/
+	cp resources/action-attack.png resources/arrows.png resources/atlas-red.png resources/door-up.png resources/monsters.png resources/ui-equipment-select.png resources/action-loot.png resources/atlas-black.png resources/card.png resources/final-goal.png resources/objects.png resources/ui-inventory.png resources/action-pick.png resources/atlas-green.png resources/cursor.png resources/health-color.png resources/quick-action-bar.png resources/ui.png resources/action-runaway.png resources/atlas.png resources/door-down.png resources/menu-background.png resources/ui-equipment.png dist/resources/
+
 	mksquashfs dist $(TARGETDIST) -all-root -noappend -no-exports -no-xattrs
 
 tools:

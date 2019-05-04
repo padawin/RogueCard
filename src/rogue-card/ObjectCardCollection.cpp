@@ -101,26 +101,26 @@ void ObjectCardCollection::_group(int start) {
 void ObjectCardCollection::sort() {
 	// Shitty bubble sort but the collection is small anyway, so meh.
 	_group(0);
-	int current = 0;
+	int curr = 0;
 	int j;
 	int tmpIndexToSwap;
-	while (m_cards[current] != nullptr && current < CARD_COLLECTION_SIZE - 1) {
-		j = current + 1;
-		tmpIndexToSwap = current;
+	while (m_cards[curr] != nullptr && curr < CARD_COLLECTION_SIZE - 1) {
+		j = curr + 1;
+		tmpIndexToSwap = curr;
 		while (m_cards[j] != nullptr && j < CARD_COLLECTION_SIZE) {
-			if (m_cards[current]->getMetaIndex() > m_cards[j]->getMetaIndex()) {
+			if (m_cards[curr]->getMetaIndex() > m_cards[j]->getMetaIndex()) {
 				if (m_cards[tmpIndexToSwap]->getMetaIndex() > m_cards[j]->getMetaIndex()) {
 					tmpIndexToSwap = j;
 				}
 			}
 			++j;
 		}
-		if (tmpIndexToSwap != current) {
+		if (tmpIndexToSwap != curr) {
 			auto tmp = m_cards[tmpIndexToSwap];
-			m_cards[tmpIndexToSwap] = m_cards[current];
-			m_cards[current] = tmp;
+			m_cards[tmpIndexToSwap] = m_cards[curr];
+			m_cards[curr] = tmp;
 		}
-		++current;
+		++curr;
 	}
 }
 

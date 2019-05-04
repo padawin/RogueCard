@@ -32,7 +32,7 @@ int main(int argc, char* args[]) {
 	}
 
 	{
-		std::string controlsMapping = std::string(binaryPath) + "/config/playercontrolsmapping.txt";
+		std::string controlsMapping = std::string(binaryPath) + "/../config/playercontrolsmapping.txt";
 		int actionsSet = userActions.setActionsFromFile(controlsMapping.c_str());
 		if (actionsSet != 0) {
 			std::cerr << "An error occured while loading the player controls mapping: " << actionsSet << "\n";
