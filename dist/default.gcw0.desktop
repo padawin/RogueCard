@@ -1,0 +1,8 @@
+[Desktop Entry]
+
+Type=Application
+Name=RogueCard
+Comment=Rogue-like game with cards
+Exec=rogue-card
+Icon=rogue-card
+Categories=games;
