@@ -13,10 +13,10 @@ const unsigned int FLAG_CONTEXT_CARD_IN_ACTIONBAR = 0x02;
 const unsigned int FLAG_CONTEXT_CARD_NOT_IN_ACTIONBAR = 0x04;
 
 struct S_MenuItem {
-	Text text;
-	unsigned int objectFlags;
-	unsigned int context;
-	bool valid;
+	Text text = Text();
+	unsigned int objectFlags = 0;
+	unsigned int context = 0;
+	bool valid = false;
 };
 
 class ObjectAction {
