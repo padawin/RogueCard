@@ -76,7 +76,6 @@ gcw: $(OBJGCW)
 
 opk: tools build-resources
 	mkdir -p dist/bin dist/resources
-	cp -r config dist/
 	cp $(BINDIR)/$(PROG) dist/bin/
 	cp resources/intro.txt dist/resources/
 	cp resources/tilesets.dat resources/enemies.dat resources/objects.dat resources/font-atlas.dat dist/resources/
