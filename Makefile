@@ -3,7 +3,7 @@ BUILDDIR := build
 BUILDDIRGCW := build-gcw
 BINDIR := bin
 
-PROG   := card-rogue
+PROG   := rogue-card
 TARGET := $(PROG)
 TARGETDIST := $(PROG).opk
 CC     := $(CROSS_COMPILE)g++ -std=c++11
