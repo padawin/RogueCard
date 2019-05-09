@@ -305,6 +305,7 @@ void PlayScene::_action() {
 		case FloorAction:
 			_notify("Found next floor");
 			m_floorCard = m_pickedCard;
+			m_player.setFoundFloorCard(true);
 			m_pickedCard = nullptr;
 			break;
 		case AttackAction:
@@ -380,6 +381,7 @@ void PlayScene::_changeFloor() {
 			char floorStr[25];
 			if (!m_player.foundFinalGoal()) {
 				m_floorCard = nullptr;
+				m_player.setFoundFloorCard(false);
 				snprintf(
 					floorStr,
 					25,

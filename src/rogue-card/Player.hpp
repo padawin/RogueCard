@@ -25,6 +25,7 @@ class Player {
 
 	bool m_bFighting = false;
 	bool m_bFoundFinalGoal = false;
+	bool m_bFoundFloorCard = false;
 
 	S_CardStats _getEquipmentStats(bool applyOnSelf);
 
@@ -72,7 +73,9 @@ class Player {
 	void toNextFloor();
 
 	void setFoundFinalGoal();
+	void setFoundFloorCard(bool found);
 	bool foundFinalGoal() const;
+	bool foundFloorCard() const;
 };
 
 #endif
