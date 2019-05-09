@@ -263,7 +263,7 @@ void PlayScene::_useCardUnderCursor() {
 void PlayScene::_pickCard() {
 	if (m_pickedCard == nullptr) {
 		_notify("");
-		m_pickedCard = m_deck.pickCard(m_player, m_floorCard != nullptr);
+		m_pickedCard = m_deck.pickCard(m_player);
 		E_CardType type = m_pickedCard->getType();
 		if (type == ObjectCardType) {
 			m_action = LootAction;

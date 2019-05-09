@@ -8,7 +8,7 @@
 
 class CardDeck {
 	public:
-	std::shared_ptr<Card> pickCard(Player &player, bool foundNextFloor);
+	std::shared_ptr<Card> pickCard(Player &player);
 	std::shared_ptr<FloorCard> createFloorCard(FloorDirection floorDirection) const;
 };
 
