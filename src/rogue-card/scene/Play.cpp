@@ -46,6 +46,9 @@ bool PlayScene::onEnter() {
 		if (m_player.foundFinalGoal()) {
 			m_floorCard = m_deck.createFloorCard(FLOOR_UP);
 		}
+		else if (m_player.foundFloorCard()) {
+			m_floorCard = m_deck.createFloorCard(FLOOR_DOWN);
+		}
 	}
 	else {
 		std::clog << "No save found, create new one\n";
