@@ -184,6 +184,14 @@ void Player::setFoundFinalGoal() {
 	m_bFoundFinalGoal = true;
 }
 
+void Player::setFoundFloorCard(bool found) {
+	m_bFoundFloorCard = found;
+}
+
 bool Player::foundFinalGoal() const {
 	return m_bFoundFinalGoal;
+}
+
+bool Player::foundFloorCard() const {
+	return m_bFoundFloorCard;
 }

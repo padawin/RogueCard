@@ -59,6 +59,11 @@ void Save::_loadPlayer() {
 			sscanf(line, "f %d\n", &floorLevel);
 			m_player.getFloor().setLevel(floorLevel);
 		}
+		else if (type == 'F') {
+			int foundFloorCard;
+			sscanf(line, "F %d\n", &foundFloorCard);
+			m_player.setFoundFloorCard(foundFloorCard == 1);
+		}
 		else if (type == 'g') {
 			long gold = 0;
 			sscanf(line, "g %ld\n", &gold);
@@ -147,6 +152,7 @@ void Save::_savePlayer() {
 	fprintf(playerFile, "s %d\n", m_player.getStrength());
 	fprintf(playerFile, "d %d\n", m_player.getDefence());
 	fprintf(playerFile, "f %d\n", m_player.getFloor().getLevel());
+	fprintf(playerFile, "F %d\n", m_player.foundFloorCard());
 	fprintf(playerFile, "g %ld\n", m_player.getGold());
 	fprintf(playerFile, "l %d\n", m_player.getLevelling().getLevel());
 	fprintf(playerFile, "L %d\n", m_player.getLevelling().getStepsBeforeLevelUp());

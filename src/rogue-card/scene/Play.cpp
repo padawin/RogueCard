@@ -46,6 +46,9 @@ bool PlayScene::onEnter() {
 		if (m_player.foundFinalGoal()) {
 			m_floorCard = m_deck.createFloorCard(FLOOR_UP);
 		}
+		else if (m_player.foundFloorCard()) {
+			m_floorCard = m_deck.createFloorCard(FLOOR_DOWN);
+		}
 	}
 	else {
 		std::clog << "No save found, create new one\n";
@@ -263,7 +266,7 @@ void PlayScene::_useCardUnderCursor() {
 void PlayScene::_pickCard() {
 	if (m_pickedCard == nullptr) {
 		_notify("");
-		m_pickedCard = m_deck.pickCard(m_player, m_floorCard != nullptr);
+		m_pickedCard = m_deck.pickCard(m_player);
 		E_CardType type = m_pickedCard->getType();
 		if (type == ObjectCardType) {
 			m_action = LootAction;
@@ -305,6 +308,7 @@ void PlayScene::_action() {
 		case FloorAction:
 			_notify("Found next floor");
 			m_floorCard = m_pickedCard;
+			m_player.setFoundFloorCard(true);
 			m_pickedCard = nullptr;
 			break;
 		case AttackAction:
@@ -380,6 +384,7 @@ void PlayScene::_changeFloor() {
 			char floorStr[25];
 			if (!m_player.foundFinalGoal()) {
 				m_floorCard = nullptr;
+				m_player.setFoundFloorCard(false);
 				snprintf(
 					floorStr,
 					25,
@@ -422,7 +427,7 @@ void PlayScene::_getFinalGoal() {
 	m_pickedCard = nullptr;
 	m_player.setFoundFinalGoal();
 	m_floorCard = m_deck.createFloorCard(FLOOR_UP);
-	_notify("You found the Artefact of Power");
+	_notify("You found\nThe Artefact of Power");
 }
 
 void PlayScene::_notify(std::string message) {

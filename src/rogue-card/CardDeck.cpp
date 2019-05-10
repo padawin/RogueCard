@@ -4,14 +4,14 @@
 #include "EnemyCard.hpp"
 #include "FinalGoalCard.hpp"
 
-std::shared_ptr<Card> CardDeck::pickCard(Player &player, bool foundNextFloor) {
+std::shared_ptr<Card> CardDeck::pickCard(Player &player) {
 	bool isLastFloor = player.getFloor().isLast();
 	int proba = rand() % 1000;
 	std::shared_ptr<Card> card = nullptr;
 	if (isLastFloor && !player.foundFinalGoal() && proba < 50) {
 		card = std::shared_ptr<FinalGoalCard>(new FinalGoalCard());
 	}
-	else if (!player.foundFinalGoal() && !isLastFloor && !foundNextFloor && proba < 50) {
+	else if (!player.foundFinalGoal() && !isLastFloor && !player.foundFloorCard() && proba < 50) {
 		card = createFloorCard(FLOOR_DOWN);
 	}
 	else if (proba < 600) {
