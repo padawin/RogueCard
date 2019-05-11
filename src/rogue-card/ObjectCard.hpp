@@ -1,6 +1,7 @@
 #ifndef __OBJECT_CARD__
 #define __OBJECT_CARD__
 
+#include <memory>
 #include "../common/types.hpp"
 #include "../common/ResourceManager.hpp"
 #include "Card.hpp"
