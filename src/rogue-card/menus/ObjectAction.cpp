@@ -7,43 +7,32 @@ ObjectAction::ObjectAction(std::shared_ptr<SDL2Renderer> renderer) :
 	m_itemTexts[USE].text = Text();
 	m_itemTexts[USE].text.setText("Use");
 	m_itemTexts[USE].context = FLAG_CONTEXT_NOT_IN_FIGHT;
-	m_itemTexts[USE].valid = false;
 	m_itemsCardFlags[USE] = FLAG_USABLE | FLAG_APPLY_ON_SELF;
 
 	m_itemTexts[INFO].text = Text();
 	m_itemTexts[INFO].text.setText("Info");
-	m_itemTexts[INFO].context = 0;
-	m_itemTexts[INFO].valid = false;
 	m_itemsCardFlags[INFO] = 0;
 
 	m_itemTexts[DISCARD].text = Text();
 	m_itemTexts[DISCARD].text.setText("Discard");
-	m_itemTexts[DISCARD].context = 0;
-	m_itemTexts[DISCARD].valid = false;
 	m_itemsCardFlags[DISCARD] = 0;
 
 	m_itemTexts[SORT].text = Text();
 	m_itemTexts[SORT].text.setText("Sort");
-	m_itemTexts[SORT].context = 0;
-	m_itemTexts[SORT].valid = false;
 	m_itemsCardFlags[SORT] = 0;
 
 	m_itemTexts[ADD_ACTIONBAR].text = Text();
 	m_itemTexts[ADD_ACTIONBAR].text.setText("Add to ActionBar");
 	m_itemTexts[ADD_ACTIONBAR].context = FLAG_CONTEXT_CARD_NOT_IN_ACTIONBAR | FLAG_CONTEXT_NOT_IN_FIGHT;
-	m_itemTexts[ADD_ACTIONBAR].valid = false;
 	m_itemsCardFlags[ADD_ACTIONBAR] = FLAG_USABLE;
 
 	m_itemTexts[REMOVE_ACTIONBAR].text = Text();
 	m_itemTexts[REMOVE_ACTIONBAR].text.setText("Remove from ActionBar");
 	m_itemTexts[REMOVE_ACTIONBAR].context = FLAG_CONTEXT_CARD_IN_ACTIONBAR | FLAG_CONTEXT_NOT_IN_FIGHT;
-	m_itemTexts[REMOVE_ACTIONBAR].valid = false;
 	m_itemsCardFlags[REMOVE_ACTIONBAR] = FLAG_USABLE;
 
 	m_itemTexts[BACK].text = Text();
 	m_itemTexts[BACK].text.setText("Back");
-	m_itemTexts[BACK].context = 0;
-	m_itemTexts[BACK].valid = false;
 	m_itemsCardFlags[BACK] = 0;
 }
 
