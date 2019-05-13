@@ -3,6 +3,7 @@
 #include "../game/StateMachine.hpp"
 #include "Intro.hpp"
 #include "Play.hpp"
+#include "../Save.hpp"
 
 const int LINE_MAX_LENGTH = 17;
 const int LINES_PER_PAGE = 10;
@@ -18,6 +19,7 @@ std::string IntroScene::getStateID() const {
 }
 
 bool IntroScene::onEnter() {
+	Save::clean();
 	// read resources/intro.txt
 	_buildLines();
 	m_textField.setText(m_vIntroText[m_iCurrentPage - 1]);

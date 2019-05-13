@@ -16,7 +16,7 @@ class Save : public AbstractSave {
 
 	public:
 	Save(Player &player, ActionBar &actionBar);
-	bool exists();
+	static bool exists();
 	void load();
 	void create();
 	void save();

@@ -6,7 +6,7 @@ class AbstractSave {
 	virtual ~AbstractSave() {}
 
 	static void clean();
-	virtual bool exists() = 0;
+	static bool exists();
 	virtual void load() = 0;
 	virtual void create() = 0;
 };
