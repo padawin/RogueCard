@@ -4,6 +4,9 @@
 ObjectAction::ObjectAction(std::shared_ptr<SDL2Renderer> renderer) :
 	Menu(renderer)
 {
+	m_iX = 32;
+	m_iY = 32;
+
 	m_itemTexts[USE].text = Text();
 	m_itemTexts[USE].text.setText("Use");
 	m_itemTexts[USE].context = FLAG_CONTEXT_NOT_IN_FIGHT;

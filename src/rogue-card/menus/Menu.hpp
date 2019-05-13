@@ -19,6 +19,10 @@ class Menu {
 	int m_selectedAction = 0;
 	int m_iCursorPosition = 0;
 	unsigned int m_iContext = 0;
+	int m_iX = 0;
+	int m_iY = 0;
+	int m_iWidth = 0;
+	int m_iTextMaxWidth = 0;
 
 	void _renderBackground(int spriteIndex, int y);
 	void _renderItems();

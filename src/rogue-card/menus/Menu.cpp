@@ -2,14 +2,8 @@
 #include "../game/globals.hpp"
 #include "../sdl2/TextureManager.hpp"
 
-const int POSITION_X = 32;
-const int POSITION_Y = 32;
 const int MARGIN_X = 16;
 const int MARGIN_Y = 16;
-const int TEXT_POS_X = POSITION_X + MARGIN_X;
-const int TEXT_POS_Y = POSITION_Y + MARGIN_Y;
-const int MENU_WIDTH = SCREEN_WIDTH - POSITION_X * 2;
-const int TEXT_MAX_WIDTH = MENU_WIDTH - MARGIN_X * 2;
 
 Menu::Menu(std::shared_ptr<SDL2Renderer> renderer) :
 	m_renderer(renderer)
@@ -19,9 +13,9 @@ Menu::Menu(std::shared_ptr<SDL2Renderer> renderer) :
 void Menu::_renderBackground(int spriteIndex, int y) {
 	TextureManager::Instance()->drawFrame(
 		"menu-background",
-		POSITION_X,
+		m_iX,
 		y,
-		MENU_WIDTH,
+		m_iWidth,
 		16,
 		0, spriteIndex,
 		m_renderer->getRenderer()
@@ -29,12 +23,12 @@ void Menu::_renderBackground(int spriteIndex, int y) {
 }
 
 void Menu::_renderItems() {
-	_renderBackground(0, POSITION_Y);
+	_renderBackground(0, m_iY);
 	int nbItems = _getNbItems();
 	for (int renderIndex = 0, itemIndex = 0; itemIndex < nbItems; ++itemIndex) {
 		S_MenuItem &item = _getItem(itemIndex);
 		if (item.valid) {
-			_renderBackground(1, TEXT_POS_Y + renderIndex * 16);
+			_renderBackground(1, m_iY + MARGIN_Y + renderIndex * 16);
 			_renderItem(item, renderIndex);
 			if (renderIndex == m_iSelectedItemIndex) {
 				_renderCursor();
@@ -42,15 +36,15 @@ void Menu::_renderItems() {
 			++renderIndex;
 		}
 	}
-	_renderBackground(2, TEXT_POS_Y + m_iNbVisibleItems * 16);
+	_renderBackground(2, m_iY + MARGIN_Y + m_iNbVisibleItems * 16);
 }
 
 void Menu::_renderCursor() {
 	TextureManager::Instance()->drawFrame(
 		"menu-background",
-		POSITION_X,
+		m_iX,
 		m_iCursorPosition,
-		MENU_WIDTH,
+		m_iWidth,
 		16,
 		0, 3,
 		m_renderer->getRenderer()
@@ -58,8 +52,8 @@ void Menu::_renderCursor() {
 }
 
 void Menu::_renderItem(S_MenuItem item, int visibleIndex) {
-	const int x = TEXT_POS_X + (TEXT_MAX_WIDTH - item.text.getLength()) / 2;
-	const int y = TEXT_POS_Y + visibleIndex * 16;
+	const int x = m_iX + MARGIN_X + (m_iTextMaxWidth - item.text.getLength()) / 2;
+	const int y = m_iY + MARGIN_Y + visibleIndex * 16;
 	item.text.render(m_renderer->getRenderer(), x, y);
 }
 
@@ -78,7 +72,7 @@ void Menu::_setSelectedAction() {
 }
 
 void Menu::_setCursorPosition() {
-	m_iCursorPosition = TEXT_POS_Y + m_iSelectedItemIndex * 16;
+	m_iCursorPosition = m_iY + MARGIN_Y + m_iSelectedItemIndex * 16;
 }
 
 void Menu::_reset() {
@@ -94,6 +88,8 @@ bool Menu::_isItemValid(int itemIndex) {
 
 
 void Menu::init() {
+	m_iWidth = SCREEN_WIDTH - m_iX * 2;
+	m_iTextMaxWidth = m_iWidth - MARGIN_X * 2;
 	int nbItems = _getNbItems();
 	for (int i = 0; i < nbItems; ++i) {
 		S_MenuItem &item = _getItem(i);
