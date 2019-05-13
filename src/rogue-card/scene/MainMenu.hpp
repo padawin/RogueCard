@@ -11,6 +11,7 @@ class MainMenuScene : public State {
 	private:
 	std::shared_ptr<SDL2Renderer> m_renderer;
 	Text m_title;
+	int m_iTitleXPos = 0;
 
 	public:
 	MainMenuScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer);

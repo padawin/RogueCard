@@ -1,4 +1,5 @@
 #include "../game/Game.hpp"
+#include "../game/globals.hpp"
 #include "../game/StateMachine.hpp"
 #include "MainMenu.hpp"
 #include "Play.hpp"
@@ -9,6 +10,7 @@ MainMenuScene::MainMenuScene(UserActions &userActions, std::shared_ptr<SDL2Rende
 	m_title(Text())
 {
 	m_title.setText("CARD ROGUE");
+	m_iTitleXPos = (SCREEN_WIDTH - m_title.getLength()) / 2;
 }
 
 std::string MainMenuScene::getStateID() const {
@@ -28,5 +30,5 @@ void MainMenuScene::update(StateMachine &stateMachine) {
 }
 
 void MainMenuScene::render() {
-	m_textField.render(m_renderer->getRenderer(), 18, 16);
+	m_title.render(m_renderer->getRenderer(), m_iTitleXPos, 32);
 }
