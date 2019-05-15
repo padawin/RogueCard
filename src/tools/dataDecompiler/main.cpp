@@ -75,11 +75,11 @@ void writeTilesetMapping(std::ofstream &fileOutStream, S_TilesetMapping tile) {
 
 void writeEnemy(std::ofstream &fileOutStream, S_EnemyMeta enemy) {
 	fileOutStream << "\"" << enemy.name << "\" "
+		<< enemy.tilesetX << " "
+		<< enemy.tilesetY << " "
 		<< enemy.health << " "
 		<< enemy.strength << " "
 		<< enemy.defence << " "
-		<< enemy.tilesetX << " "
-		<< enemy.tilesetY << " "
 		<< enemy.dropRate << " "
 		<< enemy.minItems << " "
 		<< enemy.maxItems << "\n";

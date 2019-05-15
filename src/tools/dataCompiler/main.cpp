@@ -92,11 +92,11 @@ bool readEnemyFileLine(char line[MAX_CHARS_PER_LINE], S_EnemyMeta &data) {
 		line,
 		"\"%[^\"]\" %d %d %d %d %d %d %d %d\n",
 		data.name,
+		&data.tilesetX,
+		&data.tilesetY,
 		&data.health,
 		&data.strength,
 		&data.defence,
-		&data.tilesetX,
-		&data.tilesetY,
 		&dropRate,
 		&minItems,
 		&maxItems
