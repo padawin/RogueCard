@@ -110,6 +110,7 @@ bool readEnemyFileLine(char line[MAX_CHARS_PER_LINE], S_EnemyMeta &data) {
 bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
 	int usable, consumable, applyOnSelf, isHelm, isShoulders, isGlove, isChest,
 		isBelt, isShoe, isWeapon, isShield, xpSkill;
+	int statFire;
 	int result = sscanf(
 		line,
 		"\"%[^\"]\" %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n",
@@ -130,10 +131,11 @@ bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
 		&data.stats.points,
 		&data.stats.healthPoints,
 		&data.stats.maxHealthPoints,
-		&data.stats.firePoints,
+		&statFire,
 		&xpSkill,
 		&data.stats.xp
 	);
+	data.elementalEffects.setStat(ELEMENT_FIRE, statFire);
 	data.stats.xpSkill = (E_XPSkill) xpSkill;
 	data.usable = (bool) usable;
 	data.consumable = (bool) consumable;

@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "ElementalEffects.hpp"
+
 #define MAX_LENGTH_TILESET_NAME 32
 #define MAX_CHAR_RESOURCE_PATH 255
 
@@ -36,7 +38,6 @@ struct S_CardStats {
 	int points = 0; // For damages and armor points
 	int healthPoints = 0; // For health recovery
 	int maxHealthPoints = 0; // For health boost
-	int firePoints = 0; // For fire damage/resistance
 	E_XPSkill xpSkill = NONE;
 	int xp = 0;
 };
@@ -69,6 +70,7 @@ struct S_ObjectMeta {
 	bool isWeapon = false;
 	bool isShield = false;
 	S_CardStats stats = {};
+	ElementalEffects elementalEffects = ElementalEffects();
 };
 
 struct S_FontAtlasCoord {

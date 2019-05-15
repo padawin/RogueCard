@@ -83,7 +83,6 @@ S_CardStats Player::_getEquipmentStats(bool applyOnSelf) {
 	stats.points = 0;
 	stats.healthPoints = 0;
 	stats.maxHealthPoints = 0;
-	stats.firePoints = 0;
 	m_equipment.reset();
 	do {
 		auto card = m_equipment.current();
@@ -91,7 +90,6 @@ S_CardStats Player::_getEquipmentStats(bool applyOnSelf) {
 			stats.points += card->getStats().points;
 			stats.healthPoints += card->getStats().healthPoints;
 			stats.maxHealthPoints += card->getStats().maxHealthPoints;
-			stats.firePoints += card->getStats().firePoints;
 		}
 	} while (m_equipment.next());
 	return stats;

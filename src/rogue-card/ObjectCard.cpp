@@ -7,7 +7,11 @@ const int CARD_QUANTITY_Y = 46;
 
 ResourceManager<S_ObjectMeta> ObjectCard::m_objectMeta = ResourceManager<S_ObjectMeta>();
 
-ObjectCard::ObjectCard() : Card(ObjectCardType), m_quantityText(Text()) {
+ObjectCard::ObjectCard() :
+	Card(ObjectCardType),
+	m_quantityText(Text()),
+	m_elementEffects(ElementalEffects())
+{
 	m_sImage = "objects";
 	m_quantityText.setFont("font-black");
 }
@@ -24,6 +28,7 @@ void ObjectCard::createFromMeta(int metaIndex) {
 	m_iTileX = meta[metaIndex].tilesetX;
 	m_iTileY = meta[metaIndex].tilesetY;
 	m_sStats = meta[metaIndex].stats;
+	m_elementEffects = meta[metaIndex].elementalEffects;
 	_setFlags(meta[metaIndex]);
 }
 
@@ -153,6 +158,10 @@ void ObjectCard::consume() {
 
 S_CardStats ObjectCard::getStats() const {
 	return m_sStats;
+}
+
+ElementalEffects ObjectCard::getElementalEffects() {
+	return m_elementEffects;
 }
 
 bool ObjectCard::isSameAs(std::shared_ptr<ObjectCard> card) const {

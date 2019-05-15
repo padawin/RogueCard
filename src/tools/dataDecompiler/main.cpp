@@ -103,7 +103,7 @@ void writeObject(std::ofstream &fileOutStream, S_ObjectMeta object) {
 		<< object.stats.points << " "
 		<< object.stats.healthPoints << " "
 		<< object.stats.maxHealthPoints << " "
-		<< object.stats.firePoints << " "
+		<< object.elementalEffects.getStat(ELEMENT_FIRE) << " "
 		<< object.stats.xpSkill << " "
 		<< object.stats.xp << "\n";
 }
