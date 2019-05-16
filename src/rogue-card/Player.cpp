@@ -38,8 +38,7 @@ int Player::attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> 
 		damages = attackCard->getStats().points;
 		elementalDamages = attackCard->getElementalEffects();
 	}
-	damages += card->calculateElementalDamages(elementalDamages);
-	return card->setDamages(damages);
+	return card->setDamages(damages, elementalDamages);
 }
 
 void Player::getXPAttack(std::shared_ptr<ObjectCard> weapon, int xp[NB_XP_SKILLS]) {

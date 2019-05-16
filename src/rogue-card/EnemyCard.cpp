@@ -75,8 +75,10 @@ int EnemyCard::attack(Player &player) const {
 	return player.setDamages(m_iStrength);
 }
 
-int EnemyCard::setDamages(int damages) {
-	int finalDamages = damages - m_iDefence;
+int EnemyCard::setDamages(int physicalDamages, ElementalEffects elementalEffects) {
+	physicalDamages = physicalDamages - m_iDefence;
+	int elementalDamages = _calculateElementalDamages(elementalEffects);
+	int finalDamages = physicalDamages + elementalDamages;
 	m_iHealth -= finalDamages;
 	if (m_iHealth < 0) {
 		m_iHealth = 0;
@@ -91,7 +93,7 @@ bool EnemyCard::isDead() const {
 	return m_iHealth == 0;
 }
 
-int EnemyCard::calculateElementalDamages(ElementalEffects effects) {
+int EnemyCard::_calculateElementalDamages(ElementalEffects effects) {
 	ElementalEffects elementalDamages = ElementalEffects();
 	for (int s = 0; s < NB_ELEMENTS; ++s) {
 		E_ElementalElement element = (E_ElementalElement) s;

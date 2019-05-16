@@ -28,17 +28,17 @@ class EnemyCard : public Card {
 
 	int _getEnemyIndex(int proba, int nbEnemies);
 
+	int _calculateElementalDamages(ElementalEffects elementalDamages);
+
 	public:
 	EnemyCard(const int playerLevel);
 	void create();
 	static bool prepareMeta(std::string file);
 
 	const char* getName() const;
-	int setDamages(int damages);
+	int setDamages(int physicalDamages, ElementalEffects elementalEffects);
 	int attack(Player &player) const;
 	bool isDead() const;
-
-	int calculateElementalDamages(ElementalEffects elementalDamages);
 };
 
 #endif
