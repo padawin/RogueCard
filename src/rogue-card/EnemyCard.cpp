@@ -77,9 +77,6 @@ int EnemyCard::attack(Player &player) const {
 
 int EnemyCard::setDamages(int damages) {
 	int finalDamages = damages - m_iDefence;
-	if (finalDamages < 0) {
-		finalDamages = 1;
-	}
 	m_iHealth -= finalDamages;
 	if (m_iHealth < 0) {
 		m_iHealth = 0;
