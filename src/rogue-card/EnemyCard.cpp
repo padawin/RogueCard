@@ -4,6 +4,7 @@ ResourceManager<S_EnemyMeta> EnemyCard::m_enemyMeta = ResourceManager<S_EnemyMet
 
 EnemyCard::EnemyCard(const int playerLevel) :
 	Card(EnemyCardType),
+	m_elementalDamages(ElementalEffects()),
 	m_elementalResistance(ElementalEffects()),
 	m_iPlayerLevel(playerLevel)
 {
@@ -19,6 +20,7 @@ void EnemyCard::create() {
 	m_iHealth = m_iMaxHealth = meta[index].health;
 	m_iStrength = meta[index].strength;
 	m_iDefence = meta[index].defence;
+	m_elementalDamages = meta[index].elementalDamages;
 	m_elementalResistance = meta[index].elementalResistance;
 }
 

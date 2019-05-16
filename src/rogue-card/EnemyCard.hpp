@@ -16,6 +16,11 @@ class EnemyCard : public Card {
 	int m_iDefence = 0;
 
 	/**
+	 * Absolute damages values
+	 */
+	ElementalEffects m_elementalDamages;
+
+	/**
 	 * Percentages.
 	 *
 	 * x < 0: Vulnerable

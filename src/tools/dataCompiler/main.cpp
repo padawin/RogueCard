@@ -88,26 +88,28 @@ bool readTilesetFileLine(char line[MAX_CHARS_PER_LINE], S_TilesetMapping &data) 
 
 bool readEnemyFileLine(char line[MAX_CHARS_PER_LINE], S_EnemyMeta &data) {
 	int dropRate, minItems, maxItems;
-	int fireResistance;
+	int fireAttack, fireResistance;
 	int result = sscanf(
 		line,
-		"\"%[^\"]\" %d %d %d %d %d %d %d %d %d\n",
+		"\"%[^\"]\" %d %d %d %d %d %d %d %d %d %d\n",
 		data.name,
 		&data.tilesetX,
 		&data.tilesetY,
 		&data.health,
 		&data.strength,
 		&data.defence,
+		&fireAttack,
 		&fireResistance,
 		&dropRate,
 		&minItems,
 		&maxItems
 	);
+	data.elementalDamages.setStat(ELEMENT_FIRE, fireAttack);
 	data.elementalResistance.setStat(ELEMENT_FIRE, fireResistance);
 	data.dropRate = (char) dropRate;
 	data.minItems = (char) minItems;
 	data.maxItems = (char) maxItems;
-	return result == 10;
+	return result == 11;
 }
 
 bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
