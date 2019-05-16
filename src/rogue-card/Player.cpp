@@ -29,12 +29,16 @@ void Player::setLevel(int level) { m_levelling.setLevel(level); }
 
 int Player::attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> attackCard) {
 	int damages;
+	ElementalEffects elementalDamages;
 	if (attackCard == nullptr) {
 		damages = m_iStrength + _getEquipmentStats(false).points;
+		elementalDamages = _getElementalEffects(false);
 	}
 	else {
 		damages = attackCard->getStats().points;
+		elementalDamages = attackCard->getElementalEffects();
 	}
+	damages += card->calculateElementalDamages(elementalDamages);
 	return card->setDamages(damages);
 }
 
@@ -90,6 +94,18 @@ S_CardStats Player::_getEquipmentStats(bool applyOnSelf) {
 			stats.points += card->getStats().points;
 			stats.healthPoints += card->getStats().healthPoints;
 			stats.maxHealthPoints += card->getStats().maxHealthPoints;
+		}
+	} while (m_equipment.next());
+	return stats;
+}
+
+ElementalEffects Player::_getElementalEffects(bool applyOnSelf) {
+	ElementalEffects stats = ElementalEffects();
+	m_equipment.reset();
+	do {
+		auto card = m_equipment.current();
+		if (card != nullptr && applyOnSelf == card->hasFlags(FLAG_APPLY_ON_SELF)) {
+			stats += card->getElementalEffects();
 		}
 	} while (m_equipment.next());
 	return stats;

@@ -13,3 +13,21 @@ int ElementalEffects::getStat(E_ElementalElement stat) const {
 	}
 	return m_aStats[stat];
 }
+
+int ElementalEffects::sumPoints() const {
+	int res = 0;
+	for (int s = 0; s < NB_ELEMENTS; ++s) {
+		res += m_aStats[s];
+	}
+	return res;
+}
+
+ElementalEffects ElementalEffects::operator+=(ElementalEffects effects) {
+	for (int s = 0; s < NB_ELEMENTS; ++s) {
+		setStat(
+			(E_ElementalElement) s,
+			m_aStats[s] + effects.getStat((E_ElementalElement) s)
+		);
+	}
+	return *this;
+}

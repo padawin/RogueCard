@@ -13,6 +13,9 @@ class ElementalEffects {
 	public:
 	void setStat(E_ElementalElement stat, int value);
 	int getStat(E_ElementalElement stat) const;
+	int sumPoints() const;
+
+	ElementalEffects operator+=(ElementalEffects effects);
 };
 
 #endif

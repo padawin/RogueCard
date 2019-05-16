@@ -28,6 +28,7 @@ class Player {
 	bool m_bFoundFloorCard = false;
 
 	S_CardStats _getEquipmentStats(bool applyOnSelf);
+	ElementalEffects _getElementalEffects(bool applyOnSelf);
 
 	public:
 	Player();

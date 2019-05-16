@@ -90,3 +90,14 @@ int EnemyCard::setDamages(int damages) {
 bool EnemyCard::isDead() const {
 	return m_iHealth == 0;
 }
+
+int EnemyCard::calculateElementalDamages(ElementalEffects effects) {
+	ElementalEffects elementalDamages = ElementalEffects();
+	for (int s = 0; s < NB_ELEMENTS; ++s) {
+		E_ElementalElement element = (E_ElementalElement) s;
+		int percentDamages = 100 - m_elementalResistance.getStat(element);
+		int damages = percentDamages * effects.getStat(element) / 100;
+		elementalDamages.setStat(element, damages);
+	}
+	return elementalDamages.sumPoints();
+}

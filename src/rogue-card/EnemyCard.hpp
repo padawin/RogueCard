@@ -37,6 +37,8 @@ class EnemyCard : public Card {
 	int setDamages(int damages);
 	int attack(Player &player) const;
 	bool isDead() const;
+
+	int calculateElementalDamages(ElementalEffects elementalDamages);
 };
 
 #endif
