@@ -44,14 +44,16 @@ struct S_CardStats {
 
 struct S_EnemyMeta {
 	char name[MAX_CHAR_ENEMY_NAME];
-	int health;
-	int strength;
-	int defence;
-	int tilesetX;
-	int tilesetY;
-	char dropRate;
-	char minItems;
-	char maxItems;
+	int health = 0;
+	int strength = 0;
+	int defence = 0;
+	int tilesetX = 0;
+	int tilesetY = 0;
+	char dropRate = 0;
+	char minItems = 0;
+	char maxItems = 0;
+	ElementalEffects elementalDamages = ElementalEffects();
+	ElementalEffects elementalResistance = ElementalEffects();
 };
 
 struct S_ObjectMeta {

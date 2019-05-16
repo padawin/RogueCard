@@ -3,6 +3,7 @@
 
 #include "../common/types.hpp"
 #include "../common/ResourceManager.hpp"
+#include "../common/ElementalEffects.hpp"
 #include "Card.hpp"
 #include "Player.hpp"
 
@@ -13,6 +14,15 @@ class EnemyCard : public Card {
 	int m_iMaxHealth = 0;
 	int m_iStrength = 0;
 	int m_iDefence = 0;
+
+	/**
+	 * Percentages.
+	 *
+	 * x < 0: Vulnerable
+	 * 0 < x < 100: Resistance
+	 * 100 < x: Absorbs -> heals
+	 */
+	ElementalEffects m_elementalResistance;
 
 	int m_iPlayerLevel;
 

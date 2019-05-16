@@ -5,16 +5,17 @@
 # %META FIELD% Health 1 0
 # %META FIELD% Strength 1 0
 # %META FIELD% Defence 1 0
+# %META FIELD% FileResistance 1 0
 # %META FIELD% DropRate 1 0
 # %META FIELD% MinItems 1 0
 # %META FIELD% MaxItems 1 0
 # %META END%
-"Rat" 1 0 10 1 1 50 1 1
-"Wasp" 4 1 5 1 1 0 0 0
-"Snake" 7 2 15 3 2 50 1 1
-"Wood Mimic" 6 6 40 5 5 100 2 2
-"Iron Mimic" 6 7 60 7 7 100 3 3
-"Gold Mimic" 6 8 80 10 10 100 4 4
+"Rat" 1 0 10 1 1 0 50 1 1
+"Wasp" 4 1 5 1 1 0 0 0 0
+"Snake" 7 2 15 3 2 0 50 1 1
+"Wood Mimic" 6 6 40 5 5 0 100 2 2
+"Iron Mimic" 6 7 60 7 7 0 100 3 3
+"Gold Mimic" 6 8 80 10 10 0 100 4 4
 # Zombie
 # Cyclope
 # DarkKnight

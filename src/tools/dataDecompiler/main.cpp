@@ -80,6 +80,7 @@ void writeEnemy(std::ofstream &fileOutStream, S_EnemyMeta enemy) {
 		<< enemy.health << " "
 		<< enemy.strength << " "
 		<< enemy.defence << " "
+		<< enemy.elementalResistance.getStat(ELEMENT_FIRE) << " "
 		<< enemy.dropRate << " "
 		<< enemy.minItems << " "
 		<< enemy.maxItems << "\n";
