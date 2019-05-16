@@ -81,6 +81,9 @@ int EnemyCard::setDamages(int damages) {
 	if (m_iHealth < 0) {
 		m_iHealth = 0;
 	}
+	else if (m_iHealth > m_iMaxHealth) {
+		m_iHealth = m_iMaxHealth;
+	}
 	return finalDamages;
 }
 
