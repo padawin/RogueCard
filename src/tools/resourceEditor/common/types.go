@@ -17,4 +17,5 @@ var FieldTypeLabels []string = []string{
 type Field struct {
 	Name string
 	Type FieldType
+	Size int
 }

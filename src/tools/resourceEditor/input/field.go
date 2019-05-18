@@ -21,6 +21,13 @@ func PromptField(field *common.Field) bool {
 	}
 
 	field.Type = promptType(scanner)
+
+	if field.Type == common.StringField {
+		field.Size = promptStringLength(scanner)
+	} else if field.Type == common.BoolField {
+		field.Size = 2
+	}
+
 	return true
 }
 
@@ -48,5 +55,17 @@ func promptType(scanner *bufio.Scanner) common.FieldType {
 			continue
 		}
 		return common.FieldType(val)
+	}
+}
+
+func promptStringLength(scanner *bufio.Scanner) int {
+	for {
+		fmt.Printf("Max length: ")
+		scanner.Scan()
+		val, err := strconv.Atoi(scanner.Text())
+		if err != nil || val <= 0 {
+			continue
+		}
+		return val
 	}
 }
