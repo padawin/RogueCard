@@ -6,7 +6,8 @@ type binFunc func([]string) (int, string)
 
 func Run(action string, args []string) {
 	actions := map[string]binFunc{
-		"create": Create,
+		"create":  Create,
+		"add-row": AddRow,
 	}
 
 	actionCb, exists := actions[action]
