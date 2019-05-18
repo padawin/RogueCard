@@ -32,7 +32,7 @@ func fileExists(filename string) bool {
 	return err == nil
 }
 
-func promptFields() {
+func promptFields() []common.Field {
 	var fields []common.Field
 	for {
 		var field common.Field
@@ -43,7 +43,5 @@ func promptFields() {
 		fields = append(fields, field)
 	}
 
-	for _, field := range fields {
-		fmt.Printf("Field: %s (type %d)\n", field.Name, field.Type)
-	}
+	return fields
 }
