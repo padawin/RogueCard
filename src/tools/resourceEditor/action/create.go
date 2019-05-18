@@ -55,7 +55,6 @@ func promptFields() []common.Field {
 
 func saveFile(file *os.File, fields []common.Field) {
 	file.WriteString("# %META START%\n")
-	file.WriteString(fmt.Sprintf("# %%META FIELDS COUNT%% %d\n", len(fields)))
 	for _, field := range fields {
 		file.WriteString(fmt.Sprintf(
 			"# %%META FIELD%% %s %d %d\n", field.Name, field.Type, field.Size,
