@@ -3,6 +3,9 @@ package action
 import (
 	"fmt"
 	"os"
+
+	"../common"
+	"../input"
 )
 
 var ERR_INVALID_ARGS_LEN = "Invalid numbers of arguments (provided %d, expected %d)"
@@ -20,10 +23,27 @@ func Create(args []string) (int, string) {
 		msg := fmt.Sprintf(ERR_FILE_EXISTS, filename)
 		return 2, msg
 	}
+	promptFields()
 	return 0, ""
 }
 
 func fileExists(filename string) bool {
 	_, err := os.Stat(filename)
 	return err == nil
+}
+
+func promptFields() {
+	var fields []common.Field
+	for {
+		var field common.Field
+		res := input.PromptField(&field)
+		if !res {
+			break
+		}
+		fields = append(fields, field)
+	}
+
+	for _, field := range fields {
+		fmt.Printf("Field: %s (type %d)\n", field.Name, field.Type)
+	}
 }
