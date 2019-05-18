@@ -23,7 +23,20 @@ func Create(args []string) (int, string) {
 		msg := fmt.Sprintf(ERR_FILE_EXISTS, filename)
 		return 2, msg
 	}
-	promptFields()
+
+	file, err := os.Create(filename)
+	if err != nil {
+		return 3, err.Error()
+	}
+	defer file.Close()
+
+	fields := promptFields()
+	if len(fields) == 0 {
+		defer os.Remove(filename)
+		return 0, "Cancelled"
+	}
+
+	saveFile(file, fields)
 	return 0, ""
 }
 
@@ -44,4 +57,16 @@ func promptFields() []common.Field {
 	}
 
 	return fields
+}
+
+func saveFile(file *os.File, fields []common.Field) {
+	file.WriteString("# %META START%\n")
+	file.WriteString(fmt.Sprintf("# %%META FIELDS COUNT%% %d\n", len(fields)))
+	for _, field := range fields {
+		file.WriteString(fmt.Sprintf(
+			"# %%META FIELD%% %s %d %d\n", field.Name, field.Type, field.Size,
+		))
+	}
+	file.WriteString("# %META END%\n")
+	file.Close()
 }
