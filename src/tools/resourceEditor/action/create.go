@@ -8,8 +8,8 @@ import (
 	"../input"
 )
 
-var ERR_INVALID_ARGS_LEN = "Invalid numbers of arguments (provided %d, expected %d)"
-var ERR_FILE_EXISTS = "File %s already exists"
+const ERR_INVALID_ARGS_LEN = "Invalid numbers of arguments (provided %d, expected %d)"
+const ERR_FILE_EXISTS = "File %s already exists"
 
 func Create(args []string) (int, string) {
 	nb_args := len(args)
