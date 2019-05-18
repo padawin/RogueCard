@@ -8,7 +8,6 @@ import (
 	"../input"
 )
 
-const ERR_INVALID_ARGS_LEN = "Invalid numbers of arguments (provided %d, expected %d)"
 const ERR_FILE_EXISTS = "File %s already exists"
 
 func Create(args []string) (int, string) {
@@ -19,7 +18,7 @@ func Create(args []string) (int, string) {
 		return 1, msg
 	}
 	filename := args[0]
-	if fileExists(filename) {
+	if FileExists(filename) {
 		msg := fmt.Sprintf(ERR_FILE_EXISTS, filename)
 		return 2, msg
 	}
@@ -38,11 +37,6 @@ func Create(args []string) (int, string) {
 
 	saveFile(file, fields)
 	return 0, ""
-}
-
-func fileExists(filename string) bool {
-	_, err := os.Stat(filename)
-	return err == nil
 }
 
 func promptFields() []common.Field {
