@@ -12,7 +12,7 @@ import (
 )
 
 func ListFields(args []string) (int, string) {
-	if res, msg := ValidateArgs(args, 1, true); !res {
+	if res, msg := ValidateArgs(args, 1); !res {
 		return 1, msg
 	}
 	filename := args[0]
