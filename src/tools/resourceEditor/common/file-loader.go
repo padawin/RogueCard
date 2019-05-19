@@ -13,7 +13,7 @@ func LoadFile(
 ) (
 	fields []Field, rows []Row, commentRows []CommentRow, err error,
 ) {
-	fields, metaErr := loadMeta(scanner)
+	fields, metaErr := LoadMeta(scanner)
 	if metaErr != nil {
 		err = metaErr
 		return
@@ -27,7 +27,7 @@ func LoadFile(
 	return
 }
 
-func loadMeta(scanner *bufio.Scanner) ([]Field, error) {
+func LoadMeta(scanner *bufio.Scanner) ([]Field, error) {
 	var fields []Field
 	var expected, line string
 	if !scanner.Scan() {

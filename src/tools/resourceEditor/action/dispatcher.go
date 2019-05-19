@@ -8,6 +8,7 @@ func Run(action string, args []string) {
 	actions := map[string]binFunc{
 		"create":  Create,
 		"add-row": AddRow,
+		"fields":  ListFields,
 	}
 
 	actionCb, exists := actions[action]
