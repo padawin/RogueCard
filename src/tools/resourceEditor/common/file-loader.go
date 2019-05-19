@@ -64,9 +64,8 @@ func loadMeta(scanner *bufio.Scanner) ([]Field, error) {
 				)
 			} else if err != nil {
 				return fields, err
-			} else {
-				fields = append(fields, field)
 			}
+			fields = append(fields, field)
 		}
 	}
 
@@ -88,11 +87,10 @@ func loadRows(
 		} else {
 			row, valid := lineToRow(line, r, fields)
 			row.Line = currLine
-			if valid {
-				rows = append(rows, row)
-			} else {
+			if !valid {
 				return nil, nil, errors.New(fmt.Sprintf("Invalid line %d: %s", currLine, line))
 			}
+			rows = append(rows, row)
 		}
 		currLine++
 	}

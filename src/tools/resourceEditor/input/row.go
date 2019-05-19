@@ -49,7 +49,6 @@ func valid(field common.Field, value string) bool {
 	} else if field.Type == common.IntField {
 		_, err := strconv.Atoi(value)
 		return err == nil
-	} else {
-		return false
 	}
+	return false
 }
