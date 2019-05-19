@@ -19,3 +19,18 @@ type Field struct {
 	Type FieldType
 	Size int
 }
+
+type RowValue struct {
+	Type  *Field
+	Value string
+}
+
+type Row struct {
+	Line   int
+	Values []RowValue
+}
+
+type CommentRow struct {
+	Line  int
+	Value string
+}

@@ -63,9 +63,8 @@ func promptStringLength(scanner *bufio.Scanner) int {
 		fmt.Printf("Max length: ")
 		scanner.Scan()
 		val, err := strconv.Atoi(scanner.Text())
-		if err != nil || val <= 0 {
-			continue
+		if err == nil && val > 0 {
+			return val
 		}
-		return val
 	}
 }
