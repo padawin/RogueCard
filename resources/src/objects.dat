@@ -1,7 +1,27 @@
-# format
+# %META START%
+# %META FIELD% ObjectName 0 32
+# %META FIELD% TilesetX 1 0
+# %META FIELD% TilesetY 1 0
+# %META FIELD% Usable 2 2
+# %META FIELD% Consumable 2 2
+# %META FIELD% ApplyOnSelf 2 2
+# %META FIELD% IsHelm 2 2
+# %META FIELD% IsShoulders 2 2
+# %META FIELD% IsGlove 2 2
+# %META FIELD% IsChest 2 2
+# %META FIELD% IsBelt 2 2
+# %META FIELD% IsShoe 2 2
+# %META FIELD% IsWeapon 2 2
+# %META FIELD% IsShield 2 2
+# %META FIELD% Points 1 0
+# %META FIELD% HealthPoints 1 0
+# %META FIELD% MaxHealthPoints 1 0
+# %META FIELD% FirePoints 1 0
+# %META FIELD% AssociatedStat 1 0
+# %META FIELD% XP 1 0
+# %META END%
 # points = armor or damage points depending on if applyOnSelf is true or false
-# ObjectName tilesetX tilesetY usable consumable applyOnSelf isHelm isShoulders isGlove isChest isBelt isShoe isWeapon isShield points healthPoints maxHealthPoints firePoints associatedStat XP
-# Stats:
+# AssociatedStats:
 # 0: None
 # 1: Light armor
 # 2: Medium armor
