@@ -10,11 +10,7 @@ import (
 	"../output"
 )
 
-func AddRow(args []string) (int, string) {
-	if res, msg := ValidateArgs(args, 1, true); !res {
-		return 1, msg
-	}
-	filename := args[0]
+func AddRow(filename string, _ []string) (int, string) {
 	file, err := os.OpenFile(filename, os.O_RDWR|os.O_APPEND, 0644)
 	defer file.Close()
 	if err != nil {
