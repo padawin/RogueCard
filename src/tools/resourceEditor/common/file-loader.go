@@ -2,8 +2,10 @@ package common
 
 import (
 	"bufio"
+	"bytes"
 	"errors"
 	"fmt"
+	"regexp"
 )
 
 func LoadFile(
@@ -17,6 +19,11 @@ func LoadFile(
 		return
 	}
 
+	// read file
+	rows, commentRows, err = loadRows(scanner, fields)
+	if err != nil {
+		return
+	}
 	return
 }
 
@@ -64,4 +71,63 @@ func loadMeta(scanner *bufio.Scanner) ([]Field, error) {
 	}
 
 	return fields, nil
+}
+
+func loadRows(
+	scanner *bufio.Scanner, fields []Field,
+) ([]Row, []CommentRow, error) {
+	var rows []Row
+	var commentRows []CommentRow
+	var currLine int = 1
+	regex := getLineExpectedRegex(fields)
+	r := regexp.MustCompile(regex)
+	for scanner.Scan() {
+		line := scanner.Text()
+		if line[0] == '#' {
+			commentRows = append(commentRows, CommentRow{currLine, line})
+		} else {
+			row, valid := lineToRow(line, r, fields)
+			if valid {
+				rows = append(rows, row)
+			} else {
+				return nil, nil, errors.New(fmt.Sprintf("Invalid line %d: %s", currLine, line))
+			}
+		}
+		currLine++
+	}
+	return rows, commentRows, nil
+}
+
+func getLineExpectedRegex(fields []Field) string {
+	var buffer bytes.Buffer
+	buffer.WriteString("^")
+	for idx, field := range fields {
+		if idx > 0 {
+			buffer.WriteString(" ")
+		}
+		if field.Type == StringField {
+			buffer.WriteString(fmt.Sprintf("\"(.{1,%d})\"", field.Size))
+		} else if field.Type == BoolField {
+			buffer.WriteString("([01])")
+		} else if field.Type == IntField {
+			buffer.WriteString("(\\d+)")
+		}
+	}
+	buffer.WriteString("$")
+	return buffer.String()
+}
+
+func lineToRow(
+	line string, formatRegex *regexp.Regexp, fields []Field,
+) (row Row, valid bool) {
+	matches := formatRegex.FindStringSubmatch(line)
+	if len(matches) != len(fields)+1 { // the extra match is the whole string
+		return row, false
+	}
+
+	for index, field := range fields {
+		value := matches[index+1]
+		row.Values = append(row.Values, RowValue{&field, value})
+	}
+	return row, true
 }
