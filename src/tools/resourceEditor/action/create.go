@@ -8,12 +8,7 @@ import (
 	"../input"
 )
 
-func Create(args []string) (int, string) {
-	if res, msg := ValidateArgs(args, 1); !res {
-		return 1, msg
-	}
-	filename := args[0]
-
+func Create(filename string, _ []string) (int, string) {
 	file, err := os.Create(filename)
 	if err != nil {
 		return 3, err.Error()
