@@ -87,6 +87,7 @@ func loadRows(
 			commentRows = append(commentRows, CommentRow{currLine, line})
 		} else {
 			row, valid := lineToRow(line, r, fields)
+			row.Line = currLine
 			if valid {
 				rows = append(rows, row)
 			} else {
