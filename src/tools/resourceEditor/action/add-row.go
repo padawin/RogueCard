@@ -27,6 +27,5 @@ func AddRow(args []string) (int, string) {
 	}
 	fmt.Println(fields, rows, comments)
 
-	file.Close()
 	return 0, ""
 }
