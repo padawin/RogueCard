@@ -1,4 +1,4 @@
-package common
+package action
 
 import (
 	"bufio"
@@ -8,10 +8,14 @@ import (
 	"regexp"
 )
 
+import (
+	"../common"
+)
+
 func LoadFile(
 	scanner *bufio.Scanner,
 ) (
-	fields []Field, rows []Row, commentRows []CommentRow, err error,
+	fields []common.Field, rows []common.Row, commentRows []common.CommentRow, err error,
 ) {
 	fields, metaErr := LoadMeta(scanner)
 	if metaErr != nil {
@@ -27,8 +31,8 @@ func LoadFile(
 	return
 }
 
-func LoadMeta(scanner *bufio.Scanner) ([]Field, error) {
-	var fields []Field
+func LoadMeta(scanner *bufio.Scanner) ([]common.Field, error) {
+	var fields []common.Field
 	var expected, line string
 	if !scanner.Scan() {
 		return fields, errors.New("Can't read line")
@@ -50,7 +54,7 @@ func LoadMeta(scanner *bufio.Scanner) ([]Field, error) {
 		if line == meta_end {
 			meta_end_found = true
 		} else {
-			var field Field
+			var field common.Field
 			cnt, err := fmt.Sscanf(
 				line,
 				"# %%META FIELD%% %s %d %d\n",
@@ -73,17 +77,17 @@ func LoadMeta(scanner *bufio.Scanner) ([]Field, error) {
 }
 
 func loadRows(
-	scanner *bufio.Scanner, fields []Field,
-) ([]Row, []CommentRow, error) {
-	var rows []Row
-	var commentRows []CommentRow
+	scanner *bufio.Scanner, fields []common.Field,
+) ([]common.Row, []common.CommentRow, error) {
+	var rows []common.Row
+	var commentRows []common.CommentRow
 	var currLine int = 1
 	regex := getLineExpectedRegex(fields)
 	r := regexp.MustCompile(regex)
 	for scanner.Scan() {
 		line := scanner.Text()
 		if line[0] == '#' {
-			commentRows = append(commentRows, CommentRow{currLine, line})
+			commentRows = append(commentRows, common.CommentRow{currLine, line})
 		} else {
 			row, valid := lineToRow(line, r, fields)
 			row.Line = currLine
@@ -97,18 +101,18 @@ func loadRows(
 	return rows, commentRows, nil
 }
 
-func getLineExpectedRegex(fields []Field) string {
+func getLineExpectedRegex(fields []common.Field) string {
 	var buffer bytes.Buffer
 	buffer.WriteString("^")
 	for idx, field := range fields {
 		if idx > 0 {
 			buffer.WriteString(" ")
 		}
-		if field.Type == StringField {
+		if field.Type == common.StringField {
 			buffer.WriteString(fmt.Sprintf("\"(.{1,%d})\"", field.Size))
-		} else if field.Type == BoolField {
+		} else if field.Type == common.BoolField {
 			buffer.WriteString("([01])")
-		} else if field.Type == IntField {
+		} else if field.Type == common.IntField {
 			buffer.WriteString("(\\d+)")
 		}
 	}
@@ -117,16 +121,16 @@ func getLineExpectedRegex(fields []Field) string {
 }
 
 func lineToRow(
-	line string, formatRegex *regexp.Regexp, fields []Field,
-) (row Row, valid bool) {
+	line string, formatRegex *regexp.Regexp, fields []common.Field,
+) (row common.Row, valid bool) {
 	matches := formatRegex.FindStringSubmatch(line)
 	if len(matches) != len(fields)+1 { // the extra match is the whole string
 		return row, false
 	}
 
-	for index, field := range fields {
-		value := matches[index+1]
-		row.Values = append(row.Values, RowValue{&field, value})
+	for i := 0; i < len(fields); i++ {
+		value := matches[i+1]
+		row.Values = append(row.Values, common.RowValue{&fields[i], value})
 	}
 	return row, true
 }

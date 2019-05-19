@@ -13,6 +13,39 @@ import (
 	"../common"
 )
 
+func PromptDefaultValue(field common.Field) (val string) {
+	scanner := bufio.NewScanner(os.Stdin)
+	for {
+		fmt.Print("Default value: ")
+		scanner.Scan()
+		val = scanner.Text()
+		if field.Type == common.IntField {
+			_, err := strconv.Atoi(val)
+			if err != nil {
+				continue
+			}
+		} else if field.Type == common.BoolField {
+			if val != "0" && val != "1" {
+				continue
+			}
+		}
+		break
+	}
+	return val
+}
+
+func PromptFieldPosition(maxPos int) int {
+	scanner := bufio.NewScanner(os.Stdin)
+	for {
+		fmt.Printf("Position (between 0 and %d): ", maxPos)
+		scanner.Scan()
+		pos, err := strconv.Atoi(scanner.Text())
+		if err == nil && pos >= 0 && pos <= maxPos {
+			return pos
+		}
+	}
+}
+
 func PromptField(field *common.Field) bool {
 	scanner := bufio.NewScanner(os.Stdin)
 	field.Name = promptName(scanner)

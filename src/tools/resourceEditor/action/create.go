@@ -1,7 +1,6 @@
 package action
 
 import (
-	"fmt"
 	"os"
 
 	"../common"
@@ -21,7 +20,7 @@ func Create(filename string, _ []string) (int, string) {
 		return 0, "Cancelled"
 	}
 
-	saveFile(file, fields)
+	WriteMetas(file, fields)
 	return 0, ""
 }
 
@@ -37,15 +36,4 @@ func promptFields() []common.Field {
 	}
 
 	return fields
-}
-
-func saveFile(file *os.File, fields []common.Field) {
-	file.WriteString("# %META START%\n")
-	for _, field := range fields {
-		file.WriteString(fmt.Sprintf(
-			"# %%META FIELD%% %s %d %d\n", field.Name, field.Type, field.Size,
-		))
-	}
-	file.WriteString("# %META END%\n")
-	file.Close()
 }

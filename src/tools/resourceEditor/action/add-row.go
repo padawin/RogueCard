@@ -19,7 +19,7 @@ func AddRow(filename string, _ []string) (int, string) {
 
 	scanner := bufio.NewScanner(file)
 
-	fields, rows, comments, err := common.LoadFile(scanner)
+	fields, rows, comments, err := LoadFile(scanner)
 	if err != nil {
 		return 4, err.Error()
 	}
