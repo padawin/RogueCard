@@ -7,7 +7,6 @@ import (
 )
 
 import (
-	"../common"
 	"../output"
 )
 
@@ -19,7 +18,7 @@ func ListFields(filename string, _ []string) (int, string) {
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
-	fields, err := common.LoadMeta(scanner)
+	fields, err := LoadMeta(scanner)
 	if err != nil {
 		return 4, err.Error()
 	}
