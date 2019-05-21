@@ -68,17 +68,34 @@ void Player::getXPDefence(int xp[NB_XP_SKILLS]) {
 	} while (m_equipment.next());
 }
 
-int Player::setDamages(int damages) {
+int Player::setDamages(int physicalDamages, ElementalEffects elementalEffects) {
 	int gearDefence = _getEquipmentStats(true).points;
-	int finalDamages = damages - (m_iDefence + gearDefence);
-	if (finalDamages < 0) {
-		finalDamages = 1;
+	physicalDamages = physicalDamages - (m_iDefence + gearDefence);
+	if (physicalDamages < 0) {
+		physicalDamages = 0;
 	}
+	int elementalDamages = _calculateElementalDamages(elementalEffects);
+	int finalDamages = physicalDamages + elementalDamages;
 	m_iHealth -= finalDamages;
 	if (m_iHealth < 0) {
 		m_iHealth = 0;
 	}
+	else if (m_iHealth > m_iMaxHealth) {
+		m_iHealth = m_iMaxHealth;
+	}
 	return finalDamages;
+}
+
+int Player::_calculateElementalDamages(ElementalEffects effects) {
+	ElementalEffects elementalDefence = _getElementalEffects(true);
+	ElementalEffects elementalDamages = ElementalEffects();
+	for (int s = 0; s < NB_ELEMENTS; ++s) {
+		E_ElementalElement element = (E_ElementalElement) s;
+		int percentDamages = 100 - elementalDefence.getStat(element);
+		int damages = percentDamages * effects.getStat(element) / 100;
+		elementalDamages.setStat(element, damages);
+	}
+	return elementalDamages.sumPoints();
 }
 
 S_CardStats Player::_getEquipmentStats(bool applyOnSelf) {

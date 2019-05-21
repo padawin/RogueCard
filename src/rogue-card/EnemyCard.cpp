@@ -74,7 +74,7 @@ const char* EnemyCard::getName() const {
 }
 
 int EnemyCard::attack(Player &player) const {
-	return player.setDamages(m_iStrength);
+	return player.setDamages(m_iStrength, m_elementalDamages);
 }
 
 int EnemyCard::setDamages(int physicalDamages, ElementalEffects elementalEffects) {
