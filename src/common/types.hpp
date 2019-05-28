@@ -8,6 +8,9 @@
 #define MAX_LENGTH_TILESET_NAME 32
 #define MAX_CHAR_RESOURCE_PATH 255
 
+#define MAX_CHAR_ENEMY_ID 32
+#define MAX_CHAR_OBJECT_ID 32
+
 #define MAX_CHAR_ENEMY_NAME 32
 #define MAX_CHAR_OBJECT_NAME 32
 
@@ -43,6 +46,7 @@ struct S_CardStats {
 };
 
 struct S_EnemyMeta {
+	char id[MAX_CHAR_ENEMY_ID];
 	char name[MAX_CHAR_ENEMY_NAME];
 	int health = 0;
 	int strength = 0;
@@ -57,6 +61,7 @@ struct S_EnemyMeta {
 };
 
 struct S_ObjectMeta {
+	char id[MAX_CHAR_OBJECT_ID];
 	char name[MAX_CHAR_OBJECT_NAME];
 	int tilesetX = 0;
 	int tilesetY = 0;
