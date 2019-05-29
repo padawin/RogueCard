@@ -5,7 +5,7 @@ const int CARD_QUANTITY_LOW_X = 32;
 const int CARD_QUANTITY_HIGH_X = 23;
 const int CARD_QUANTITY_Y = 46;
 
-ResourceManager<S_ObjectMeta> ObjectCard::m_objectMeta = ResourceManager<S_ObjectMeta>();
+ObjectMeta ObjectCard::m_objectMeta = ObjectMeta();
 
 ObjectCard::ObjectCard() :
 	Card(ObjectCardType),

@@ -2,13 +2,13 @@
 #define __ENEMY_CARD__
 
 #include "../common/types.hpp"
-#include "../common/ResourceManager.hpp"
 #include "../common/ElementalEffects.hpp"
 #include "Card.hpp"
+#include "EnemyMeta.hpp"
 #include "Player.hpp"
 
 class EnemyCard : public Card {
-	static ResourceManager<S_EnemyMeta> m_enemyMeta;
+	static EnemyMeta m_enemyMeta;
 	char m_sName[MAX_CHAR_ENEMY_NAME];
 	int m_iHealth = 0;
 	int m_iMaxHealth = 0;
