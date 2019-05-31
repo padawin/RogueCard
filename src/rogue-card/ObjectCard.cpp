@@ -17,19 +17,19 @@ ObjectCard::ObjectCard() :
 }
 
 void ObjectCard::create() {
-	int index = rand() % (int) m_objectMeta.getParsedResources().size();
+	int index = rand() % m_objectMeta.getSize();
 	createFromMeta(index);
 }
 
 void ObjectCard::createFromMeta(int metaIndex) {
-	std::map<int, S_ObjectMeta> &meta = m_objectMeta.getParsedResources();
+	S_ObjectMeta meta = m_objectMeta.get(metaIndex);
 	m_iMetaIndex = metaIndex;
-	strncpy(m_sName, meta[metaIndex].name, MAX_CHAR_OBJECT_NAME);
-	m_iTileX = meta[metaIndex].tilesetX;
-	m_iTileY = meta[metaIndex].tilesetY;
-	m_sStats = meta[metaIndex].stats;
-	m_elementEffects = meta[metaIndex].elementalEffects;
-	_setFlags(meta[metaIndex]);
+	strncpy(m_sName, meta.name, MAX_CHAR_OBJECT_NAME);
+	m_iTileX = meta.tilesetX;
+	m_iTileY = meta.tilesetY;
+	m_sStats = meta.stats;
+	m_elementEffects = meta.elementalEffects;
+	_setFlags(meta);
 }
 
 void ObjectCard::render(SDL_Renderer *renderer, int x, int y) {
@@ -92,11 +92,7 @@ void ObjectCard::_setEquipableFlags(const S_ObjectMeta &meta) {
 }
 
 bool ObjectCard::prepareMeta(std::string file) {
-	if (!m_objectMeta.setResourceFile(file)) {
-		return false;
-	}
-	m_objectMeta.parseBinaryFile();
-	return true;
+	return m_objectMeta.prepare(file);
 }
 
 const char* ObjectCard::getName() const {

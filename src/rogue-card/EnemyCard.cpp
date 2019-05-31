@@ -12,16 +12,16 @@ EnemyCard::EnemyCard(const int playerLevel) :
 }
 
 void EnemyCard::create() {
-	std::map<int, S_EnemyMeta> &meta = m_enemyMeta.getParsedResources();
-	int index = _getEnemyIndex(rand() % 1000, (int) meta.size());
-	strncpy(m_sName, meta[index].name, MAX_CHAR_ENEMY_NAME);
-	m_iTileX = meta[index].tilesetX;
-	m_iTileY = meta[index].tilesetY;
-	m_iHealth = m_iMaxHealth = meta[index].health;
-	m_iStrength = meta[index].strength;
-	m_iDefence = meta[index].defence;
-	m_elementalDamages = meta[index].elementalDamages;
-	m_elementalResistance = meta[index].elementalResistance;
+	int index = _getEnemyIndex(rand() % 1000, m_enemyMeta.getSize());
+	S_EnemyMeta meta = m_enemyMeta.get(index);
+	strncpy(m_sName, meta.name, MAX_CHAR_ENEMY_NAME);
+	m_iTileX = meta.tilesetX;
+	m_iTileY = meta.tilesetY;
+	m_iHealth = m_iMaxHealth = meta.health;
+	m_iStrength = meta.strength;
+	m_iDefence = meta.defence;
+	m_elementalDamages = meta.elementalDamages;
+	m_elementalResistance = meta.elementalResistance;
 }
 
 int EnemyCard::_getEnemyIndex(int proba, int nbEnemies) {
@@ -62,11 +62,7 @@ int EnemyCard::_getEnemyIndex(int proba, int nbEnemies) {
 }
 
 bool EnemyCard::prepareMeta(std::string file) {
-	if (!m_enemyMeta.setResourceFile(file)) {
-		return false;
-	}
-	m_enemyMeta.parseBinaryFile();
-	return true;
+	return m_enemyMeta.prepare(file);
 }
 
 const char* EnemyCard::getName() const {
