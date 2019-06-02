@@ -79,6 +79,9 @@ int EnemyCard::attack(Player &player) const {
 
 int EnemyCard::setDamages(int physicalDamages, ElementalEffects elementalEffects) {
 	physicalDamages = physicalDamages - m_iDefence;
+	if (physicalDamages < 0) {
+		physicalDamages = 0;
+	}
 	int elementalDamages = _calculateElementalDamages(elementalEffects);
 	int finalDamages = physicalDamages + elementalDamages;
 	m_iHealth -= finalDamages;
