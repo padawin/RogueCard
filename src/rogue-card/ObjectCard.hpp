@@ -5,7 +5,7 @@
 #include "../common/types.hpp"
 #include "../common/ElementalEffects.hpp"
 #include "Card.hpp"
-#include "ObjectMeta.hpp"
+#include "ContentMeta.hpp"
 #include "../sdl2/Text.hpp"
 
 const unsigned char FLAG_USABLE =        0x01;
@@ -33,7 +33,7 @@ const unsigned char FLAG_EQUIPMENT_ARMOR = FLAG_EQUIPMENT_HEAD
 const int MAX_QUANTITY = 10;
 
 class ObjectCard : public Card {
-	static ObjectMeta m_objectMeta;
+	static ContentMeta<S_ObjectMeta> m_objectMeta;
 	char m_sName[MAX_CHAR_OBJECT_NAME];
 
 	int m_iMetaIndex = -1;

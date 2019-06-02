@@ -1,21 +1,23 @@
-#ifndef __ENEMY_META__
-#define __ENEMY_META__
+#ifndef __CONTENT_META__
+#define __CONTENT_META__
 
 #include <map>
 #include <string>
 #include "../common/ResourceManager.hpp"
 #include "../common/types.hpp"
 
-class EnemyMeta {
+template <class contentType> class ContentMeta {
 	private:
-	ResourceManager<S_EnemyMeta> m_resourceManager;
+	ResourceManager<contentType> m_resourceManager;
 	std::map<std::string, int> m_mMetaDataMapping = {};
 
 	public:
-	EnemyMeta();
+	ContentMeta();
 	bool prepare(std::string file);
 	int getSize();
-	S_EnemyMeta get(int index);
+	contentType get(int index);
 };
+
+#include "ContentMeta.tpp"
 
 #endif

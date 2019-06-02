@@ -1,12 +1,10 @@
-#include <iostream>
-#include "EnemyMeta.hpp"
-#include "../common/ResourceManager.hpp"
-
-EnemyMeta::EnemyMeta() :
-	m_resourceManager(ResourceManager<S_EnemyMeta>())
+template <class contentType>
+ContentMeta<contentType>::ContentMeta() :
+	m_resourceManager(ResourceManager<contentType>())
 {}
 
-bool EnemyMeta::prepare(std::string file) {
+template <class contentType>
+bool ContentMeta<contentType>::prepare(std::string file) {
 	if (!m_resourceManager.setResourceFile(file)) {
 		return false;
 	}
@@ -17,11 +15,13 @@ bool EnemyMeta::prepare(std::string file) {
 	return true;
 }
 
-int EnemyMeta::getSize() {
+template <class contentType>
+int ContentMeta<contentType>::getSize() {
 	return (int) m_resourceManager.getParsedResources().size();
 }
 
-S_EnemyMeta EnemyMeta::get(int index) {
+template <class contentType>
+contentType ContentMeta<contentType>::get(int index) {
 	if (index >= getSize()) {
 		index = 0;
 	}

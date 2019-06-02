@@ -4,11 +4,11 @@
 #include "../common/types.hpp"
 #include "../common/ElementalEffects.hpp"
 #include "Card.hpp"
-#include "EnemyMeta.hpp"
+#include "ContentMeta.hpp"
 #include "Player.hpp"
 
 class EnemyCard : public Card {
-	static EnemyMeta m_enemyMeta;
+	static ContentMeta<S_EnemyMeta> m_enemyMeta;
 	char m_sName[MAX_CHAR_ENEMY_NAME];
 	int m_iHealth = 0;
 	int m_iMaxHealth = 0;

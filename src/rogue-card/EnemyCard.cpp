@@ -1,6 +1,6 @@
 #include "EnemyCard.hpp"
 
-EnemyMeta EnemyCard::m_enemyMeta = EnemyMeta();
+ContentMeta<S_EnemyMeta> EnemyCard::m_enemyMeta = ContentMeta<S_EnemyMeta>();
 
 EnemyCard::EnemyCard(const int playerLevel) :
 	Card(EnemyCardType),

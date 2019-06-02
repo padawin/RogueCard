@@ -5,7 +5,7 @@ const int CARD_QUANTITY_LOW_X = 32;
 const int CARD_QUANTITY_HIGH_X = 23;
 const int CARD_QUANTITY_Y = 46;
 
-ObjectMeta ObjectCard::m_objectMeta = ObjectMeta();
+ContentMeta<S_ObjectMeta> ObjectCard::m_objectMeta = ContentMeta<S_ObjectMeta>();
 
 ObjectCard::ObjectCard() :
 	Card(ObjectCardType),
