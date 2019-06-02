@@ -48,3 +48,17 @@ prepare:
 
 clean:
 	rm -rf $(BUILDDIR) $(BINDIR)
+
+tools:
+	@mkdir -p $(BINDIR)/tools
+	$(CC) ${CFLAGS} ${CFLAGS} ${LDFLAGS} $(shell find src/tools/dataCompiler/ $(SRCDIR)/common/ -name "*.cpp") \
+		-o $(BINDIR)/tools/data-compiler
+	$(CC) ${CFLAGS} ${CFLAGS} ${LDFLAGS} $(shell find src/tools/dataDecompiler/ $(SRCDIR)/common/ -name "*.cpp") \
+		-o $(BINDIR)/tools/data-decompiler
+	g++ -lSDL2_ttf -lSDL2 -lSDL2_image -Isrc src/tools/font2png.cpp -o $(BINDIR)/font2png
+
+build-resources:
+	./bin/tools/data-compiler tilesets resources/src/tilesets.dat resources/tilesets.dat
+	./bin/tools/data-compiler enemies resources/src/enemies.dat resources/enemies.dat
+	./bin/tools/data-compiler objects resources/src/objects.dat resources/objects.dat
+	./bin/tools/data-compiler font-atlas resources/src/font-atlas.dat resources/font-atlas.dat
