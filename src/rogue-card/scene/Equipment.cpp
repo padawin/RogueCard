@@ -159,11 +159,15 @@ void EquipmentScene::_renderCardStats(std::shared_ptr<ObjectCard> card, std::sha
 	int y = CURRENT_EQUIP_STAT_Y;
 	S_CardStats stats = card->getStats();
 	S_CardStats compareStats;
+	ElementalEffects elementalEffects = card->getElementalEffects();
+	ElementalEffects compareElementalEffects;
 	if (compareCard == nullptr) {
 		compareStats = card->getStats();
+		compareElementalEffects = card->getElementalEffects();
 	}
 	else {
 		compareStats = compareCard->getStats();
+		compareElementalEffects = compareCard->getElementalEffects();
 	}
 
 	if (stats.points != 0) {
@@ -188,19 +192,28 @@ void EquipmentScene::_renderCardStats(std::shared_ptr<ObjectCard> card, std::sha
 		m_statValue.setText(statStr);
 		m_statValue.render(m_renderer->getRenderer(), x + STAT_VAL_X_SHIFT, y);
 	}
-	if (stats.firePoints != 0) {
-		y += 16;
-		if (card->applyOnSelf()) {
-			m_statLabel.setText("FIR DEF");
+
+	for (int s = 0; s < NB_ELEMENTS; ++s) {
+		int statValue = elementalEffects.getStat((E_ElementalElement) s);
+		if (statValue != 0) {
+			y += 16;
+			if (card->applyOnSelf()) {
+				m_statLabel.setText("FIR DEF");
+			}
+			else {
+				m_statLabel.setText("FIR ATK");
+			}
+			m_statLabel.render(m_renderer->getRenderer(), x, y);
+			sprintf(statStr, "%d", _boundVal(statValue, -99, 999));
+			m_statValue.setFont(
+				_getStatColor(
+					statValue,
+					compareElementalEffects.getStat((E_ElementalElement) s)
+				)
+			);
+			m_statValue.setText(statStr);
+			m_statValue.render(m_renderer->getRenderer(), x + STAT_VAL_X_SHIFT, y);
 		}
-		else {
-			m_statLabel.setText("FIR ATK");
-		}
-		m_statLabel.render(m_renderer->getRenderer(), x, y);
-		sprintf(statStr, "%d", _boundVal(stats.firePoints, -99, 999));
-		m_statValue.setFont(_getStatColor(stats.firePoints, compareStats.firePoints));
-		m_statValue.setText(statStr);
-		m_statValue.render(m_renderer->getRenderer(), x + STAT_VAL_X_SHIFT, y);
 	}
 }
 

@@ -28,6 +28,9 @@ class Player {
 	bool m_bFoundFloorCard = false;
 
 	S_CardStats _getEquipmentStats(bool applyOnSelf);
+	ElementalEffects _getElementalEffects(bool applyOnSelf);
+
+	int _calculateElementalDamages(ElementalEffects effects);
 
 	public:
 	Player();
@@ -47,7 +50,7 @@ class Player {
 	void setGold(long gold);
 	void setLevel(int level);
 
-	int setDamages(int damages);
+	int setDamages(int physicalDamages, ElementalEffects elementalEffects);
 	int attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> attackCard);
 	void getXPAttack(std::shared_ptr<ObjectCard> weapon, int xp[NB_XP_SKILLS]);
 	void getXPDefence(int xp[NB_XP_SKILLS]);

@@ -75,11 +75,13 @@ void writeTilesetMapping(std::ofstream &fileOutStream, S_TilesetMapping tile) {
 
 void writeEnemy(std::ofstream &fileOutStream, S_EnemyMeta enemy) {
 	fileOutStream << "\"" << enemy.name << "\" "
+		<< enemy.tilesetX << " "
+		<< enemy.tilesetY << " "
 		<< enemy.health << " "
 		<< enemy.strength << " "
 		<< enemy.defence << " "
-		<< enemy.tilesetX << " "
-		<< enemy.tilesetY << " "
+		<< enemy.elementalDamages.getStat(ELEMENT_FIRE) << " "
+		<< enemy.elementalResistance.getStat(ELEMENT_FIRE) << " "
 		<< enemy.dropRate << " "
 		<< enemy.minItems << " "
 		<< enemy.maxItems << "\n";
@@ -103,7 +105,7 @@ void writeObject(std::ofstream &fileOutStream, S_ObjectMeta object) {
 		<< object.stats.points << " "
 		<< object.stats.healthPoints << " "
 		<< object.stats.maxHealthPoints << " "
-		<< object.stats.firePoints << " "
+		<< object.elementalEffects.getStat(ELEMENT_FIRE) << " "
 		<< object.stats.xpSkill << " "
 		<< object.stats.xp << "\n";
 }

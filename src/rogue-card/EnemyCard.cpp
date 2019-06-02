@@ -4,6 +4,8 @@ ResourceManager<S_EnemyMeta> EnemyCard::m_enemyMeta = ResourceManager<S_EnemyMet
 
 EnemyCard::EnemyCard(const int playerLevel) :
 	Card(EnemyCardType),
+	m_elementalDamages(ElementalEffects()),
+	m_elementalResistance(ElementalEffects()),
 	m_iPlayerLevel(playerLevel)
 {
 	m_sImage = "monsters";
@@ -18,6 +20,8 @@ void EnemyCard::create() {
 	m_iHealth = m_iMaxHealth = meta[index].health;
 	m_iStrength = meta[index].strength;
 	m_iDefence = meta[index].defence;
+	m_elementalDamages = meta[index].elementalDamages;
+	m_elementalResistance = meta[index].elementalResistance;
 }
 
 int EnemyCard::_getEnemyIndex(int proba, int nbEnemies) {
@@ -70,21 +74,34 @@ const char* EnemyCard::getName() const {
 }
 
 int EnemyCard::attack(Player &player) const {
-	return player.setDamages(m_iStrength);
+	return player.setDamages(m_iStrength, m_elementalDamages);
 }
 
-int EnemyCard::setDamages(int damages) {
-	int finalDamages = damages - m_iDefence;
-	if (finalDamages < 0) {
-		finalDamages = 1;
-	}
+int EnemyCard::setDamages(int physicalDamages, ElementalEffects elementalEffects) {
+	physicalDamages = physicalDamages - m_iDefence;
+	int elementalDamages = _calculateElementalDamages(elementalEffects);
+	int finalDamages = physicalDamages + elementalDamages;
 	m_iHealth -= finalDamages;
 	if (m_iHealth < 0) {
 		m_iHealth = 0;
+	}
+	else if (m_iHealth > m_iMaxHealth) {
+		m_iHealth = m_iMaxHealth;
 	}
 	return finalDamages;
 }
 
 bool EnemyCard::isDead() const {
 	return m_iHealth == 0;
+}
+
+int EnemyCard::_calculateElementalDamages(ElementalEffects effects) {
+	ElementalEffects elementalDamages = ElementalEffects();
+	for (int s = 0; s < NB_ELEMENTS; ++s) {
+		E_ElementalElement element = (E_ElementalElement) s;
+		int percentDamages = 100 - m_elementalResistance.getStat(element);
+		int damages = percentDamages * effects.getStat(element) / 100;
+		elementalDamages.setStat(element, damages);
+	}
+	return elementalDamages.sumPoints();
 }

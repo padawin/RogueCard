@@ -88,28 +88,34 @@ bool readTilesetFileLine(char line[MAX_CHARS_PER_LINE], S_TilesetMapping &data) 
 
 bool readEnemyFileLine(char line[MAX_CHARS_PER_LINE], S_EnemyMeta &data) {
 	int dropRate, minItems, maxItems;
+	int fireAttack, fireResistance;
 	int result = sscanf(
 		line,
-		"\"%[^\"]\" %d %d %d %d %d %d %d %d\n",
+		"\"%[^\"]\" %d %d %d %d %d %d %d %d %d %d\n",
 		data.name,
+		&data.tilesetX,
+		&data.tilesetY,
 		&data.health,
 		&data.strength,
 		&data.defence,
-		&data.tilesetX,
-		&data.tilesetY,
+		&fireAttack,
+		&fireResistance,
 		&dropRate,
 		&minItems,
 		&maxItems
 	);
+	data.elementalDamages.setStat(ELEMENT_FIRE, fireAttack);
+	data.elementalResistance.setStat(ELEMENT_FIRE, fireResistance);
 	data.dropRate = (char) dropRate;
 	data.minItems = (char) minItems;
 	data.maxItems = (char) maxItems;
-	return result == 9;
+	return result == 11;
 }
 
 bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
 	int usable, consumable, applyOnSelf, isHelm, isShoulders, isGlove, isChest,
 		isBelt, isShoe, isWeapon, isShield, xpSkill;
+	int statFire;
 	int result = sscanf(
 		line,
 		"\"%[^\"]\" %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n",
@@ -130,10 +136,11 @@ bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
 		&data.stats.points,
 		&data.stats.healthPoints,
 		&data.stats.maxHealthPoints,
-		&data.stats.firePoints,
+		&statFire,
 		&xpSkill,
 		&data.stats.xp
 	);
+	data.elementalEffects.setStat(ELEMENT_FIRE, statFire);
 	data.stats.xpSkill = (E_XPSkill) xpSkill;
 	data.usable = (bool) usable;
 	data.consumable = (bool) consumable;

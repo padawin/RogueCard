@@ -1,20 +1,22 @@
 # %META START%
 # %META FIELD% EnemyName 0 32
+# %META FIELD% TilesetX 1 0
+# %META FIELD% TilesetY 1 0
 # %META FIELD% Health 1 0
 # %META FIELD% Strength 1 0
 # %META FIELD% Defence 1 0
-# %META FIELD% TilesetX 1 0
-# %META FIELD% TilesetY 1 0
+# %META FIELD% FileAttack 1 0
+# %META FIELD% FileResistance 1 0
 # %META FIELD% DropRate 1 0
 # %META FIELD% MinItems 1 0
 # %META FIELD% MaxItems 1 0
 # %META END%
-"Rat" 10 1 1 1 0 50 1 1
-"Wasp" 5 1 1 4 1 0 0 0
-"Snake" 15 3 2 7 2 50 1 1
-"Wood Mimic" 40 5 5 6 6 100 2 2
-"Iron Mimic" 60 7 7 6 7 100 3 3
-"Gold Mimic" 80 10 10 6 8 100 4 4
+"Rat" 1 0 10 1 1 0 0 50 1 1
+"Wasp" 4 1 5 1 1 0 0 0 0 0
+"Snake" 7 2 15 3 2 0 0 50 1 1
+"Wood Mimic" 6 6 40 5 5 0 0 100 2 2
+"Iron Mimic" 6 7 60 7 7 0 0 100 3 3
+"Gold Mimic" 6 8 80 10 10 0 0 100 4 4
 # Zombie
 # Cyclope
 # DarkKnight

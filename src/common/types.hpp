@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "ElementalEffects.hpp"
+
 #define MAX_LENGTH_TILESET_NAME 32
 #define MAX_CHAR_RESOURCE_PATH 255
 
@@ -36,21 +38,22 @@ struct S_CardStats {
 	int points = 0; // For damages and armor points
 	int healthPoints = 0; // For health recovery
 	int maxHealthPoints = 0; // For health boost
-	int firePoints = 0; // For fire damage/resistance
 	E_XPSkill xpSkill = NONE;
 	int xp = 0;
 };
 
 struct S_EnemyMeta {
 	char name[MAX_CHAR_ENEMY_NAME];
-	int health;
-	int strength;
-	int defence;
-	int tilesetX;
-	int tilesetY;
-	char dropRate;
-	char minItems;
-	char maxItems;
+	int health = 0;
+	int strength = 0;
+	int defence = 0;
+	int tilesetX = 0;
+	int tilesetY = 0;
+	char dropRate = 0;
+	char minItems = 0;
+	char maxItems = 0;
+	ElementalEffects elementalDamages = ElementalEffects();
+	ElementalEffects elementalResistance = ElementalEffects();
 };
 
 struct S_ObjectMeta {
@@ -69,6 +72,7 @@ struct S_ObjectMeta {
 	bool isWeapon = false;
 	bool isShield = false;
 	S_CardStats stats = {};
+	ElementalEffects elementalEffects = ElementalEffects();
 };
 
 struct S_FontAtlasCoord {

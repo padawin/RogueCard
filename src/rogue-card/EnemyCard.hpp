@@ -3,6 +3,7 @@
 
 #include "../common/types.hpp"
 #include "../common/ResourceManager.hpp"
+#include "../common/ElementalEffects.hpp"
 #include "Card.hpp"
 #include "Player.hpp"
 
@@ -14,9 +15,25 @@ class EnemyCard : public Card {
 	int m_iStrength = 0;
 	int m_iDefence = 0;
 
+	/**
+	 * Absolute damages values
+	 */
+	ElementalEffects m_elementalDamages;
+
+	/**
+	 * Percentages.
+	 *
+	 * x < 0: Vulnerable
+	 * 0 < x < 100: Resistance
+	 * 100 < x: Absorbs -> heals
+	 */
+	ElementalEffects m_elementalResistance;
+
 	int m_iPlayerLevel;
 
 	int _getEnemyIndex(int proba, int nbEnemies);
+
+	int _calculateElementalDamages(ElementalEffects elementalDamages);
 
 	public:
 	EnemyCard(const int playerLevel);
@@ -24,7 +41,7 @@ class EnemyCard : public Card {
 	static bool prepareMeta(std::string file);
 
 	const char* getName() const;
-	int setDamages(int damages);
+	int setDamages(int physicalDamages, ElementalEffects elementalEffects);
 	int attack(Player &player) const;
 	bool isDead() const;
 };

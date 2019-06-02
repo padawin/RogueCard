@@ -4,6 +4,7 @@
 #include <memory>
 #include "../common/types.hpp"
 #include "../common/ResourceManager.hpp"
+#include "../common/ElementalEffects.hpp"
 #include "Card.hpp"
 #include "../sdl2/Text.hpp"
 
@@ -44,6 +45,7 @@ class ObjectCard : public Card {
 	Text m_quantityText;
 
 	S_CardStats m_sStats = {};
+	ElementalEffects m_elementEffects;
 
 	void _setFlags(const S_ObjectMeta &meta);
 	void _setEquipableFlags(const S_ObjectMeta &meta);
@@ -75,6 +77,7 @@ class ObjectCard : public Card {
 	void consume();
 
 	S_CardStats getStats() const;
+	ElementalEffects getElementalEffects();
 
 	bool isSameAs(std::shared_ptr<ObjectCard> card) const;
 };
