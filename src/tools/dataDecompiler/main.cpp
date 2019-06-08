@@ -111,8 +111,7 @@ void writeObject(std::ofstream &fileOutStream, S_ObjectMeta object) {
 }
 
 void writeFontAtlas(std::ofstream &fileOutStream, S_FontAtlasCoord object) {
-	fileOutStream << " "
-		<< object.x << " "
+	fileOutStream << object.x << " "
 		<< object.y << " "
 		<< object.w << " "
 		<< object.h << "\n";
