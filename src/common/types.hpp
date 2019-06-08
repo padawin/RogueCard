@@ -13,6 +13,15 @@
 #define MAX_CHAR_ENEMY_NAME 32
 #define MAX_CHAR_OBJECT_NAME 32
 
+enum E_CardType : short {
+	ActionCardType,
+	ObjectCardType,
+	FloorCardType,
+	EnemyCardType,
+	FinalGoalCardType,
+	None
+};
+
 enum E_XPSkill {
 	NONE,
 	LIGHT_ARMOR,
