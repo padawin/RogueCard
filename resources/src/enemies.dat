@@ -12,9 +12,16 @@
 # %META FIELD% MinItems 1 0
 # %META FIELD% MaxItems 1 0
 # %META END%
-"RAT" "Rat" 1 0 10 1 1 0 0 50 1 1
+"BUG" "Bug" 0 0 10 1 1 0 -50 0 0 0
+"STONE_BUG" "Stone Bug" 0 1 10 1 1 0 100 0 0 0
+"FIRE_BUG" "Fire Bug" 0 2 10 1 1 0 150 0 0 0
+"GREY_RAT" "Rat" 1 0 10 1 1 0 0 50 1 1
+"WHITE_RAT" "Rat" 1 1 10 1 1 0 0 50 1 1
+"BROWN_RAT" "Rat" 1 2 10 1 1 0 0 50 1 1
 "WASP" "Wasp" 4 1 5 1 1 0 0 0 0 0
-"SNAKE" "Snake" 7 2 15 3 2 0 0 50 1 1
+"POISON_SNAKE" "Poison Snake" 7 0 15 3 2 0 -50 50 1 1
+"LIGHT_SNAKE" "Snake" 7 1 15 3 2 0 0 50 1 1
+"DARK_SNAKE" "Snake" 7 2 15 3 2 0 0 50 1 1
 "WOOD_MIMIC" "Wood Mimic" 6 6 40 5 5 0 0 100 2 2
 "IRON_MIMIC" "Iron Mimic" 6 7 60 7 7 0 0 100 3 3
 "GOLD_MIMIC" "Gold Mimic" 6 8 80 10 10 0 0 100 4 4
