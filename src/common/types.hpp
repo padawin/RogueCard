@@ -95,4 +95,11 @@ struct S_FontAtlasCoord {
 	int h;
 };
 
+struct S_FloorContent {
+	int floorLevel;
+	E_CardType type;
+	char id[MAX_CHAR_CARD_ID];
+	char probability;
+};
+
 #endif

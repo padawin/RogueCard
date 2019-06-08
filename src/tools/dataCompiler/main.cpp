@@ -9,6 +9,7 @@ bool readTilesetFileLine(char line[MAX_CHARS_PER_LINE], S_TilesetMapping &data);
 bool readEnemyFileLine(char line[MAX_CHARS_PER_LINE], S_EnemyMeta &data);
 bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data);
 bool readFontFileLine(char line[MAX_CHARS_PER_LINE], S_FontAtlasCoord &data);
+bool readFloorContentLine(char line[MAX_CHARS_PER_LINE], S_FloorContent &data);
 
 int main(int argc, char* argv[]) {
 	// expects the following arguments:
@@ -51,6 +52,14 @@ int main(int argc, char* argv[]) {
 	else if (type == "font-atlas") {
 		ResourceManager<S_FontAtlasCoord> resourceManager;
 		bool res = resourceManager.compileFile(fileIn, fileOut, readFontFileLine);
+		if (!res) {
+			std::cerr << res << std::endl;
+			return 1;
+		}
+	}
+	else if (type == "floor-content") {
+		ResourceManager<S_FloorContent> resourceManager;
+		bool res = resourceManager.compileFile(fileIn, fileOut, readFloorContentLine);
 		if (!res) {
 			std::cerr << res << std::endl;
 			return 1;
@@ -164,5 +173,26 @@ bool readFontFileLine(char line[MAX_CHARS_PER_LINE], S_FontAtlasCoord &data) {
 		"%d %d %d %d\n",
 		&data.x, &data.y, &data.w, &data.h
 	);
+	return result == 4;
+}
+
+bool readFloorContentLine(char line[MAX_CHARS_PER_LINE], S_FloorContent &data) {
+	char type;
+	int probability;
+	int result = sscanf(
+		line,
+		"%d %c \"%[^\"]\" %d\n",
+		&data.floorLevel, &type, data.id, &probability
+	);
+	data.probability = (char) probability;
+	if (type == 'e') {
+		data.type = EnemyCardType;
+	}
+	else if (type == 'o') {
+		data.type = ObjectCardType;
+	}
+	else {
+		return false;
+	}
 	return result == 4;
 }
