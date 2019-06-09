@@ -1,8 +1,6 @@
 #include "Floor.hpp"
 #include "../common/ResourceManager.hpp"
 
-const int MAX_LEVEL = 16;
-
 std::map<int, std::vector<S_FloorContent>> Floor::m_mFloorContentMeta = {};
 
 bool Floor::prepareMeta(std::string file) {
@@ -45,5 +43,5 @@ void Floor::toPreviousLevel() {
 }
 
 bool Floor::isLast() const {
-	return m_iLevel == MAX_LEVEL;
+	return m_iLevel == (int) m_mFloorContentMeta.size();
 }
