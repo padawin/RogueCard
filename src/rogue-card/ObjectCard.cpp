@@ -7,23 +7,19 @@ const int CARD_QUANTITY_Y = 46;
 
 ContentMeta<S_ObjectMeta> ObjectCard::m_objectMeta = ContentMeta<S_ObjectMeta>();
 
-ObjectCard::ObjectCard() :
+ObjectCard::ObjectCard(const char *id) :
 	Card(ObjectCardType),
 	m_quantityText(Text()),
 	m_elementEffects(ElementalEffects())
 {
+	strncpy(m_sMetaID, id, MAX_CHAR_CARD_ID - 1);
 	m_sImage = "objects";
 	m_quantityText.setFont("font-black");
 }
 
 void ObjectCard::create() {
-	int index = rand() % m_objectMeta.getSize();
-	createFromMeta(index);
-}
-
-void ObjectCard::createFromMeta(int metaIndex) {
-	S_ObjectMeta meta = m_objectMeta.get(metaIndex);
-	m_iMetaIndex = metaIndex;
+	S_ObjectMeta meta = m_objectMeta.getFromID(m_sMetaID);
+	m_iMetaIndex = m_objectMeta.getIndex(m_sMetaID);
 	strncpy(m_sName, meta.name, MAX_CHAR_OBJECT_NAME);
 	m_iTileX = meta.tilesetX;
 	m_iTileY = meta.tilesetY;
@@ -44,8 +40,12 @@ void ObjectCard::render(SDL_Renderer *renderer, int x, int y) {
 	}
 }
 
+const char *ObjectCard::getMetaID() const {
+	return m_sMetaID;
+}
+
 int ObjectCard::getMetaIndex() const {
-	return m_iMetaIndex;
+	return m_objectMeta.getIndex(m_sMetaID);
 }
 
 void ObjectCard::_setFlags(const S_ObjectMeta &meta) {

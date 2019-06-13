@@ -34,6 +34,7 @@ const int MAX_QUANTITY = 10;
 
 class ObjectCard : public Card {
 	static ContentMeta<S_ObjectMeta> m_objectMeta;
+	char m_sMetaID[MAX_CHAR_CARD_ID];
 	char m_sName[MAX_CHAR_OBJECT_NAME];
 
 	int m_iMetaIndex = -1;
@@ -53,13 +54,14 @@ class ObjectCard : public Card {
 	void _setQuantityText();
 
 	public:
-	ObjectCard();
+	ObjectCard(const char *id);
 	void create();
 	void createFromMeta(int metaIndex);
 	static bool prepareMeta(std::string file);
 
 	void render(SDL_Renderer *renderer, int x, int y);
 
+	const char *getMetaID() const;
 	int getMetaIndex() const;
 	const char* getName() const;
 
