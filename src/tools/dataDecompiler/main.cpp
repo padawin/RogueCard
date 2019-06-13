@@ -9,6 +9,7 @@ void writeTilesetMapping(std::ofstream &fileOutStream, S_TilesetMapping tile);
 void writeEnemy(std::ofstream &fileOutStream, S_EnemyMeta enemy);
 void writeObject(std::ofstream &fileOutStream, S_ObjectMeta object);
 void writeFontAtlas(std::ofstream &fileOutStream, S_FontAtlasCoord object);
+void writeFloorContent(std::ofstream &fileOutStream, S_FloorContent floorContent);
 
 template <typename T>
 bool decompileFile(
@@ -45,6 +46,9 @@ int main(int argc, char* argv[]) {
 	}
 	else if (type == "font-atlas") {
 		ret = decompileFile(new ResourceManager<S_FontAtlasCoord>(), writeFontAtlas, fileIn, fileOut);
+	}
+	else if (type == "floor-content") {
+		ret = decompileFile(new ResourceManager<S_FloorContent>(), writeFloorContent, fileIn, fileOut);
 	}
 	else {
 		std::cerr << "Invalid type: " << type << "\n";
@@ -111,11 +115,27 @@ void writeObject(std::ofstream &fileOutStream, S_ObjectMeta object) {
 }
 
 void writeFontAtlas(std::ofstream &fileOutStream, S_FontAtlasCoord object) {
-	fileOutStream << " "
-		<< object.x << " "
+	fileOutStream << object.x << " "
 		<< object.y << " "
 		<< object.w << " "
 		<< object.h << "\n";
+}
+
+void writeFloorContent(std::ofstream &fileOutStream, S_FloorContent floorContent) {
+	char type;
+	if (floorContent.type == EnemyCardType) {
+		type = 'e';
+	}
+	else if (floorContent.type == ObjectCardType) {
+		type = 'o';
+	}
+	else {
+		type = '?';
+	}
+	fileOutStream << floorContent.floorLevel << " "
+		<< type << " "
+		<< "\"" << floorContent.id << "\" "
+		<< (int) floorContent.probability << "\n";
 }
 
 template <typename T>

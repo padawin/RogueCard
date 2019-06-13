@@ -52,6 +52,10 @@ int main(int argc, char* args[]) {
 		std::cerr << "An error occurred while loading the font atlas meta\n";
 		return 1;
 	}
+	if (!Floor::prepareMeta(std::string(binaryPath) + "/../resources/floors-content.dat")) {
+		std::cerr << "An error occurred while loading the floor content meta\n";
+		return 1;
+	}
 
 	Game::setBinaryPath(binaryPath);
 	StateMachine stateMachine = StateMachine();

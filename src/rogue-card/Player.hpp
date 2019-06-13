@@ -19,8 +19,8 @@ class Player {
 	int m_iHealth = 30;
 	int m_iMaxHealth = 30;
 	int m_iEquipmentMaxHealth = 0;
-	int m_iStrength = 5;
-	int m_iDefence = 5;
+	int m_iStrength = 3;
+	int m_iDefence = 1;
 	long m_iGold = 0;
 
 	bool m_bFighting = false;

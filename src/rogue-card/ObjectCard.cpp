@@ -5,31 +5,27 @@ const int CARD_QUANTITY_LOW_X = 32;
 const int CARD_QUANTITY_HIGH_X = 23;
 const int CARD_QUANTITY_Y = 46;
 
-ResourceManager<S_ObjectMeta> ObjectCard::m_objectMeta = ResourceManager<S_ObjectMeta>();
+ContentMeta<S_ObjectMeta> ObjectCard::m_objectMeta = ContentMeta<S_ObjectMeta>();
 
-ObjectCard::ObjectCard() :
+ObjectCard::ObjectCard(const char *id) :
 	Card(ObjectCardType),
 	m_quantityText(Text()),
 	m_elementEffects(ElementalEffects())
 {
+	strncpy(m_sMetaID, id, MAX_CHAR_CARD_ID - 1);
 	m_sImage = "objects";
 	m_quantityText.setFont("font-black");
 }
 
 void ObjectCard::create() {
-	int index = rand() % (int) m_objectMeta.getParsedResources().size();
-	createFromMeta(index);
-}
-
-void ObjectCard::createFromMeta(int metaIndex) {
-	std::map<int, S_ObjectMeta> &meta = m_objectMeta.getParsedResources();
-	m_iMetaIndex = metaIndex;
-	strncpy(m_sName, meta[metaIndex].name, MAX_CHAR_OBJECT_NAME);
-	m_iTileX = meta[metaIndex].tilesetX;
-	m_iTileY = meta[metaIndex].tilesetY;
-	m_sStats = meta[metaIndex].stats;
-	m_elementEffects = meta[metaIndex].elementalEffects;
-	_setFlags(meta[metaIndex]);
+	S_ObjectMeta meta = m_objectMeta.getFromID(m_sMetaID);
+	m_iMetaIndex = m_objectMeta.getIndex(m_sMetaID);
+	strncpy(m_sName, meta.name, MAX_CHAR_OBJECT_NAME);
+	m_iTileX = meta.tilesetX;
+	m_iTileY = meta.tilesetY;
+	m_sStats = meta.stats;
+	m_elementEffects = meta.elementalEffects;
+	_setFlags(meta);
 }
 
 void ObjectCard::render(SDL_Renderer *renderer, int x, int y) {
@@ -44,8 +40,12 @@ void ObjectCard::render(SDL_Renderer *renderer, int x, int y) {
 	}
 }
 
+const char *ObjectCard::getMetaID() const {
+	return m_sMetaID;
+}
+
 int ObjectCard::getMetaIndex() const {
-	return m_iMetaIndex;
+	return m_objectMeta.getIndex(m_sMetaID);
 }
 
 void ObjectCard::_setFlags(const S_ObjectMeta &meta) {
@@ -92,11 +92,7 @@ void ObjectCard::_setEquipableFlags(const S_ObjectMeta &meta) {
 }
 
 bool ObjectCard::prepareMeta(std::string file) {
-	if (!m_objectMeta.setResourceFile(file)) {
-		return false;
-	}
-	m_objectMeta.parseBinaryFile();
-	return true;
+	return m_objectMeta.prepare(file);
 }
 
 const char* ObjectCard::getName() const {

@@ -8,8 +8,19 @@
 #define MAX_LENGTH_TILESET_NAME 32
 #define MAX_CHAR_RESOURCE_PATH 255
 
+#define MAX_CHAR_CARD_ID 32
+
 #define MAX_CHAR_ENEMY_NAME 32
 #define MAX_CHAR_OBJECT_NAME 32
+
+enum E_CardType : short {
+	ActionCardType,
+	ObjectCardType,
+	FloorCardType,
+	EnemyCardType,
+	FinalGoalCardType,
+	None
+};
 
 enum E_XPSkill {
 	NONE,
@@ -43,6 +54,7 @@ struct S_CardStats {
 };
 
 struct S_EnemyMeta {
+	char id[MAX_CHAR_CARD_ID];
 	char name[MAX_CHAR_ENEMY_NAME];
 	int health = 0;
 	int strength = 0;
@@ -57,6 +69,7 @@ struct S_EnemyMeta {
 };
 
 struct S_ObjectMeta {
+	char id[MAX_CHAR_CARD_ID];
 	char name[MAX_CHAR_OBJECT_NAME];
 	int tilesetX = 0;
 	int tilesetY = 0;
@@ -80,6 +93,13 @@ struct S_FontAtlasCoord {
 	int y;
 	int w;
 	int h;
+};
+
+struct S_FloorContent {
+	int floorLevel;
+	E_CardType type;
+	char id[MAX_CHAR_CARD_ID];
+	char probability;
 };
 
 #endif

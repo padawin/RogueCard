@@ -88,19 +88,17 @@ void Save::_loadPlayer() {
 		}
 		else if (type == 'i') {
 			int inventoryIndex;
-			int cardMetaIndex;
 			int cardQuantity;
+			char metaID[MAX_CHAR_CARD_ID];
 			sscanf(
 				line,
-				"i %d %d %d\n",
-				&inventoryIndex, &cardMetaIndex, &cardQuantity
+				"i %d %s %d\n",
+				&inventoryIndex, metaID, &cardQuantity
 			);
-			if (cardMetaIndex != -1) {
-				std::shared_ptr<ObjectCard> card = std::shared_ptr<ObjectCard>(new ObjectCard());
-				card->createFromMeta(cardMetaIndex);
-				card->setQuantity(cardQuantity);
-				m_player.setInventoryItem(inventoryIndex, card);
-			}
+			std::shared_ptr<ObjectCard> card = std::shared_ptr<ObjectCard>(new ObjectCard(metaID));
+			card->create();
+			card->setQuantity(cardQuantity);
+			m_player.setInventoryItem(inventoryIndex, card);
 		}
 		else if (type == 'a') {
 			int actionBarIndex;
@@ -163,9 +161,9 @@ void Save::_savePlayer() {
 		if (card != nullptr) {
 			fprintf(
 				playerFile,
-				"i %d %d %d\n",
+				"i %d %s %d\n",
 				m_player.getInventory().getCurrentIndex(),
-				card->getMetaIndex(),
+				card->getMetaID(),
 				card->getQuantity()
 			);
 		}

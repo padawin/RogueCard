@@ -7,6 +7,9 @@
 #include "FloorCard.hpp"
 
 class CardDeck {
+	private:
+	std::shared_ptr<Card> _createCard(Player &player) const;
+
 	public:
 	std::shared_ptr<Card> pickCard(Player &player);
 	std::shared_ptr<FloorCard> createFloorCard(FloorDirection floorDirection) const;

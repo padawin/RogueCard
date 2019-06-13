@@ -9,6 +9,7 @@ bool readTilesetFileLine(char line[MAX_CHARS_PER_LINE], S_TilesetMapping &data);
 bool readEnemyFileLine(char line[MAX_CHARS_PER_LINE], S_EnemyMeta &data);
 bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data);
 bool readFontFileLine(char line[MAX_CHARS_PER_LINE], S_FontAtlasCoord &data);
+bool readFloorContentLine(char line[MAX_CHARS_PER_LINE], S_FloorContent &data);
 
 int main(int argc, char* argv[]) {
 	// expects the following arguments:
@@ -56,6 +57,14 @@ int main(int argc, char* argv[]) {
 			return 1;
 		}
 	}
+	else if (type == "floor-content") {
+		ResourceManager<S_FloorContent> resourceManager;
+		bool res = resourceManager.compileFile(fileIn, fileOut, readFloorContentLine);
+		if (!res) {
+			std::cerr << res << std::endl;
+			return 1;
+		}
+	}
 	else {
 		std::cerr << "Invalid type: " << type << "\n";
 		return 2;
@@ -91,7 +100,8 @@ bool readEnemyFileLine(char line[MAX_CHARS_PER_LINE], S_EnemyMeta &data) {
 	int fireAttack, fireResistance;
 	int result = sscanf(
 		line,
-		"\"%[^\"]\" %d %d %d %d %d %d %d %d %d %d\n",
+		"\"%[^\"]\" \"%[^\"]\" %d %d %d %d %d %d %d %d %d %d\n",
+		data.id,
 		data.name,
 		&data.tilesetX,
 		&data.tilesetY,
@@ -109,7 +119,7 @@ bool readEnemyFileLine(char line[MAX_CHARS_PER_LINE], S_EnemyMeta &data) {
 	data.dropRate = (char) dropRate;
 	data.minItems = (char) minItems;
 	data.maxItems = (char) maxItems;
-	return result == 11;
+	return result == 12;
 }
 
 bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
@@ -118,7 +128,8 @@ bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
 	int statFire;
 	int result = sscanf(
 		line,
-		"\"%[^\"]\" %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n",
+		"\"%[^\"]\" \"%[^\"]\" %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n",
+		data.id,
 		data.name,
 		&data.tilesetX,
 		&data.tilesetY,
@@ -153,7 +164,7 @@ bool readObjectFileLine(char line[MAX_CHARS_PER_LINE], S_ObjectMeta &data) {
 	data.isShoe = (bool) isShoe;
 	data.isWeapon = (bool) isWeapon;
 	data.isShield = (bool) isShield;
-	return result == 20;
+	return result == 21;
 }
 
 bool readFontFileLine(char line[MAX_CHARS_PER_LINE], S_FontAtlasCoord &data) {
@@ -162,5 +173,26 @@ bool readFontFileLine(char line[MAX_CHARS_PER_LINE], S_FontAtlasCoord &data) {
 		"%d %d %d %d\n",
 		&data.x, &data.y, &data.w, &data.h
 	);
+	return result == 4;
+}
+
+bool readFloorContentLine(char line[MAX_CHARS_PER_LINE], S_FloorContent &data) {
+	char type;
+	int probability;
+	int result = sscanf(
+		line,
+		"%d %c \"%[^\"]\" %d\n",
+		&data.floorLevel, &type, data.id, &probability
+	);
+	data.probability = (char) probability;
+	if (type == 'e') {
+		data.type = EnemyCardType;
+	}
+	else if (type == 'o') {
+		data.type = ObjectCardType;
+	}
+	else {
+		return false;
+	}
 	return result == 4;
 }
