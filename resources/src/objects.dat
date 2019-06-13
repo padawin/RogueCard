@@ -1189,7 +1189,7 @@
 # Ring
 # Ring
 # Shield
-"WOODEN_SHIELD" "Wooden shield" 0 71 0 0 1 0 0 0 0 0 0 0 1 2 0 0 0 2 1
+"WOODEN_SHIELD" "Wooden shield" 0 71 0 0 1 0 0 0 0 0 0 0 1 1 0 0 0 2 1
 # Shield
 # Shield
 # Shield
@@ -1528,3 +1528,4 @@
 "FIRE_AXE" "Fire axe" 6 91 0 0 0 0 0 0 0 0 0 1 0 10 0 0 0 8 2
 # Ice axe
 # Poison axe
+"KNIFE" "Knife" 15 96 0 0 0 0 0 0 0 0 0 1 0 3 0 0 0 5 1
