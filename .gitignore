@@ -1,0 +1,6 @@
+resources/*.dat
+bin/
+bin-gcw/
+build/
+build-gcw/
+dist/
