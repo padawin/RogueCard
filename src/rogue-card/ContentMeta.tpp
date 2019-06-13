@@ -27,3 +27,25 @@ contentType ContentMeta<contentType>::get(int index) {
 	}
 	return m_resourceManager.getParsedResources()[index];
 }
+
+template <class contentType>
+contentType ContentMeta<contentType>::getFromID(std::string id) {
+	auto item = m_mMetaDataMapping.find(id);
+	if (item == m_mMetaDataMapping.end()) {
+		return get(0);
+	}
+	else {
+		return get(item->second);
+	}
+}
+
+template <class contentType>
+int ContentMeta<contentType>::getIndex(std::string id) {
+	auto item = m_mMetaDataMapping.find(id);
+	if (item == m_mMetaDataMapping.end()) {
+		return -1;
+	}
+	else {
+		return item->second;
+	}
+}

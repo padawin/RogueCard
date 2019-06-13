@@ -16,6 +16,8 @@ template <class contentType> class ContentMeta {
 	bool prepare(std::string file);
 	int getSize();
 	contentType get(int index);
+	contentType getFromID(std::string id);
+	int getIndex(std::string id);
 };
 
 #include "ContentMeta.tpp"
