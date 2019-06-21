@@ -36,6 +36,9 @@ void ActionCard::renderRunaway(SDL_Renderer *renderer, int x, int y) {
 
 void ActionCard::renderDiscard(SDL_Renderer *renderer, int x, int y) {
 	Card::render(renderer, x, y);
+	TextureManager::Instance()->draw(
+		"action-discard", x, y, CARD_WIDTH, CARD_HEIGHT, renderer
+	);
 }
 
 void ActionCard::renderAttack(SDL_Renderer *renderer, int x, int y, std::shared_ptr<ObjectCard> weapon) {
