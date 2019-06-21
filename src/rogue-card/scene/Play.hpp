@@ -27,7 +27,7 @@ enum ActionType {
 
 // Yuck
 // first element is the previous action,
-// second enement is the next action
+// second element is the next action
 const int POSSIBLE_ACTIONS[][2] = {
 	{(int) PickAction, (int) PickAction},
 	{(int) DiscardAction, (int) DiscardAction},
