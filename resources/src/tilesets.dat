@@ -14,6 +14,7 @@ card card.png
 action-attack action-attack.png
 action-pick action-pick.png
 action-loot action-loot.png
+action-discard action-discard.png
 action-runaway action-runaway.png
 objects objects.png
 door-down door-down.png
