@@ -6,6 +6,7 @@
 #include "Win.hpp"
 #include "Inventory.hpp"
 #include "FightResult.hpp"
+#include "PlayerStats.hpp"
 #include "Equipment.hpp"
 #include "Play.hpp"
 #include "EnemyCard.hpp"
@@ -69,6 +70,11 @@ void PlayScene::update(StateMachine &stateMachine) {
 	else if (m_userActions.getActionState("INVENTORY")) {
 		stateMachine.pushState(
 			new InventoryScene(m_userActions, m_actionBar, m_player, m_renderer)
+		);
+	}
+	else if (m_userActions.getActionState("PLAYER_STATS")) {
+		stateMachine.pushState(
+			new PlayerStatsScene(m_userActions, m_renderer)
 		);
 	}
 	else if (m_userActions.getActionState("EQUIPMENT")) {

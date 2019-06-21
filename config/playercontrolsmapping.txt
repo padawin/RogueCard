@@ -1,5 +1,6 @@
 #name;type;id
 #name;type;key
+PLAYER_STATS;0;51
 EQUIPMENT;0;8
 INVENTORY;0;12
 CHANGE_MENU_NEXT;0;81
