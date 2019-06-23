@@ -1,8 +1,7 @@
 #include "ActionCard.hpp"
+#include "../game/globals.hpp"
 #include "../sdl2/TextureManager.hpp"
 
-const int ARROW_WIDTH = 16;
-const int ARROW_HEIGHT = 16;
 const int ARROW_X_POS = (CARD_WIDTH - ARROW_WIDTH) / 2;
 const int ARROW_TOP_Y_POS = 2;
 const int ARROW_BOTTOM_Y_POS = CARD_HEIGHT - ARROW_HEIGHT - 2;
