@@ -28,14 +28,24 @@ class PlayerStatsScene : public State {
 	Text m_strengthTitle;
 	Text m_defenceTitle;
 
+	// Levels texts
+
+	int m_iPage = 1;
+	int m_iNBPages[NbStatPositions] = {
+		1,
+		1
+	};
+
 	int m_iStatsTitleX = 0;
 	int m_iLevelsTitleX = 0;
 
 	void _setDynamicTitles();
+	void _setMaxPageNumbers();
 
 	void _renderBackground() const;
 	void _renderCursor();
 	void _renderTitles();
+	void _renderPagination() const;
 
 	void _renderStats() const;
 

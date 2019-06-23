@@ -7,10 +7,16 @@ const int STAT_CURSOR_WIDTH = 144;
 const int STAT_CURSOR_HEIGHT = 14;
 
 const int STAT_TEXT_X = 8;
-const int STAT_HP_Y = 41;
-const int STAT_FLOOR_Y = 57;
-const int STAT_STR_Y = 89;
-const int STAT_DEF_Y = 105;
+const int STAT_HP_Y = 62;
+const int STAT_FLOOR_Y = 78;
+const int STAT_STR_Y = 110;
+const int STAT_DEF_Y = 126;
+
+const int NB_ELEMENTS_PER_PAGE = 5;
+const int NEXT_PAGE_X = 152;
+const int NEXT_PAGE_Y = 42;
+const int PREV_PAGE_X = 152;
+const int PREV_PAGE_Y = 220;
 
 PlayerStatsScene::PlayerStatsScene(
 	UserActions &userActions,
@@ -34,6 +40,7 @@ std::string PlayerStatsScene::getStateID() const {
 }
 
 bool PlayerStatsScene::onEnter() {
+	_setMaxPageNumbers();
 	m_mCursorPositions[Stats] = {9, 8};
 	m_mCursorPositions[Levels] = {167, 8};
 	m_statsTitle.setText("Stats");
@@ -52,10 +59,18 @@ void PlayerStatsScene::update(StateMachine &stateMachine) {
 		stateMachine.popState();
 	}
 	else if (m_userActions.getActionState("CURSOR_LEFT")) {
+		m_iPage = 1;
 		m_cursorPosition = (StatCursorPosition) ((NbStatPositions + m_cursorPosition - 1) % NbStatPositions);
 	}
 	else if (m_userActions.getActionState("CURSOR_RIGHT")) {
+		m_iPage = 1;
 		m_cursorPosition = (StatCursorPosition) ((m_cursorPosition + 1) % NbStatPositions);
+	}
+	else if (m_userActions.getActionState("CURSOR_UP")) {
+		m_iPage = 1 + (m_iNBPages[m_cursorPosition] + m_iPage - 2) % m_iNBPages[m_cursorPosition];
+	}
+	else if (m_userActions.getActionState("CURSOR_DOWN")) {
+		m_iPage = 1 + m_iPage % m_iNBPages[m_cursorPosition];
 	}
 }
 
@@ -63,6 +78,7 @@ void PlayerStatsScene::render() {
 	_renderBackground();
 	_renderCursor();
 	_renderTitles();
+	_renderPagination();
 	if (m_cursorPosition == Stats) {
 		_renderStats();
 	}
@@ -81,6 +97,14 @@ void PlayerStatsScene::_setDynamicTitles() {
 	m_floorTitle.setText(floorText);
 	m_strengthTitle.setText(strText);
 	m_defenceTitle.setText(defText);
+}
+
+void PlayerStatsScene::_setMaxPageNumbers() {
+	int nbElementsPages = NB_ELEMENTS / NB_ELEMENTS_PER_PAGE;
+	if (NB_ELEMENTS % NB_ELEMENTS_PER_PAGE) {
+		nbElementsPages++;
+	}
+	m_iNBPages[Stats] = 1 + nbElementsPages;
 }
 
 void PlayerStatsScene::_renderBackground() const {
@@ -111,6 +135,32 @@ void PlayerStatsScene::_renderTitles() {
 		m_iLevelsTitleX,
 		m_mCursorPositions[Levels].y
 	);
+}
+
+void PlayerStatsScene::_renderPagination() const {
+	if (m_iPage > 1) {
+		TextureManager::Instance()->drawFrame(
+			"arrows",
+			NEXT_PAGE_X,
+			NEXT_PAGE_Y,
+			ARROW_WIDTH, ARROW_HEIGHT,
+			0,
+			1,
+			m_renderer->getRenderer()
+		);
+	}
+
+	if (m_iPage < m_iNBPages[m_cursorPosition]) {
+		TextureManager::Instance()->drawFrame(
+			"arrows",
+			PREV_PAGE_X,
+			PREV_PAGE_Y,
+			ARROW_WIDTH, ARROW_HEIGHT,
+			0,
+			0,
+			m_renderer->getRenderer()
+		);
+	}
 }
 
 void PlayerStatsScene::_renderStats() const {
