@@ -74,7 +74,7 @@ void PlayScene::update(StateMachine &stateMachine) {
 	}
 	else if (m_userActions.getActionState("PLAYER_STATS")) {
 		stateMachine.pushState(
-			new PlayerStatsScene(m_userActions, m_renderer)
+			new PlayerStatsScene(m_userActions, m_renderer, m_player)
 		);
 	}
 	else if (m_userActions.getActionState("EQUIPMENT")) {

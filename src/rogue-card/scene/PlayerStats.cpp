@@ -6,11 +6,26 @@
 const int STAT_CURSOR_WIDTH = 144;
 const int STAT_CURSOR_HEIGHT = 14;
 
-PlayerStatsScene::PlayerStatsScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer) :
+const int STAT_TEXT_X = 8;
+const int STAT_HP_Y = 41;
+const int STAT_FLOOR_Y = 57;
+const int STAT_STR_Y = 89;
+const int STAT_DEF_Y = 105;
+
+PlayerStatsScene::PlayerStatsScene(
+	UserActions &userActions,
+	std::shared_ptr<SDL2Renderer> renderer,
+	Player &player
+) :
 	State(userActions),
+	m_player(player),
 	m_renderer(renderer),
 	m_statsTitle(Text()),
-	m_levelsTitle(Text())
+	m_levelsTitle(Text()),
+	m_healthTitle(Text()),
+	m_floorTitle(Text()),
+	m_strengthTitle(Text()),
+	m_defenceTitle(Text())
 {
 }
 
@@ -23,6 +38,10 @@ bool PlayerStatsScene::onEnter() {
 	m_mCursorPositions[Levels] = {167, 8};
 	m_statsTitle.setText("Stats");
 	m_levelsTitle.setText("Levels");
+
+	_setDynamicTitles();
+
+	// Horizontally center the titles
 	m_iStatsTitleX = m_mCursorPositions[Stats].x + (STAT_CURSOR_WIDTH - m_statsTitle.getLength()) / 2;
 	m_iLevelsTitleX = m_mCursorPositions[Levels].x + (STAT_CURSOR_WIDTH - m_levelsTitle.getLength()) / 2;
 	return true;
@@ -44,6 +63,24 @@ void PlayerStatsScene::render() {
 	_renderBackground();
 	_renderCursor();
 	_renderTitles();
+	if (m_cursorPosition == Stats) {
+		_renderStats();
+	}
+}
+
+void PlayerStatsScene::_setDynamicTitles() {
+	char hpText[64],
+		 floorText[64],
+		 strText[64],
+		 defText[64];
+	snprintf(hpText, 64, "Health points: %d/%d", m_player.getHealth(), m_player.getMaxHealth());
+	snprintf(floorText, 64, "Current floor: %d", m_player.getFloor().getLevel());
+	snprintf(strText, 64, "Strength: %d", m_player.getStrength());
+	snprintf(defText, 64, "Defence: %d", m_player.getDefence());
+	m_healthTitle.setText(hpText);
+	m_floorTitle.setText(floorText);
+	m_strengthTitle.setText(strText);
+	m_defenceTitle.setText(defText);
 }
 
 void PlayerStatsScene::_renderBackground() const {
@@ -74,4 +111,11 @@ void PlayerStatsScene::_renderTitles() {
 		m_iLevelsTitleX,
 		m_mCursorPositions[Levels].y
 	);
+}
+
+void PlayerStatsScene::_renderStats() const {
+	m_healthTitle.render(m_renderer->getRenderer(), STAT_TEXT_X, STAT_HP_Y);
+	m_floorTitle.render(m_renderer->getRenderer(), STAT_TEXT_X, STAT_FLOOR_Y);
+	m_strengthTitle.render(m_renderer->getRenderer(), STAT_TEXT_X, STAT_STR_Y);
+	m_defenceTitle.render(m_renderer->getRenderer(), STAT_TEXT_X, STAT_DEF_Y);
 }
