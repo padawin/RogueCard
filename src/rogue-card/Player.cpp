@@ -32,7 +32,7 @@ int Player::attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> 
 	ElementalEffects elementalDamages;
 	if (attackCard == nullptr) {
 		damages = m_iStrength + _getEquipmentStats(false).points;
-		elementalDamages = _getElementalEffects(false);
+		elementalDamages = getElementalEffects(false);
 	}
 	else {
 		damages = attackCard->getStats().points;
@@ -87,7 +87,7 @@ int Player::setDamages(int physicalDamages, ElementalEffects elementalEffects) {
 }
 
 int Player::_calculateElementalDamages(ElementalEffects effects) {
-	ElementalEffects elementalDefence = _getElementalEffects(true);
+	ElementalEffects elementalDefence = getElementalEffects(true);
 	ElementalEffects elementalDamages = ElementalEffects();
 	for (int s = 0; s < NB_ELEMENTS; ++s) {
 		E_ElementalElement element = (E_ElementalElement) s;
@@ -115,7 +115,7 @@ S_CardStats Player::_getEquipmentStats(bool applyOnSelf) {
 	return stats;
 }
 
-ElementalEffects Player::_getElementalEffects(bool applyOnSelf) {
+ElementalEffects Player::getElementalEffects(bool applyOnSelf) {
 	ElementalEffects stats = ElementalEffects();
 	m_equipment.reset();
 	do {
