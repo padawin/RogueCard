@@ -27,8 +27,6 @@ class Player {
 	bool m_bFoundFinalGoal = false;
 	bool m_bFoundFloorCard = false;
 
-	S_CardStats _getEquipmentStats(bool applyOnSelf);
-
 	int _calculateElementalDamages(ElementalEffects effects);
 
 	public:
@@ -59,6 +57,7 @@ class Player {
 
 	void setFighting(bool fighting);
 
+	S_CardStats getEquipmentStats(bool applyOnSelf);
 	ElementalEffects getElementalEffects(bool applyOnSelf);
 
 	ObjectCardCollection &getInventory();
