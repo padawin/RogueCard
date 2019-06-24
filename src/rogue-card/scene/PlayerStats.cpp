@@ -12,11 +12,13 @@ const int STAT_FLOOR_Y = 78;
 const int STAT_STR_Y = 110;
 const int STAT_DEF_Y = 126;
 
-const int NB_ELEMENTS_PER_PAGE = 5;
+const int NB_ELEMENTS_PER_PAGE = 10;
 const int NEXT_PAGE_X = 152;
 const int NEXT_PAGE_Y = 42;
 const int PREV_PAGE_X = 152;
 const int PREV_PAGE_Y = 220;
+
+const int FIRST_ELEMENT_Y = 62;
 
 PlayerStatsScene::PlayerStatsScene(
 	UserActions &userActions,
@@ -26,6 +28,8 @@ PlayerStatsScene::PlayerStatsScene(
 	State(userActions),
 	m_player(player),
 	m_renderer(renderer),
+	m_elementalEffectsAtk(ElementalEffects()),
+	m_elementalEffectsDef(ElementalEffects()),
 	m_statsTitle(Text()),
 	m_levelsTitle(Text()),
 	m_healthTitle(Text()),
@@ -40,6 +44,8 @@ std::string PlayerStatsScene::getStateID() const {
 }
 
 bool PlayerStatsScene::onEnter() {
+	m_elementalEffectsAtk = m_player.getElementalEffects(false);
+	m_elementalEffectsDef = m_player.getElementalEffects(true);
 	_setMaxPageNumbers();
 	m_mCursorPositions[Stats] = {9, 8};
 	m_mCursorPositions[Levels] = {167, 8};
@@ -47,6 +53,7 @@ bool PlayerStatsScene::onEnter() {
 	m_levelsTitle.setText("Levels");
 
 	_setDynamicTitles();
+	_setElementTitles();
 
 	// Horizontally center the titles
 	m_iStatsTitleX = m_mCursorPositions[Stats].x + (STAT_CURSOR_WIDTH - m_statsTitle.getLength()) / 2;
@@ -99,9 +106,45 @@ void PlayerStatsScene::_setDynamicTitles() {
 	m_defenceTitle.setText(defText);
 }
 
+void PlayerStatsScene::_setElementTitles() {
+	for (int e = 0; e < NB_ELEMENTS; ++e) {
+		char elemAtkText[64],
+			 elemDefText[64];
+		std::string elementLabel = ElementalEffects::getElementLabel((E_ElementalElement)e);
+		int atkStat = m_elementalEffectsAtk.getStat((E_ElementalElement) e),
+			defStat = m_elementalEffectsDef.getStat((E_ElementalElement) e);
+		m_elementTexts[e * 2] = Text();
+		m_elementTexts[e * 2 + 1] = Text();
+		if (atkStat != 0) {
+			snprintf(elemAtkText, 64, "%s attack: %d", elementLabel.c_str(), atkStat);
+			m_elementTexts[e * 2].setText(elemAtkText);
+		}
+		else {
+			m_elementTexts[e * 2].setText("");
+		}
+
+		if (defStat != 0) {
+			snprintf(elemDefText, 64, "%s defence: %d", elementLabel.c_str(), defStat);
+			m_elementTexts[e * 2 + 1].setText(elemDefText);
+		}
+		else {
+			m_elementTexts[e * 2 + 1].setText("");
+		}
+	}
+}
+
 void PlayerStatsScene::_setMaxPageNumbers() {
-	int nbElementsPages = NB_ELEMENTS / NB_ELEMENTS_PER_PAGE;
-	if (NB_ELEMENTS % NB_ELEMENTS_PER_PAGE) {
+	int nbElements = 0;
+	for (int e = 0; e < NB_ELEMENTS; ++e) {
+		if (m_elementalEffectsAtk.getStat((E_ElementalElement) e)) {
+			++nbElements;
+		}
+		if (m_elementalEffectsDef.getStat((E_ElementalElement) e)) {
+			++nbElements;
+		}
+	}
+	int nbElementsPages = nbElements / NB_ELEMENTS_PER_PAGE;
+	if (nbElements % NB_ELEMENTS_PER_PAGE) {
 		nbElementsPages++;
 	}
 	m_iNBPages[Stats] = 1 + nbElementsPages;
@@ -164,8 +207,28 @@ void PlayerStatsScene::_renderPagination() const {
 }
 
 void PlayerStatsScene::_renderStats() const {
-	m_healthTitle.render(m_renderer->getRenderer(), STAT_TEXT_X, STAT_HP_Y);
-	m_floorTitle.render(m_renderer->getRenderer(), STAT_TEXT_X, STAT_FLOOR_Y);
-	m_strengthTitle.render(m_renderer->getRenderer(), STAT_TEXT_X, STAT_STR_Y);
-	m_defenceTitle.render(m_renderer->getRenderer(), STAT_TEXT_X, STAT_DEF_Y);
+	if (m_iPage == 1) {
+		m_healthTitle.render(m_renderer->getRenderer(), STAT_TEXT_X, STAT_HP_Y);
+		m_floorTitle.render(m_renderer->getRenderer(), STAT_TEXT_X, STAT_FLOOR_Y);
+		m_strengthTitle.render(m_renderer->getRenderer(), STAT_TEXT_X, STAT_STR_Y);
+		m_defenceTitle.render(m_renderer->getRenderer(), STAT_TEXT_X, STAT_DEF_Y);
+	}
+	else {
+		int startElem = (m_iPage - 2) * NB_ELEMENTS_PER_PAGE,
+			elem = startElem,
+			displayedElems = 0;
+		int y = FIRST_ELEMENT_Y;
+		while (elem < NB_ELEMENTS * 2 && displayedElems < NB_ELEMENTS_PER_PAGE) {
+			if (m_elementTexts[elem].getText() != "") {
+				m_elementTexts[elem].render(
+					m_renderer->getRenderer(),
+					STAT_TEXT_X,
+					y
+				);
+				displayedElems++;
+				y += FONT_HEIGHT;
+			}
+			elem++;
+		}
+	}
 }

@@ -1,10 +1,23 @@
 #include "ElementalEffects.hpp"
 
+static const char* elementLabels[] = {
+	"Fire"
+};
+const char** ElementalEffects::m_aLabels = elementLabels;
+
 void ElementalEffects::setStat(E_ElementalElement stat, int value) {
 	if (stat >= NB_ELEMENTS) {
 		return;
 	}
 	m_aStats[stat] = value;
+}
+
+std::string ElementalEffects::getElementLabel(E_ElementalElement element) {
+	if (element >= NB_ELEMENTS) {
+		return "";
+	}
+
+	return m_aLabels[element];
 }
 
 int ElementalEffects::getStat(E_ElementalElement stat) const {
