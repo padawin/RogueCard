@@ -98,8 +98,8 @@ void PlayerStatsScene::_setDynamicTitles() {
 		 defText[64];
 	snprintf(hpText, 64, "Health points: %d/%d", m_player.getHealth(), m_player.getMaxHealth());
 	snprintf(floorText, 64, "Current floor: %d", m_player.getFloor().getLevel());
-	snprintf(strText, 64, "Strength: %d", m_player.getStrength());
-	snprintf(defText, 64, "Defence: %d", m_player.getDefence());
+	snprintf(strText, 64, "Strength: %d", m_player.getStrength() + m_player.getEquipmentStats(false).points);
+	snprintf(defText, 64, "Defence: %d", m_player.getDefence() + m_player.getEquipmentStats(true).points);
 	m_healthTitle.setText(hpText);
 	m_floorTitle.setText(floorText);
 	m_strengthTitle.setText(strText);
