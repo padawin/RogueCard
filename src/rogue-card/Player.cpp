@@ -31,8 +31,8 @@ int Player::attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> 
 	int damages;
 	ElementalEffects elementalDamages;
 	if (attackCard == nullptr) {
-		damages = m_iStrength + _getEquipmentStats(false).points;
-		elementalDamages = _getElementalEffects(false);
+		damages = m_iStrength + getEquipmentStats(false).points;
+		elementalDamages = getElementalEffects(false);
 	}
 	else {
 		damages = attackCard->getStats().points;
@@ -69,7 +69,7 @@ void Player::getXPDefence(int xp[NB_XP_SKILLS]) {
 }
 
 int Player::setDamages(int physicalDamages, ElementalEffects elementalEffects) {
-	int gearDefence = _getEquipmentStats(true).points;
+	int gearDefence = getEquipmentStats(true).points;
 	physicalDamages = physicalDamages - (m_iDefence + gearDefence);
 	if (physicalDamages < 0) {
 		physicalDamages = 0;
@@ -87,7 +87,7 @@ int Player::setDamages(int physicalDamages, ElementalEffects elementalEffects) {
 }
 
 int Player::_calculateElementalDamages(ElementalEffects effects) {
-	ElementalEffects elementalDefence = _getElementalEffects(true);
+	ElementalEffects elementalDefence = getElementalEffects(true);
 	ElementalEffects elementalDamages = ElementalEffects();
 	for (int s = 0; s < NB_ELEMENTS; ++s) {
 		E_ElementalElement element = (E_ElementalElement) s;
@@ -98,7 +98,7 @@ int Player::_calculateElementalDamages(ElementalEffects effects) {
 	return elementalDamages.sumPoints();
 }
 
-S_CardStats Player::_getEquipmentStats(bool applyOnSelf) {
+S_CardStats Player::getEquipmentStats(bool applyOnSelf) {
 	S_CardStats stats;
 	stats.points = 0;
 	stats.healthPoints = 0;
@@ -115,7 +115,7 @@ S_CardStats Player::_getEquipmentStats(bool applyOnSelf) {
 	return stats;
 }
 
-ElementalEffects Player::_getElementalEffects(bool applyOnSelf) {
+ElementalEffects Player::getElementalEffects(bool applyOnSelf) {
 	ElementalEffects stats = ElementalEffects();
 	m_equipment.reset();
 	do {
@@ -171,7 +171,7 @@ void Player::equip(std::shared_ptr<ObjectCard> card) {
 	bool isHealthMax = health == getMaxHealth();
 
 	// Update equipment max health bonus
-	S_CardStats equipmentStats = _getEquipmentStats(FLAG_APPLY_ON_SELF);
+	S_CardStats equipmentStats = getEquipmentStats(FLAG_APPLY_ON_SELF);
 	m_iEquipmentMaxHealth = equipmentStats.maxHealthPoints;
 
 	newMaxHealth = getMaxHealth();
