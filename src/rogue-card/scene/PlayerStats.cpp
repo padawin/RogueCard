@@ -13,12 +13,17 @@ const int STAT_STR_Y = 110;
 const int STAT_DEF_Y = 126;
 
 const int NB_ELEMENTS_PER_PAGE = 10;
+const int NB_SKILLS_PER_PAGE = 5;
 const int NEXT_PAGE_X = 152;
 const int NEXT_PAGE_Y = 42;
 const int PREV_PAGE_X = 152;
 const int PREV_PAGE_Y = 220;
 
 const int FIRST_ELEMENT_Y = 62;
+const int FIRST_SKILL_LEVEL_Y = 55;
+
+const int SKILL_TEXT_X = 8;
+const int SKILL_DELTA_Y = 32;
 
 PlayerStatsScene::PlayerStatsScene(
 	UserActions &userActions,
@@ -54,6 +59,7 @@ bool PlayerStatsScene::onEnter() {
 
 	_setDynamicTitles();
 	_setElementTitles();
+	_setSkillsTexts();
 
 	// Horizontally center the titles
 	m_iStatsTitleX = m_mCursorPositions[Stats].x + (STAT_CURSOR_WIDTH - m_statsTitle.getLength()) / 2;
@@ -88,6 +94,9 @@ void PlayerStatsScene::render() {
 	_renderPagination();
 	if (m_cursorPosition == Stats) {
 		_renderStats();
+	}
+	else {
+		_renderLevels();
 	}
 }
 
@@ -133,6 +142,21 @@ void PlayerStatsScene::_setElementTitles() {
 	}
 }
 
+void PlayerStatsScene::_setSkillsTexts() {
+	char skillText[64];
+	for (int skill = 0; skill < NB_XP_SKILLS; ++skill) {
+		std::string skillLabel = getSkillLabel((E_XPSkill) skill);
+		m_skillsTexts[skill] = Text();
+		snprintf(
+			skillText, 64,
+			"%s: %d",
+			skillLabel.c_str(),
+			m_player.getLevelling().getSkillLevel((E_XPSkill) skill)
+		);
+		m_skillsTexts[skill].setText(skillText);
+	}
+}
+
 void PlayerStatsScene::_setMaxPageNumbers() {
 	int nbElements = 0;
 	for (int e = 0; e < NB_ELEMENTS; ++e) {
@@ -148,6 +172,8 @@ void PlayerStatsScene::_setMaxPageNumbers() {
 		nbElementsPages++;
 	}
 	m_iNBPages[Stats] = 1 + nbElementsPages;
+
+	m_iNBPages[Levels] = ceil((float) NB_XP_SKILLS / NB_SKILLS_PER_PAGE);
 }
 
 void PlayerStatsScene::_renderBackground() const {
@@ -230,5 +256,19 @@ void PlayerStatsScene::_renderStats() const {
 			}
 			elem++;
 		}
+	}
+}
+
+void PlayerStatsScene::_renderLevels() const {
+	// Add a padding of 1, as the first skill is the "NONE" skill, to be skipped
+	int startElem = 1 + (m_iPage - 1) * NB_SKILLS_PER_PAGE,
+		elem = startElem;
+	int y = FIRST_SKILL_LEVEL_Y;
+	while (elem < NB_XP_SKILLS && elem - startElem < NB_SKILLS_PER_PAGE) {
+		if (m_skillsTexts[elem].getLength()) {
+			m_skillsTexts[elem].render(m_renderer->getRenderer(), SKILL_TEXT_X, y);
+			y += SKILL_DELTA_Y;
+		}
+		elem++;
 	}
 }
