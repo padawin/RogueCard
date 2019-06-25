@@ -33,6 +33,7 @@ class PlayerStatsScene : public State {
 	Text m_defenceTitle;
 
 	// Levels texts
+	Text m_nextLevel;
 	Text m_skillsTexts[NB_XP_SKILLS] = {};
 
 	int m_iPage = 1;

@@ -25,6 +25,9 @@ const int FIRST_SKILL_LEVEL_Y = 55;
 const int SKILL_TEXT_X = 8;
 const int SKILL_DELTA_Y = 32;
 
+const int NEXT_LEVELS_X = 8;
+const int NEXT_LEVELS_Y = 39;
+
 PlayerStatsScene::PlayerStatsScene(
 	UserActions &userActions,
 	std::shared_ptr<SDL2Renderer> renderer,
@@ -40,7 +43,8 @@ PlayerStatsScene::PlayerStatsScene(
 	m_healthTitle(Text()),
 	m_floorTitle(Text()),
 	m_strengthTitle(Text()),
-	m_defenceTitle(Text())
+	m_defenceTitle(Text()),
+	m_nextLevel(Text())
 {
 }
 
@@ -56,6 +60,7 @@ bool PlayerStatsScene::onEnter() {
 	m_mCursorPositions[Levels] = {167, 8};
 	m_statsTitle.setText("Stats");
 	m_levelsTitle.setText("Levels");
+	m_nextLevel.setText("To next level:");
 
 	_setDynamicTitles();
 	_setElementTitles();
@@ -260,6 +265,11 @@ void PlayerStatsScene::_renderStats() const {
 }
 
 void PlayerStatsScene::_renderLevels() const {
+	m_nextLevel.render(
+		m_renderer->getRenderer(),
+		SCREEN_WIDTH - (m_nextLevel.getLength() + NEXT_LEVELS_X),
+		NEXT_LEVELS_Y
+	);
 	// Add a padding of 1, as the first skill is the "NONE" skill, to be skipped
 	int startElem = 1 + (m_iPage - 1) * NB_SKILLS_PER_PAGE,
 		elem = startElem;
