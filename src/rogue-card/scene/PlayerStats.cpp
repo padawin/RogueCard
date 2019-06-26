@@ -13,12 +13,23 @@ const int STAT_STR_Y = 110;
 const int STAT_DEF_Y = 126;
 
 const int NB_ELEMENTS_PER_PAGE = 10;
+const int NB_SKILLS_PER_PAGE = 5;
 const int NEXT_PAGE_X = 152;
 const int NEXT_PAGE_Y = 42;
 const int PREV_PAGE_X = 152;
 const int PREV_PAGE_Y = 220;
 
 const int FIRST_ELEMENT_Y = 62;
+const int FIRST_SKILL_LEVEL_Y = 55;
+const int FIRST_SKILL_PROGRESS_Y = 77;
+
+const int SKILL_TEXT_X = 8;
+const int SKILL_DELTA_Y = 32;
+
+const int NEXT_LEVELS_X = 8;
+const int NEXT_LEVELS_Y = 39;
+
+const int SKILL_PROGRESS_X = 168;
 
 PlayerStatsScene::PlayerStatsScene(
 	UserActions &userActions,
@@ -35,7 +46,8 @@ PlayerStatsScene::PlayerStatsScene(
 	m_healthTitle(Text()),
 	m_floorTitle(Text()),
 	m_strengthTitle(Text()),
-	m_defenceTitle(Text())
+	m_defenceTitle(Text()),
+	m_nextLevel(Text())
 {
 }
 
@@ -51,9 +63,12 @@ bool PlayerStatsScene::onEnter() {
 	m_mCursorPositions[Levels] = {167, 8};
 	m_statsTitle.setText("Stats");
 	m_levelsTitle.setText("Levels");
+	m_nextLevel.setText("To next level:");
 
 	_setDynamicTitles();
 	_setElementTitles();
+	_setSkillsTexts();
+	_setSkillsProgressBars();
 
 	// Horizontally center the titles
 	m_iStatsTitleX = m_mCursorPositions[Stats].x + (STAT_CURSOR_WIDTH - m_statsTitle.getLength()) / 2;
@@ -88,6 +103,9 @@ void PlayerStatsScene::render() {
 	_renderPagination();
 	if (m_cursorPosition == Stats) {
 		_renderStats();
+	}
+	else {
+		_renderLevels();
 	}
 }
 
@@ -133,6 +151,29 @@ void PlayerStatsScene::_setElementTitles() {
 	}
 }
 
+void PlayerStatsScene::_setSkillsTexts() {
+	char skillText[64];
+	for (int skill = 0; skill < NB_XP_SKILLS; ++skill) {
+		std::string skillLabel = getSkillLabel((E_XPSkill) skill);
+		m_skillsTexts[skill] = Text();
+		snprintf(
+			skillText, 64,
+			"%s: %d",
+			skillLabel.c_str(),
+			m_player.getLevelling().getSkillLevel((E_XPSkill) skill)
+		);
+		m_skillsTexts[skill].setText(skillText);
+	}
+}
+
+void PlayerStatsScene::_setSkillsProgressBars() {
+	for (int skill = 0; skill < NB_XP_SKILLS; ++skill) {
+		m_aSkillsProgress[skill].setProgress(
+			m_player.getLevelling().getProgressToNextSkillLevel((E_XPSkill) skill)
+		);
+	}
+}
+
 void PlayerStatsScene::_setMaxPageNumbers() {
 	int nbElements = 0;
 	for (int e = 0; e < NB_ELEMENTS; ++e) {
@@ -148,6 +189,8 @@ void PlayerStatsScene::_setMaxPageNumbers() {
 		nbElementsPages++;
 	}
 	m_iNBPages[Stats] = 1 + nbElementsPages;
+
+	m_iNBPages[Levels] = ceil((float) NB_XP_SKILLS / NB_SKILLS_PER_PAGE);
 }
 
 void PlayerStatsScene::_renderBackground() const {
@@ -230,5 +273,31 @@ void PlayerStatsScene::_renderStats() const {
 			}
 			elem++;
 		}
+	}
+}
+
+void PlayerStatsScene::_renderLevels() const {
+	m_nextLevel.render(
+		m_renderer->getRenderer(),
+		SCREEN_WIDTH - (m_nextLevel.getLength() + NEXT_LEVELS_X),
+		NEXT_LEVELS_Y
+	);
+	// Add a padding of 1, as the first skill is the "NONE" skill, to be skipped
+	int startElem = 1 + (m_iPage - 1) * NB_SKILLS_PER_PAGE,
+		elem = startElem;
+	int elemIndex = 0;
+	while (elem < NB_XP_SKILLS && elem - startElem < NB_SKILLS_PER_PAGE) {
+		if (m_skillsTexts[elem].getLength()) {
+			int yPos = elemIndex * SKILL_DELTA_Y;
+			m_skillsTexts[elem].render(
+				m_renderer->getRenderer(), SKILL_TEXT_X, FIRST_ELEMENT_Y + yPos
+			);
+			m_aSkillsProgress[elem].render(
+				m_renderer, SKILL_PROGRESS_X, FIRST_SKILL_PROGRESS_Y + yPos
+			);
+			elemIndex++;
+
+		}
+		elem++;
 	}
 }
