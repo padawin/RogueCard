@@ -1,3 +1,4 @@
+#include <iostream>
 #include <math.h>
 #include "Levelling.hpp"
 
@@ -60,6 +61,9 @@ int Levelling::_convertLevelToSkillXP(int level) const {
 bool Levelling::isEnoughForNextSkillLevel(E_XPSkill skill, int amount) const {
 	int skillCurrentLevel = getSkillLevel(skill);
 	int xpNextLevel = _convertLevelToSkillXP(skillCurrentLevel + 1);
+	std::clog << " - Current xp for skill: " << m_aSkillXP[skill];
+	std::clog << " - XP to next level: " << xpNextLevel;
+	std::clog << " - Earn XP: " << amount << std::endl;
 	return xpNextLevel - m_aSkillXP[skill] <= amount;
 }
 
