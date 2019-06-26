@@ -38,7 +38,7 @@ bool FightResultScene::_handleSkillsLevelUp() {
 		E_XPSkill xpSkill = (E_XPSkill) skill;
 		m_aSkillLevels[skill].first = levelling.getSkillLevel(xpSkill);
 		m_aSkillLevels[skill].second = levelling.getSkillLevel(xpSkill);
-		if (levelling.getPointsForNextLevel(xpSkill) <= m_fight.pointsEarnedIn(xpSkill)) {
+		if (levelling.isEnoughForNextSkillLevel(xpSkill, m_fight.pointsEarnedIn(xpSkill))) {
 			m_aSkillLevels[skill].second++;
 			res = true;
 		}
