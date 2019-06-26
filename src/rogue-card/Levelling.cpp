@@ -58,6 +58,20 @@ int Levelling::_convertLevelToSkillXP(int level) const {
 	return 17 * (level * level - 1);
 }
 
+/**
+ * Returns a number between 0 and 100 (percent) representing the progress in the
+ * given skill. 0 means no XP points earnt since the last level up, 99 means
+ * about to level up
+ */
+int Levelling::getProgressToNextSkillLevel(E_XPSkill skill) const {
+	int skillCurrentLevel = getSkillLevel(skill);
+	int xpLevel = _convertLevelToSkillXP(skillCurrentLevel);
+	int xpNextLevel = _convertLevelToSkillXP(skillCurrentLevel + 1);
+	int xpDelta = xpNextLevel - xpLevel;
+	int xpInLevel = m_aSkillXP[skill] - xpLevel;
+	return xpInLevel * 100 / xpDelta;
+}
+
 bool Levelling::isEnoughForNextSkillLevel(E_XPSkill skill, int amount) const {
 	int skillCurrentLevel = getSkillLevel(skill);
 	int xpNextLevel = _convertLevelToSkillXP(skillCurrentLevel + 1);

@@ -10,6 +10,7 @@
 #include "../sdl2/Text.hpp"
 
 #include "Player.hpp"
+#include "ProgressBar.hpp"
 
 enum StatCursorPosition {Stats, Levels, NbStatPositions};
 
@@ -35,6 +36,7 @@ class PlayerStatsScene : public State {
 	// Levels texts
 	Text m_nextLevel;
 	Text m_skillsTexts[NB_XP_SKILLS] = {};
+	ProgressBar m_aSkillsProgress[NB_XP_SKILLS];
 
 	int m_iPage = 1;
 	int m_iNBPages[NbStatPositions] = {
@@ -48,6 +50,7 @@ class PlayerStatsScene : public State {
 	void _setDynamicTitles();
 	void _setElementTitles();
 	void _setSkillsTexts();
+	void _setSkillsProgressBars();
 	void _setMaxPageNumbers();
 
 	void _renderBackground() const;

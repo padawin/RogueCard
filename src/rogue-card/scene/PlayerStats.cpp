@@ -21,12 +21,15 @@ const int PREV_PAGE_Y = 220;
 
 const int FIRST_ELEMENT_Y = 62;
 const int FIRST_SKILL_LEVEL_Y = 55;
+const int FIRST_SKILL_PROGRESS_Y = 77;
 
 const int SKILL_TEXT_X = 8;
 const int SKILL_DELTA_Y = 32;
 
 const int NEXT_LEVELS_X = 8;
 const int NEXT_LEVELS_Y = 39;
+
+const int SKILL_PROGRESS_X = 168;
 
 PlayerStatsScene::PlayerStatsScene(
 	UserActions &userActions,
@@ -65,6 +68,7 @@ bool PlayerStatsScene::onEnter() {
 	_setDynamicTitles();
 	_setElementTitles();
 	_setSkillsTexts();
+	_setSkillsProgressBars();
 
 	// Horizontally center the titles
 	m_iStatsTitleX = m_mCursorPositions[Stats].x + (STAT_CURSOR_WIDTH - m_statsTitle.getLength()) / 2;
@@ -159,6 +163,14 @@ void PlayerStatsScene::_setSkillsTexts() {
 			m_player.getLevelling().getSkillLevel((E_XPSkill) skill)
 		);
 		m_skillsTexts[skill].setText(skillText);
+	}
+}
+
+void PlayerStatsScene::_setSkillsProgressBars() {
+	for (int skill = 0; skill < NB_XP_SKILLS; ++skill) {
+		m_aSkillsProgress[skill].setProgress(
+			m_player.getLevelling().getProgressToNextSkillLevel((E_XPSkill) skill)
+		);
 	}
 }
 
@@ -273,11 +285,18 @@ void PlayerStatsScene::_renderLevels() const {
 	// Add a padding of 1, as the first skill is the "NONE" skill, to be skipped
 	int startElem = 1 + (m_iPage - 1) * NB_SKILLS_PER_PAGE,
 		elem = startElem;
-	int y = FIRST_SKILL_LEVEL_Y;
+	int elemIndex = 0;
 	while (elem < NB_XP_SKILLS && elem - startElem < NB_SKILLS_PER_PAGE) {
 		if (m_skillsTexts[elem].getLength()) {
-			m_skillsTexts[elem].render(m_renderer->getRenderer(), SKILL_TEXT_X, y);
-			y += SKILL_DELTA_Y;
+			int yPos = elemIndex * SKILL_DELTA_Y;
+			m_skillsTexts[elem].render(
+				m_renderer->getRenderer(), SKILL_TEXT_X, FIRST_ELEMENT_Y + yPos
+			);
+			m_aSkillsProgress[elem].render(
+				m_renderer, SKILL_PROGRESS_X, FIRST_SKILL_PROGRESS_Y + yPos
+			);
+			elemIndex++;
+
 		}
 		elem++;
 	}
