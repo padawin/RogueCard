@@ -1,3 +1,4 @@
+#include <iostream>
 #include <math.h>
 #include "Levelling.hpp"
 
@@ -7,12 +8,6 @@ void Levelling::setLevel(int level) {
 
 int Levelling::getLevel() const {
 	return m_iLevel;
-}
-
-void Levelling::setSkillXP(E_XPSkill skill, int amount) {
-	if (skill < NB_XP_SKILLS) {
-		m_aSkillXP[skill] = amount;
-	}
 }
 
 E_SkillIncreaseResult Levelling::increaseSkillXP(E_XPSkill skill, int amount) {
@@ -63,10 +58,27 @@ int Levelling::_convertLevelToSkillXP(int level) const {
 	return 17 * (level * level - 1);
 }
 
-int Levelling::getPointsForNextLevel(E_XPSkill skill) const {
+/**
+ * Returns a number between 0 and 100 (percent) representing the progress in the
+ * given skill. 0 means no XP points earnt since the last level up, 99 means
+ * about to level up
+ */
+int Levelling::getProgressToNextSkillLevel(E_XPSkill skill) const {
+	int skillCurrentLevel = getSkillLevel(skill);
+	int xpLevel = _convertLevelToSkillXP(skillCurrentLevel);
+	int xpNextLevel = _convertLevelToSkillXP(skillCurrentLevel + 1);
+	int xpDelta = xpNextLevel - xpLevel;
+	int xpInLevel = m_aSkillXP[skill] - xpLevel;
+	return xpInLevel * 100 / xpDelta;
+}
+
+bool Levelling::isEnoughForNextSkillLevel(E_XPSkill skill, int amount) const {
 	int skillCurrentLevel = getSkillLevel(skill);
 	int xpNextLevel = _convertLevelToSkillXP(skillCurrentLevel + 1);
-	return xpNextLevel - m_aSkillXP[skill];
+	std::clog << " - Current xp for skill: " << m_aSkillXP[skill];
+	std::clog << " - XP to next level: " << xpNextLevel;
+	std::clog << " - Earn XP: " << amount << std::endl;
+	return xpNextLevel - m_aSkillXP[skill] <= amount;
 }
 
 int Levelling::getStepsBeforeLevelUp() const {

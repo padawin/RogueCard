@@ -1,3 +1,4 @@
+#include <iostream>
 #include "FightResult.hpp"
 #include <string>
 
@@ -36,9 +37,11 @@ bool FightResultScene::_handleSkillsLevelUp() {
 	bool res = false;
 	for (int skill = NONE; skill < NB_XP_SKILLS; ++skill) {
 		E_XPSkill xpSkill = (E_XPSkill) skill;
+		std::clog << "Skill " << getSkillLabel(xpSkill);
 		m_aSkillLevels[skill].first = levelling.getSkillLevel(xpSkill);
 		m_aSkillLevels[skill].second = levelling.getSkillLevel(xpSkill);
-		if (levelling.getPointsForNextLevel(xpSkill) <= m_fight.pointsEarnedIn(xpSkill)) {
+		if (levelling.isEnoughForNextSkillLevel(xpSkill, m_fight.pointsEarnedIn(xpSkill))) {
+			std::clog << "Skill level up\n" << std::endl;
 			m_aSkillLevels[skill].second++;
 			res = true;
 		}

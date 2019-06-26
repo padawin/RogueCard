@@ -9,7 +9,9 @@ ui ui.png
 ui-inventory ui-inventory.png
 ui-equipment ui-equipment.png
 ui-equipment-select ui-equipment-select.png
+ui-player-stats ui-player-stats.png
 cursor cursor.png
+cursor-player-stats cursor-player-stats.png
 card card.png
 action-attack action-attack.png
 action-pick action-pick.png
@@ -21,6 +23,7 @@ door-down door-down.png
 door-up door-up.png
 monsters monsters.png
 quick-action-bar quick-action-bar.png
-health-color health-color.png
+progress-back progress-back.png
+progress-red progress-red.png
 final-goal final-goal.png
 arrows arrows.png

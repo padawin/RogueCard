@@ -6,6 +6,7 @@
 #include "Win.hpp"
 #include "Inventory.hpp"
 #include "FightResult.hpp"
+#include "PlayerStats.hpp"
 #include "Equipment.hpp"
 #include "Play.hpp"
 #include "EnemyCard.hpp"
@@ -16,6 +17,9 @@
 #define USE_OBJECT_TPL "%s used"
 #define USE_OBJECT_IN_FIGHT_TPL "%s used\n%s hits you (%d DP)"
 
+const int HEALTH_X = 16;
+const int HEALTH_Y = 144;
+
 PlayScene::PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer) :
 	State(userActions),
 	m_player(Player()),
@@ -24,7 +28,8 @@ PlayScene::PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> ren
 	m_deck(CardDeck()),
 	m_actionBar(ActionBar()),
 	m_notification(Text()),
-	m_fight(Fight(m_player))
+	m_fight(Fight(m_player)),
+	m_progressBar(ProgressBar())
 {
 	m_mCursorPositions[Action] = {16, 160};
 	m_mCursorPositions[Object1] = {64, 160};
@@ -54,6 +59,7 @@ bool PlayScene::onEnter() {
 		std::clog << "No save found, create new one\n";
 		s.create();
 	}
+	_updateHealthBar();
 	return true;
 }
 
@@ -69,6 +75,11 @@ void PlayScene::update(StateMachine &stateMachine) {
 	else if (m_userActions.getActionState("INVENTORY")) {
 		stateMachine.pushState(
 			new InventoryScene(m_userActions, m_actionBar, m_player, m_renderer)
+		);
+	}
+	else if (m_userActions.getActionState("PLAYER_STATS")) {
+		stateMachine.pushState(
+			new PlayerStatsScene(m_userActions, m_renderer, m_player)
 		);
 	}
 	else if (m_userActions.getActionState("EQUIPMENT")) {
@@ -103,6 +114,8 @@ void PlayScene::update(StateMachine &stateMachine) {
 		_setNextAction(-1);
 	}
 
+	_updateHealthBar();
+
 	// Reached the top
 	if (m_player.getFloor().getLevel() == 0) {
 		stateMachine.changeState(new WinScene(m_userActions));
@@ -118,7 +131,7 @@ void PlayScene::render() {
 	_renderBackground();
 	_renderNotification();
 	_renderCards();
-	_renderHealth();
+	m_progressBar.render(m_renderer, HEALTH_X, HEALTH_Y);
 	_renderCursor();
 }
 
@@ -135,13 +148,6 @@ void PlayScene::_renderNotification() const {
 			80, 16
 		);
 	}
-}
-
-void PlayScene::_renderHealth() const {
-	int healthWidth = m_player.getHealth() * 138 / m_player.getMaxHealth();
-	TextureManager::Instance()->draw(
-		"health-color", 20, 146, healthWidth, 10, m_renderer->getRenderer()
-	);
 }
 
 void PlayScene::_renderCursor() {
@@ -459,4 +465,8 @@ void PlayScene::_runaway() {
 		);
 		_notify(message);
 	}
+}
+
+void PlayScene::_updateHealthBar() {
+	m_progressBar.setProgress(m_player.getHealth() * 100 / m_player.getMaxHealth());
 }

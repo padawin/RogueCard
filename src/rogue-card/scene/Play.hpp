@@ -11,6 +11,7 @@
 #include "../CardDeck.hpp"
 #include "../ActionCard.hpp"
 #include "../ActionBar.hpp"
+#include "../ProgressBar.hpp"
 #include "../Fight.hpp"
 
 enum PlayCursorPosition {Action, Object1, Object2, Object3, Object4, Floor, NbPositions};
@@ -27,7 +28,7 @@ enum ActionType {
 
 // Yuck
 // first element is the previous action,
-// second enement is the next action
+// second element is the next action
 const int POSSIBLE_ACTIONS[][2] = {
 	{(int) PickAction, (int) PickAction},
 	{(int) DiscardAction, (int) DiscardAction},
@@ -48,6 +49,8 @@ class PlayScene : public State {
 	Text m_notification;
 	Fight m_fight;
 
+	ProgressBar m_progressBar;
+
 	ActionType m_action = PickAction;
 
 	PlayCursorPosition m_cursorPosition = Action;
@@ -57,10 +60,11 @@ class PlayScene : public State {
 
 	void _renderBackground() const;
 	void _renderNotification() const;
-	void _renderHealth() const;
 	void _renderCursor();
 	void _renderCards();
 	void _renderActionCard();
+
+	void _updateHealthBar();
 
 	void _useCardUnderCursor();
 
