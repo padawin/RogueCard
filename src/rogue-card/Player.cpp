@@ -160,8 +160,13 @@ std::shared_ptr<ObjectCard> Player::getInventoryItem(int index) const {
 	return m_inventory.getCard(index);
 }
 
-void Player::equip(std::shared_ptr<ObjectCard> card) {
-	m_equipment.equip(card);
+void Player::toggleEquip(std::shared_ptr<ObjectCard> card) {
+	if (m_equipment.isEquipped(card)) {
+		m_equipment.remove(card);
+	}
+	else {
+		m_equipment.equip(card);
+	}
 
 	int health = getHealth(),
 		newMaxHealth;

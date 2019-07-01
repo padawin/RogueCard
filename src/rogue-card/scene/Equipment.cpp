@@ -64,7 +64,7 @@ void EquipmentScene::update(StateMachine &stateMachine) {
 				m_availableCardsRenderer.getSelectedCardIndex()
 			);
 			if (card != nullptr) {
-				m_player.equip(card);
+				m_player.toggleEquip(card);
 				m_bSelectViewOpen = false;
 			}
 		}
