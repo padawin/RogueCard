@@ -6,7 +6,6 @@ std::string getSkillLabel(E_XPSkill skill) {
 		"Light armor",
 		"Medium armor",
 		"Heavy armor",
-		"Hand fight",
 		"Sword",
 		"Lance",
 		"Spears",

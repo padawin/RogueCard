@@ -51,9 +51,6 @@ void Player::getXPAttack(std::shared_ptr<ObjectCard> weapon, int xp[NB_XP_SKILLS
 		int points = weapon->getStats().xp;
 		xp[skill] += points;
 	}
-	else {
-		// @TODO handle bare hand fight XP
-	}
 }
 
 void Player::getXPDefence(int xp[NB_XP_SKILLS]) {
