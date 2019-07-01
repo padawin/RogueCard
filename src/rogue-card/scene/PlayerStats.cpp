@@ -58,7 +58,6 @@ std::string PlayerStatsScene::getStateID() const {
 bool PlayerStatsScene::onEnter() {
 	m_elementalEffectsAtk = m_player.getElementalEffects(false);
 	m_elementalEffectsDef = m_player.getElementalEffects(true);
-	_setMaxPageNumbers();
 	m_mCursorPositions[Stats] = {9, 8};
 	m_mCursorPositions[Levels] = {167, 8};
 	m_statsTitle.setText("Stats");
@@ -67,8 +66,7 @@ bool PlayerStatsScene::onEnter() {
 
 	_setDynamicTitles();
 	_setElementTitles();
-	_setSkillsTexts();
-	_setSkillsProgressBars();
+	_setSkillsTextsAndProgress();
 
 	// Horizontally center the titles
 	m_iStatsTitleX = m_mCursorPositions[Stats].x + (STAT_CURSOR_WIDTH - m_statsTitle.getLength()) / 2;
@@ -129,72 +127,55 @@ void PlayerStatsScene::_setDynamicTitles() {
 }
 
 void PlayerStatsScene::_setElementTitles() {
+	int currentRow = 0;
 	for (int e = 0; e < NB_ELEMENTS; ++e) {
 		char elemAtkText[64],
 			 elemDefText[64];
 		std::string elementLabel = ElementalEffects::getElementLabel((E_ElementalElement)e);
 		int atkStat = m_elementalEffectsAtk.getStat((E_ElementalElement) e),
 			defStat = m_elementalEffectsDef.getStat((E_ElementalElement) e);
-		m_elementTexts[e * 2] = Text();
-		m_elementTexts[e * 2 + 1] = Text();
 		if (atkStat != 0) {
+			m_elementTexts[currentRow] = Text();
 			snprintf(elemAtkText, 64, "%s attack: %d", elementLabel.c_str(), atkStat);
-			m_elementTexts[e * 2].setText(elemAtkText);
-		}
-		else {
-			m_elementTexts[e * 2].setText("");
+			m_elementTexts[currentRow].setText(elemAtkText);
+			currentRow++;
 		}
 
 		if (defStat != 0) {
+			m_elementTexts[currentRow] = Text();
 			snprintf(elemDefText, 64, "%s defence: %d", elementLabel.c_str(), defStat);
-			m_elementTexts[e * 2 + 1].setText(elemDefText);
-		}
-		else {
-			m_elementTexts[e * 2 + 1].setText("");
+			m_elementTexts[currentRow].setText(elemDefText);
+			currentRow++;
 		}
 	}
+
+	int nbElementsPages = (currentRow / NB_ELEMENTS_PER_PAGE) + (currentRow % NB_ELEMENTS_PER_PAGE != 0);
+	m_iNBPages[Stats] = 1 + nbElementsPages;
 }
 
-void PlayerStatsScene::_setSkillsTexts() {
+void PlayerStatsScene::_setSkillsTextsAndProgress() {
+	int currentRow = 0;
 	char skillText[64];
 	for (int skill = 0; skill < NB_XP_SKILLS; ++skill) {
 		std::string skillLabel = getSkillLabel((E_XPSkill) skill);
-		m_skillsTexts[skill] = Text();
+		if (skillLabel == "") {
+			continue;
+		}
+		m_skillsTexts[currentRow] = Text();
 		snprintf(
 			skillText, 64,
 			"%s: %d",
 			skillLabel.c_str(),
 			m_player.getLevelling().getSkillLevel((E_XPSkill) skill)
 		);
-		m_skillsTexts[skill].setText(skillText);
-	}
-}
-
-void PlayerStatsScene::_setSkillsProgressBars() {
-	for (int skill = 0; skill < NB_XP_SKILLS; ++skill) {
-		m_aSkillsProgress[skill].setProgress(
+		m_skillsTexts[currentRow].setText(skillText);
+		m_aSkillsProgress[currentRow].setProgress(
 			m_player.getLevelling().getProgressToNextSkillLevel((E_XPSkill) skill)
 		);
+		currentRow++;
 	}
-}
 
-void PlayerStatsScene::_setMaxPageNumbers() {
-	int nbElements = 0;
-	for (int e = 0; e < NB_ELEMENTS; ++e) {
-		if (m_elementalEffectsAtk.getStat((E_ElementalElement) e)) {
-			++nbElements;
-		}
-		if (m_elementalEffectsDef.getStat((E_ElementalElement) e)) {
-			++nbElements;
-		}
-	}
-	int nbElementsPages = nbElements / NB_ELEMENTS_PER_PAGE;
-	if (nbElements % NB_ELEMENTS_PER_PAGE) {
-		nbElementsPages++;
-	}
-	m_iNBPages[Stats] = 1 + nbElementsPages;
-
-	m_iNBPages[Levels] = ceil((float) NB_XP_SKILLS / NB_SKILLS_PER_PAGE);
+	m_iNBPages[Levels] = (currentRow / NB_SKILLS_PER_PAGE) + (currentRow % NB_SKILLS_PER_PAGE != 0);
 }
 
 void PlayerStatsScene::_renderBackground() const {
@@ -286,8 +267,7 @@ void PlayerStatsScene::_renderLevels() const {
 		SCREEN_WIDTH - (m_nextLevel.getLength() + NEXT_LEVELS_X),
 		NEXT_LEVELS_Y
 	);
-	// Add a padding of 1, as the first skill is the "NONE" skill, to be skipped
-	int startElem = 1 + (m_iPage - 1) * NB_SKILLS_PER_PAGE,
+	int startElem = (m_iPage - 1) * NB_SKILLS_PER_PAGE,
 		elem = startElem;
 	int elemIndex = 0;
 	while (elem < NB_XP_SKILLS && elem - startElem < NB_SKILLS_PER_PAGE) {
