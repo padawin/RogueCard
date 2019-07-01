@@ -67,7 +67,7 @@ class Player {
 	void removeInventoryCard(std::shared_ptr<ObjectCard> card);
 	std::shared_ptr<ObjectCard> getInventoryItem(int index) const;
 
-	void equip(std::shared_ptr<ObjectCard> card);
+	void toggleEquip(std::shared_ptr<ObjectCard> card);
 	Equipment &getEquipment();
 
 	void applyCardStats(std::shared_ptr<ObjectCard> card);
