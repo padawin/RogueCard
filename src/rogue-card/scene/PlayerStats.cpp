@@ -89,10 +89,14 @@ void PlayerStatsScene::update(StateMachine &stateMachine) {
 		m_cursorPosition = (StatCursorPosition) ((m_cursorPosition + 1) % NbStatPositions);
 	}
 	else if (m_userActions.getActionState("CURSOR_UP")) {
-		m_iPage = 1 + (m_iNBPages[m_cursorPosition] + m_iPage - 2) % m_iNBPages[m_cursorPosition];
+		if (m_iPage > 1) {
+			m_iPage--;
+		}
 	}
 	else if (m_userActions.getActionState("CURSOR_DOWN")) {
-		m_iPage = 1 + m_iPage % m_iNBPages[m_cursorPosition];
+		if (m_iPage < m_iNBPages[m_cursorPosition]) {
+			m_iPage++;
+		}
 	}
 }
 
