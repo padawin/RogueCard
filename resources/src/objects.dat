@@ -27,14 +27,13 @@
 # 1: Light armor
 # 2: Medium armor
 # 3: Heavy armor
-# 4: Hand fight
-# 5: Sword
-# 6: Lance
-# 7: Spears
-# 8: Axe
-# 9: Magic
-# 10: Perception
-# 11: speed
+# 4: Sword
+# 5: Lance
+# 6: Spears
+# 7: Axe
+# 8: Magic
+# 9: Perception
+# 10: speed
 # Belt
 # Belt
 # Belt
@@ -1233,7 +1232,7 @@
 # Shield
 # Shield
 # Spells
-"FIREBALL_SPELL" "Fireball spell" 11 73 1 0 0 0 0 0 0 0 0 0 0 0 0 0 10 9 1
+"FIREBALL_SPELL" "Fireball spell" 11 73 1 0 0 0 0 0 0 0 0 0 0 0 0 0 10 8 1
 # Spells
 # Spells
 # Spells
@@ -1525,7 +1524,7 @@
 # Arrow
 # Arrow
 # Wooden axe
-"FIRE_AXE" "Fire axe" 6 91 0 0 0 0 0 0 0 0 0 1 0 10 0 0 0 8 2
+"FIRE_AXE" "Fire axe" 6 91 0 0 0 0 0 0 0 0 0 1 0 10 0 0 0 7 2
 # Ice axe
 # Poison axe
-"KNIFE" "Knife" 15 96 0 0 0 0 0 0 0 0 0 1 0 3 0 0 0 5 1
+"KNIFE" "Knife" 15 96 0 0 0 0 0 0 0 0 0 1 0 3 0 0 0 4 1
