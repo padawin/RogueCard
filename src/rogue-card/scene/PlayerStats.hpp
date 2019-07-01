@@ -49,9 +49,7 @@ class PlayerStatsScene : public State {
 
 	void _setDynamicTitles();
 	void _setElementTitles();
-	void _setSkillsTexts();
-	void _setSkillsProgressBars();
-	void _setMaxPageNumbers();
+	void _setSkillsTextsAndProgress();
 
 	void _renderBackground() const;
 	void _renderCursor();
