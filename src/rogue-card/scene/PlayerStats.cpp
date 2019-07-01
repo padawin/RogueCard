@@ -270,7 +270,7 @@ void PlayerStatsScene::_renderLevels() const {
 	int startElem = (m_iPage - 1) * NB_SKILLS_PER_PAGE,
 		elem = startElem;
 	int elemIndex = 0;
-	while (elem < NB_XP_SKILLS && elem - startElem < NB_SKILLS_PER_PAGE) {
+	while (elem - startElem < NB_SKILLS_PER_PAGE && elem < NB_XP_SKILLS) {
 		if (m_skillsTexts[elem].getLength()) {
 			int yPos = elemIndex * SKILL_DELTA_Y;
 			m_skillsTexts[elem].render(
