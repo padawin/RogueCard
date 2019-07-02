@@ -64,12 +64,13 @@ bool PlayScene::onEnter() {
 }
 
 void PlayScene::update(StateMachine &stateMachine) {
+	Save s = Save(m_player, m_actionBar);
 	if (m_userActions.getActionState("QUIT")) {
-		Save s = Save(m_player, m_actionBar);
 		s.save();
 		stateMachine.clean();
 	}
 	else if (m_player.isDead()) {
+		s.erase();
 		stateMachine.changeState(new GameOverScene(m_userActions));
 	}
 	else if (m_userActions.getActionState("INVENTORY")) {
