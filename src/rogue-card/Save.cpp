@@ -1,5 +1,10 @@
+#include <errno.h>
+#include <string.h>
+#include <unistd.h>
+
 #include <sys/stat.h>
 #include <fstream>
+#include <iostream>
 #include "../game/Utils.hpp"
 #include "Save.hpp"
 
@@ -133,6 +138,14 @@ void Save::create() {
 	Utils::createFolder(Utils::getDataPath().c_str());
 	_setPlayerInitialCards();
 	_savePlayer();
+}
+
+void Save::erase() {
+	std::string playerPath = Utils::getDataPath() + "/" + PLAYER_FILE;
+	int result = unlink(playerPath.c_str());
+	if (result != 0) {
+		std::cerr << "Could not erase saved game: " << strerror(errno) << std::endl;
+	}
 }
 
 void Save::save() {
