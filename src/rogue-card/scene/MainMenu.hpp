@@ -13,7 +13,7 @@ class MainMenuScene : public State {
 	std::shared_ptr<SDL2Renderer> m_renderer;
 	Text m_title;
 	int m_iTitleXPos = 0;
-	MainMenu m_mainMenu;
+	MainMenu m_menu;
 
 	void _executeMenuAction(StateMachine &stateMachine);
 

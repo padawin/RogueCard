@@ -10,14 +10,14 @@ MainMenuScene::MainMenuScene(UserActions &userActions, std::shared_ptr<SDL2Rende
 	State(userActions),
 	m_renderer(renderer),
 	m_title(Text()),
-	m_mainMenu(MainMenu(renderer))
+	m_menu(MainMenu(renderer))
 {
 	m_title.setText("CARD ROGUE");
 	m_iTitleXPos = (SCREEN_WIDTH - m_title.getLength()) / 2;
 	if (Save::exists()) {
-		m_mainMenu.setContext(FLAG_CONTEXT_SAVE_EXISTS);
+		m_menu.setContext(FLAG_CONTEXT_SAVE_EXISTS);
 	}
-	m_mainMenu.init();
+	m_menu.init();
 }
 
 std::string MainMenuScene::getStateID() const {
@@ -33,10 +33,10 @@ void MainMenuScene::update(StateMachine &stateMachine) {
 		stateMachine.clean();
 	}
 	else if (m_userActions.getActionState("CURSOR_UP")) {
-		m_mainMenu.selectPrevious();
+		m_menu.selectPrevious();
 	}
 	else if (m_userActions.getActionState("CURSOR_DOWN")) {
-		m_mainMenu.selectNext();
+		m_menu.selectNext();
 	}
 	else if (m_userActions.getActionState("MENU_ACTION")) {
 		_executeMenuAction(stateMachine);
@@ -44,18 +44,18 @@ void MainMenuScene::update(StateMachine &stateMachine) {
 }
 
 void MainMenuScene::_executeMenuAction(StateMachine &stateMachine) {
-	if (m_mainMenu.getSelectedAction() == NEW_GAME) {
+	if (m_menu.getSelectedAction() == NEW_GAME) {
 		stateMachine.pushState(new IntroScene(m_userActions, m_renderer));
 	}
-	else if (m_mainMenu.getSelectedAction() == LOAD_GAME) {
+	else if (m_menu.getSelectedAction() == LOAD_GAME) {
 		stateMachine.pushState(new PlayScene(m_userActions, m_renderer));
 	}
-	else if (m_mainMenu.getSelectedAction() == MAIN_MENU_QUIT) {
+	else if (m_menu.getSelectedAction() == MAIN_MENU_QUIT) {
 		stateMachine.clean();
 	}
 }
 
 void MainMenuScene::render() {
 	m_title.render(m_renderer->getRenderer(), m_iTitleXPos, 32);
-	m_mainMenu.render();
+	m_menu.render();
 }
