@@ -14,6 +14,8 @@ class GameOverScene : public State {
 	Text m_title;
 	GameOverMenu m_menu;
 
+	void _executeMenuAction(StateMachine &stateMachine);
+
 	public:
 	GameOverScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer);
 	bool onEnter();

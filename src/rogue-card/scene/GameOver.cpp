@@ -1,6 +1,7 @@
 #include "../game/globals.hpp"
 #include "../game/StateMachine.hpp"
 #include "GameOver.hpp"
+#include "MainMenu.hpp"
 
 GameOverScene::GameOverScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer) :
 	State(userActions),
@@ -21,8 +22,28 @@ bool GameOverScene::onEnter() {
 }
 
 void GameOverScene::update(StateMachine &stateMachine) {
-	if (m_userActions.getActionState("QUIT")) {
-		stateMachine.clean();
+	if (m_userActions.getActionState("CURSOR_UP")) {
+		m_menu.selectPrevious();
+	}
+	else if (m_userActions.getActionState("CURSOR_DOWN")) {
+		m_menu.selectNext();
+	}
+	else if (m_userActions.getActionState("MENU_ACTION")) {
+		_executeMenuAction(stateMachine);
+	}
+}
+
+void GameOverScene::_executeMenuAction(StateMachine &stateMachine) {
+	switch (m_menu.getSelectedAction()) {
+		case GAME_OVER_MAIN_MENU:
+			stateMachine.changeState(new MainMenuScene(m_userActions, m_renderer));
+			break;
+		case GAME_OVER_QUIT:
+			stateMachine.clean();
+			break;
+		case GAME_OVER_NB_ITEMS:
+		default:
+			break;
 	}
 }
 
