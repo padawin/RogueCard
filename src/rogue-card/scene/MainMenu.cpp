@@ -44,14 +44,19 @@ void MainMenuScene::update(StateMachine &stateMachine) {
 }
 
 void MainMenuScene::_executeMenuAction(StateMachine &stateMachine) {
-	if (m_menu.getSelectedAction() == NEW_GAME) {
-		stateMachine.pushState(new IntroScene(m_userActions, m_renderer));
-	}
-	else if (m_menu.getSelectedAction() == LOAD_GAME) {
-		stateMachine.pushState(new PlayScene(m_userActions, m_renderer));
-	}
-	else if (m_menu.getSelectedAction() == MAIN_MENU_QUIT) {
-		stateMachine.clean();
+	switch (m_menu.getSelectedAction()) {
+		case NEW_GAME:
+			stateMachine.pushState(new IntroScene(m_userActions, m_renderer));
+			break;
+		case LOAD_GAME:
+			stateMachine.pushState(new PlayScene(m_userActions, m_renderer));
+			break;
+		case MAIN_MENU_QUIT:
+			stateMachine.clean();
+			break;
+		case MAIN_MENU_NB_ITEMS:
+		default:
+			break;
 	}
 }
 
