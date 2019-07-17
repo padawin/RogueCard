@@ -12,12 +12,6 @@ MainMenuScene::MainMenuScene(UserActions &userActions, std::shared_ptr<SDL2Rende
 	m_title(Text()),
 	m_menu(MainMenu(renderer))
 {
-	m_title.setText("CARD ROGUE");
-	m_iTitleXPos = (SCREEN_WIDTH - m_title.getLength()) / 2;
-	if (Save::exists()) {
-		m_menu.setContext(FLAG_CONTEXT_SAVE_EXISTS);
-	}
-	m_menu.init();
 }
 
 std::string MainMenuScene::getStateID() const {
@@ -25,6 +19,12 @@ std::string MainMenuScene::getStateID() const {
 }
 
 bool MainMenuScene::onEnter() {
+	m_title.setText("CARD ROGUE");
+	m_iTitleXPos = (SCREEN_WIDTH - m_title.getLength()) / 2;
+	if (Save::exists()) {
+		m_menu.setContext(FLAG_CONTEXT_SAVE_EXISTS);
+	}
+	m_menu.init();
 	return true;
 }
 
