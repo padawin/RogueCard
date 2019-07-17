@@ -1,3 +1,4 @@
+#include <iostream>
 #include "StateMachine.hpp"
 
 void StateMachine::pushState(State *pState) {
@@ -13,8 +14,10 @@ void StateMachine::pushState(State *pState) {
 }
 
 void StateMachine::changeState(State *pState) {
+	std::clog << "Change state";
 	// If there is at least one state
 	if (!m_vStates.empty()) {
+		std::clog << " from " << m_vStates.back()->getStateID() << " to " << pState->getStateID() << std::endl;
 		// and if it is the state we want to add
 		if (m_vStates.back()->getStateID() == pState->getStateID()) {
 			return;
