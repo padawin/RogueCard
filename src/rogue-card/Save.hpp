@@ -19,7 +19,6 @@ class Save : public AbstractSave {
 	static bool exists();
 	void load();
 	void create();
-	void erase();
 	void save();
 };
 

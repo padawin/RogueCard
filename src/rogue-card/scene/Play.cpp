@@ -70,8 +70,8 @@ void PlayScene::update(StateMachine &stateMachine) {
 		stateMachine.clean();
 	}
 	else if (m_player.isDead()) {
-		s.erase();
-		stateMachine.changeState(new GameOverScene(m_userActions));
+		Save::clean();
+		stateMachine.changeState(new GameOverScene(m_userActions, m_renderer));
 	}
 	else if (m_userActions.getActionState("INVENTORY")) {
 		stateMachine.pushState(
@@ -119,7 +119,7 @@ void PlayScene::update(StateMachine &stateMachine) {
 
 	// Reached the top
 	if (m_player.getFloor().getLevel() == 0) {
-		stateMachine.changeState(new WinScene(m_userActions));
+		stateMachine.changeState(new WinScene(m_userActions, m_renderer));
 	}
 }
 
