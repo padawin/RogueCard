@@ -119,7 +119,7 @@ void PlayScene::update(StateMachine &stateMachine) {
 
 	// Reached the top
 	if (m_player.getFloor().getLevel() == 0) {
-		stateMachine.changeState(new WinScene(m_userActions));
+		stateMachine.changeState(new WinScene(m_userActions, m_renderer));
 	}
 }
 
