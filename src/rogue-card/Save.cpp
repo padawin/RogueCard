@@ -140,14 +140,6 @@ void Save::create() {
 	_savePlayer();
 }
 
-void Save::erase() {
-	std::string playerPath = Utils::getDataPath() + "/" + PLAYER_FILE;
-	int result = unlink(playerPath.c_str());
-	if (result != 0) {
-		std::cerr << "Could not erase saved game: " << strerror(errno) << std::endl;
-	}
-}
-
 void Save::save() {
 	_savePlayer();
 }

@@ -70,7 +70,7 @@ void PlayScene::update(StateMachine &stateMachine) {
 		stateMachine.clean();
 	}
 	else if (m_player.isDead()) {
-		s.erase();
+		Save::clean();
 		stateMachine.changeState(new GameOverScene(m_userActions, m_renderer));
 	}
 	else if (m_userActions.getActionState("INVENTORY")) {
