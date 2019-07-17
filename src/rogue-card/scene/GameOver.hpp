@@ -5,14 +5,14 @@
 #include "../game/State.hpp"
 #include "../sdl2/Renderer.hpp"
 #include "../sdl2/Text.hpp"
-#include "menus/GameOver.hpp"
+#include "menus/EndGame.hpp"
 
 class GameOverScene : public State {
 	private:
 	std::shared_ptr<SDL2Renderer> m_renderer;
 	int m_iTitleXPos = 0;
 	Text m_title;
-	GameOverMenu m_menu;
+	EndGameMenu m_menu;
 
 	void _executeMenuAction(StateMachine &stateMachine);
 

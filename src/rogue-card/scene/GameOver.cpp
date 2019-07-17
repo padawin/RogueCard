@@ -7,7 +7,7 @@ GameOverScene::GameOverScene(UserActions &userActions, std::shared_ptr<SDL2Rende
 	State(userActions),
 	m_renderer(renderer),
 	m_title(Text()),
-	m_menu(GameOverMenu(renderer))
+	m_menu(EndGameMenu(renderer, 32, 80))
 {}
 
 std::string GameOverScene::getStateID() const {
@@ -35,13 +35,13 @@ void GameOverScene::update(StateMachine &stateMachine) {
 
 void GameOverScene::_executeMenuAction(StateMachine &stateMachine) {
 	switch (m_menu.getSelectedAction()) {
-		case GAME_OVER_MAIN_MENU:
+		case ENDGAME_MAIN_MENU:
 			stateMachine.changeState(new MainMenuScene(m_userActions, m_renderer));
 			break;
-		case GAME_OVER_QUIT:
+		case ENDGAME_QUIT:
 			stateMachine.clean();
 			break;
-		case GAME_OVER_NB_ITEMS:
+		case ENDGAME_NB_ITEMS:
 		default:
 			break;
 	}
