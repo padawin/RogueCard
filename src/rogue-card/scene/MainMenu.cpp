@@ -46,10 +46,10 @@ void MainMenuScene::update(StateMachine &stateMachine) {
 void MainMenuScene::_executeMenuAction(StateMachine &stateMachine) {
 	switch (m_menu.getSelectedAction()) {
 		case NEW_GAME:
-			stateMachine.pushState(new IntroScene(m_userActions, m_renderer));
+			stateMachine.changeState(new IntroScene(m_userActions, m_renderer));
 			break;
 		case LOAD_GAME:
-			stateMachine.pushState(new PlayScene(m_userActions, m_renderer));
+			stateMachine.changeState(new PlayScene(m_userActions, m_renderer));
 			break;
 		case MAIN_MENU_QUIT:
 			stateMachine.clean();

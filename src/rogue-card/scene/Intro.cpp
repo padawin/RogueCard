@@ -63,7 +63,7 @@ void IntroScene::update(StateMachine &stateMachine) {
 	else if (m_userActions.getActionState("MENU_ACTION")) {
 		++m_iCurrentPage;
 		if (m_iCurrentPage > m_vIntroText.size()) {
-			stateMachine.pushState(new PlayScene(m_userActions, m_renderer));
+			stateMachine.changeState(new PlayScene(m_userActions, m_renderer));
 		}
 		else {
 			m_textField.setText(m_vIntroText[m_iCurrentPage - 1]);
