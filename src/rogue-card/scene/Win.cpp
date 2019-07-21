@@ -17,7 +17,7 @@ std::string WinScene::getStateID() const {
 
 bool WinScene::onEnter() {
 	m_title.setText("CONGRATULATIONS");
-	m_text.setText("YOU RETRIEVED THE ARTEFACT OF\nPOWER. WEALTH AND FAMES NOW\nAWAITS YOU, UNLESS YOU FIND\nYOURSELF UP TO ANOTHER\nCHALLENGE?");
+	m_text.setText("YOU RETRIEVED THE ARTEFACT OF\nPOWER. WEALTH AND FAME NOW\nAWAITS YOU, UNLESS YOU FIND\nYOURSELF UP TO ANOTHER\nCHALLENGE?");
 	m_iTitleXPos = (SCREEN_WIDTH - m_title.getLength()) / 2;
 	m_menu.init();
 	return true;
