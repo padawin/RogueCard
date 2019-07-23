@@ -113,7 +113,7 @@ func getLineExpectedRegex(fields []common.Field) string {
 		} else if field.Type == common.BoolField {
 			buffer.WriteString("([01])")
 		} else if field.Type == common.IntField {
-			buffer.WriteString("(\\d+)")
+			buffer.WriteString("(-?\\d+)")
 		}
 	}
 	buffer.WriteString("$")
