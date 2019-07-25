@@ -1524,7 +1524,11 @@
 # Arrow
 # Arrow
 # Wooden axe
-"FIRE_AXE" "Fire axe" 6 91 0 0 0 0 0 0 0 0 0 1 0 10 0 0 0 7 2
+"FIRE_AXE" "Fire axe" 6 91 0 0 0 0 0 0 0 0 0 1 0 10 0 0 0 6 2
 # Ice axe
 # Poison axe
 "KNIFE" "Knife" 15 96 0 0 0 0 0 0 0 0 0 1 0 3 0 0 0 4 1
+"WOODEN_AXE" "Wooden Axe" 11 91 0 0 0 0 0 0 0 0 0 1 0 3 0 0 0 6 1
+"WOODEN_BOW" "Wooden Bow" 3 93 0 0 0 0 0 0 0 0 0 1 0 2 0 0 0 8 1
+"STONE_SPEAR" "Stone Spear" 1 103 0 0 0 0 0 0 0 0 0 1 0 2 0 0 0 5 1
+"IRON_MASS" "Iron Mass" 7 100 0 0 0 0 0 0 0 0 0 1 0 4 0 0 0 7 1
