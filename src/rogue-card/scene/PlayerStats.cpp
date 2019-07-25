@@ -45,8 +45,6 @@ PlayerStatsScene::PlayerStatsScene(
 	m_levelsTitle(Text()),
 	m_healthTitle(Text()),
 	m_floorTitle(Text()),
-	m_strengthTitle(Text()),
-	m_defenceTitle(Text()),
 	m_nextLevel(Text())
 {
 }
@@ -113,17 +111,11 @@ void PlayerStatsScene::render() {
 
 void PlayerStatsScene::_setDynamicTitles() {
 	char hpText[64],
-		 floorText[64],
-		 strText[64],
-		 defText[64];
+		 floorText[64];
 	snprintf(hpText, 64, "Health points: %d/%d", m_player.getHealth(), m_player.getMaxHealth());
 	snprintf(floorText, 64, "Current floor: %d", m_player.getFloor().getLevel());
-	snprintf(strText, 64, "Strength: %d", m_player.getStrength() + m_player.getEquipmentStats(false).points);
-	snprintf(defText, 64, "Defence: %d", m_player.getDefence() + m_player.getEquipmentStats(true).points);
 	m_healthTitle.setText(hpText);
 	m_floorTitle.setText(floorText);
-	m_strengthTitle.setText(strText);
-	m_defenceTitle.setText(defText);
 }
 
 void PlayerStatsScene::_setElementTitles() {
@@ -238,8 +230,6 @@ void PlayerStatsScene::_renderStats() const {
 	if (m_iPage == 1) {
 		m_healthTitle.render(m_renderer->getRenderer(), STAT_TEXT_X, STAT_HP_Y);
 		m_floorTitle.render(m_renderer->getRenderer(), STAT_TEXT_X, STAT_FLOOR_Y);
-		m_strengthTitle.render(m_renderer->getRenderer(), STAT_TEXT_X, STAT_STR_Y);
-		m_defenceTitle.render(m_renderer->getRenderer(), STAT_TEXT_X, STAT_DEF_Y);
 	}
 	else {
 		int startElem = (m_iPage - 2) * NB_ELEMENTS_PER_PAGE,
