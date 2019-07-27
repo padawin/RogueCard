@@ -2,6 +2,7 @@
 #include "../game/globals.hpp"
 #include "../Save.hpp"
 #include "../sdl2/TextureManager.hpp"
+#include "Intro.hpp"
 #include "GameOver.hpp"
 #include "Win.hpp"
 #include "Inventory.hpp"
@@ -57,6 +58,7 @@ bool PlayScene::onEnter() {
 	}
 	else {
 		std::clog << "No save found, create new one\n";
+		m_bShowIntro = true;
 		s.create();
 	}
 	_updateHealthBar();
@@ -64,6 +66,12 @@ bool PlayScene::onEnter() {
 }
 
 void PlayScene::update(StateMachine &stateMachine) {
+	if (m_bShowIntro) {
+		stateMachine.pushState(new IntroScene(m_userActions, m_renderer));
+		m_bShowIntro = false;
+		return;
+	}
+
 	Save s = Save(m_player, m_actionBar);
 	if (m_userActions.getActionState("QUIT")) {
 		s.save();
@@ -129,6 +137,9 @@ void PlayScene::_setNextAction(int way) {
 }
 
 void PlayScene::render() {
+	if (m_bShowIntro) {
+		return;
+	}
 	_renderBackground();
 	_renderNotification();
 	_renderCards();
