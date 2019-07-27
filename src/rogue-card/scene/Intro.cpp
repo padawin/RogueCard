@@ -57,10 +57,7 @@ void IntroScene::_buildLines() {
 }
 
 void IntroScene::update(StateMachine &stateMachine) {
-	if (m_userActions.getActionState("QUIT")) {
-		stateMachine.clean();
-	}
-	else if (m_userActions.getActionState("MENU_ACTION")) {
+	if (m_userActions.getActionState("MENU_ACTION")) {
 		++m_iCurrentPage;
 		if (m_iCurrentPage > m_vIntroText.size()) {
 			stateMachine.changeState(new PlayScene(m_userActions, m_renderer));
