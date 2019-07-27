@@ -2,7 +2,6 @@
 #include "../game/Game.hpp"
 #include "../game/StateMachine.hpp"
 #include "Intro.hpp"
-#include "Play.hpp"
 #include "../Save.hpp"
 
 const int LINE_MAX_LENGTH = 17;
@@ -19,7 +18,6 @@ std::string IntroScene::getStateID() const {
 }
 
 bool IntroScene::onEnter() {
-	Save::clean();
 	// read resources/intro.txt
 	_buildLines();
 	m_textField.setText(m_vIntroText[m_iCurrentPage - 1]);
@@ -60,7 +58,7 @@ void IntroScene::update(StateMachine &stateMachine) {
 	if (m_userActions.getActionState("MENU_ACTION")) {
 		++m_iCurrentPage;
 		if (m_iCurrentPage > m_vIntroText.size()) {
-			stateMachine.changeState(new PlayScene(m_userActions, m_renderer));
+			stateMachine.popState();
 		}
 		else {
 			m_textField.setText(m_vIntroText[m_iCurrentPage - 1]);

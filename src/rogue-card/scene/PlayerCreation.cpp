@@ -1,8 +1,9 @@
 #include "PlayerCreation.hpp"
-#include "Intro.hpp"
+#include "Play.hpp"
 #include "../game/StateMachine.hpp"
 #include "../game/globals.hpp"
 #include "../sdl2/TextureManager.hpp"
+#include "Save.hpp"
 
 PlayerCreationScene::PlayerCreationScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer) :
 	State(userActions),
@@ -19,6 +20,7 @@ std::string PlayerCreationScene::getStateID() const {
 }
 
 bool PlayerCreationScene::onEnter() {
+	Save::clean();
 	m_title.setText("Player Creation");
 	m_armorText.setText("Do you feel like home in a:");
 	m_weaponText.setText("Your best friend is a:");
@@ -40,7 +42,7 @@ void PlayerCreationScene::update(StateMachine &stateMachine) {
 			m_step = WEAPON_CHOICE;
 		}
 		else if (m_step == WEAPON_CHOICE) {
-			stateMachine.changeState(new IntroScene(m_userActions, m_renderer));
+			stateMachine.changeState(new PlayScene(m_userActions, m_renderer));
 		}
 	}
 }
