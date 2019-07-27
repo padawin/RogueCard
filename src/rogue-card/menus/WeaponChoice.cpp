@@ -10,8 +10,8 @@ WeaponChoiceMenu::WeaponChoiceMenu(std::shared_ptr<SDL2Renderer> renderer) :
 	m_itemTexts[SWORD_CHOICE].text = Text();
 	m_itemTexts[SWORD_CHOICE].text.setText(getSkillLabel(SWORD));
 
-	m_itemTexts[SPEARS_CHOICE].text = Text();
-	m_itemTexts[SPEARS_CHOICE].text.setText(getSkillLabel(SPEARS));
+	m_itemTexts[SPEAR_CHOICE].text = Text();
+	m_itemTexts[SPEAR_CHOICE].text.setText(getSkillLabel(SPEARS));
 
 	m_itemTexts[AXE_CHOICE].text = Text();
 	m_itemTexts[AXE_CHOICE].text.setText(getSkillLabel(AXE));

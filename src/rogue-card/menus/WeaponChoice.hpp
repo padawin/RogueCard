@@ -5,7 +5,7 @@
 #include "../ObjectCard.hpp"
 #include "Menu.hpp"
 
-enum E_WeaponChoice {SWORD_CHOICE, SPEARS_CHOICE, AXE_CHOICE, BLUNT_CHOICE, RANGE_CHOICE, NB_WEAPON_CHOICES};
+enum E_WeaponChoice {SWORD_CHOICE, SPEAR_CHOICE, AXE_CHOICE, BLUNT_CHOICE, RANGE_CHOICE, NB_WEAPON_CHOICES};
 
 class WeaponChoiceMenu : public Menu {
 	S_MenuItem m_itemTexts[NB_WEAPON_CHOICES] = {};
