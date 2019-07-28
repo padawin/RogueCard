@@ -103,9 +103,10 @@ S_CardStats Player::getEquipmentStats(bool applyOnSelf) {
 	do {
 		auto card = m_equipment.current();
 		if (card != nullptr && applyOnSelf == card->hasFlags(FLAG_APPLY_ON_SELF)) {
-			stats.points += card->getStats().points;
-			stats.healthPoints += card->getStats().healthPoints;
-			stats.maxHealthPoints += card->getStats().maxHealthPoints;
+			S_CardStats cardStats = card->getStats();
+			stats.points += cardStats.points * m_levelling.getSkillLevel(cardStats.xpSkill);
+			stats.healthPoints += cardStats.healthPoints;
+			stats.maxHealthPoints += cardStats.maxHealthPoints;
 		}
 	} while (m_equipment.next());
 	return stats;
