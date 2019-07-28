@@ -87,4 +87,5 @@ dist: tools build-resources
 	cp $(RES) dist/$(RESDIR)
 
 opk: dist
+	cp gcw-zero/* dist/
 	mksquashfs dist $(TARGETDIST) -all-root -noappend -no-exports -no-xattrs
