@@ -3,6 +3,7 @@
 
 #include <memory>
 #include "../game/State.hpp"
+#include "../Player.hpp"
 #include "../sdl2/Renderer.hpp"
 #include "../sdl2/Text.hpp"
 #include "../menus/ArmorChoice.hpp"
@@ -21,6 +22,7 @@ class PlayerCreationScene : public State {
 	ArmorChoiceMenu m_armorMenu;
 	WeaponChoiceMenu m_weaponMenu;
 
+	void _createPlayerInitialEquipment(Player& player) const;
 	void _renderBackground() const;
 
 	public:
