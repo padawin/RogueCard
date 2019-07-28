@@ -30,11 +30,12 @@ bool PlayerCreationScene::onEnter() {
 }
 
 void PlayerCreationScene::update(StateMachine &stateMachine) {
-	Menu* menu = (m_step == ARMOR_CHOICE ? (Menu*) &m_armorMenu : (Menu*) &m_weaponMenu);
 	if (m_userActions.getActionState("CURSOR_DOWN")) {
+		Menu* menu = (m_step == ARMOR_CHOICE ? (Menu*) &m_armorMenu : (Menu*) &m_weaponMenu);
 		menu->selectNext();
 	}
 	else if (m_userActions.getActionState("CURSOR_UP")) {
+		Menu* menu = (m_step == ARMOR_CHOICE ? (Menu*) &m_armorMenu : (Menu*) &m_weaponMenu);
 		menu->selectPrevious();
 	}
 	else if (m_userActions.getActionState("MENU_ACTION")) {
