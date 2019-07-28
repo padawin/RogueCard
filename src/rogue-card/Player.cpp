@@ -38,6 +38,18 @@ int Player::attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> 
 	return card->setDamages(damages, elementalDamages);
 }
 
+int Player::setDamages(int physicalDamages, ElementalEffects elementalEffects) {
+	int gearDefence = getEquipmentStats(true).points;
+	physicalDamages = physicalDamages - gearDefence;
+	if (physicalDamages < 0) {
+		physicalDamages = 0;
+	}
+	int elementalDamages = _calculateElementalDamages(elementalEffects);
+	int finalDamages = physicalDamages + elementalDamages;
+	m_health -= finalDamages;
+	return finalDamages;
+}
+
 void Player::getXPAttack(std::shared_ptr<ObjectCard> weapon, int xp[NB_XP_SKILLS]) {
 	if (weapon == nullptr) {
 		weapon = m_equipment.getCardWithFlag(FLAG_EQUIPMENT_WEAPON);
@@ -63,18 +75,6 @@ void Player::getXPDefence(int xp[NB_XP_SKILLS]) {
 			xp[skill] += points;
 		}
 	} while (m_equipment.next());
-}
-
-int Player::setDamages(int physicalDamages, ElementalEffects elementalEffects) {
-	int gearDefence = getEquipmentStats(true).points;
-	physicalDamages = physicalDamages - gearDefence;
-	if (physicalDamages < 0) {
-		physicalDamages = 0;
-	}
-	int elementalDamages = _calculateElementalDamages(elementalEffects);
-	int finalDamages = physicalDamages + elementalDamages;
-	m_health -= finalDamages;
-	return finalDamages;
 }
 
 int Player::_calculateElementalDamages(ElementalEffects effects) {
