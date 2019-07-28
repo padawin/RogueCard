@@ -81,8 +81,10 @@ build-resources:
 	./bin/tools/data-compiler font-atlas resources/src/font-atlas.dat resources/font-atlas.dat
 	./bin/tools/data-compiler floor-content resources/src/floors-content.dat resources/floors-content.dat
 
-opk: tools build-resources
+dist: tools build-resources
 	mkdir -p dist/bin dist/resources
-	cp $(BINDIR_GCW)/$(PROG) dist/bin/
+	cp $(BINDIR)/$(PROG) dist/bin/
 	cp $(RES) dist/$(RESDIR)
+
+opk: dist
 	mksquashfs dist $(TARGETDIST) -all-root -noappend -no-exports -no-xattrs
