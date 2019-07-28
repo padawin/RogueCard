@@ -64,6 +64,7 @@ prepare:
 
 clean:
 	rm -rf $(BUILDDIR_PC) $(BINDIR_PC) $(BUILDDIR_GCW) $(BINDIR_GCW)
+	rm -rf $(shell git status --porcelain  dist | grep '?' | cut -d ' ' -f 2)
 
 
 tools:
