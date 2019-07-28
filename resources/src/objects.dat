@@ -34,6 +34,16 @@
 # 8: Magic
 # 9: Perception
 # 10: speed
+# Starter objects
+"STARTER_SWORD" "Knife" 15 96 0 0 0 0 0 0 0 0 0 1 0 3 0 0 0 4 1
+"STARTER_AXE" "Wooden Axe" 11 91 0 0 0 0 0 0 0 0 0 1 0 3 0 0 0 6 1
+"STARTER_RANGE" "Wooden Bow" 3 93 0 0 0 0 0 0 0 0 0 1 0 2 0 0 0 8 1
+"STARTER_SPEAR" "Stone Spear" 1 103 0 0 0 0 0 0 0 0 0 1 0 2 0 0 0 5 1
+"STARTER_BLUNT" "Iron Mass" 7 100 0 0 0 0 0 0 0 0 0 1 0 4 0 0 0 7 1
+"STARTER_LIGHT_ARMOR" "Padded armor" 12 3 0 0 1 0 0 0 1 0 0 0 0 1 0 0 0 1 2
+"STARTER_MEDIUM_ARMOR" "Steel armor" 14 3 0 0 1 0 0 0 1 0 0 0 0 3 0 0 0 2 1
+"STARTER_HEAVY_ARMOR" "Heavy knight armor" 0 4 0 0 1 0 0 0 1 0 0 0 0 5 0 0 0 3 1
+# End starter objects
 # Belt
 # Belt
 # Belt

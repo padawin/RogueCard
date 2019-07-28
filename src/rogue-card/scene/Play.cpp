@@ -21,9 +21,9 @@
 const int HEALTH_X = 16;
 const int HEALTH_Y = 144;
 
-PlayScene::PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer) :
+PlayScene::PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer, Player player) :
 	State(userActions),
-	m_player(Player()),
+	m_player(player),
 	m_renderer(renderer),
 	m_actionCard(ActionCard()),
 	m_deck(CardDeck()),

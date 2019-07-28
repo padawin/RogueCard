@@ -84,7 +84,7 @@ class PlayScene : public State {
 
 	void _setNextAction(int way);
 	public:
-	PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer);
+	PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer, Player player=Player());
 	bool onEnter();
 	void update(StateMachine &stateMachine);
 	void render();

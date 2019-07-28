@@ -5,6 +5,13 @@
 #include "../sdl2/TextureManager.hpp"
 #include "Save.hpp"
 
+char starterArmors[NB_ARMOR_CHOICES][32] = {
+	"STARTER_LIGHT_ARMOR", "STARTER_MEDIUM_ARMOR", "STARTER_HEAVY_ARMOR"
+};
+char starterWeapons[NB_WEAPON_CHOICES][32] = {
+	"STARTER_SWORD", "STARTER_SPEAR", "STARTER_AXE", "STARTER_BLUNT", "STARTER_RANGE"
+};
+
 PlayerCreationScene::PlayerCreationScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer) :
 	State(userActions),
 	m_renderer(renderer),
@@ -43,9 +50,28 @@ void PlayerCreationScene::update(StateMachine &stateMachine) {
 			m_step = WEAPON_CHOICE;
 		}
 		else if (m_step == WEAPON_CHOICE) {
-			stateMachine.changeState(new PlayScene(m_userActions, m_renderer));
+			Player player;
+			_createPlayerInitialEquipment(player);
+			stateMachine.changeState(new PlayScene(m_userActions, m_renderer, player));
 		}
 	}
+}
+
+void PlayerCreationScene::_createPlayerInitialEquipment(Player& player) const {
+	std::string armorMetaID = starterArmors[m_armorMenu.getSelectedAction()];
+	std::string weaponMetaID = starterWeapons[m_weaponMenu.getSelectedAction()];
+	std::shared_ptr<ObjectCard> starterArmor = std::shared_ptr<ObjectCard>(
+		new ObjectCard(armorMetaID.c_str())
+	);
+	std::shared_ptr<ObjectCard> starterWeapon = std::shared_ptr<ObjectCard>(
+		new ObjectCard(weaponMetaID.c_str())
+	);
+	starterArmor->create();
+	starterWeapon->create();
+	player.addItemToInventory(starterArmor);
+	player.addItemToInventory(starterWeapon);
+	player.toggleEquip(starterArmor);
+	player.toggleEquip(starterWeapon);
 }
 
 void PlayerCreationScene::render() {
