@@ -27,20 +27,24 @@ LIBS = -lSDL2 -lSDL2_image -ldl
 PROG = rogue-card
 SRCDIR = src
 RESDIR = resources
+DISTDIR = dist
 BINDIR_PC = bin
 BUILDDIR_PC = build
 BINDIR_GCW = bin-gcw
 BUILDDIR_GCW = build-gcw
 TARGETDIST := $(PROG).opk
+CONFDIST := config/playercontrolsmapping.txt
 
 ifeq ($(GCW), 1)
 	CFLAGS += -DGCW
 	BINDIR := $(BINDIR_GCW)
 	BUILDDIR := $(BUILDDIR_GCW)
+	CONF := config/playercontrolsmapping-gcw.txt
 	CC := /opt/gcw0-toolchain/usr/bin/mipsel-linux-$(CC)
 else
 	BINDIR := $(BINDIR_PC)
 	BUILDDIR := $(BUILDDIR_PC)
+	CONF := config/playercontrolsmapping.txt
 endif
 
 DEP := $(shell find $(SRCDIR)/game $(SRCDIR)/common $(SRCDIR)/rogue-card $(SRCDIR)/sdl2 -type f -name '*.hpp')
@@ -63,7 +67,7 @@ prepare:
 	@mkdir -p $(BINDIR)
 
 clean:
-	rm -rf $(BUILDDIR_PC) $(BINDIR_PC) $(BUILDDIR_GCW) $(BINDIR_GCW)
+	rm -rf $(BUILDDIR_PC) $(BINDIR_PC) $(BUILDDIR_GCW) $(BINDIR_GCW) $(DISTDIR)
 
 
 tools:
@@ -81,8 +85,13 @@ build-resources:
 	./bin/tools/data-compiler font-atlas resources/src/font-atlas.dat resources/font-atlas.dat
 	./bin/tools/data-compiler floor-content resources/src/floors-content.dat resources/floors-content.dat
 
-opk: tools build-resources
-	mkdir -p dist/bin dist/resources
-	cp $(BINDIR_GCW)/$(PROG) dist/bin/
-	cp $(RES) dist/$(RESDIR)
-	mksquashfs dist $(TARGETDIST) -all-root -noappend -no-exports -no-xattrs
+dist: tools build-resources
+	mkdir -p $(DISTDIR)/bin $(DISTDIR)/resources $(DISTDIR)/config
+	cp $(BINDIR)/$(PROG) $(DISTDIR)/bin/
+	cp $(RES) $(DISTDIR)/$(RESDIR)
+	cp LICENCE.md $(DISTDIR)/
+	cp $(CONF) $(DISTDIR)/$(CONFDIST)
+
+opk: dist
+	cp gcw-zero/* $(DISTDIR)/
+	mksquashfs $(DISTDIR) $(TARGETDIST) -all-root -noappend -no-exports -no-xattrs

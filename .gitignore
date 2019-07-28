@@ -1,6 +1,5 @@
-resources/*.dat
-bin/
-bin-gcw/
-build/
-build-gcw/
-dist/
+/resources/*.dat
+/bin/
+/bin-gcw/
+/build/
+/build-gcw/
