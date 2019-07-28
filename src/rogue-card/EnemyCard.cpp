@@ -4,6 +4,7 @@ ContentMeta<S_EnemyMeta> EnemyCard::m_enemyMeta = ContentMeta<S_EnemyMeta>();
 
 EnemyCard::EnemyCard(const char *id) :
 	Card(EnemyCardType),
+	m_health(Health(0, 0)),
 	m_elementalDamages(ElementalEffects()),
 	m_elementalResistance(ElementalEffects())
 {
@@ -16,7 +17,8 @@ void EnemyCard::create() {
 	strncpy(m_sName, meta.name, MAX_CHAR_ENEMY_NAME);
 	m_iTileX = meta.tilesetX;
 	m_iTileY = meta.tilesetY;
-	m_iHealth = m_iMaxHealth = meta.health;
+	m_health.setCurrent(meta.health);
+	m_health.setMax(meta.health);
 	m_iStrength = meta.strength;
 	m_iDefence = meta.defence;
 	m_elementalDamages = meta.elementalDamages;
@@ -43,18 +45,12 @@ int EnemyCard::setDamages(int physicalDamages, ElementalEffects elementalEffects
 	}
 	int elementalDamages = _calculateElementalDamages(elementalEffects);
 	int finalDamages = physicalDamages + elementalDamages;
-	m_iHealth -= finalDamages;
-	if (m_iHealth < 0) {
-		m_iHealth = 0;
-	}
-	else if (m_iHealth > m_iMaxHealth) {
-		m_iHealth = m_iMaxHealth;
-	}
+	m_health -= finalDamages;
 	return finalDamages;
 }
 
 bool EnemyCard::isDead() const {
-	return m_iHealth == 0;
+	return m_health.getCurrent() == 0;
 }
 
 int EnemyCard::_calculateElementalDamages(ElementalEffects effects) {

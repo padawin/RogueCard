@@ -6,13 +6,13 @@
 #include "Card.hpp"
 #include "ContentMeta.hpp"
 #include "Player.hpp"
+#include "Health.hpp"
 
 class EnemyCard : public Card {
 	static ContentMeta<S_EnemyMeta> m_enemyMeta;
 	char m_sMetaID[MAX_CHAR_CARD_ID];
 	char m_sName[MAX_CHAR_ENEMY_NAME];
-	int m_iHealth = 0;
-	int m_iMaxHealth = 0;
+	Health m_health;
 	int m_iStrength = 0;
 	int m_iDefence = 0;
 

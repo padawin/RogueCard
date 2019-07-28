@@ -5,20 +5,21 @@ Player::Player() :
 	m_equipment(Equipment()),
 	m_inventory(ObjectCardCollection()),
 	m_floor(Floor()),
-	m_levelling(Levelling())
+	m_levelling(Levelling()),
+	m_health(30, 30)
 {}
 
-int Player::getHealth() const { return m_iHealth; }
+int Player::getHealth() const { return m_health.getCurrent(); }
 int Player::getMaxHealth() const {
-	return m_iMaxHealth + m_iEquipmentMaxHealth;
+	return m_health.getMax() + m_iEquipmentMaxHealth;
 }
 Floor &Player::getFloor() { return m_floor; }
 long Player::getGold() const { return m_iGold; }
 
 Levelling &Player::getLevelling() { return m_levelling; }
 
-void Player::setHealth(int health) { m_iHealth = health;}
-void Player::setMaxHealth(int maxHealth) { m_iMaxHealth = maxHealth;}
+void Player::setHealth(int health) { m_health.setCurrent(health);}
+void Player::setMaxHealth(int maxHealth) { m_health.setMax(maxHealth);}
 
 void Player::setGold(long gold) { m_iGold = gold;}
 void Player::setLevel(int level) { m_levelling.setLevel(level); }
@@ -72,13 +73,7 @@ int Player::setDamages(int physicalDamages, ElementalEffects elementalEffects) {
 	}
 	int elementalDamages = _calculateElementalDamages(elementalEffects);
 	int finalDamages = physicalDamages + elementalDamages;
-	m_iHealth -= finalDamages;
-	if (m_iHealth < 0) {
-		m_iHealth = 0;
-	}
-	else if (m_iHealth > m_iMaxHealth) {
-		m_iHealth = m_iMaxHealth;
-	}
+	m_health -= finalDamages;
 	return finalDamages;
 }
 
@@ -125,7 +120,7 @@ ElementalEffects Player::getElementalEffects(bool applyOnSelf) {
 }
 
 bool Player::isDead() const {
-	return m_iHealth == 0;
+	return m_health.getCurrent() == 0;
 }
 
 bool Player::isFighting() const {

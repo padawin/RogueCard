@@ -2,6 +2,7 @@
 #define __PLAYER__
 
 #include <memory>
+#include "Health.hpp"
 #include "ObjectCard.hpp"
 #include "Floor.hpp"
 #include "Levelling.hpp"
@@ -16,8 +17,7 @@ class Player {
 	ObjectCardCollection m_inventory;
 	Floor m_floor;
 	Levelling m_levelling;
-	int m_iHealth = 30;
-	int m_iMaxHealth = 30;
+	Health m_health;
 	int m_iEquipmentMaxHealth = 0;
 	long m_iGold = 0;
 
