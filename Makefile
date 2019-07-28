@@ -27,6 +27,7 @@ LIBS = -lSDL2 -lSDL2_image -ldl
 PROG = rogue-card
 SRCDIR = src
 RESDIR = resources
+DISTDIR = dist
 BINDIR_PC = bin
 BUILDDIR_PC = build
 BINDIR_GCW = bin-gcw
@@ -66,8 +67,7 @@ prepare:
 	@mkdir -p $(BINDIR)
 
 clean:
-	rm -rf $(BUILDDIR_PC) $(BINDIR_PC) $(BUILDDIR_GCW) $(BINDIR_GCW)
-	rm -rf $(shell git status --porcelain  dist | grep '?' | cut -d ' ' -f 2)
+	rm -rf $(BUILDDIR_PC) $(BINDIR_PC) $(BUILDDIR_GCW) $(BINDIR_GCW) $(DISTDIR)
 
 
 tools:
@@ -86,12 +86,12 @@ build-resources:
 	./bin/tools/data-compiler floor-content resources/src/floors-content.dat resources/floors-content.dat
 
 dist: tools build-resources
-	mkdir -p dist/bin dist/resources dist/config
-	cp $(BINDIR)/$(PROG) dist/bin/
-	cp $(RES) dist/$(RESDIR)
-	cp LICENCE.md dist/
-	cp $(CONF) dist/$(CONFDIST)
+	mkdir -p $(DISTDIR)/bin $(DISTDIR)/resources $(DISTDIR)/config
+	cp $(BINDIR)/$(PROG) $(DISTDIR)/bin/
+	cp $(RES) $(DISTDIR)/$(RESDIR)
+	cp LICENCE.md $(DISTDIR)/
+	cp $(CONF) $(DISTDIR)/$(CONFDIST)
 
 opk: dist
-	cp gcw-zero/* dist/
-	mksquashfs dist $(TARGETDIST) -all-root -noappend -no-exports -no-xattrs
+	cp gcw-zero/* $(DISTDIR)/
+	mksquashfs $(DISTDIR) $(TARGETDIST) -all-root -noappend -no-exports -no-xattrs
