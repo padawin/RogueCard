@@ -30,8 +30,6 @@ class PlayerStatsScene : public State {
 	Text m_elementTexts[NB_ELEMENTS * 2] = {}; // x2 to have attack and defence texts
 	Text m_healthTitle;
 	Text m_floorTitle;
-	Text m_strengthTitle;
-	Text m_defenceTitle;
 
 	// Levels texts
 	Text m_nextLevel;

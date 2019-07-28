@@ -19,8 +19,6 @@ class Player {
 	int m_iHealth = 30;
 	int m_iMaxHealth = 30;
 	int m_iEquipmentMaxHealth = 0;
-	int m_iStrength = 3;
-	int m_iDefence = 1;
 	long m_iGold = 0;
 
 	bool m_bFighting = false;
@@ -34,16 +32,12 @@ class Player {
 	~Player() {}
 	int getHealth() const;
 	int getMaxHealth() const;
-	int getStrength() const;
-	int getDefence() const;
 	short getInventorySize() const;
 	Floor &getFloor();
 	long getGold() const;
 	Levelling &getLevelling();
 	void setHealth(int health);
 	void setMaxHealth(int maxHealth);
-	void setStrength(int strength);
-	void setDefence(int defence);
 	void setGold(long gold);
 	void setLevel(int level);
 

@@ -12,8 +12,6 @@ int Player::getHealth() const { return m_iHealth; }
 int Player::getMaxHealth() const {
 	return m_iMaxHealth + m_iEquipmentMaxHealth;
 }
-int Player::getStrength() const { return m_iStrength; }
-int Player::getDefence() const { return m_iDefence; }
 Floor &Player::getFloor() { return m_floor; }
 long Player::getGold() const { return m_iGold; }
 
@@ -21,8 +19,6 @@ Levelling &Player::getLevelling() { return m_levelling; }
 
 void Player::setHealth(int health) { m_iHealth = health;}
 void Player::setMaxHealth(int maxHealth) { m_iMaxHealth = maxHealth;}
-void Player::setStrength(int strength) { m_iStrength = strength;}
-void Player::setDefence(int defence) { m_iDefence = defence;}
 
 void Player::setGold(long gold) { m_iGold = gold;}
 void Player::setLevel(int level) { m_levelling.setLevel(level); }
@@ -31,7 +27,7 @@ int Player::attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> 
 	int damages;
 	ElementalEffects elementalDamages;
 	if (attackCard == nullptr) {
-		damages = m_iStrength + getEquipmentStats(false).points;
+		damages = getEquipmentStats(false).points;
 		elementalDamages = getElementalEffects(false);
 	}
 	else {
@@ -67,7 +63,7 @@ void Player::getXPDefence(int xp[NB_XP_SKILLS]) {
 
 int Player::setDamages(int physicalDamages, ElementalEffects elementalEffects) {
 	int gearDefence = getEquipmentStats(true).points;
-	physicalDamages = physicalDamages - (m_iDefence + gearDefence);
+	physicalDamages = physicalDamages - gearDefence;
 	if (physicalDamages < 0) {
 		physicalDamages = 0;
 	}

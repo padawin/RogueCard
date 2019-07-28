@@ -41,6 +41,7 @@ const int POSSIBLE_ACTIONS[][2] = {
 
 class PlayScene : public State {
 	private:
+	bool m_bShowIntro = false;
 	Player m_player;
 	std::shared_ptr<SDL2Renderer> m_renderer;
 	ActionCard m_actionCard;
@@ -83,7 +84,7 @@ class PlayScene : public State {
 
 	void _setNextAction(int way);
 	public:
-	PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer);
+	PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer, Player player=Player());
 	bool onEnter();
 	void update(StateMachine &stateMachine);
 	void render();

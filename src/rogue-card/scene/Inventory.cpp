@@ -63,8 +63,8 @@ void InventoryScene::update(StateMachine &stateMachine) {
 		stateMachine.popState();
 	}
 	else if (pressedAction) {
-		if (m_player.getInventoryItem(_getCardIndex()) != nullptr) {
-			auto card = m_player.getInventoryItem(_getCardIndex());
+		auto card = m_player.getInventoryItem(_getCardIndex());
+		if (card != nullptr) {
 			m_objectActionMenu.setContext(
 				(!m_player.isFighting() ? FLAG_CONTEXT_NOT_IN_FIGHT : 0)
 				| (m_actionBar.hasCard(card) ? FLAG_CONTEXT_CARD_IN_ACTIONBAR : FLAG_CONTEXT_CARD_NOT_IN_ACTIONBAR)

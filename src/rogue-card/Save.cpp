@@ -49,16 +49,6 @@ void Save::_loadPlayer() {
 			sscanf(line, "H %d\n", &maxHealth);
 			m_player.setMaxHealth(maxHealth);
 		}
-		else if (type == 's') {
-			int strength = 0;
-			sscanf(line, "s %d\n", &strength);
-			m_player.setStrength(strength);
-		}
-		else if (type == 'd') {
-			int defence = 0;
-			sscanf(line, "d %d\n", &defence);
-			m_player.setDefence(defence);
-		}
 		else if (type == 'f') {
 			int floorLevel = 0;
 			sscanf(line, "f %d\n", &floorLevel);
@@ -152,8 +142,6 @@ void Save::_savePlayer() {
 	FILE *playerFile = fopen(playerPath.c_str(), "w");
 	fprintf(playerFile, "h %d\n", m_player.getHealth());
 	fprintf(playerFile, "H %d\n", m_player.getMaxHealth());
-	fprintf(playerFile, "s %d\n", m_player.getStrength());
-	fprintf(playerFile, "d %d\n", m_player.getDefence());
 	fprintf(playerFile, "f %d\n", m_player.getFloor().getLevel());
 	fprintf(playerFile, "F %d\n", m_player.foundFloorCard());
 	fprintf(playerFile, "g %ld\n", m_player.getGold());
