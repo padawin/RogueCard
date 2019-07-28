@@ -32,15 +32,18 @@ BUILDDIR_PC = build
 BINDIR_GCW = bin-gcw
 BUILDDIR_GCW = build-gcw
 TARGETDIST := $(PROG).opk
+CONFDIST := config/playercontrolsmapping.txt
 
 ifeq ($(GCW), 1)
 	CFLAGS += -DGCW
 	BINDIR := $(BINDIR_GCW)
 	BUILDDIR := $(BUILDDIR_GCW)
+	CONF := config/playercontrolsmapping-gcw.txt
 	CC := /opt/gcw0-toolchain/usr/bin/mipsel-linux-$(CC)
 else
 	BINDIR := $(BINDIR_PC)
 	BUILDDIR := $(BUILDDIR_PC)
+	CONF := config/playercontrolsmapping.txt
 endif
 
 DEP := $(shell find $(SRCDIR)/game $(SRCDIR)/common $(SRCDIR)/rogue-card $(SRCDIR)/sdl2 -type f -name '*.hpp')
@@ -83,9 +86,11 @@ build-resources:
 	./bin/tools/data-compiler floor-content resources/src/floors-content.dat resources/floors-content.dat
 
 dist: tools build-resources
-	mkdir -p dist/bin dist/resources
+	mkdir -p dist/bin dist/resources dist/config
 	cp $(BINDIR)/$(PROG) dist/bin/
 	cp $(RES) dist/$(RESDIR)
+	cp LICENCE.md dist/
+	cp $(CONF) dist/$(CONFDIST)
 
 opk: dist
 	cp gcw-zero/* dist/
