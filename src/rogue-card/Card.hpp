@@ -25,6 +25,7 @@ class Card {
 	Card(E_CardType type);
 	E_CardType getType() const;
 	virtual void create() = 0;
+	virtual const char* getName() const = 0;
 	void render(SDL_Renderer *renderer, int x, int y);
 };
 

@@ -8,6 +8,7 @@ class FloorCard : public Card {
 	public:
 	FloorCard(FloorDirection direction);
 	void create();
+	const char* getName() const { return ""; }
 };
 
 #endif

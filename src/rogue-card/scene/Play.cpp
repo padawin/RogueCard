@@ -299,12 +299,18 @@ void PlayScene::_pickCard() {
 		m_pickedCardAnim.init();
 		E_CardType type = m_pickedCard->getType();
 		if (type == ObjectCardType) {
+			char message[44];
+			snprintf(message, 44, "You find:\n%s", m_pickedCard->getName());
+			_notify(message);
 			m_action = LootAction;
 		}
 		else if (type == FloorCardType) {
 			m_action = FloorAction;
 		}
 		else if (type == EnemyCardType) {
+			char message[50];
+			snprintf(message, 44, "A %s attacks you!", m_pickedCard->getName());
+			_notify(message);
 			m_action = AttackAction;
 			m_fight.start(std::static_pointer_cast<EnemyCard>(m_pickedCard));
 		}
