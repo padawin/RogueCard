@@ -224,7 +224,6 @@ void PlayScene::_renderCards() {
 void PlayScene::_renderActionCard() {
 	switch (m_action) {
 		case PickAction:
-		case GetFinalGoalAction:
 			m_actionCard.renderPick(
 				m_renderer->getRenderer(),
 				m_mCursorPositions[Action].x,
@@ -233,6 +232,7 @@ void PlayScene::_renderActionCard() {
 			break;
 		case FloorAction:
 		case LootAction:
+		case GetFinalGoalAction:
 			m_actionCard.renderLoot(
 				m_renderer->getRenderer(),
 				m_mCursorPositions[Action].x,
