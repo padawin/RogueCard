@@ -24,30 +24,12 @@ void Player::setMaxHealth(int maxHealth) { m_health.setMax(maxHealth);}
 void Player::setGold(long gold) { m_iGold = gold;}
 void Player::setLevel(int level) { m_levelling.setLevel(level); }
 
-int Player::attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> attackCard) {
-	int damages;
-	ElementalEffects elementalDamages;
-	if (attackCard == nullptr) {
-		damages = getEquipmentStats(false).points;
-		elementalDamages = getElementalEffects(false);
-	}
-	else {
-		damages = attackCard->getStats().points;
-		elementalDamages = attackCard->getElementalEffects();
-	}
-	return card->setDamages(damages, elementalDamages);
+void Player::setDamages(int damages) {
+	m_health -= damages;
 }
 
-int Player::setDamages(int physicalDamages, ElementalEffects elementalEffects) {
-	int gearDefence = getEquipmentStats(true).points;
-	physicalDamages = physicalDamages - gearDefence;
-	if (physicalDamages < 0) {
-		physicalDamages = 0;
-	}
-	int elementalDamages = _calculateElementalDamages(elementalEffects);
-	int finalDamages = physicalDamages + elementalDamages;
-	m_health -= finalDamages;
-	return finalDamages;
+int Player::getDefence() {
+	return getEquipmentStats(true).points;
 }
 
 void Player::getXPAttack(std::shared_ptr<ObjectCard> weapon, int xp[NB_XP_SKILLS]) {
@@ -75,18 +57,6 @@ void Player::getXPDefence(int xp[NB_XP_SKILLS]) {
 			xp[skill] += points;
 		}
 	} while (m_equipment.next());
-}
-
-int Player::_calculateElementalDamages(ElementalEffects effects) {
-	ElementalEffects elementalDefence = getElementalEffects(true);
-	ElementalEffects elementalDamages = ElementalEffects();
-	for (int s = 0; s < NB_ELEMENTS; ++s) {
-		E_ElementalElement element = (E_ElementalElement) s;
-		int percentDamages = 100 - elementalDefence.getStat(element);
-		int damages = percentDamages * effects.getStat(element) / 100;
-		elementalDamages.setStat(element, damages);
-	}
-	return elementalDamages.sumPoints();
 }
 
 S_CardStats Player::getEquipmentStats(bool applyOnSelf) {

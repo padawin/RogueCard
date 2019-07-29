@@ -32,16 +32,18 @@ class EnemyCard : public Card {
 
 	int _getEnemyIndex(int proba, int nbEnemies);
 
-	int _calculateElementalDamages(ElementalEffects elementalDamages);
-
 	public:
 	EnemyCard(const char *id);
 	void create();
 	static bool prepareMeta(std::string file);
 
 	const char* getName() const;
-	int setDamages(int physicalDamages, ElementalEffects elementalEffects);
-	int attack(Player &player) const;
+
+	int getStrength() const;
+	int getDefence() const;
+	ElementalEffects getElementalDefence() const;
+	ElementalEffects getElementalDamages() const;
+	void setDamages(int damages);
 	bool isDead() const;
 };
 

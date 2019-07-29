@@ -20,6 +20,11 @@ class Fight {
 
 	int m_fightXP[NB_XP_SKILLS] = {};
 
+	void _turnPlayer(std::shared_ptr<ObjectCard> weapon, S_FightTurnResult &res);
+	void _turnEnemy(S_FightTurnResult &res);
+
+	int _getFinalDamages(int physicalDamages, ElementalEffects elementalDamages, int physicalDefence, ElementalEffects elementalDefence) const;
+	int _calculateElementalDamages(ElementalEffects damages, ElementalEffects defence) const;
 
 	public:
 	~Fight() {}

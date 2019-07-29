@@ -25,8 +25,6 @@ class Player {
 	bool m_bFoundFinalGoal = false;
 	bool m_bFoundFloorCard = false;
 
-	int _calculateElementalDamages(ElementalEffects effects);
-
 	public:
 	Player();
 	~Player() {}
@@ -41,8 +39,8 @@ class Player {
 	void setGold(long gold);
 	void setLevel(int level);
 
-	int setDamages(int physicalDamages, ElementalEffects elementalEffects);
-	int attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> attackCard);
+	int getDefence();
+	void setDamages(int damages);
 	void getXPAttack(std::shared_ptr<ObjectCard> weapon, int xp[NB_XP_SKILLS]);
 	void getXPDefence(int xp[NB_XP_SKILLS]);
 

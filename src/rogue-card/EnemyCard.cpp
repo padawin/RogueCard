@@ -34,32 +34,26 @@ const char* EnemyCard::getName() const {
 	return m_sName;
 }
 
-int EnemyCard::attack(Player &player) const {
-	return player.setDamages(m_iStrength, m_elementalDamages);
+int EnemyCard::getStrength() const {
+	return m_iStrength;
 }
 
-int EnemyCard::setDamages(int physicalDamages, ElementalEffects elementalEffects) {
-	physicalDamages = physicalDamages - m_iDefence;
-	if (physicalDamages < 0) {
-		physicalDamages = 0;
-	}
-	int elementalDamages = _calculateElementalDamages(elementalEffects);
-	int finalDamages = physicalDamages + elementalDamages;
-	m_health -= finalDamages;
-	return finalDamages;
+int EnemyCard::getDefence() const {
+	return m_iDefence;
+}
+
+ElementalEffects EnemyCard::getElementalDamages() const {
+	return m_elementalDamages;
+}
+
+ElementalEffects EnemyCard::getElementalDefence() const {
+	return m_elementalResistance;
+}
+
+void EnemyCard::setDamages(int damages) {
+	m_health -= damages;
 }
 
 bool EnemyCard::isDead() const {
 	return m_health.getCurrent() == 0;
-}
-
-int EnemyCard::_calculateElementalDamages(ElementalEffects effects) {
-	ElementalEffects elementalDamages = ElementalEffects();
-	for (int s = 0; s < NB_ELEMENTS; ++s) {
-		E_ElementalElement element = (E_ElementalElement) s;
-		int percentDamages = 100 - m_elementalResistance.getStat(element);
-		int damages = percentDamages * effects.getStat(element) / 100;
-		elementalDamages.setStat(element, damages);
-	}
-	return elementalDamages.sumPoints();
 }
