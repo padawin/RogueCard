@@ -1,5 +1,8 @@
 #include "Fight.hpp"
 
+const int CHANCES_CRITICAL = 5;
+const int CRITICAL_MULTIPLIER = 2;
+
 Fight::Fight(Player &player) : m_player(player) {
 }
 
@@ -14,13 +17,77 @@ void Fight::start(std::shared_ptr<EnemyCard> enemy) {
 
 S_FightTurnResult Fight::turn(std::shared_ptr<ObjectCard> weapon) {
 	S_FightTurnResult res;
-	res.damagesDealtToEnemy = m_player.attack(m_enemy, weapon);
-	m_player.getXPAttack(weapon, m_fightXP);
+	m_bPlayerHitCritical = false;
+	m_bEnemyHitCritical = false;
+	_turnPlayer(weapon, res);
 	if (!m_enemy->isDead()) {
-		res.damagesDealtToPlayer = m_enemy->attack(m_player);
-		m_player.getXPDefence(m_fightXP);
+		_turnEnemy(res);
 	}
 	return res;
+}
+
+void Fight::_turnPlayer(std::shared_ptr<ObjectCard> weapon, S_FightTurnResult &res) {
+	int physicalDamages;
+	ElementalEffects elementalDamages;
+	if (weapon == nullptr) {
+		physicalDamages = m_player.getEquipmentStats(false).points;
+		elementalDamages = m_player.getElementalEffects(false);
+	}
+	else {
+		physicalDamages = weapon->getStats().points;
+		elementalDamages = weapon->getElementalEffects();
+	}
+	int criticalMultiplier = _setCriticalMultiplier(&m_bPlayerHitCritical);
+	res.damagesDealtToEnemy = criticalMultiplier * _getFinalDamages(
+		physicalDamages,
+		elementalDamages,
+		m_enemy->getDefence(),
+		m_enemy->getElementalDefence()
+	);
+	m_enemy->setDamages(res.damagesDealtToEnemy);
+	m_player.getXPAttack(weapon, m_fightXP);
+}
+
+void Fight::_turnEnemy(S_FightTurnResult &res) {
+	int criticalMultiplier = _setCriticalMultiplier(&m_bEnemyHitCritical);
+	res.damagesDealtToPlayer = criticalMultiplier * _getFinalDamages(
+		m_enemy->getStrength(),
+		m_enemy->getElementalDamages(),
+		m_player.getDefence(),
+		m_player.getElementalEffects(true)
+	);
+	m_player.setDamages(res.damagesDealtToPlayer);
+	m_player.getXPDefence(m_fightXP);
+}
+
+int Fight::_setCriticalMultiplier(bool* actorCritical) {
+	if (rand() % 100 < CHANCES_CRITICAL) {
+		*actorCritical = true;
+		return CRITICAL_MULTIPLIER;
+	}
+	else {
+		*actorCritical = false;
+		return 1;
+	}
+}
+
+int Fight::_getFinalDamages(int physicalDamages, ElementalEffects elementalDamages, int physicalDefence, ElementalEffects elementalDefence) const {
+	physicalDamages = physicalDamages - physicalDefence;
+	if (physicalDamages < 0) {
+		physicalDamages = 0;
+	}
+	return physicalDamages + _calculateElementalDamages(elementalDamages, elementalDefence);
+}
+
+int Fight::_calculateElementalDamages(ElementalEffects damages, ElementalEffects defence) const {
+	ElementalEffects elementalDamages = ElementalEffects();
+	for (int s = 0; s < NB_ELEMENTS; ++s) {
+		E_ElementalElement element = (E_ElementalElement) s;
+		int percentDamages = 100 - defence.getStat(element);
+		int elementDamages = percentDamages * damages.getStat(element) / 100;
+		elementalDamages.setStat(element, elementDamages);
+	}
+	return elementalDamages.sumPoints();
 }
 
 void Fight::finalise() {
@@ -72,7 +139,6 @@ S_FightTurnResult Fight::skip() {
 	if (!isFighting()) {
 		return res;
 	}
-	res.damagesDealtToPlayer = m_enemy->attack(m_player);
-	m_player.getXPDefence(m_fightXP);
+	_turnEnemy(res);
 	return res;
 }

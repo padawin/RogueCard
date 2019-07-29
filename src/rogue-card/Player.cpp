@@ -5,36 +5,31 @@ Player::Player() :
 	m_equipment(Equipment()),
 	m_inventory(ObjectCardCollection()),
 	m_floor(Floor()),
-	m_levelling(Levelling())
+	m_levelling(Levelling()),
+	m_health(30, 30)
 {}
 
-int Player::getHealth() const { return m_iHealth; }
+int Player::getHealth() const { return m_health.getCurrent(); }
 int Player::getMaxHealth() const {
-	return m_iMaxHealth + m_iEquipmentMaxHealth;
+	return m_health.getMax() + m_iEquipmentMaxHealth;
 }
 Floor &Player::getFloor() { return m_floor; }
 long Player::getGold() const { return m_iGold; }
 
 Levelling &Player::getLevelling() { return m_levelling; }
 
-void Player::setHealth(int health) { m_iHealth = health;}
-void Player::setMaxHealth(int maxHealth) { m_iMaxHealth = maxHealth;}
+void Player::setHealth(int health) { m_health.setCurrent(health);}
+void Player::setMaxHealth(int maxHealth) { m_health.setMax(maxHealth);}
 
 void Player::setGold(long gold) { m_iGold = gold;}
 void Player::setLevel(int level) { m_levelling.setLevel(level); }
 
-int Player::attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> attackCard) {
-	int damages;
-	ElementalEffects elementalDamages;
-	if (attackCard == nullptr) {
-		damages = getEquipmentStats(false).points;
-		elementalDamages = getElementalEffects(false);
-	}
-	else {
-		damages = attackCard->getStats().points;
-		elementalDamages = attackCard->getElementalEffects();
-	}
-	return card->setDamages(damages, elementalDamages);
+void Player::setDamages(int damages) {
+	m_health -= damages;
+}
+
+int Player::getDefence() {
+	return getEquipmentStats(true).points;
 }
 
 void Player::getXPAttack(std::shared_ptr<ObjectCard> weapon, int xp[NB_XP_SKILLS]) {
@@ -62,36 +57,6 @@ void Player::getXPDefence(int xp[NB_XP_SKILLS]) {
 			xp[skill] += points;
 		}
 	} while (m_equipment.next());
-}
-
-int Player::setDamages(int physicalDamages, ElementalEffects elementalEffects) {
-	int gearDefence = getEquipmentStats(true).points;
-	physicalDamages = physicalDamages - gearDefence;
-	if (physicalDamages < 0) {
-		physicalDamages = 0;
-	}
-	int elementalDamages = _calculateElementalDamages(elementalEffects);
-	int finalDamages = physicalDamages + elementalDamages;
-	m_iHealth -= finalDamages;
-	if (m_iHealth < 0) {
-		m_iHealth = 0;
-	}
-	else if (m_iHealth > m_iMaxHealth) {
-		m_iHealth = m_iMaxHealth;
-	}
-	return finalDamages;
-}
-
-int Player::_calculateElementalDamages(ElementalEffects effects) {
-	ElementalEffects elementalDefence = getElementalEffects(true);
-	ElementalEffects elementalDamages = ElementalEffects();
-	for (int s = 0; s < NB_ELEMENTS; ++s) {
-		E_ElementalElement element = (E_ElementalElement) s;
-		int percentDamages = 100 - elementalDefence.getStat(element);
-		int damages = percentDamages * effects.getStat(element) / 100;
-		elementalDamages.setStat(element, damages);
-	}
-	return elementalDamages.sumPoints();
 }
 
 S_CardStats Player::getEquipmentStats(bool applyOnSelf) {
@@ -125,7 +90,7 @@ ElementalEffects Player::getElementalEffects(bool applyOnSelf) {
 }
 
 bool Player::isDead() const {
-	return m_iHealth == 0;
+	return m_health.getCurrent() == 0;
 }
 
 bool Player::isFighting() const {

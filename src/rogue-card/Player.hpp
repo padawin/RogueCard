@@ -2,6 +2,7 @@
 #define __PLAYER__
 
 #include <memory>
+#include "Health.hpp"
 #include "ObjectCard.hpp"
 #include "Floor.hpp"
 #include "Levelling.hpp"
@@ -16,16 +17,13 @@ class Player {
 	ObjectCardCollection m_inventory;
 	Floor m_floor;
 	Levelling m_levelling;
-	int m_iHealth = 30;
-	int m_iMaxHealth = 30;
+	Health m_health;
 	int m_iEquipmentMaxHealth = 0;
 	long m_iGold = 0;
 
 	bool m_bFighting = false;
 	bool m_bFoundFinalGoal = false;
 	bool m_bFoundFloorCard = false;
-
-	int _calculateElementalDamages(ElementalEffects effects);
 
 	public:
 	Player();
@@ -41,8 +39,8 @@ class Player {
 	void setGold(long gold);
 	void setLevel(int level);
 
-	int setDamages(int physicalDamages, ElementalEffects elementalEffects);
-	int attack(std::shared_ptr<EnemyCard> card, std::shared_ptr<ObjectCard> attackCard);
+	int getDefence();
+	void setDamages(int damages);
 	void getXPAttack(std::shared_ptr<ObjectCard> weapon, int xp[NB_XP_SKILLS]);
 	void getXPDefence(int xp[NB_XP_SKILLS]);
 
