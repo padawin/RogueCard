@@ -72,6 +72,13 @@ void PlayScene::update(StateMachine &stateMachine) {
 		return;
 	}
 
+	// Update animations
+	m_pickedCardAnim.update();
+
+	if (_hasAnimationsRunning()) {
+		return;
+	}
+
 	Save s = Save(m_player, m_actionBar);
 	if (m_userActions.getActionState("QUIT")) {
 		s.save();
@@ -193,7 +200,11 @@ void PlayScene::_renderCursor() {
 void PlayScene::_renderCards() {
 	_renderActionCard();
 	if (m_pickedCard) {
-		m_pickedCard->render(m_renderer->getRenderer(), 138, 64);
+		m_pickedCard->render(
+			m_renderer->getRenderer(),
+			m_pickedCardAnim.getX(),
+			m_pickedCardAnim.getY()
+		);
 	}
 	for (int i = 0; i < ACTION_BAR_SIZE; ++i) {
 		S_Coordinates pos = m_mCursorPositions[(PlayCursorPosition)(Object1 + i)];
@@ -285,6 +296,7 @@ void PlayScene::_pickCard() {
 	if (m_pickedCard == nullptr) {
 		_notify("");
 		m_pickedCard = m_deck.pickCard(m_player);
+		m_pickedCardAnim.init();
 		E_CardType type = m_pickedCard->getType();
 		if (type == ObjectCardType) {
 			m_action = LootAction;
@@ -481,4 +493,8 @@ void PlayScene::_runaway() {
 
 void PlayScene::_updateHealthBar() {
 	m_progressBar.setProgress(m_player.getHealth() * 100 / m_player.getMaxHealth());
+}
+
+bool PlayScene::_hasAnimationsRunning() const {
+	return m_pickedCardAnim.running();
 }

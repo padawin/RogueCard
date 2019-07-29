@@ -13,6 +13,7 @@
 #include "../ActionBar.hpp"
 #include "../ProgressBar.hpp"
 #include "../Fight.hpp"
+#include "../animations/PickCard.hpp"
 
 enum PlayCursorPosition {Action, Object1, Object2, Object3, Object4, Floor, NbPositions};
 
@@ -59,6 +60,9 @@ class PlayScene : public State {
 	std::shared_ptr<Card> m_pickedCard = nullptr;
 	std::shared_ptr<Card> m_floorCard = nullptr;
 
+	/* Animations */
+	PickCardAnimation m_pickedCardAnim = PickCardAnimation();
+
 	void _renderBackground() const;
 	void _renderNotification() const;
 	void _renderCursor();
@@ -82,7 +86,10 @@ class PlayScene : public State {
 
 	void _notify(std::string message);
 
+	bool _hasAnimationsRunning() const;
+
 	void _setNextAction(int way);
+
 	public:
 	PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer, Player player=Player());
 	bool onEnter();
