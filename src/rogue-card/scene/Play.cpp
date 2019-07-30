@@ -167,8 +167,8 @@ void PlayScene::render() {
 	}
 	_renderBackground();
 	_renderNotification();
-	_renderCards();
 	m_progressBar.render(m_renderer, HEALTH_X, HEALTH_Y);
+	_renderCards();
 	_renderCursor();
 }
 
