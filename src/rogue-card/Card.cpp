@@ -9,7 +9,13 @@ E_CardType Card::getType() const {
 	return m_type;
 }
 
+void Card::setState(CardState* state) {
+	m_stateMachine.changeState(state);
+}
+
 void Card::render(SDL_Renderer *renderer, int x, int y) {
+	x = getX(x);
+	y = getY(y);
 	TextureManager::Instance()->draw(
 		"card", x, y, CARD_WIDTH, CARD_HEIGHT, renderer
 	);
@@ -23,4 +29,24 @@ void Card::render(SDL_Renderer *renderer, int x, int y) {
 		m_iTileY,
 		renderer
 	);
+}
+
+void Card::update() {
+	m_stateMachine.update();
+}
+
+int Card::getX(int defaultX) const {
+	CardState* state = m_stateMachine.getCurrentState();
+	if (state != nullptr) {
+		return state->getX();
+	}
+	return defaultX;
+}
+
+int Card::getY(int defaultY) const {
+	CardState* state = m_stateMachine.getCurrentState();
+	if (state != nullptr) {
+		return state->getY();
+	}
+	return defaultY;
 }

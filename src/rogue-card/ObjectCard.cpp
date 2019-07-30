@@ -34,8 +34,8 @@ void ObjectCard::render(SDL_Renderer *renderer, int x, int y) {
 		int xPos = m_quantityText.getText().length() == 2 ? CARD_QUANTITY_HIGH_X : CARD_QUANTITY_LOW_X;
 		m_quantityText.render(
 			renderer,
-			x + xPos,
-			y + CARD_QUANTITY_Y
+			getX(x) + xPos,
+			getY(x) + CARD_QUANTITY_Y
 		);
 	}
 }
