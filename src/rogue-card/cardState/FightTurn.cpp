@@ -6,14 +6,24 @@
 
 const int MAX_DURATION_PLAYER_ATTACK = 250;
 
-const int MAX_DURATION_PAUSE = 300;
+const int MAX_DURATION_PAUSE = 200;
 
 const int MAX_DURATION_ENEMY_ATTACK_PHASE1 = 50;
 const int MAX_DURATION_ENEMY_ATTACK_PHASE2 = 50;
 const int SPEED_ATTACK_ENEMY_PHASE1 = 4;
 const int SPEED_ATTACK_ENEMY_PHASE2 = 4;
 
-FightTurnCardState::FightTurnCardState() : CardState() {
+const int FONT_SPEED = -1;
+
+FightTurnCardState::FightTurnCardState(int playerDamages, int enemyDamages) : CardState() {
+	m_damagesFromPlayer.setText(std::to_string(playerDamages));
+	m_damagesFromPlayer.setFont("font-red");
+	m_iDamagesFromPlayerY = DAMAGES_FROM_PLAYER.y;
+
+	m_damagesFromEnemy.setText(std::to_string(enemyDamages));
+	m_damagesFromEnemy.setFont("font-red");
+	m_iDamagesFromEnemyY = DAMAGES_FROM_ENEMY.y;
+
 	m_iStart = SDL_GetTicks();
 	m_iStep = STEP_PLAYER_ATTACK_ANIMATION;
 }
@@ -53,6 +63,7 @@ void FightTurnCardState::_updatePlayerAttack() {
 	unsigned int currTime = SDL_GetTicks();
 	unsigned int duration = currTime - m_iStart;
 	m_iX = (int) (sin(duration / 25.0) * 5);
+	m_iDamagesFromPlayerY += FONT_SPEED;
 	if (duration > MAX_DURATION_PLAYER_ATTACK) {
 		m_iX = 0;
 		m_iStart = currTime;
@@ -63,6 +74,7 @@ void FightTurnCardState::_updatePlayerAttack() {
 void FightTurnCardState::_updateEnemyAttack() {
 	unsigned int currTime = SDL_GetTicks();
 	unsigned int duration = currTime - m_iStart;
+	m_iDamagesFromEnemyY += FONT_SPEED;
 	if (duration <= MAX_DURATION_ENEMY_ATTACK_PHASE1) {
 		m_iY += SPEED_ATTACK_ENEMY_PHASE1;
 	}
@@ -87,4 +99,10 @@ void FightTurnCardState::_updatePause() {
 
 void FightTurnCardState::render(SDL_Renderer *renderer, Card &card, int x, int y) {
 	card._renderCard(renderer, x + m_iX, y + m_iY);
+	if (m_iStep == STEP_PLAYER_ATTACK_ANIMATION) {
+		m_damagesFromPlayer.render(renderer, DAMAGES_FROM_PLAYER.x, m_iDamagesFromPlayerY);
+	}
+	else if (m_iStep == STEP_ENEMY_ATTACK_ANIMATION) {
+		m_damagesFromEnemy.render(renderer, DAMAGES_FROM_ENEMY.x, m_iDamagesFromEnemyY);
+	}
 }

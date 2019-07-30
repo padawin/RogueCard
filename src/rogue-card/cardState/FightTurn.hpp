@@ -19,12 +19,18 @@ class FightTurnCardState : public CardState {
 	int m_iDoneSteps = 0;
 	unsigned int m_iStart = 0;
 
+	Text m_damagesFromPlayer = Text();
+	Text m_damagesFromEnemy = Text();
+
+	int m_iDamagesFromPlayerY = 0;
+	int m_iDamagesFromEnemyY = 0;
+
 	void _updatePlayerAttack();
 	void _updateEnemyAttack();
 	void _updatePause();
 
 	public:
-	FightTurnCardState();
+	FightTurnCardState(int playerDamages, int enemyDamages);
 	std::string getStateID() const;
 	void update(StateMachine<CardState> &stateMachine);
 	void render(SDL_Renderer *renderer, Card &card, int x, int y);

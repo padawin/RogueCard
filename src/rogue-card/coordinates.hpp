@@ -6,4 +6,7 @@
 const S_Coordinates DECK_COORDINATES = {16, 16};
 const S_Coordinates PICKED_CARD_COORDINATES = {138, 64};
 
+const S_Coordinates DAMAGES_FROM_PLAYER = {158, 48};
+const S_Coordinates DAMAGES_FROM_ENEMY = {48, 128};
+
 #endif
