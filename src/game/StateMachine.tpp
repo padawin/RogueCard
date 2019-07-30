@@ -18,7 +18,7 @@ void StateMachine<stateType>::changeState(stateType *pState) {
 	std::clog << "Change state";
 	// If there is at least one state
 	if (!m_vStates.empty()) {
-		std::clog << " from " << m_vStates.back()->getStateID() << " to " << pState->getStateID() << std::endl;
+		std::clog << " from " << m_vStates.back()->getStateID();
 		// and if it is the state we want to add
 		if (m_vStates.back()->getStateID() == pState->getStateID()) {
 			return;
@@ -27,6 +27,7 @@ void StateMachine<stateType>::changeState(stateType *pState) {
 		// remove the state
 		popState();
 	}
+	std::clog << " to " << pState->getStateID() << std::endl;
 
 	// add the new one
 	pushState(pState);

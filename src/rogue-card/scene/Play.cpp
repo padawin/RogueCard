@@ -2,6 +2,8 @@
 #include "../game/globals.hpp"
 #include "../Save.hpp"
 #include "../sdl2/TextureManager.hpp"
+#include "../cardState/PickedCard.hpp"
+#include "coordinates.hpp"
 #include "Intro.hpp"
 #include "GameOver.hpp"
 #include "Win.hpp"
@@ -72,10 +74,7 @@ void PlayScene::update(StateMachine<SceneState> &stateMachine) {
 		return;
 	}
 
-	// Update animations
-	m_pickedCardAnim.update();
-
-	if (_hasAnimationsRunning()) {
+	if (!_updateCards()) {
 		return;
 	}
 
@@ -90,6 +89,15 @@ void PlayScene::update(StateMachine<SceneState> &stateMachine) {
 		Save::clean();
 		stateMachine.changeState(new GameOverScene(m_userActions, m_renderer));
 	}
+}
+
+bool PlayScene::_updateCards() const {
+	bool res = true;
+	if (m_pickedCard != nullptr) {
+		m_pickedCard->update();
+		res &= m_pickedCard->ready();
+	}
+	return res;
 }
 
 void PlayScene::_handleControls(StateMachine<SceneState> &stateMachine) {
@@ -205,8 +213,8 @@ void PlayScene::_renderCards() {
 	if (m_pickedCard) {
 		m_pickedCard->render(
 			m_renderer->getRenderer(),
-			m_pickedCardAnim.getX(),
-			m_pickedCardAnim.getY()
+			PICKED_CARD_COORDINATES.x,
+			PICKED_CARD_COORDINATES.y
 		);
 	}
 	for (int i = 0; i < ACTION_BAR_SIZE; ++i) {
@@ -299,7 +307,7 @@ void PlayScene::_pickCard() {
 	if (m_pickedCard == nullptr) {
 		_notify("");
 		m_pickedCard = m_deck.pickCard(m_player);
-		m_pickedCardAnim.init();
+		m_pickedCard->setState(new PickedCardState());
 		E_CardType type = m_pickedCard->getType();
 		if (type == ObjectCardType) {
 			char message[44];
@@ -502,8 +510,4 @@ void PlayScene::_runaway() {
 
 void PlayScene::_updateHealthBar() {
 	m_progressBar.setProgress(m_player.getHealth() * 100 / m_player.getMaxHealth());
-}
-
-bool PlayScene::_hasAnimationsRunning() const {
-	return m_pickedCardAnim.running();
 }

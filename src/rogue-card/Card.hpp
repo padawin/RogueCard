@@ -12,6 +12,8 @@
 #include <SDL2/SDL.h>
 
 #include "../common/types.hpp"
+#include "../game/StateMachine.hpp"
+#include "CardState.hpp"
 
 class Card {
 	protected:
@@ -19,14 +21,23 @@ class Card {
 	std::string m_sImage = "";
 	int m_iTileX = 0;
 	int m_iTileY = 0;
+	StateMachine<CardState> m_stateMachine = StateMachine<CardState>();
 
 	public:
 	virtual ~Card() {}
 	Card(E_CardType type);
 	E_CardType getType() const;
+	void setState(CardState* state);
 	virtual void create() = 0;
 	virtual const char* getName() const = 0;
+	void update();
 	void render(SDL_Renderer *renderer, int x, int y);
+	// To be called by the state
+	void _renderCard(SDL_Renderer *renderer, int x, int y) const;
+
+	int getX(int defaultX) const;
+	int getY(int defaultY) const;
+	bool ready() const;
 };
 
 #endif
