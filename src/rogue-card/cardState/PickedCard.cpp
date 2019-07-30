@@ -1,4 +1,3 @@
-#include <iostream>
 #include "PickedCard.hpp"
 #include "../coordinates.hpp"
 #include "../Card.hpp"

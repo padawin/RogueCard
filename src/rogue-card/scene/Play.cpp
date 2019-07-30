@@ -1,8 +1,10 @@
 #include "../game/StateMachine.hpp"
 #include "../game/globals.hpp"
 #include "../Save.hpp"
+#include "../coordinates.hpp"
 #include "../sdl2/TextureManager.hpp"
 #include "../cardState/PickedCard.hpp"
+#include "../cardState/FightTurn.hpp"
 #include "coordinates.hpp"
 #include "Intro.hpp"
 #include "GameOver.hpp"
@@ -19,9 +21,6 @@
 #define ATTACK_RES_TPL "You hit %s (%d DP)\n%s hits you (%d DP)"
 #define USE_OBJECT_TPL "%s used"
 #define USE_OBJECT_IN_FIGHT_TPL "%s used\n%s hits you (%d DP)"
-
-const int HEALTH_X = 16;
-const int HEALTH_Y = 144;
 
 PlayScene::PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer, Player player) :
 	SceneState(userActions),
@@ -78,9 +77,9 @@ void PlayScene::update(StateMachine<SceneState> &stateMachine) {
 		return;
 	}
 
+	_updateHealthBar();
 	_handleControls(stateMachine);
 	_monitorStates(stateMachine);
-	_updateHealthBar();
 
 	if (m_pickedCard == nullptr) {
 		m_action = PickAction;
@@ -166,8 +165,8 @@ void PlayScene::render() {
 	}
 	_renderBackground();
 	_renderNotification();
+	m_progressBar.render(m_renderer, HEALTH_POSITION.x, HEALTH_POSITION.y);
 	_renderCards();
-	m_progressBar.render(m_renderer, HEALTH_X, HEALTH_Y);
 	_renderCursor();
 }
 
@@ -460,20 +459,9 @@ void PlayScene::_changeFloor() {
 }
 
 void PlayScene::_attack(std::shared_ptr<ObjectCard> attackCard) {
+	_notify("");
 	S_FightTurnResult res = m_fight.turn(attackCard);
-	if (m_fight.isFighting()) {
-		char message[80];
-		snprintf(
-			message,
-			80,
-			ATTACK_RES_TPL,
-			m_fight.getEnemy()->getName(),
-			res.damagesDealtToEnemy,
-			m_fight.getEnemy()->getName(),
-			res.damagesDealtToPlayer
-		);
-		_notify(message);
-	}
+	m_pickedCard->setState(new FightTurnCardState(res));
 }
 
 void PlayScene::_getFinalGoal() {

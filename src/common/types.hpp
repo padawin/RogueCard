@@ -102,4 +102,11 @@ struct S_FloorContent {
 	char probability;
 };
 
+struct S_FightTurnResult {
+	int damagesDealtToEnemy = 0;
+	int damagesDealtToPlayer = 0;
+	bool playerDidCritical = false;
+	bool enemyDidCritical = false;
+};
+
 #endif

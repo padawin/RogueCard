@@ -38,6 +38,7 @@ void Fight::_turnPlayer(std::shared_ptr<ObjectCard> weapon, S_FightTurnResult &r
 		elementalDamages = weapon->getElementalEffects();
 	}
 	int criticalMultiplier = _setCriticalMultiplier(&m_bPlayerHitCritical);
+	res.playerDidCritical = (criticalMultiplier != 1);
 	res.damagesDealtToEnemy = criticalMultiplier * _getFinalDamages(
 		physicalDamages,
 		elementalDamages,
@@ -50,6 +51,7 @@ void Fight::_turnPlayer(std::shared_ptr<ObjectCard> weapon, S_FightTurnResult &r
 
 void Fight::_turnEnemy(S_FightTurnResult &res) {
 	int criticalMultiplier = _setCriticalMultiplier(&m_bEnemyHitCritical);
+	res.enemyDidCritical = (criticalMultiplier != 1);
 	res.damagesDealtToPlayer = criticalMultiplier * _getFinalDamages(
 		m_enemy->getStrength(),
 		m_enemy->getElementalDamages(),
