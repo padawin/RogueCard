@@ -5,11 +5,7 @@
 #include "EnemyCard.hpp"
 #include "ObjectCard.hpp"
 #include "Player.hpp"
-
-struct S_FightTurnResult {
-	int damagesDealtToEnemy = 0;
-	int damagesDealtToPlayer = 0;
-};
+#include "../common/types.hpp"
 
 class Fight {
 	private:
