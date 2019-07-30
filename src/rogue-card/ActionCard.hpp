@@ -17,6 +17,7 @@ class ActionCard : public Card {
 
 	void renderPrevious(SDL_Renderer *renderer, int x, int y);
 	void renderNext(SDL_Renderer *renderer, int x, int y);
+	const char* getName() const { return ""; }
 };
 
 #endif

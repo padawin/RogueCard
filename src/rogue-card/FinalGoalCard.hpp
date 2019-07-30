@@ -7,6 +7,7 @@ class FinalGoalCard : public Card {
 	public:
 	FinalGoalCard();
 	void create();
+	const char* getName() const { return ""; }
 };
 
 #endif
