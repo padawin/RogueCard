@@ -22,7 +22,7 @@ const int HEALTH_X = 16;
 const int HEALTH_Y = 144;
 
 PlayScene::PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer, Player player) :
-	State(userActions),
+	SceneState(userActions),
 	m_player(player),
 	m_renderer(renderer),
 	m_actionCard(ActionCard()),
@@ -65,7 +65,7 @@ bool PlayScene::onEnter() {
 	return true;
 }
 
-void PlayScene::update(StateMachine &stateMachine) {
+void PlayScene::update(StateMachine<SceneState> &stateMachine) {
 	if (m_bShowIntro) {
 		stateMachine.pushState(new IntroScene(m_userActions, m_renderer));
 		m_bShowIntro = false;
@@ -92,7 +92,7 @@ void PlayScene::update(StateMachine &stateMachine) {
 	}
 }
 
-void PlayScene::_handleControls(StateMachine &stateMachine) {
+void PlayScene::_handleControls(StateMachine<SceneState> &stateMachine) {
 	if (m_userActions.getActionState("QUIT")) {
 		Save s = Save(m_player, m_actionBar);
 		s.save();

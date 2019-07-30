@@ -4,7 +4,7 @@
 #include "MainMenu.hpp"
 
 GameOverScene::GameOverScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer) :
-	State(userActions),
+	SceneState(userActions),
 	m_renderer(renderer),
 	m_title(Text()),
 	m_menu(EndGameMenu(renderer, 32, 80))
@@ -21,7 +21,7 @@ bool GameOverScene::onEnter() {
 	return true;
 }
 
-void GameOverScene::update(StateMachine &stateMachine) {
+void GameOverScene::update(StateMachine<SceneState> &stateMachine) {
 	if (m_userActions.getActionState("CURSOR_UP")) {
 		m_menu.selectPrevious();
 	}
@@ -33,7 +33,7 @@ void GameOverScene::update(StateMachine &stateMachine) {
 	}
 }
 
-void GameOverScene::_executeMenuAction(StateMachine &stateMachine) {
+void GameOverScene::_executeMenuAction(StateMachine<SceneState> &stateMachine) {
 	switch (m_menu.getSelectedAction()) {
 		case ENDGAME_MAIN_MENU:
 			stateMachine.changeState(new MainMenuScene(m_userActions, m_renderer));

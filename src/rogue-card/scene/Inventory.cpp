@@ -12,7 +12,7 @@ InventoryScene::InventoryScene(
 	Player &player,
 	std::shared_ptr<SDL2Renderer> renderer
 ) :
-	State(userActions),
+	SceneState(userActions),
 	m_player(player),
 	m_renderer(renderer),
 	m_objectActionMenu(ObjectAction(renderer)),
@@ -36,7 +36,7 @@ bool InventoryScene::onEnter() {
 	return true;
 }
 
-void InventoryScene::update(StateMachine &stateMachine) {
+void InventoryScene::update(StateMachine<SceneState> &stateMachine) {
 	bool pressedBack = m_userActions.getActionState("BACK"),
 		 pressedAction = m_userActions.getActionState("USE_CARD");
 	if (m_objectActionMenu.isOpen()) {
@@ -77,7 +77,7 @@ void InventoryScene::update(StateMachine &stateMachine) {
 	}
 }
 
-void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMachine &stateMachine) {
+void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMachine<SceneState> &stateMachine) {
 	auto card = m_player.getInventoryItem(_getCardIndex());
 	if (action == USE) {
 		if (card->isConsumable()) {

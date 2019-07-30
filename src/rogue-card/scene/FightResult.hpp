@@ -1,13 +1,13 @@
 #ifndef __FIGHT_RESULT__
 #define __FIGHT_RESULT__
 
-#include "../game/State.hpp"
+#include "../game/SceneState.hpp"
 #include "../game/StateMachine.hpp"
 #include "../Fight.hpp"
 #include "../sdl2/Renderer.hpp"
 #include "../sdl2/Text.hpp"
 
-class FightResultScene : public State {
+class FightResultScene : public SceneState {
 	private:
 	std::shared_ptr<SDL2Renderer> m_renderer;
 	Fight &m_fight;
@@ -27,7 +27,7 @@ class FightResultScene : public State {
 	public:
 	FightResultScene(UserActions &userActions, Fight &fight, std::shared_ptr<SDL2Renderer> renderer);
 	std::string getStateID() const;
-	void update(StateMachine &stateMachine);
+	void update(StateMachine<SceneState> &stateMachine);
 	void render();
 };
 

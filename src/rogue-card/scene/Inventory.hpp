@@ -3,14 +3,14 @@
 
 #include <string.h>
 #include "../game/types.hpp"
-#include "../game/State.hpp"
+#include "../game/SceneState.hpp"
 #include "../sdl2/Renderer.hpp"
 #include "../Player.hpp"
 #include "../ActionBar.hpp"
 #include "../menus/ObjectAction.hpp"
 #include "../ObjectCardCollectionRenderer.hpp"
 
-class InventoryScene : public State {
+class InventoryScene : public SceneState {
 	private:
 	Player &m_player;
 	std::shared_ptr<SDL2Renderer> m_renderer;
@@ -24,7 +24,7 @@ class InventoryScene : public State {
 	void _renderCards();
 
 	/* Menu actions */
-	void _executeMenuAction(E_ObjectActionMenuItem action, StateMachine &stateMachine);
+	void _executeMenuAction(E_ObjectActionMenuItem action, StateMachine<SceneState> &stateMachine);
 	void _useObject();
 	void _equipObject();
 	void _getObjectInfo();
@@ -39,7 +39,7 @@ class InventoryScene : public State {
 		std::shared_ptr<SDL2Renderer> renderer
 	);
 	bool onEnter();
-	void update(StateMachine &stateMachine);
+	void update(StateMachine<SceneState> &stateMachine);
 	void render();
 	std::string getStateID() const;
 };

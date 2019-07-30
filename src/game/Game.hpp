@@ -2,6 +2,7 @@
 #define __GAME__
 
 #include "StateMachine.hpp"
+#include "SceneState.hpp"
 #include "renderer/Renderer.hpp"
 #include "InputHandler.hpp"
 #include <memory>
@@ -11,13 +12,13 @@ class Game {
 	private:
 	bool m_bIsRunning = false;
 	static std::string m_sBinaryPath;
-	StateMachine m_stateMachine;
+	StateMachine<SceneState> m_stateMachine;
 	std::shared_ptr<Renderer> m_renderer;
 	std::shared_ptr<InputHandler> m_inputHandler;
 
 	public:
 	Game(
-		StateMachine stateMachine,
+		StateMachine<SceneState> stateMachine,
 		std::shared_ptr<Renderer> renderer,
 		std::shared_ptr<InputHandler> inputHandler
 	);

@@ -1,7 +1,7 @@
 #include <iostream>
-#include "StateMachine.hpp"
 
-void StateMachine::pushState(State *pState) {
+template <class stateType>
+void StateMachine<stateType>::pushState(stateType *pState) {
 	// if the current state is the same as the pushed one, do nothing
 	if (!m_vStates.empty() && m_vStates.back()->getStateID() == pState->getStateID()) {
 		return;
@@ -13,7 +13,8 @@ void StateMachine::pushState(State *pState) {
 	}
 }
 
-void StateMachine::changeState(State *pState) {
+template <class stateType>
+void StateMachine<stateType>::changeState(stateType *pState) {
 	std::clog << "Change state";
 	// If there is at least one state
 	if (!m_vStates.empty()) {
@@ -31,7 +32,8 @@ void StateMachine::changeState(State *pState) {
 	pushState(pState);
 }
 
-bool StateMachine::popState() {
+template <class stateType>
+bool StateMachine<stateType>::popState() {
 	if (!m_vStates.empty() && m_vStates.back()->onExit()) {
 		delete m_vStates.back();
 		m_vStates.pop_back();
@@ -41,23 +43,28 @@ bool StateMachine::popState() {
 	return false;
 }
 
-void StateMachine::clean() {
+template <class stateType>
+void StateMachine<stateType>::clean() {
 	while (popState()) {}
 }
 
-State* StateMachine::getCurrentState() const {
+template <class stateType>
+stateType* StateMachine<stateType>::getCurrentState() const {
 	if (!m_vStates.empty()) {
 		return m_vStates.back();
 	}
 	return NULL;
 }
 
-void StateMachine::update() {
+template <class stateType>
+void StateMachine<stateType>::update() {
 	if (!m_vStates.empty()) {
 		m_vStates.back()->update(*this);
 	}
 }
-void StateMachine::render() const {
+
+template <class stateType>
+void StateMachine<stateType>::render() const {
 	if (!m_vStates.empty()) {
 		m_vStates.back()->render();
 	}

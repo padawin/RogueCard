@@ -2,7 +2,7 @@
 #define __PLAYER_CREATION_STATE__
 
 #include <memory>
-#include "../game/State.hpp"
+#include "../game/SceneState.hpp"
 #include "../Player.hpp"
 #include "../sdl2/Renderer.hpp"
 #include "../sdl2/Text.hpp"
@@ -11,7 +11,7 @@
 
 enum PlayerCreationStep {ARMOR_CHOICE, WEAPON_CHOICE};
 
-class PlayerCreationScene : public State {
+class PlayerCreationScene : public SceneState {
 	private:
 	std::shared_ptr<SDL2Renderer> m_renderer;
 	unsigned int m_iCurrentPage = 1;
@@ -28,7 +28,7 @@ class PlayerCreationScene : public State {
 	public:
 	PlayerCreationScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer);
 	bool onEnter();
-	void update(StateMachine &stateMachine);
+	void update(StateMachine<SceneState> &stateMachine);
 	void render();
 	std::string getStateID() const;
 };
