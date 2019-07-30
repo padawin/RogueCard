@@ -79,9 +79,9 @@ void PlayScene::update(StateMachine<SceneState> &stateMachine) {
 		return;
 	}
 
+	_updateHealthBar();
 	_handleControls(stateMachine);
 	_monitorStates(stateMachine);
-	_updateHealthBar();
 
 	if (m_pickedCard == nullptr) {
 		m_action = PickAction;
