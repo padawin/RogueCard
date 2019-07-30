@@ -9,4 +9,6 @@ const S_Coordinates PICKED_CARD_COORDINATES = {138, 64};
 const S_Coordinates DAMAGES_FROM_PLAYER = {158, 48};
 const S_Coordinates DAMAGES_FROM_ENEMY = {48, 128};
 
+const S_Coordinates HEALTH_POSITION = {16, 144};
+
 #endif
