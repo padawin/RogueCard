@@ -11,7 +11,7 @@ class PickCardAnimation {
 	public:
 	void init();
 	void update();
-	int running() const;
+	bool running() const;
 	int getX() const;
 	int getY() const;
 };
