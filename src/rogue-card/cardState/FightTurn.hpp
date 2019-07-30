@@ -2,6 +2,7 @@
 #define __FIGHT_TURN_CARD_STATE__
 
 #include "../CardState.hpp"
+#include "../coordinates.hpp"
 #include "../sdl2/Text.hpp"
 
 class FightTurnCardState : public CardState {
@@ -22,8 +23,8 @@ class FightTurnCardState : public CardState {
 	Text m_damagesFromPlayer = Text();
 	Text m_damagesFromEnemy = Text();
 
-	int m_iDamagesFromPlayerY = 0;
-	int m_iDamagesFromEnemyY = 0;
+	int m_iDamagesFromPlayerY = DAMAGES_FROM_PLAYER.y;
+	int m_iDamagesFromEnemyY = DAMAGES_FROM_ENEMY.y;
 
 	void _updatePlayerAttack();
 	void _updateEnemyAttack();

@@ -2,7 +2,6 @@
 #include <math.h>
 #include "FightTurn.hpp"
 #include "../Card.hpp"
-#include "../coordinates.hpp"
 
 const int MAX_DURATION_PLAYER_ATTACK = 250;
 
@@ -18,11 +17,9 @@ const int FONT_SPEED = -1;
 FightTurnCardState::FightTurnCardState(int playerDamages, int enemyDamages) : CardState() {
 	m_damagesFromPlayer.setText(std::to_string(playerDamages));
 	m_damagesFromPlayer.setFont("font-red");
-	m_iDamagesFromPlayerY = DAMAGES_FROM_PLAYER.y;
 
 	m_damagesFromEnemy.setText(std::to_string(enemyDamages));
 	m_damagesFromEnemy.setFont("font-red");
-	m_iDamagesFromEnemyY = DAMAGES_FROM_ENEMY.y;
 
 	m_iStart = SDL_GetTicks();
 	m_iStep = STEP_PLAYER_ATTACK_ANIMATION;
