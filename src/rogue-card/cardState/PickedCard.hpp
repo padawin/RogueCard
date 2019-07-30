@@ -8,6 +8,7 @@ class PickedCardState : public CardState {
 	PickedCardState();
 	std::string getStateID() const;
 	void update(StateMachine<CardState> &stateMachine);
+	void render(SDL_Renderer *renderer, Card &card, int x, int y);
 };
 
 #endif

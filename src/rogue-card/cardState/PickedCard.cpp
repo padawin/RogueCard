@@ -1,6 +1,7 @@
 #include <iostream>
 #include "PickedCard.hpp"
 #include "../coordinates.hpp"
+#include "../Card.hpp"
 
 const int STEP_X = 12;
 const int STEP_Y = 5;
@@ -35,4 +36,8 @@ void PickedCardState::update(StateMachine<CardState> &stateMachine) {
 	if (m_iX == endX && m_iY == endY) {
 		stateMachine.popState();
 	}
+}
+
+void PickedCardState::render(SDL_Renderer *renderer, Card &card, int x __attribute__((unused)), int y __attribute__((unused))) {
+	card._renderCard(renderer, m_iX, m_iY);
 }

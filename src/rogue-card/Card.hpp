@@ -32,6 +32,8 @@ class Card {
 	virtual const char* getName() const = 0;
 	void update();
 	void render(SDL_Renderer *renderer, int x, int y);
+	// To be called by the state
+	void _renderCard(SDL_Renderer *renderer, int x, int y) const;
 
 	int getX(int defaultX) const;
 	int getY(int defaultY) const;

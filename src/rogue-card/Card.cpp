@@ -14,8 +14,16 @@ void Card::setState(CardState* state) {
 }
 
 void Card::render(SDL_Renderer *renderer, int x, int y) {
-	x = getX(x);
-	y = getY(y);
+	CardState* state = m_stateMachine.getCurrentState();
+	if (state != nullptr) {
+		state->render(renderer, *this, x, y);
+	}
+	else {
+		_renderCard(renderer, x, y);
+	}
+}
+
+void Card::_renderCard(SDL_Renderer *renderer, int x, int y) const {
 	TextureManager::Instance()->draw(
 		"card", x, y, CARD_WIDTH, CARD_HEIGHT, renderer
 	);
