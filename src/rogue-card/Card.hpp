@@ -35,6 +35,7 @@ class Card {
 
 	int getX(int defaultX) const;
 	int getY(int defaultY) const;
+	bool ready() const;
 };
 
 #endif

@@ -50,3 +50,8 @@ int Card::getY(int defaultY) const {
 	}
 	return defaultY;
 }
+
+bool Card::ready() const {
+	CardState* state = m_stateMachine.getCurrentState();
+	return state == nullptr;
+}
