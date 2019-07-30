@@ -1,4 +1,5 @@
 #include "SDL2/SDL.h"
+#include <sstream>
 #include <math.h>
 #include "FightTurn.hpp"
 #include "../Card.hpp"
@@ -14,11 +15,23 @@ const int SPEED_ATTACK_ENEMY_PHASE2 = 2;
 
 const int FONT_SPEED = -1;
 
-FightTurnCardState::FightTurnCardState(int playerDamages, int enemyDamages) : CardState() {
-	m_damagesFromPlayer.setText(std::to_string(playerDamages));
-	m_damagesFromPlayer.setFont("font-red");
+FightTurnCardState::FightTurnCardState(S_FightTurnResult result) :
+	CardState(),
+	m_result(result)
+{
 
-	m_damagesFromEnemy.setText(std::to_string(enemyDamages));
+#if GCW
+	std::stringstream player2enemy, enemy2player;
+	player2enemy << m_result.damagesDealtToEnemy;
+	m_damagesFromPlayer.setText(player2enemy.str());
+	enemy2player << m_result.damagesDealtToPlayer;
+	m_damagesFromEnemy.setText(enemy2player.str());
+#else
+	m_damagesFromPlayer.setText(std::to_string(m_result.damagesDealtToEnemy));
+	m_damagesFromEnemy.setText(std::to_string(m_result.damagesDealtToPlayer));
+#endif
+
+	m_damagesFromPlayer.setFont("font-red");
 	m_damagesFromEnemy.setFont("font-red");
 
 	m_iStart = SDL_GetTicks();

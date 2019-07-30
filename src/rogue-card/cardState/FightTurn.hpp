@@ -4,6 +4,7 @@
 #include "../CardState.hpp"
 #include "../coordinates.hpp"
 #include "../sdl2/Text.hpp"
+#include "../common/types.hpp"
 
 class FightTurnCardState : public CardState {
 	private:
@@ -20,6 +21,7 @@ class FightTurnCardState : public CardState {
 	int m_iDoneSteps = 0;
 	unsigned int m_iStart = 0;
 
+	S_FightTurnResult m_result;
 	Text m_damagesFromPlayer = Text();
 	Text m_damagesFromEnemy = Text();
 
@@ -31,7 +33,7 @@ class FightTurnCardState : public CardState {
 	void _updatePause();
 
 	public:
-	FightTurnCardState(int playerDamages, int enemyDamages);
+	FightTurnCardState(S_FightTurnResult result);
 	std::string getStateID() const;
 	void update(StateMachine<CardState> &stateMachine);
 	void render(SDL_Renderer *renderer, Card &card, int x, int y);

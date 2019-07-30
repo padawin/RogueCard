@@ -461,9 +461,7 @@ void PlayScene::_changeFloor() {
 void PlayScene::_attack(std::shared_ptr<ObjectCard> attackCard) {
 	_notify("");
 	S_FightTurnResult res = m_fight.turn(attackCard);
-	m_pickedCard->setState(
-		new FightTurnCardState(res.damagesDealtToEnemy, res.damagesDealtToPlayer)
-	);
+	m_pickedCard->setState(new FightTurnCardState(res));
 }
 
 void PlayScene::_getFinalGoal() {
