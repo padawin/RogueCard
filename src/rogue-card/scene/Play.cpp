@@ -3,6 +3,7 @@
 #include "../Save.hpp"
 #include "../sdl2/TextureManager.hpp"
 #include "../cardState/PickedCard.hpp"
+#include "../cardState/FightTurn.hpp"
 #include "coordinates.hpp"
 #include "Intro.hpp"
 #include "GameOver.hpp"
@@ -461,6 +462,7 @@ void PlayScene::_changeFloor() {
 
 void PlayScene::_attack(std::shared_ptr<ObjectCard> attackCard) {
 	S_FightTurnResult res = m_fight.turn(attackCard);
+	m_pickedCard->setState(new FightTurnCardState());
 	if (m_fight.isFighting()) {
 		char message[80];
 		snprintf(
