@@ -1,6 +1,8 @@
 #include <SDL2/SDL.h>
 #include "../common/types.hpp"
 #include "../game/Game.hpp"
+#include "../game/StateMachine.hpp"
+#include "../game/SceneState.hpp"
 #include "../game/globals.hpp"
 #include "../sdl2/InputHandler.hpp"
 #include "../sdl2/Renderer.hpp"
@@ -58,7 +60,7 @@ int main(int argc, char* args[]) {
 	}
 
 	Game::setBinaryPath(binaryPath);
-	StateMachine stateMachine = StateMachine();
+	StateMachine<SceneState> stateMachine = StateMachine<SceneState>();
 	stateMachine.pushState(new MainMenuScene(userActions, renderer));
 	Game g(stateMachine, renderer, inputHandler);
 	_prepareTilesets(binaryPath, renderer);

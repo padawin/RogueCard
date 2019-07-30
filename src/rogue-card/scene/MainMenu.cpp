@@ -7,7 +7,7 @@
 #include "../Save.hpp"
 
 MainMenuScene::MainMenuScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer) :
-	State(userActions),
+	SceneState(userActions),
 	m_renderer(renderer),
 	m_title(Text()),
 	m_menu(MainMenu(renderer))
@@ -28,7 +28,7 @@ bool MainMenuScene::onEnter() {
 	return true;
 }
 
-void MainMenuScene::update(StateMachine &stateMachine) {
+void MainMenuScene::update(StateMachine<SceneState> &stateMachine) {
 	if (m_userActions.getActionState("QUIT")) {
 		stateMachine.clean();
 	}
@@ -43,7 +43,7 @@ void MainMenuScene::update(StateMachine &stateMachine) {
 	}
 }
 
-void MainMenuScene::_executeMenuAction(StateMachine &stateMachine) {
+void MainMenuScene::_executeMenuAction(StateMachine<SceneState> &stateMachine) {
 	switch (m_menu.getSelectedAction()) {
 		case NEW_GAME:
 			stateMachine.changeState(new PlayerCreationScene(m_userActions, m_renderer));

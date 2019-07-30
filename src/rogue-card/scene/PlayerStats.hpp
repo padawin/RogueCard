@@ -5,7 +5,7 @@
 #include <memory>
 #include "../common/ElementalEffects.hpp"
 #include "../game/types.hpp"
-#include "../game/State.hpp"
+#include "../game/SceneState.hpp"
 #include "../sdl2/Renderer.hpp"
 #include "../sdl2/Text.hpp"
 
@@ -14,7 +14,7 @@
 
 enum StatCursorPosition {Stats, Levels, NbStatPositions};
 
-class PlayerStatsScene : public State {
+class PlayerStatsScene : public SceneState {
 	private:
 	Player &m_player;
 
@@ -60,7 +60,7 @@ class PlayerStatsScene : public State {
 	public:
 	PlayerStatsScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer, Player &player);
 	bool onEnter();
-	void update(StateMachine &stateMachine);
+	void update(StateMachine<SceneState> &stateMachine);
 	void render();
 	std::string getStateID() const;
 };

@@ -8,7 +8,7 @@ const int LINE_MAX_LENGTH = 17;
 const int LINES_PER_PAGE = 10;
 
 IntroScene::IntroScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer) :
-	State(userActions),
+	SceneState(userActions),
 	m_renderer(renderer),
 	m_textField(Text())
 {}
@@ -54,7 +54,7 @@ void IntroScene::_buildLines() {
 	in.close();
 }
 
-void IntroScene::update(StateMachine &stateMachine) {
+void IntroScene::update(StateMachine<SceneState> &stateMachine) {
 	if (m_userActions.getActionState("MENU_ACTION")) {
 		++m_iCurrentPage;
 		if (m_iCurrentPage > m_vIntroText.size()) {

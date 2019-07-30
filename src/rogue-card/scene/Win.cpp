@@ -4,7 +4,7 @@
 #include "MainMenu.hpp"
 
 WinScene::WinScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer) :
-	State(userActions),
+	SceneState(userActions),
 	m_renderer(renderer),
 	m_title(Text()),
 	m_text(Text()),
@@ -23,7 +23,7 @@ bool WinScene::onEnter() {
 	return true;
 }
 
-void WinScene::update(StateMachine &stateMachine) {
+void WinScene::update(StateMachine<SceneState> &stateMachine) {
 	if (m_userActions.getActionState("CURSOR_UP")) {
 		m_menu.selectPrevious();
 	}
@@ -35,7 +35,7 @@ void WinScene::update(StateMachine &stateMachine) {
 	}
 }
 
-void WinScene::_executeMenuAction(StateMachine &stateMachine) {
+void WinScene::_executeMenuAction(StateMachine<SceneState> &stateMachine) {
 	switch (m_menu.getSelectedAction()) {
 		case ENDGAME_MAIN_MENU:
 			stateMachine.changeState(new MainMenuScene(m_userActions, m_renderer));

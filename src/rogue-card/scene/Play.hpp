@@ -3,7 +3,7 @@
 
 #include <string.h>
 #include <map>
-#include "../game/State.hpp"
+#include "../game/SceneState.hpp"
 #include "../game/types.hpp"
 #include "../sdl2/Renderer.hpp"
 #include "../sdl2/Text.hpp"
@@ -40,7 +40,7 @@ const int POSSIBLE_ACTIONS[][2] = {
 	{(int) GetFinalGoalAction, (int) GetFinalGoalAction}
 };
 
-class PlayScene : public State {
+class PlayScene : public SceneState {
 	private:
 	bool m_bShowIntro = false;
 	Player m_player;
@@ -63,7 +63,7 @@ class PlayScene : public State {
 	/* Animations */
 	PickCardAnimation m_pickedCardAnim = PickCardAnimation();
 
-	void _handleControls(StateMachine &stateMachine);
+	void _handleControls(StateMachine<SceneState> &stateMachine);
 
 	void _renderBackground() const;
 	void _renderNotification() const;
@@ -95,7 +95,7 @@ class PlayScene : public State {
 	public:
 	PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer, Player player=Player());
 	bool onEnter();
-	void update(StateMachine &stateMachine);
+	void update(StateMachine<SceneState> &stateMachine);
 	void render();
 	std::string getStateID() const;
 };

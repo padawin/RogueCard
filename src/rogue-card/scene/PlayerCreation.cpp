@@ -13,7 +13,7 @@ char starterWeapons[NB_WEAPON_CHOICES][32] = {
 };
 
 PlayerCreationScene::PlayerCreationScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer) :
-	State(userActions),
+	SceneState(userActions),
 	m_renderer(renderer),
 	m_title(Text()),
 	m_armorText(Text()),
@@ -36,7 +36,7 @@ bool PlayerCreationScene::onEnter() {
 	return true;
 }
 
-void PlayerCreationScene::update(StateMachine &stateMachine) {
+void PlayerCreationScene::update(StateMachine<SceneState> &stateMachine) {
 	if (m_userActions.getActionState("CURSOR_DOWN")) {
 		Menu* menu = (m_step == ARMOR_CHOICE ? (Menu*) &m_armorMenu : (Menu*) &m_weaponMenu);
 		menu->selectNext();

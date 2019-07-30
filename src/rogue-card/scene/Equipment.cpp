@@ -12,7 +12,7 @@ const int SELECTED_EQUIP_STAT_Y = 152;
 const int STAT_VAL_X_SHIFT = 72;
 
 EquipmentScene::EquipmentScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
-	State(userActions),
+	SceneState(userActions),
 	m_renderer(renderer),
 	m_availableCards(ObjectCardCollection()),
 	m_availableCardsRenderer(ObjectCardCollectionRenderer(
@@ -53,7 +53,7 @@ bool EquipmentScene::onEnter() {
 	return true;
 }
 
-void EquipmentScene::update(StateMachine &stateMachine) {
+void EquipmentScene::update(StateMachine<SceneState> &stateMachine) {
 	if (m_bSelectViewOpen) {
 		if (m_userActions.getActionState("BACK")) {
 			m_bSelectViewOpen = false;

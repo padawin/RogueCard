@@ -10,7 +10,7 @@ QuickActionBarScene::QuickActionBarScene(
 	std::shared_ptr<ObjectCard> card,
 	std::shared_ptr<SDL2Renderer> renderer
 ) :
-	State(userActions),
+	SceneState(userActions),
 	m_renderer(renderer),
 	m_actionBar(actionBar),
 	m_player(player),
@@ -30,7 +30,7 @@ bool QuickActionBarScene::onEnter() {
 	return true;
 }
 
-void QuickActionBarScene::update(StateMachine &stateMachine) {
+void QuickActionBarScene::update(StateMachine<SceneState> &stateMachine) {
 	if (m_userActions.getActionState("BACK")) {
 		stateMachine.popState();
 	}

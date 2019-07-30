@@ -36,7 +36,7 @@ PlayerStatsScene::PlayerStatsScene(
 	std::shared_ptr<SDL2Renderer> renderer,
 	Player &player
 ) :
-	State(userActions),
+	SceneState(userActions),
 	m_player(player),
 	m_renderer(renderer),
 	m_elementalEffectsAtk(ElementalEffects()),
@@ -72,7 +72,7 @@ bool PlayerStatsScene::onEnter() {
 	return true;
 }
 
-void PlayerStatsScene::update(StateMachine &stateMachine) {
+void PlayerStatsScene::update(StateMachine<SceneState> &stateMachine) {
 	if (m_userActions.getActionState("BACK")) {
 		stateMachine.popState();
 	}

@@ -8,7 +8,7 @@ const unsigned int PAGE_LEVEL = 0x4;
 const unsigned int LAST_PAGE = PAGE_LEVEL;
 
 FightResultScene::FightResultScene(UserActions &userActions, Fight &fight, std::shared_ptr<SDL2Renderer> renderer) :
-	State(userActions),
+	SceneState(userActions),
 	m_renderer(renderer),
 	m_fight(fight),
 	m_title(Text()),
@@ -64,7 +64,7 @@ std::string FightResultScene::getStateID() const {
 	return "FightResultScene";
 }
 
-void FightResultScene::update(StateMachine &stateMachine) {
+void FightResultScene::update(StateMachine<SceneState> &stateMachine) {
 	if (m_userActions.getActionState("CONFIRM")) {
 		do {
 			m_iPage = m_iPage << 1;

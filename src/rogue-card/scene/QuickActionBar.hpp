@@ -3,12 +3,12 @@
 
 #include <string.h>
 #include "../sdl2/Renderer.hpp"
-#include "../game/State.hpp"
+#include "../game/SceneState.hpp"
 #include "../game/types.hpp"
 #include "../ActionBar.hpp"
 #include "../Player.hpp"
 
-class QuickActionBarScene : public State {
+class QuickActionBarScene : public SceneState {
 	private:
 	std::shared_ptr<SDL2Renderer> m_renderer;
 	ActionBar &m_actionBar;
@@ -30,7 +30,7 @@ class QuickActionBarScene : public State {
 		std::shared_ptr<SDL2Renderer> renderer
 	);
 	bool onEnter();
-	void update(StateMachine &stateMachine);
+	void update(StateMachine<SceneState> &stateMachine);
 	void render();
 	std::string getStateID() const;
 };

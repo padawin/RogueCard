@@ -4,7 +4,7 @@
 std::string Game::m_sBinaryPath = "";
 
 Game::Game(
-	StateMachine stateMachine,
+	StateMachine<SceneState> stateMachine,
 	std::shared_ptr<Renderer> renderer,
 	std::shared_ptr<InputHandler> inputHandler
 ) :
