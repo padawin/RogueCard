@@ -61,6 +61,7 @@ class PlayScene : public SceneState {
 
 	bool _updateCards() const;
 	void _handleControls(StateMachine<SceneState> &stateMachine);
+	void _monitorStates(StateMachine<SceneState> &stateMachine);
 
 	void _renderBackground() const;
 	void _renderNotification() const;

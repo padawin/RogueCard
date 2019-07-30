@@ -79,15 +79,11 @@ void PlayScene::update(StateMachine<SceneState> &stateMachine) {
 	}
 
 	_handleControls(stateMachine);
+	_monitorStates(stateMachine);
 	_updateHealthBar();
 
-	// Reached the top
-	if (m_player.getFloor().getLevel() == 0) {
-		stateMachine.changeState(new WinScene(m_userActions, m_renderer));
-	}
-	else if (m_player.isDead()) {
-		Save::clean();
-		stateMachine.changeState(new GameOverScene(m_userActions, m_renderer));
+	if (m_pickedCard == nullptr) {
+		m_action = PickAction;
 	}
 }
 
@@ -120,20 +116,7 @@ void PlayScene::_handleControls(StateMachine<SceneState> &stateMachine) {
 		stateMachine.pushState(new EquipmentScene(m_userActions, m_player, m_renderer));
 	}
 	else if (m_userActions.getActionState("USE_CARD")) {
-		bool wasFighting = m_fight.isFighting();
 		_useCardUnderCursor();
-		// Killed the enemy
-		if (wasFighting && !m_fight.isFighting()) {
-			m_pickedCard = nullptr;
-			_notify("");
-			stateMachine.pushState(
-				new FightResultScene(m_userActions, m_fight, m_renderer)
-			);
-		}
-
-		if (m_pickedCard == nullptr) {
-			m_action = PickAction;
-		}
 	}
 	else if (m_userActions.getActionState("CURSOR_LEFT")) {
 		m_cursorPosition = (PlayCursorPosition) ((NbPositions + m_cursorPosition - 1) % NbPositions);
@@ -147,6 +130,29 @@ void PlayScene::_handleControls(StateMachine<SceneState> &stateMachine) {
 	else if (m_userActions.getActionState("CURSOR_DOWN")) {
 		_setNextAction(-1);
 	}
+}
+
+void PlayScene::_monitorStates(StateMachine<SceneState> &stateMachine) {
+	// Reached the top
+	if (m_player.getFloor().getLevel() == 0) {
+		stateMachine.changeState(new WinScene(m_userActions, m_renderer));
+	}
+	else if (m_player.isDead()) {
+		Save::clean();
+		stateMachine.changeState(new GameOverScene(m_userActions, m_renderer));
+	}
+	// Killed the enemy
+	else if (m_pickedCard != nullptr && m_pickedCard->getType() == EnemyCardType && !m_fight.isFighting()) {
+		m_pickedCard = nullptr;
+		_notify("");
+		stateMachine.pushState(
+			new FightResultScene(m_userActions, m_fight, m_renderer)
+		);
+	}
+}
+
+void PlayScene::_updateHealthBar() {
+	m_progressBar.setProgress(m_player.getHealth() * 100 / m_player.getMaxHealth());
 }
 
 void PlayScene::_setNextAction(int way) {
@@ -506,8 +512,4 @@ void PlayScene::_runaway() {
 		);
 		_notify(message);
 	}
-}
-
-void PlayScene::_updateHealthBar() {
-	m_progressBar.setProgress(m_player.getHealth() * 100 / m_player.getMaxHealth());
 }
