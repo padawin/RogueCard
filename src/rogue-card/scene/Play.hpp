@@ -63,6 +63,8 @@ class PlayScene : public State {
 	/* Animations */
 	PickCardAnimation m_pickedCardAnim = PickCardAnimation();
 
+	void _handleControls(StateMachine &stateMachine);
+
 	void _renderBackground() const;
 	void _renderNotification() const;
 	void _renderCursor();

@@ -79,14 +79,24 @@ void PlayScene::update(StateMachine &stateMachine) {
 		return;
 	}
 
-	Save s = Save(m_player, m_actionBar);
-	if (m_userActions.getActionState("QUIT")) {
-		s.save();
-		stateMachine.clean();
+	_handleControls(stateMachine);
+	_updateHealthBar();
+
+	// Reached the top
+	if (m_player.getFloor().getLevel() == 0) {
+		stateMachine.changeState(new WinScene(m_userActions, m_renderer));
 	}
 	else if (m_player.isDead()) {
 		Save::clean();
 		stateMachine.changeState(new GameOverScene(m_userActions, m_renderer));
+	}
+}
+
+void PlayScene::_handleControls(StateMachine &stateMachine) {
+	if (m_userActions.getActionState("QUIT")) {
+		Save s = Save(m_player, m_actionBar);
+		s.save();
+		stateMachine.clean();
 	}
 	else if (m_userActions.getActionState("INVENTORY")) {
 		stateMachine.pushState(
@@ -128,13 +138,6 @@ void PlayScene::update(StateMachine &stateMachine) {
 	}
 	else if (m_userActions.getActionState("CURSOR_DOWN")) {
 		_setNextAction(-1);
-	}
-
-	_updateHealthBar();
-
-	// Reached the top
-	if (m_player.getFloor().getLevel() == 0) {
-		stateMachine.changeState(new WinScene(m_userActions, m_renderer));
 	}
 }
 
