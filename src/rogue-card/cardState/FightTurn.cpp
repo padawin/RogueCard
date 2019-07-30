@@ -19,6 +19,8 @@ FightTurnCardState::FightTurnCardState(S_FightTurnResult result) :
 	CardState(),
 	m_result(result)
 {
+	m_critical.setText("Critical!");
+	m_critical.setFont("font-red");
 
 #if GCW
 	std::stringstream player2enemy, enemy2player;
@@ -74,6 +76,7 @@ void FightTurnCardState::_updatePlayerAttack() {
 	unsigned int duration = currTime - m_iStart;
 	m_iX = (int) (sin(duration / 25.0) * 5);
 	m_iDamagesFromPlayerY += FONT_SPEED;
+	m_iCriticalPlayerY += FONT_SPEED;
 	if (duration > MAX_DURATION_PLAYER_ATTACK) {
 		m_iX = 0;
 		m_iStart = currTime;
@@ -85,6 +88,7 @@ void FightTurnCardState::_updateEnemyAttack() {
 	unsigned int currTime = SDL_GetTicks();
 	unsigned int duration = currTime - m_iStart;
 	m_iDamagesFromEnemyY += FONT_SPEED;
+	m_iCriticalEnemyY += FONT_SPEED;
 	if (duration <= MAX_DURATION_ENEMY_ATTACK_PHASE1) {
 		m_iY += SPEED_ATTACK_ENEMY_PHASE1;
 	}
@@ -111,8 +115,14 @@ void FightTurnCardState::render(SDL_Renderer *renderer, Card &card, int x, int y
 	card._renderCard(renderer, x + m_iX, y + m_iY);
 	if (m_iStep == STEP_PLAYER_ATTACK_ANIMATION) {
 		m_damagesFromPlayer.render(renderer, DAMAGES_FROM_PLAYER.x, m_iDamagesFromPlayerY);
+		if (m_result.playerDidCritical) {
+			m_critical.render(renderer, CRITICAL_FROM_PLAYER.x, m_iCriticalPlayerY);
+		}
 	}
 	else if (m_iStep == STEP_ENEMY_ATTACK_ANIMATION) {
 		m_damagesFromEnemy.render(renderer, DAMAGES_FROM_ENEMY.x, m_iDamagesFromEnemyY);
+		if (m_result.enemyDidCritical) {
+			m_critical.render(renderer, CRITICAL_FROM_ENEMY.x, m_iCriticalEnemyY);
+		}
 	}
 }

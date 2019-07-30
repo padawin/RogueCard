@@ -105,6 +105,8 @@ struct S_FloorContent {
 struct S_FightTurnResult {
 	int damagesDealtToEnemy = 0;
 	int damagesDealtToPlayer = 0;
+	bool playerDidCritical = false;
+	bool enemyDidCritical = false;
 };
 
 #endif

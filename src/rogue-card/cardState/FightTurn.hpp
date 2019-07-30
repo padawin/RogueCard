@@ -22,11 +22,14 @@ class FightTurnCardState : public CardState {
 	unsigned int m_iStart = 0;
 
 	S_FightTurnResult m_result;
+	Text m_critical = Text();
 	Text m_damagesFromPlayer = Text();
 	Text m_damagesFromEnemy = Text();
 
 	int m_iDamagesFromPlayerY = DAMAGES_FROM_PLAYER.y;
 	int m_iDamagesFromEnemyY = DAMAGES_FROM_ENEMY.y;
+	int m_iCriticalPlayerY = CRITICAL_FROM_PLAYER.y;
+	int m_iCriticalEnemyY = CRITICAL_FROM_ENEMY.y;
 
 	void _updatePlayerAttack();
 	void _updateEnemyAttack();
