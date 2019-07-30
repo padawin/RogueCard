@@ -38,7 +38,7 @@ void PickCardAnimation::update() {
 	}
 }
 
-int PickCardAnimation::running() const {
+bool PickCardAnimation::running() const {
 	return m_bRunning;
 }
 
