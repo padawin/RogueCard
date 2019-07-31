@@ -4,6 +4,7 @@
 Player::Player() :
 	m_equipment(Equipment()),
 	m_inventory(ObjectCardCollection()),
+	m_actionBar(ActionBar()),
 	m_floor(Floor()),
 	m_levelling(Levelling()),
 	m_health(30, 30)
@@ -191,4 +192,8 @@ bool Player::foundFinalGoal() const {
 
 bool Player::foundFloorCard() const {
 	return m_bFoundFloorCard;
+}
+
+ActionBar &Player::getActionBar() {
+	return m_actionBar;
 }

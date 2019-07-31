@@ -10,6 +10,7 @@
 #include "../sdl2/Text.hpp"
 
 #include "Player.hpp"
+#include "Tab.hpp"
 #include "ProgressBar.hpp"
 
 enum StatCursorPosition {Stats, Levels, NbStatPositions};
@@ -20,11 +21,11 @@ class PlayerStatsScene : public SceneState {
 
 	std::shared_ptr<SDL2Renderer> m_renderer;
 	StatCursorPosition m_cursorPosition = Stats;
-	std::map<StatCursorPosition, S_Coordinates> m_mCursorPositions = {};
 	ElementalEffects m_elementalEffectsAtk;
 	ElementalEffects m_elementalEffectsDef;
-	Text m_statsTitle;
-	Text m_levelsTitle;
+
+	// Titles
+	Tab m_titlesTab;
 
 	// Stats texts
 	Text m_elementTexts[NB_ELEMENTS * 2] = {}; // x2 to have attack and defence texts
@@ -50,8 +51,6 @@ class PlayerStatsScene : public SceneState {
 	void _setSkillsTextsAndProgress();
 
 	void _renderBackground() const;
-	void _renderCursor();
-	void _renderTitles();
 	void _renderPagination() const;
 
 	void _renderStats() const;

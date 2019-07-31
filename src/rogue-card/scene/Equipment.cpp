@@ -2,18 +2,20 @@
 #include "../game/StateMachine.hpp"
 #include "../sdl2/TextureManager.hpp"
 #include "Equipment.hpp"
+#include "Inventory.hpp"
 
 const int CURRENT_EQUIP_STAT_X = 16;
-const int CURRENT_EQUIP_STAT_Y = 152;
+const int CURRENT_EQUIP_STAT_Y = 170;
 
 const int SELECTED_EQUIP_STAT_X = 160;
-const int SELECTED_EQUIP_STAT_Y = 152;
+const int SELECTED_EQUIP_STAT_Y = 170;
 
 const int STAT_VAL_X_SHIFT = 72;
 
 EquipmentScene::EquipmentScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
 	SceneState(userActions),
 	m_renderer(renderer),
+	m_titlesTab("Inventory", "Equipment", 8, 1),
 	m_availableCards(ObjectCardCollection()),
 	m_availableCardsRenderer(ObjectCardCollectionRenderer(
 		userActions,
@@ -27,14 +29,14 @@ EquipmentScene::EquipmentScene(UserActions &userActions, Player &player, std::sh
 	m_statLabel(Text()),
 	m_statValue(Text())
 {
-	m_mCursorPositions[0] = {16, 16};
-	m_mCursorPositions[1] = {64, 16};
-	m_mCursorPositions[2] = {112, 16};
-	m_mCursorPositions[3] = {160, 16};
-	m_mCursorPositions[4] = {208, 16};
-	m_mCursorPositions[5] = {256, 16};
-	m_mCursorPositions[6] = {16, 80};
-	m_mCursorPositions[7] = {256, 80};
+	m_mCursorPositions[0] = {16, 34};
+	m_mCursorPositions[1] = {64, 34};
+	m_mCursorPositions[2] = {112, 34};
+	m_mCursorPositions[3] = {160, 34};
+	m_mCursorPositions[4] = {208, 34};
+	m_mCursorPositions[5] = {256, 34};
+	m_mCursorPositions[6] = {16, 98};
+	m_mCursorPositions[7] = {256, 98};
 	m_equipmentFlags[0] = FLAG_EQUIPMENT_HEAD;
 	m_equipmentFlags[1] = FLAG_EQUIPMENT_SHOULDERS;
 	m_equipmentFlags[2] = FLAG_EQUIPMENT_CHEST;
@@ -76,6 +78,9 @@ void EquipmentScene::update(StateMachine<SceneState> &stateMachine) {
 		if (m_userActions.getActionState("BACK")) {
 			stateMachine.popState();
 		}
+		else if (m_userActions.getActionState("INVENTORY")) {
+			stateMachine.changeState(new InventoryScene(m_userActions, m_player, m_renderer));
+		}
 		else if (m_userActions.getActionState("CURSOR_LEFT")) {
 			m_cursorPosition = (SIZE_EQUIPMENT + m_cursorPosition - 1) % SIZE_EQUIPMENT;
 		}
@@ -105,6 +110,7 @@ void EquipmentScene::render() {
 		_renderCards();
 		_renderCursor();
 	}
+	m_titlesTab.render(m_renderer->getRenderer());
 	_renderCardStats(equippedCard, selectedCard, CURRENT_EQUIP_STAT_X);
 	_renderCardStats(selectedCard, equippedCard, SELECTED_EQUIP_STAT_X);
 }

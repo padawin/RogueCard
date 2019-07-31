@@ -28,7 +28,6 @@ PlayScene::PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> ren
 	m_renderer(renderer),
 	m_actionCard(ActionCard()),
 	m_deck(CardDeck()),
-	m_actionBar(ActionBar()),
 	m_notification(Text()),
 	m_fight(Fight(m_player)),
 	m_progressBar(ProgressBar())
@@ -46,7 +45,7 @@ std::string PlayScene::getStateID() const {
 }
 
 bool PlayScene::onEnter() {
-	Save s = Save(m_player, m_actionBar);
+	Save s = Save(m_player);
 	if (s.exists()) {
 		std::clog << "Save found, load\n";
 		s.load();
@@ -97,13 +96,13 @@ bool PlayScene::_updateCards() const {
 
 void PlayScene::_handleControls(StateMachine<SceneState> &stateMachine) {
 	if (m_userActions.getActionState("QUIT")) {
-		Save s = Save(m_player, m_actionBar);
+		Save s = Save(m_player);
 		s.save();
 		stateMachine.clean();
 	}
 	else if (m_userActions.getActionState("INVENTORY")) {
 		stateMachine.pushState(
-			new InventoryScene(m_userActions, m_actionBar, m_player, m_renderer)
+			new InventoryScene(m_userActions, m_player, m_renderer)
 		);
 	}
 	else if (m_userActions.getActionState("PLAYER_STATS")) {
@@ -224,8 +223,8 @@ void PlayScene::_renderCards() {
 	}
 	for (int i = 0; i < ACTION_BAR_SIZE; ++i) {
 		S_Coordinates pos = m_mCursorPositions[(PlayCursorPosition)(Object1 + i)];
-		if (m_actionBar.getCard(i) != nullptr) {
-			m_actionBar.getCard(i)->render(m_renderer->getRenderer(), pos.x, pos.y);
+		if (m_player.getActionBar().getCard(i) != nullptr) {
+			m_player.getActionBar().getCard(i)->render(m_renderer->getRenderer(), pos.x, pos.y);
 		}
 	}
 	if (m_floorCard) {
@@ -381,7 +380,7 @@ void PlayScene::_action() {
 }
 
 void PlayScene::_useObject(int objectIndex) {
-	auto card = m_actionBar.getCard(objectIndex);
+	auto card = m_player.getActionBar().getCard(objectIndex);
 	if (card != nullptr) {
 		bool isFighting = m_fight.isFighting();
 		bool used = true;
@@ -420,7 +419,7 @@ void PlayScene::_useObject(int objectIndex) {
 			card->consume();
 			if (card->getQuantity() == 0) {
 				m_player.removeInventoryCard(card);
-				m_actionBar.removeCard(card);
+				m_player.getActionBar().removeCard(card);
 			}
 		}
 	}

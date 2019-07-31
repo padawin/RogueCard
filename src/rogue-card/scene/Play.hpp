@@ -10,7 +10,6 @@
 #include "../Player.hpp"
 #include "../CardDeck.hpp"
 #include "../ActionCard.hpp"
-#include "../ActionBar.hpp"
 #include "../ProgressBar.hpp"
 #include "../Fight.hpp"
 
@@ -46,7 +45,6 @@ class PlayScene : public SceneState {
 	std::shared_ptr<SDL2Renderer> m_renderer;
 	ActionCard m_actionCard;
 	CardDeck m_deck;
-	ActionBar m_actionBar;
 	Text m_notification;
 	Fight m_fight;
 
