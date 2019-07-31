@@ -3,7 +3,7 @@
 #include "ObjectCardCollectionRenderer.hpp"
 
 #define OFFSET_X 16
-#define OFFSET_Y 16
+#define OFFSET_Y 34
 #define PAGE_WIDTH_CARDS 6
 
 const int CARD_EQUIPPED_X = 7;
