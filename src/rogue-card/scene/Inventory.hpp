@@ -6,7 +6,6 @@
 #include "../game/SceneState.hpp"
 #include "../sdl2/Renderer.hpp"
 #include "../Player.hpp"
-#include "../ActionBar.hpp"
 #include "../menus/ObjectAction.hpp"
 #include "../ObjectCardCollectionRenderer.hpp"
 
@@ -16,7 +15,6 @@ class InventoryScene : public SceneState {
 	std::shared_ptr<SDL2Renderer> m_renderer;
 	ObjectAction m_objectActionMenu;
 	ObjectCardCollectionRenderer m_cardsRenderer;
-	ActionBar &m_actionBar;
 
 	int _getCardIndex() const;
 
@@ -34,7 +32,6 @@ class InventoryScene : public SceneState {
 	public:
 	InventoryScene(
 		UserActions &userActions,
-		ActionBar &m_actionBar,
 		Player &player,
 		std::shared_ptr<SDL2Renderer> renderer
 	);

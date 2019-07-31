@@ -8,6 +8,7 @@
 #include "Levelling.hpp"
 #include "Equipment.hpp"
 #include "ObjectCardCollection.hpp"
+#include "ActionBar.hpp"
 
 class EnemyCard;
 
@@ -15,6 +16,7 @@ class Player {
 	private:
 	Equipment m_equipment;
 	ObjectCardCollection m_inventory;
+	ActionBar m_actionBar;
 	Floor m_floor;
 	Levelling m_levelling;
 	Health m_health;
@@ -71,6 +73,8 @@ class Player {
 	void setFoundFloorCard(bool found);
 	bool foundFinalGoal() const;
 	bool foundFloorCard() const;
+
+	ActionBar &getActionBar();
 };
 
 #endif

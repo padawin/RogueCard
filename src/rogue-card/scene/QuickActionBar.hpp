@@ -5,13 +5,11 @@
 #include "../sdl2/Renderer.hpp"
 #include "../game/SceneState.hpp"
 #include "../game/types.hpp"
-#include "../ActionBar.hpp"
 #include "../Player.hpp"
 
 class QuickActionBarScene : public SceneState {
 	private:
 	std::shared_ptr<SDL2Renderer> m_renderer;
-	ActionBar &m_actionBar;
 	Player &m_player;
 	std::shared_ptr<ObjectCard> m_card = nullptr;
 	int m_cursorPosition = 0;
@@ -24,7 +22,6 @@ class QuickActionBarScene : public SceneState {
 	public:
 	QuickActionBarScene(
 		UserActions &userActions,
-		ActionBar &actionBar,
 		Player &player,
 		std::shared_ptr<ObjectCard> card,
 		std::shared_ptr<SDL2Renderer> renderer

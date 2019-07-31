@@ -10,10 +10,7 @@
 
 const char* PLAYER_FILE = "player.dat";
 
-Save::Save(Player &player, ActionBar &actionBar) :
-	m_player(player),
-	m_actionBar(actionBar)
-{}
+Save::Save(Player &player) : m_player(player) {}
 
 bool Save::exists() {
 	struct stat st;
@@ -103,7 +100,7 @@ void Save::_loadPlayer() {
 				"a %d %d\n",
 				&actionBarIndex, &cardIndex
 			);
-			m_actionBar.setCard(
+			m_player.getActionBar().setCard(
 				actionBarIndex, m_player.getInventoryItem(cardIndex)
 			);
 		}
@@ -163,18 +160,18 @@ void Save::_savePlayer() {
 	} while (m_player.getInventory().next());
 	// Action bar and Equipments must be saved after the inventory as it
 	// references the inventory indexes
-	m_actionBar.reset();
+	m_player.getActionBar().reset();
 	do {
-		auto card = m_actionBar.current();
+		auto card = m_player.getActionBar().current();
 		if (card != nullptr) {
 			fprintf(
 				playerFile,
 				"a %d %d\n",
-				m_actionBar.getCurrentIndex(),
+				m_player.getActionBar().getCurrentIndex(),
 				m_player.getInventory().getCardIndex(card)
 			);
 		}
-	} while (m_actionBar.next());
+	} while (m_player.getActionBar().next());
 	m_player.getEquipment().reset();
 	do {
 		auto card = m_player.getEquipment().current();

@@ -5,14 +5,12 @@
 
 QuickActionBarScene::QuickActionBarScene(
 	UserActions &userActions,
-	ActionBar &actionBar,
 	Player &player,
 	std::shared_ptr<ObjectCard> card,
 	std::shared_ptr<SDL2Renderer> renderer
 ) :
 	SceneState(userActions),
 	m_renderer(renderer),
-	m_actionBar(actionBar),
 	m_player(player),
 	m_card(card)
 {
@@ -41,7 +39,7 @@ void QuickActionBarScene::update(StateMachine<SceneState> &stateMachine) {
 		m_cursorPosition = ((m_cursorPosition + 1) % ACTION_BAR_SIZE);
 	}
 	else if (m_userActions.getActionState("USE_CARD")) {
-		m_actionBar.setCard(m_cursorPosition, m_card);
+		m_player.getActionBar().setCard(m_cursorPosition, m_card);
 		stateMachine.popState();
 		// If fighting, remove the Inventory state.
 		// This assumes the current state comes from the inventory, which is
@@ -66,8 +64,8 @@ void QuickActionBarScene::_renderBackground() const {
 
 void QuickActionBarScene::_renderCards() const {
 	for (int pos = 0; pos < ACTION_BAR_SIZE; ++pos) {
-		if (m_actionBar.getCard(pos) != nullptr) {
-			m_actionBar.getCard(pos)->render(
+		if (m_player.getActionBar().getCard(pos) != nullptr) {
+			m_player.getActionBar().getCard(pos)->render(
 				m_renderer->getRenderer(),
 				m_mCursorPositions[pos].x,
 				m_mCursorPositions[pos].y

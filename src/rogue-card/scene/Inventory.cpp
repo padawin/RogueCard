@@ -8,7 +8,6 @@
 
 InventoryScene::InventoryScene(
 	UserActions &userActions,
-	ActionBar &actionBar,
 	Player &player,
 	std::shared_ptr<SDL2Renderer> renderer
 ) :
@@ -23,8 +22,7 @@ InventoryScene::InventoryScene(
 		18,
 		"ui-inventory",
 		m_renderer
-	)),
-	m_actionBar(actionBar)
+	))
 {
 }
 
@@ -67,7 +65,7 @@ void InventoryScene::update(StateMachine<SceneState> &stateMachine) {
 		if (card != nullptr) {
 			m_objectActionMenu.setContext(
 				(!m_player.isFighting() ? FLAG_CONTEXT_NOT_IN_FIGHT : 0)
-				| (m_actionBar.hasCard(card) ? FLAG_CONTEXT_CARD_IN_ACTIONBAR : FLAG_CONTEXT_CARD_NOT_IN_ACTIONBAR)
+				| (m_player.getActionBar().hasCard(card) ? FLAG_CONTEXT_CARD_IN_ACTIONBAR : FLAG_CONTEXT_CARD_NOT_IN_ACTIONBAR)
 			);
 			m_objectActionMenu.open(card);
 		}
@@ -84,8 +82,8 @@ void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMach
 			card->consume();
 			if (card->getQuantity() == 0) {
 				m_player.removeInventoryCard(card);
-				if (m_actionBar.hasCard(card)) {
-					m_actionBar.removeCard(card);
+				if (m_player.getActionBar().hasCard(card)) {
+					m_player.getActionBar().removeCard(card);
 				}
 			}
 		}
@@ -102,23 +100,22 @@ void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMach
 	else if (action == DISCARD) {
 		m_player.removeInventoryCard(card);
 		m_player.getEquipment().remove(card);
-		if (m_actionBar.hasCard(card)) {
-			m_actionBar.removeCard(card);
+		if (m_player.getActionBar().hasCard(card)) {
+			m_player.getActionBar().removeCard(card);
 		}
 	}
-	else if (action == ADD_ACTIONBAR && !m_actionBar.hasCard(card)) {
+	else if (action == ADD_ACTIONBAR && !m_player.getActionBar().hasCard(card)) {
 		stateMachine.pushState(
 			new QuickActionBarScene(
 				m_userActions,
-				m_actionBar,
 				m_player,
 				card,
 				m_renderer
 			)
 		);
 	}
-	else if (action == REMOVE_ACTIONBAR && m_actionBar.hasCard(card)) {
-		m_actionBar.removeCard(card);
+	else if (action == REMOVE_ACTIONBAR && m_player.getActionBar().hasCard(card)) {
+		m_player.getActionBar().removeCard(card);
 	}
 }
 
