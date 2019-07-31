@@ -3,14 +3,9 @@
 #include "../game/StateMachine.hpp"
 #include "../sdl2/TextureManager.hpp"
 
-const int STAT_CURSOR_WIDTH = 144;
-const int STAT_CURSOR_HEIGHT = 14;
-
 const int STAT_TEXT_X = 8;
 const int STAT_HP_Y = 62;
 const int STAT_FLOOR_Y = 78;
-const int STAT_STR_Y = 110;
-const int STAT_DEF_Y = 126;
 
 const int NB_ELEMENTS_PER_PAGE = 10;
 const int NB_SKILLS_PER_PAGE = 5;
@@ -20,7 +15,6 @@ const int PREV_PAGE_X = 152;
 const int PREV_PAGE_Y = 220;
 
 const int FIRST_ELEMENT_Y = 62;
-const int FIRST_SKILL_LEVEL_Y = 55;
 const int FIRST_SKILL_PROGRESS_Y = 77;
 
 const int SKILL_TEXT_X = 8;
@@ -41,8 +35,7 @@ PlayerStatsScene::PlayerStatsScene(
 	m_renderer(renderer),
 	m_elementalEffectsAtk(ElementalEffects()),
 	m_elementalEffectsDef(ElementalEffects()),
-	m_statsTitle(Text()),
-	m_levelsTitle(Text()),
+	m_titlesTab(Tab("Stats", "levels", 8)),
 	m_healthTitle(Text()),
 	m_floorTitle(Text()),
 	m_nextLevel(Text())
@@ -56,19 +49,12 @@ std::string PlayerStatsScene::getStateID() const {
 bool PlayerStatsScene::onEnter() {
 	m_elementalEffectsAtk = m_player.getElementalEffects(false);
 	m_elementalEffectsDef = m_player.getElementalEffects(true);
-	m_mCursorPositions[Stats] = {9, 8};
-	m_mCursorPositions[Levels] = {167, 8};
-	m_statsTitle.setText("Stats");
-	m_levelsTitle.setText("Levels");
 	m_nextLevel.setText("To next level:");
 
 	_setDynamicTitles();
 	_setElementTitles();
 	_setSkillsTextsAndProgress();
 
-	// Horizontally center the titles
-	m_iStatsTitleX = m_mCursorPositions[Stats].x + (STAT_CURSOR_WIDTH - m_statsTitle.getLength()) / 2;
-	m_iLevelsTitleX = m_mCursorPositions[Levels].x + (STAT_CURSOR_WIDTH - m_levelsTitle.getLength()) / 2;
 	return true;
 }
 
@@ -80,12 +66,14 @@ void PlayerStatsScene::update(StateMachine<SceneState> &stateMachine) {
 		if (m_cursorPosition > 0) {
 			m_iPage = 1;
 			m_cursorPosition = (StatCursorPosition) ((int) m_cursorPosition - 1);
+			m_titlesTab.selectPrev();
 		}
 	}
 	else if (m_userActions.getActionState("CURSOR_RIGHT")) {
 		if (m_cursorPosition < NbStatPositions - 1) {
 			m_iPage = 1;
 			m_cursorPosition = (StatCursorPosition) ((int) m_cursorPosition + 1);
+			m_titlesTab.selectNext();
 		}
 	}
 	else if (m_userActions.getActionState("CURSOR_UP")) {
@@ -102,8 +90,7 @@ void PlayerStatsScene::update(StateMachine<SceneState> &stateMachine) {
 
 void PlayerStatsScene::render() {
 	_renderBackground();
-	_renderCursor();
-	_renderTitles();
+	m_titlesTab.render(m_renderer->getRenderer());
 	_renderPagination();
 	if (m_cursorPosition == Stats) {
 		_renderStats();
@@ -177,30 +164,6 @@ void PlayerStatsScene::_setSkillsTextsAndProgress() {
 void PlayerStatsScene::_renderBackground() const {
 	TextureManager::Instance()->draw(
 		"ui-player-stats", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, m_renderer->getRenderer()
-	);
-}
-
-void PlayerStatsScene::_renderCursor() {
-	TextureManager::Instance()->draw(
-		"cursor-player-stats",
-		m_mCursorPositions[m_cursorPosition].x,
-		m_mCursorPositions[m_cursorPosition].y,
-		STAT_CURSOR_WIDTH,
-		STAT_CURSOR_HEIGHT,
-		m_renderer->getRenderer()
-	);
-}
-
-void PlayerStatsScene::_renderTitles() {
-	m_statsTitle.render(
-		m_renderer->getRenderer(),
-		m_iStatsTitleX,
-		m_mCursorPositions[Stats].y
-	);
-	m_levelsTitle.render(
-		m_renderer->getRenderer(),
-		m_iLevelsTitleX,
-		m_mCursorPositions[Levels].y
 	);
 }
 
