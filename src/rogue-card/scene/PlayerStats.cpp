@@ -77,12 +77,16 @@ void PlayerStatsScene::update(StateMachine<SceneState> &stateMachine) {
 		stateMachine.popState();
 	}
 	else if (m_userActions.getActionState("CURSOR_LEFT")) {
-		m_iPage = 1;
-		m_cursorPosition = (StatCursorPosition) ((NbStatPositions + m_cursorPosition - 1) % NbStatPositions);
+		if (m_cursorPosition > 0) {
+			m_iPage = 1;
+			m_cursorPosition = (StatCursorPosition) ((int) m_cursorPosition - 1);
+		}
 	}
 	else if (m_userActions.getActionState("CURSOR_RIGHT")) {
-		m_iPage = 1;
-		m_cursorPosition = (StatCursorPosition) ((m_cursorPosition + 1) % NbStatPositions);
+		if (m_cursorPosition < NbStatPositions - 1) {
+			m_iPage = 1;
+			m_cursorPosition = (StatCursorPosition) ((int) m_cursorPosition + 1);
+		}
 	}
 	else if (m_userActions.getActionState("CURSOR_UP")) {
 		if (m_iPage > 1) {
