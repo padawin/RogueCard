@@ -2,6 +2,7 @@
 #include "../game/StateMachine.hpp"
 #include "../sdl2/TextureManager.hpp"
 #include "Equipment.hpp"
+#include "Inventory.hpp"
 
 const int CURRENT_EQUIP_STAT_X = 16;
 const int CURRENT_EQUIP_STAT_Y = 170;
@@ -14,6 +15,7 @@ const int STAT_VAL_X_SHIFT = 72;
 EquipmentScene::EquipmentScene(UserActions &userActions, Player &player, std::shared_ptr<SDL2Renderer> renderer) :
 	SceneState(userActions),
 	m_renderer(renderer),
+	m_titlesTab("Inventory", "Equipment", 8, 1),
 	m_availableCards(ObjectCardCollection()),
 	m_availableCardsRenderer(ObjectCardCollectionRenderer(
 		userActions,
@@ -76,6 +78,9 @@ void EquipmentScene::update(StateMachine<SceneState> &stateMachine) {
 		if (m_userActions.getActionState("BACK")) {
 			stateMachine.popState();
 		}
+		else if (m_userActions.getActionState("INVENTORY")) {
+			stateMachine.changeState(new InventoryScene(m_userActions, m_player, m_renderer));
+		}
 		else if (m_userActions.getActionState("CURSOR_LEFT")) {
 			m_cursorPosition = (SIZE_EQUIPMENT + m_cursorPosition - 1) % SIZE_EQUIPMENT;
 		}
@@ -105,6 +110,7 @@ void EquipmentScene::render() {
 		_renderCards();
 		_renderCursor();
 	}
+	m_titlesTab.render(m_renderer->getRenderer());
 	_renderCardStats(equippedCard, selectedCard, CURRENT_EQUIP_STAT_X);
 	_renderCardStats(selectedCard, equippedCard, SELECTED_EQUIP_STAT_X);
 }

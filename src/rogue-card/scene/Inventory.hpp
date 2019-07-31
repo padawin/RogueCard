@@ -9,8 +9,11 @@
 #include "../menus/ObjectAction.hpp"
 #include "../ObjectCardCollectionRenderer.hpp"
 
+#include "Tab.hpp"
+
 class InventoryScene : public SceneState {
 	private:
+	Tab m_titlesTab;
 	Player &m_player;
 	std::shared_ptr<SDL2Renderer> m_renderer;
 	ObjectAction m_objectActionMenu;

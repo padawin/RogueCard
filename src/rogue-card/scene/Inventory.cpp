@@ -3,6 +3,7 @@
 #include "../game/globals.hpp"
 #include "../sdl2/TextureManager.hpp"
 #include "Inventory.hpp"
+#include "Equipment.hpp"
 #include "QuickActionBar.hpp"
 #include "ObjectCard.hpp"
 
@@ -12,6 +13,7 @@ InventoryScene::InventoryScene(
 	std::shared_ptr<SDL2Renderer> renderer
 ) :
 	SceneState(userActions),
+	m_titlesTab("Inventory", "Equipment", 8),
 	m_player(player),
 	m_renderer(renderer),
 	m_objectActionMenu(ObjectAction(renderer)),
@@ -70,6 +72,9 @@ void InventoryScene::update(StateMachine<SceneState> &stateMachine) {
 			m_objectActionMenu.open(card);
 		}
 	}
+	else if (m_userActions.getActionState("EQUIPMENT")) {
+		stateMachine.changeState(new EquipmentScene(m_userActions, m_player, m_renderer));
+	}
 	else {
 		m_cardsRenderer.update();
 	}
@@ -121,6 +126,7 @@ void InventoryScene::_executeMenuAction(E_ObjectActionMenuItem action, StateMach
 
 void InventoryScene::render() {
 	m_cardsRenderer.render();
+	m_titlesTab.render(m_renderer->getRenderer());
 	if (m_objectActionMenu.isOpen()) {
 		m_objectActionMenu.render();
 	}

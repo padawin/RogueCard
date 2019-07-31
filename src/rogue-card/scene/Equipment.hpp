@@ -8,6 +8,7 @@
 #include "../sdl2/Renderer.hpp"
 #include "../sdl2/Text.hpp"
 #include "Player.hpp"
+#include "Tab.hpp"
 #include "ObjectCardCollectionRenderer.hpp"
 
 class EquipmentScene : public SceneState {
@@ -16,6 +17,7 @@ class EquipmentScene : public SceneState {
 	int m_cursorPosition = 0;
 	S_Coordinates m_mCursorPositions[SIZE_EQUIPMENT] = {};
 	unsigned int m_equipmentFlags[SIZE_EQUIPMENT] = {};
+	Tab m_titlesTab;
 	ObjectCardCollection m_availableCards;
 	ObjectCardCollectionRenderer m_availableCardsRenderer;
 	Player &m_player;
