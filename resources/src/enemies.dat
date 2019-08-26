@@ -6,22 +6,29 @@
 # %META FIELD% Health 1 0
 # %META FIELD% Strength 1 0
 # %META FIELD% Defence 1 0
-# %META FIELD% FileAttack 1 0
-# %META FIELD% FileResistance 1 0
+# %META FIELD% FireAttack 1 0
+# %META FIELD% FireResistance 1 0
 # %META FIELD% DropRate 1 0
 # %META FIELD% MinItems 1 0
 # %META FIELD% MaxItems 1 0
 # %META END%
 "BUG" "Bug" 0 0 10 2 1 0 -50 0 0 0
-"STONE_BUG" "Stone Bug" 0 1 10 3 1 0 100 0 0 0
+"STONE_BUG" "Stone Bug" 0 1 10 3 2 0 100 0 0 0
 "FIRE_BUG" "Fire Bug" 0 2 10 2 1 4 150 0 0 0
 "GREY_RAT" "Rat" 1 0 10 2 1 0 0 50 1 1
 "WHITE_RAT" "Rat" 1 1 10 2 1 0 0 50 1 1
 "BROWN_RAT" "Rat" 1 2 10 2 1 0 0 50 1 1
+"POISON_BLOB" "Poison blob" 2 0 10 1 1 0 -100 0 0 0
+"BLOB" "Blob" 2 0 10 1 1 0 0 0 0 0
+"FIRE_BLOB" "Fire blob" 2 0 10 1 1 0 100 0 0 0
+"BROWN_LARVAE" "Larvae" 3 0 10 1 1 0 -20 0 0 0
+"DARK_LARVAE" "Larvae" 3 0 10 1 1 0 -20 0 0 0
+"LIGHT_LARVAE" "Larvae" 3 0 10 1 1 0 -20 0 0 0
 "WASP" "Wasp" 4 1 5 2 1 0 0 0 0 0
 "POISON_SNAKE" "Poison Snake" 7 0 15 3 2 0 -50 50 1 1
 "LIGHT_SNAKE" "Snake" 7 1 15 3 2 0 0 50 1 1
-"DARK_SNAKE" "Snake" 7 2 15 3 2 0 0 50 1 1
+"DARK_SNAKE" "Snake" 7 2 15 3 3 0 0 50 1 1
+"GREEN_FROG" "Frog" 8 0 10 1 1 0 50 0 0 0
 "WOOD_MIMIC" "Wood Mimic" 6 6 40 5 5 0 0 100 2 2
 "IRON_MIMIC" "Iron Mimic" 6 7 60 7 7 0 0 100 3 3
 "GOLD_MIMIC" "Gold Mimic" 6 8 80 10 10 0 0 100 4 4
@@ -31,3 +38,35 @@
 # Mage
 # WhiteKnight
 # LavaKnight
+"RED_MAGE" "Red mage" 3 9 100 5 5 8 200 0 0 0
+"BLACK_MAGE" "Black mage" 3 9 100 5 5 8 0 0 0 0
+"PURPLE_MAGE" "Purple mage" 3 9 100 5 5 8 -100 0 0 0
+"RED_EYE" "Eye" 0 3 10 1 1 0 75 0 0 0
+"BLUE_EYE" "Eye" 0 3 10 1 1 0 75 0 0 0
+"GREEN_EYE" "Eye" 0 3 10 1 1 0 75 0 0 0
+"BLACK_SPIDER" "Death spider" 1 5 10 1 1 0 0 0 0 0
+"SKELETON" "Skeleton" 2 3 10 1 1 0 0 0 0 0
+"GHOST" "Ghost" 3 3 10 1 1 0 0 0 0 0
+"MINOTAUR" "Minotaur" 7 5 10 1 1 0 -20 0 0 0
+"GREEN_CYCLOPE" "Cyclope" 8 3 10 1 1 0 50 0 0 0
+"RED_CYCLOPE" "Cyclope" 8 3 10 1 1 0 50 0 0 0
+"BLUE_CYCLOPE" "Cyclope" 8 3 10 1 1 0 50 0 0 0
+"GREEN_ZOMBIE" "Zombie" 9 3 10 1 1 0 -40 0 00 0
+"WHITE_ZOMBIE" "Zombie" 9 3 10 1 1 0 -40 0 00 0
+"BLUE_ZOMBIE" "Zombie" 9 3 10 1 1 0 -40 0 00 0
+"BROWN_GOLEM" "Golem" 4 6 10 1 4 0 70 0 0 0
+"DARK_GOLEM" "Golem" 4 6 10 1 6 0 80 0 0 0
+"GIANT_KNIGHT" "Giant knight" 7 8 10 1 1 0 25 0 0 0
+"WRAITH" "Wraith" 8 8 10 1 1 0 -35 0 0 0
+"KNIGHT" "Knight" 9 7 10 1 1 0 0 0 0 0
+"FIRE_TORNADO" "Fire Tornado" 1 6 10 1 1 5 200 0 0 0
+"ICE_TORNADO" "Ice Tornado" 1 6 10 1 1 0 100 0 0 0
+"DARK_TORNADO" "Dark Tornado" 1 6 10 1 1 0 -80 0 0 0
+"WHITE_CHAMPION" "White Champion" 1 9 10 1 1 0 70 0 0 0
+"FIRE_CHAMPION" "Fire Champion" 5 9 10 1 1 6 100 0 0 0
+"DARK_CHAMPION" "Dark Champion" 9 9 10 1 1 0 -30 0 0 0
+"ICE_MONSTER" "Ice monster" 3 6 10 1 1 0 -15 0 0 0
+"LAVA_MONSTER" "Lava monster" 3 7 10 1 1 0 200 0 0 0
+"POISON_MONSTER" "Poison monster" 3 7 10 1 1 0 -50 0 0 0
+"RED_GEM_MONSTER" "Gem monster" 2 6 10 1 1 0 90 0 0 0
+"BLUE_GEM_MONSTER" "Gem monster" 2 8 10 1 1 0 90 0 0 0
