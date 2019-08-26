@@ -135,7 +135,8 @@ void writeFloorContent(std::ofstream &fileOutStream, S_FloorContent floorContent
 	fileOutStream << floorContent.floorLevel << " "
 		<< type << " "
 		<< "\"" << floorContent.id << "\" "
-		<< (int) floorContent.probability << "\n";
+		<< (int) floorContent.probability << " "
+		<< (int) floorContent.unique << "\n";
 }
 
 template <typename T>

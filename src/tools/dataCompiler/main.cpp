@@ -179,11 +179,14 @@ bool readFontFileLine(char line[MAX_CHARS_PER_LINE], S_FontAtlasCoord &data) {
 bool readFloorContentLine(char line[MAX_CHARS_PER_LINE], S_FloorContent &data) {
 	char type;
 	int probability;
+	int unique;
 	int result = sscanf(
 		line,
-		"%d %c \"%[^\"]\" %d\n",
-		&data.floorLevel, &type, data.id, &probability
+		"%d %c \"%[^\"]\" %d %d\n",
+		&data.floorLevel, &type, data.id, &probability, &unique
 	);
+	data.unique = unique;
+	data.found = false;
 	data.probability = (char) probability;
 	if (type == 'e') {
 		data.type = EnemyCardType;
@@ -194,5 +197,5 @@ bool readFloorContentLine(char line[MAX_CHARS_PER_LINE], S_FloorContent &data) {
 	else {
 		return false;
 	}
-	return result == 4;
+	return result == 5;
 }
