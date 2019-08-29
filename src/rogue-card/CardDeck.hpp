@@ -9,6 +9,7 @@
 class CardDeck {
 	private:
 	std::shared_ptr<Card> _createCard(Player &player) const;
+	int _getProbaCardMax(std::vector<S_FloorContent> floorCards) const;
 
 	public:
 	std::shared_ptr<Card> pickCard(Player &player);

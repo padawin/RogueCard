@@ -28,12 +28,15 @@ std::shared_ptr<FloorCard> CardDeck::createFloorCard(FloorDirection floorDirecti
 std::shared_ptr<Card> CardDeck::_createCard(Player &player) const {
 	std::vector<S_FloorContent> potentialCards = player.getFloor().getContent();
 	std::shared_ptr<Card> card = nullptr;
-	int proba = rand() % 100;
+	int proba = rand() % _getProbaCardMax(potentialCards);
 	int minProba = 0,
 		maxProba = 0;
 	for (auto cardType : potentialCards) {
 		maxProba += cardType.probability;
-		if (minProba <= proba && proba < maxProba) {
+		if (cardType.unique && cardType.found) {
+			continue;
+		}
+		else if (minProba <= proba && proba < maxProba) {
 			if (cardType.type == EnemyCardType) {
 				card = std::shared_ptr<EnemyCard>(new EnemyCard(cardType.id));
 				player.setFighting(true);
@@ -55,4 +58,16 @@ std::shared_ptr<Card> CardDeck::_createCard(Player &player) const {
 		std::cerr << "Card is null (Proba: " << proba << ", maxProba: " << maxProba << ")\n";
 	}
 	return card;
+}
+
+int CardDeck::_getProbaCardMax(std::vector<S_FloorContent> floorCards) const {
+	int probaBase = 0;
+	for (auto cardType : floorCards) {
+		// Ignore cards which are unique and found, we don't want to pick them
+		// again
+		if (!cardType.unique || !cardType.found) {
+			probaBase += cardType.probability;
+		}
+	}
+	return probaBase;
 }
