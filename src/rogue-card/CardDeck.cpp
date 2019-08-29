@@ -44,6 +44,7 @@ std::shared_ptr<Card> CardDeck::_createCard(Player &player) const {
 			else {
 				std::cerr << "Invalid card type: " << cardType.type << std::endl;
 			}
+			cardType.found = cardType.unique;
 			break;
 		}
 		else {
