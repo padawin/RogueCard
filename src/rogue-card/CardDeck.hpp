@@ -20,6 +20,7 @@ class CardDeck {
 	std::vector<S_FloorContent> _getExtraCards(Player &player) const;
 
 	public:
+	bool hasCards(Player &player) const;
 	std::shared_ptr<Card> pickCard(Player &player);
 	std::shared_ptr<FloorCard> createFloorCard(FloorDirection floorDirection) const;
 };

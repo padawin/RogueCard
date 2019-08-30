@@ -23,6 +23,7 @@ enum ActionType {
 	AttackAction,
 	RunawayAction,
 	GetFinalGoalAction,
+	NoAction
 };
 
 // Yuck
@@ -35,7 +36,8 @@ const int POSSIBLE_ACTIONS[][2] = {
 	{(int) FloorAction, (int) FloorAction},
 	{(int) RunawayAction, (int) RunawayAction},
 	{(int) AttackAction, (int) AttackAction},
-	{(int) GetFinalGoalAction, (int) GetFinalGoalAction}
+	{(int) GetFinalGoalAction, (int) GetFinalGoalAction},
+	{(int) NoAction, (int) NoAction}
 };
 
 class PlayScene : public SceneState {

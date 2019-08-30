@@ -4,6 +4,13 @@
 #include "EnemyCard.hpp"
 #include "FinalGoalCard.hpp"
 
+bool CardDeck::hasCards(Player &player) const {
+	std::vector<S_FloorContent> &floorCards = player.getFloor().getContent();
+	std::vector<S_FloorContent> extraCards = _getExtraCards(player);
+	int floorMaxProba = _getProbaCardMax(floorCards, extraCards);
+	return floorMaxProba != 0;
+}
+
 std::shared_ptr<Card> CardDeck::pickCard(Player &player) {
 	std::vector<S_FloorContent> &floorCards = player.getFloor().getContent();
 	std::vector<S_FloorContent> extraCards = _getExtraCards(player);

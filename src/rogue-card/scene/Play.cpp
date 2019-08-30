@@ -81,7 +81,7 @@ void PlayScene::update(StateMachine<SceneState> &stateMachine) {
 	_monitorStates(stateMachine);
 
 	if (m_pickedCard == nullptr) {
-		m_action = PickAction;
+		m_action = m_deck.hasCards(m_player) ? PickAction : NoAction;
 	}
 }
 
@@ -276,6 +276,7 @@ void PlayScene::_renderActionCard() {
 				m_mCursorPositions[Action].y
 			);
 			break;
+		case NoAction:
 		default:
 			break;
 	}
@@ -374,6 +375,7 @@ void PlayScene::_action() {
 		case DiscardAction:
 			_discardCard();
 			break;
+		case NoAction:
 		default:
 			break;
 	}
