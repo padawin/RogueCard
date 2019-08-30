@@ -6,6 +6,13 @@
 
 std::shared_ptr<Card> CardDeck::pickCard(Player &player) {
 	std::vector<S_FloorContent> &floorCards = player.getFloor().getContent();
+	std::vector<S_FloorContent> extraCards = _getExtraCards(player);
+	std::shared_ptr<Card> card = _createCard(player, floorCards, extraCards);
+	card->create();
+	return card;
+}
+
+std::vector<S_FloorContent> CardDeck::_getExtraCards(Player &player) const {
 	std::vector<S_FloorContent> extraCards;
 	// get max proba for current floor
 	bool isLastFloor = player.getFloor().isLast();
@@ -25,10 +32,7 @@ std::shared_ptr<Card> CardDeck::pickCard(Player &player) {
 		nextFloorCard.found = false;
 		extraCards.push_back(nextFloorCard);
 	}
-
-	std::shared_ptr<Card> card = _createCard(player, floorCards, extraCards);
-	card->create();
-	return card;
+	return extraCards;
 }
 
 std::shared_ptr<FloorCard> CardDeck::createFloorCard(FloorDirection floorDirection) const {
