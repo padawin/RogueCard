@@ -80,7 +80,9 @@ void PlayScene::update(StateMachine<SceneState> &stateMachine) {
 	_handleControls(stateMachine);
 	_monitorStates(stateMachine);
 
-	if (m_pickedCard == nullptr) {
+	// The conditions 2 and 3 are to prevent the if to be entered at every frame
+	// where we have no picked card
+	if (m_pickedCard == nullptr && m_action != PickAction && m_action != NoAction) {
 		m_action = m_deck.hasCards(m_player) ? PickAction : NoAction;
 	}
 }
