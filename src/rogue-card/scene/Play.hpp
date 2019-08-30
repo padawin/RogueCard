@@ -87,6 +87,7 @@ class PlayScene : public SceneState {
 	void _notify(std::string message);
 
 	void _setNextAction(int way);
+	void _setDefaultAction();
 
 	public:
 	PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer, Player player=Player());
