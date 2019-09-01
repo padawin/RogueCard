@@ -63,3 +63,11 @@ bool Card::ready() const {
 	CardState* state = m_stateMachine.getCurrentState();
 	return state == nullptr;
 }
+
+void Card::setUnique(bool unique) {
+	m_bIsUnique = unique;
+}
+
+bool Card::isUnique() const {
+	return m_bIsUnique;
+}

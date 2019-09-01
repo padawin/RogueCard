@@ -59,6 +59,7 @@ std::shared_ptr<Card> CardDeck::pickCard() {
 				break;
 			}
 			cardType.found = cardType.unique;
+			card->setUnique(cardType.unique);
 			card->create();
 			break;
 		}
