@@ -80,9 +80,15 @@ void PlayScene::update(StateMachine<SceneState> &stateMachine) {
 	_handleControls(stateMachine);
 	_monitorStates(stateMachine);
 
-	if (m_pickedCard == nullptr) {
-		m_action = PickAction;
+	// The conditions 2 and 3 are to prevent the if to be entered at every frame
+	// where we have no picked card
+	if (m_pickedCard == nullptr && m_action != PickAction && m_action != NoAction) {
+		_setDefaultAction();
 	}
+}
+
+void PlayScene::_setDefaultAction() {
+	m_action = m_deck.hasCards(m_player) ? PickAction : NoAction;
 }
 
 bool PlayScene::_updateCards() const {
@@ -276,6 +282,7 @@ void PlayScene::_renderActionCard() {
 				m_mCursorPositions[Action].y
 			);
 			break;
+		case NoAction:
 		default:
 			break;
 	}
@@ -374,6 +381,7 @@ void PlayScene::_action() {
 		case DiscardAction:
 			_discardCard();
 			break;
+		case NoAction:
 		default:
 			break;
 	}
@@ -453,6 +461,7 @@ void PlayScene::_changeFloor() {
 			}
 			m_pickedCard = nullptr;
 			_notify(floorStr);
+			_setDefaultAction();
 		}
 	}
 }

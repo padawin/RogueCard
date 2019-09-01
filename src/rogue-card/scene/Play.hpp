@@ -23,6 +23,7 @@ enum ActionType {
 	AttackAction,
 	RunawayAction,
 	GetFinalGoalAction,
+	NoAction
 };
 
 // Yuck
@@ -35,7 +36,8 @@ const int POSSIBLE_ACTIONS[][2] = {
 	{(int) FloorAction, (int) FloorAction},
 	{(int) RunawayAction, (int) RunawayAction},
 	{(int) AttackAction, (int) AttackAction},
-	{(int) GetFinalGoalAction, (int) GetFinalGoalAction}
+	{(int) GetFinalGoalAction, (int) GetFinalGoalAction},
+	{(int) NoAction, (int) NoAction}
 };
 
 class PlayScene : public SceneState {
@@ -85,6 +87,7 @@ class PlayScene : public SceneState {
 	void _notify(std::string message);
 
 	void _setNextAction(int way);
+	void _setDefaultAction();
 
 	public:
 	PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer, Player player=Player());
