@@ -153,7 +153,7 @@ void Save::_savePlayer() {
 				playerFile,
 				"i %d %s %d\n",
 				m_player.getInventory().getCurrentIndex(),
-				card->getMetaID(),
+				card->getID(),
 				card->getQuantity()
 			);
 		}

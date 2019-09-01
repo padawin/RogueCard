@@ -9,6 +9,7 @@ class FloorCard : public Card {
 	FloorCard(FloorDirection direction);
 	void create();
 	const char* getName() const { return ""; }
+	const char* getID() const { return "FLOOR"; }
 };
 
 #endif
