@@ -325,9 +325,6 @@ void PlayScene::_pickCard() {
 			_notify(message);
 			m_action = LootAction;
 		}
-		else if (type == FloorCardType) {
-			m_action = FloorAction;
-		}
 		else if (type == EnemyCardType) {
 			m_player.setFighting(true);
 			char message[50];
@@ -338,6 +335,9 @@ void PlayScene::_pickCard() {
 		}
 		else if (type == FinalGoalCardType) {
 			m_action = GetFinalGoalAction;
+		}
+		else if (type == FloorCardType) {
+			m_action = FloorAction;
 		}
 	}
 }
