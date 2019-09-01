@@ -9,7 +9,6 @@
 class CardDeck {
 	private:
 	std::shared_ptr<Card> _createCard(
-		Player &player,
 		std::vector<S_FloorContent> &floorCards,
 		std::vector<S_FloorContent> &extraCards
 	) const;

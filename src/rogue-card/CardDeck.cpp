@@ -14,7 +14,7 @@ bool CardDeck::hasCards(Player &player) const {
 std::shared_ptr<Card> CardDeck::pickCard(Player &player) {
 	std::vector<S_FloorContent> &floorCards = player.getFloor().getContent();
 	std::vector<S_FloorContent> extraCards = _getExtraCards(player);
-	std::shared_ptr<Card> card = _createCard(player, floorCards, extraCards);
+	std::shared_ptr<Card> card = _createCard(floorCards, extraCards);
 	card->create();
 	return card;
 }
@@ -47,7 +47,6 @@ std::shared_ptr<FloorCard> CardDeck::createFloorCard(FloorDirection floorDirecti
 }
 
 std::shared_ptr<Card> CardDeck::_createCard(
-	Player &player,
 	std::vector<S_FloorContent> &floorCards,
 	std::vector<S_FloorContent> &extraCards
 ) const {
@@ -66,7 +65,6 @@ std::shared_ptr<Card> CardDeck::_createCard(
 			if (minProba <= proba && proba < maxProba) {
 				if (cardType.type == EnemyCardType) {
 					card = std::shared_ptr<EnemyCard>(new EnemyCard(cardType.id));
-					player.setFighting(true);
 				}
 				else if (cardType.type == ObjectCardType) {
 					card = std::shared_ptr<ObjectCard>(new ObjectCard(cardType.id));
