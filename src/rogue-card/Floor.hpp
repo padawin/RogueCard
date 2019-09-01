@@ -14,7 +14,7 @@ class Floor {
 
 	public:
 	static bool prepareMeta(std::string file);
-	std::vector<S_FloorContent> &getContent();
+	std::vector<S_FloorContent> getContent() const;
 	int getLevel() const;
 	void setLevel(int level);
 	void toNextLevel();

@@ -8,19 +8,14 @@
 
 class CardDeck {
 	private:
-	std::shared_ptr<Card> _createCard(
-		std::vector<S_FloorContent> &floorCards,
-		std::vector<S_FloorContent> &extraCards
-	) const;
-	int _getProbaCardMax(
-		std::vector<S_FloorContent> &floorCards,
-		std::vector<S_FloorContent> &extraCards
-	) const;
-	std::vector<S_FloorContent> _getExtraCards(Player &player) const;
+	std::vector<S_FloorContent> m_vContent = {};
+
+	int _getProbaCardMax() const;
 
 	public:
-	bool hasCards(Player &player) const;
-	std::shared_ptr<Card> pickCard(Player &player);
+	void setCards(Player &player);
+	bool hasCards() const;
+	std::shared_ptr<Card> pickCard();
 	std::shared_ptr<FloorCard> createFloorCard(FloorDirection floorDirection) const;
 };
 
