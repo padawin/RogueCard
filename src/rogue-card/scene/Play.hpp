@@ -49,6 +49,7 @@ class PlayScene : public SceneState {
 	CardDeck m_deck;
 	Text m_notification;
 	Fight m_fight;
+	Save m_save;
 
 	ProgressBar m_progressBar;
 

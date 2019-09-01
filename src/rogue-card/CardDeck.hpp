@@ -2,6 +2,7 @@
 #define __CARD_DECK___
 
 #include <memory>
+#include "Save.hpp"
 #include "Card.hpp"
 #include "Player.hpp"
 #include "FloorCard.hpp"

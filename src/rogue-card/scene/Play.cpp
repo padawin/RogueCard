@@ -1,6 +1,5 @@
 #include "../game/StateMachine.hpp"
 #include "../game/globals.hpp"
-#include "../Save.hpp"
 #include "../coordinates.hpp"
 #include "../sdl2/TextureManager.hpp"
 #include "../cardState/PickedCard.hpp"
@@ -30,6 +29,7 @@ PlayScene::PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> ren
 	m_deck(CardDeck()),
 	m_notification(Text()),
 	m_fight(Fight(m_player)),
+	m_save(Save(m_player)),
 	m_progressBar(ProgressBar())
 {
 	m_mCursorPositions[Action] = {16, 160};
@@ -45,10 +45,9 @@ std::string PlayScene::getStateID() const {
 }
 
 bool PlayScene::onEnter() {
-	Save s = Save(m_player);
-	if (s.exists()) {
+	if (m_save.exists()) {
 		std::clog << "Save found, load\n";
-		s.load();
+		m_save.load();
 		if (m_player.foundFinalGoal()) {
 			m_floorCard = m_deck.createFloorCard(FLOOR_UP);
 		}
@@ -59,7 +58,7 @@ bool PlayScene::onEnter() {
 	else {
 		std::clog << "No save found, create new one\n";
 		m_bShowIntro = true;
-		s.create();
+		m_save.create();
 	}
 	m_deck.setCards(m_player);
 	_updateHealthBar();
@@ -103,8 +102,7 @@ bool PlayScene::_updateCards() const {
 
 void PlayScene::_handleControls(StateMachine<SceneState> &stateMachine) {
 	if (m_userActions.getActionState("QUIT")) {
-		Save s = Save(m_player);
-		s.save();
+		m_save.save();
 		stateMachine.clean();
 	}
 	else if (m_userActions.getActionState("INVENTORY")) {
