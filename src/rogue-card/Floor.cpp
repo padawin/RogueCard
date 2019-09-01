@@ -22,7 +22,7 @@ bool Floor::prepareMeta(std::string file) {
 	return true;
 }
 
-std::vector<S_FloorContent> &Floor::getContent() {
+std::vector<S_FloorContent> Floor::getContent() const {
 	return m_mFloorContentMeta[m_iLevel];
 }
 

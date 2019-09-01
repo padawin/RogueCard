@@ -61,6 +61,7 @@ bool PlayScene::onEnter() {
 		m_bShowIntro = true;
 		s.create();
 	}
+	m_deck.setCards(m_player);
 	_updateHealthBar();
 	return true;
 }
@@ -88,7 +89,7 @@ void PlayScene::update(StateMachine<SceneState> &stateMachine) {
 }
 
 void PlayScene::_setDefaultAction() {
-	m_action = m_deck.hasCards(m_player) ? PickAction : NoAction;
+	m_action = m_deck.hasCards() ? PickAction : NoAction;
 }
 
 bool PlayScene::_updateCards() const {
@@ -317,7 +318,7 @@ void PlayScene::_useCardUnderCursor() {
 void PlayScene::_pickCard() {
 	if (m_pickedCard == nullptr) {
 		_notify("");
-		m_pickedCard = m_deck.pickCard(m_player);
+		m_pickedCard = m_deck.pickCard();
 		m_pickedCard->setState(new PickedCardState());
 		E_CardType type = m_pickedCard->getType();
 		if (type == ObjectCardType) {
@@ -330,6 +331,7 @@ void PlayScene::_pickCard() {
 			m_action = FloorAction;
 		}
 		else if (type == EnemyCardType) {
+			m_player.setFighting(true);
 			char message[50];
 			snprintf(message, 44, "A %s attacks you!", m_pickedCard->getName());
 			_notify(message);
@@ -460,6 +462,7 @@ void PlayScene::_changeFloor() {
 				);
 			}
 			m_pickedCard = nullptr;
+			m_deck.setCards(m_player);
 			_notify(floorStr);
 			_setDefaultAction();
 		}
