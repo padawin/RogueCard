@@ -51,11 +51,6 @@ void Save::_loadPlayer() {
 			sscanf(line, "f %d\n", &floorLevel);
 			m_player.getFloor().setLevel(floorLevel);
 		}
-		else if (type == 'F') {
-			int foundFloorCard;
-			sscanf(line, "F %d\n", &foundFloorCard);
-			m_player.setFoundFloorCard(foundFloorCard == 1);
-		}
 		else if (type == 'g') {
 			long gold = 0;
 			sscanf(line, "g %ld\n", &gold);
@@ -116,6 +111,12 @@ void Save::_loadPlayer() {
 				m_player.getLevelling().increaseSkillXP((E_XPSkill) skill, xp);
 			}
 		}
+		else if (type == 'u') {
+			int floor, cardType;
+			char cardID[MAX_CHAR_CARD_ID];
+			sscanf(line, "u %d %d %s\n", &floor, &cardType, cardID);
+			addUniqueCardPicked(floor, (E_CardType) cardType, cardID);
+		}
 	}
 
 	fin.close();
@@ -140,7 +141,6 @@ void Save::_savePlayer() {
 	fprintf(playerFile, "h %d\n", m_player.getHealth());
 	fprintf(playerFile, "H %d\n", m_player.getMaxHealth());
 	fprintf(playerFile, "f %d\n", m_player.getFloor().getLevel());
-	fprintf(playerFile, "F %d\n", m_player.foundFloorCard());
 	fprintf(playerFile, "g %ld\n", m_player.getGold());
 	fprintf(playerFile, "l %d\n", m_player.getLevelling().getLevel());
 	fprintf(playerFile, "L %d\n", m_player.getLevelling().getStepsBeforeLevelUp());
@@ -153,7 +153,7 @@ void Save::_savePlayer() {
 				playerFile,
 				"i %d %s %d\n",
 				m_player.getInventory().getCurrentIndex(),
-				card->getMetaID(),
+				card->getID(),
 				card->getQuantity()
 			);
 		}
@@ -193,5 +193,33 @@ void Save::_savePlayer() {
 			m_player.getLevelling().getSkill((E_XPSkill) s)
 		);
 	}
+
+	// Save unique cards found
+	for (auto floorLevelCards : m_mUniqueCardsFound) {
+		int floor = floorLevelCards.first;
+		for (auto card : floorLevelCards.second) {
+			fprintf(
+				playerFile,
+				"u %d %d %s\n",
+				floor,
+				card.first,
+				card.second.c_str()
+			);
+		}
+	}
 	fclose(playerFile);
+}
+
+void Save::addUniqueCardPicked(int floorLevel, E_CardType cardType, std::string cardID) {
+	if (m_mUniqueCardsFound.find(floorLevel) == m_mUniqueCardsFound.end()) {
+		m_mUniqueCardsFound[floorLevel] = {};
+	}
+	m_mUniqueCardsFound[floorLevel].push_back(std::make_pair(cardType, cardID));
+}
+
+std::vector<std::pair<E_CardType, std::string>> Save::getFoundCards(int level) {
+	if (m_mUniqueCardsFound.find(level) == m_mUniqueCardsFound.end()) {
+		return {};
+	}
+	return m_mUniqueCardsFound[level];
 }

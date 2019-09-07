@@ -3,20 +3,23 @@
 #include "ObjectCard.hpp"
 #include "EnemyCard.hpp"
 #include "FinalGoalCard.hpp"
+#include "FloorCard.hpp"
 
 void CardDeck::setCards(Player &player) {
 	m_vContent = player.getFloor().getContent();
 	bool isLastFloor = player.getFloor().isLast();
-	if (isLastFloor && !player.foundFinalGoal()) {
+	if (isLastFloor) {
 		S_FloorContent finalGoalFloorCard;
+		strncpy(finalGoalFloorCard.id, FINAL_GOAL_CARD_ID, MAX_CHAR_CARD_ID);
 		finalGoalFloorCard.type = FinalGoalCardType;
 		finalGoalFloorCard.probability = 5;
 		finalGoalFloorCard.unique = true;
 		finalGoalFloorCard.found = false;
 		m_vContent.push_back(finalGoalFloorCard);
 	}
-	if (!player.foundFinalGoal() && !isLastFloor && !player.foundFloorCard()) {
+	else {
 		S_FloorContent nextFloorCard;
+		strncpy(nextFloorCard.id, FLOOR_CARD_ID, MAX_CHAR_CARD_ID);
 		nextFloorCard.type = FloorCardType;
 		nextFloorCard.probability = 5;
 		nextFloorCard.unique = true;
@@ -59,6 +62,7 @@ std::shared_ptr<Card> CardDeck::pickCard() {
 				break;
 			}
 			cardType.found = cardType.unique;
+			card->setUnique(cardType.unique);
 			card->create();
 			break;
 		}
@@ -84,4 +88,25 @@ int CardDeck::_getProbaCardMax() const {
 		}
 	}
 	return probaBase;
+}
+
+void CardDeck::setFoundCards(std::vector<std::pair<E_CardType, std::string>> cardIDs) {
+	for (auto card : cardIDs) {
+		for (S_FloorContent &content : m_vContent) {
+			if (content.type == card.first && content.id == card.second) {
+				content.found = true;
+			}
+		}
+	}
+	std::cout << "Done Set found cards\n";
+}
+
+bool CardDeck::foundFloorCard() const {
+	for (S_FloorContent cardType : m_vContent) {
+		if (cardType.type == FloorCardType) {
+			return cardType.found;
+		}
+	}
+	// If the floor card is not on the deck, it means we are at the last floor
+	return true;
 }

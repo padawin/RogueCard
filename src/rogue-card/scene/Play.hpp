@@ -49,10 +49,11 @@ class PlayScene : public SceneState {
 	CardDeck m_deck;
 	Text m_notification;
 	Fight m_fight;
+	Save m_save;
 
 	ProgressBar m_progressBar;
 
-	ActionType m_action = PickAction;
+	ActionType m_action = NoAction;
 
 	PlayCursorPosition m_cursorPosition = Action;
 	std::map<PlayCursorPosition, S_Coordinates> m_mCursorPositions = {};
@@ -88,6 +89,8 @@ class PlayScene : public SceneState {
 
 	void _setNextAction(int way);
 	void _setDefaultAction();
+
+	void _saveUniqueCard();
 
 	public:
 	PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer, Player player=Player());

@@ -38,6 +38,7 @@ class EnemyCard : public Card {
 	static bool prepareMeta(std::string file);
 
 	const char* getName() const;
+	const char* getID() const;
 
 	int getStrength() const;
 	int getDefence() const;

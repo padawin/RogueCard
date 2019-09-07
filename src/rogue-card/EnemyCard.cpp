@@ -34,6 +34,10 @@ const char* EnemyCard::getName() const {
 	return m_sName;
 }
 
+const char* EnemyCard::getID() const {
+	return m_sMetaID;
+}
+
 int EnemyCard::getStrength() const {
 	return m_iStrength;
 }

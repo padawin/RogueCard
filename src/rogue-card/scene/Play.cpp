@@ -1,6 +1,5 @@
 #include "../game/StateMachine.hpp"
 #include "../game/globals.hpp"
-#include "../Save.hpp"
 #include "../coordinates.hpp"
 #include "../sdl2/TextureManager.hpp"
 #include "../cardState/PickedCard.hpp"
@@ -30,6 +29,7 @@ PlayScene::PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> ren
 	m_deck(CardDeck()),
 	m_notification(Text()),
 	m_fight(Fight(m_player)),
+	m_save(Save(m_player)),
 	m_progressBar(ProgressBar())
 {
 	m_mCursorPositions[Action] = {16, 160};
@@ -45,23 +45,24 @@ std::string PlayScene::getStateID() const {
 }
 
 bool PlayScene::onEnter() {
-	Save s = Save(m_player);
-	if (s.exists()) {
+	if (m_save.exists()) {
 		std::clog << "Save found, load\n";
-		s.load();
-		if (m_player.foundFinalGoal()) {
-			m_floorCard = m_deck.createFloorCard(FLOOR_UP);
-		}
-		else if (m_player.foundFloorCard()) {
-			m_floorCard = m_deck.createFloorCard(FLOOR_DOWN);
-		}
+		m_save.load();
 	}
 	else {
 		std::clog << "No save found, create new one\n";
 		m_bShowIntro = true;
-		s.create();
+		m_save.create();
 	}
 	m_deck.setCards(m_player);
+	m_deck.setFoundCards(m_save.getFoundCards(m_player.getFloor().getLevel()));
+	_setDefaultAction();
+	if (m_player.foundFinalGoal()) {
+		m_floorCard = m_deck.createFloorCard(FLOOR_UP);
+	}
+	else if (m_deck.foundFloorCard()) {
+		m_floorCard = m_deck.createFloorCard(FLOOR_DOWN);
+	}
 	_updateHealthBar();
 	return true;
 }
@@ -103,8 +104,7 @@ bool PlayScene::_updateCards() const {
 
 void PlayScene::_handleControls(StateMachine<SceneState> &stateMachine) {
 	if (m_userActions.getActionState("QUIT")) {
-		Save s = Save(m_player);
-		s.save();
+		m_save.save();
 		stateMachine.clean();
 	}
 	else if (m_userActions.getActionState("INVENTORY")) {
@@ -148,6 +148,8 @@ void PlayScene::_monitorStates(StateMachine<SceneState> &stateMachine) {
 	}
 	// Killed the enemy
 	else if (m_pickedCard != nullptr && m_pickedCard->getType() == EnemyCardType && !m_fight.isFighting()) {
+		// Unique enemy defeated, save it
+		_saveUniqueCard();
 		m_pickedCard = nullptr;
 		_notify("");
 		stateMachine.pushState(
@@ -327,11 +329,7 @@ void PlayScene::_pickCard() {
 			_notify(message);
 			m_action = LootAction;
 		}
-		else if (type == FloorCardType) {
-			m_action = FloorAction;
-		}
 		else if (type == EnemyCardType) {
-			m_player.setFighting(true);
 			char message[50];
 			snprintf(message, 44, "A %s attacks you!", m_pickedCard->getName());
 			_notify(message);
@@ -341,6 +339,23 @@ void PlayScene::_pickCard() {
 		else if (type == FinalGoalCardType) {
 			m_action = GetFinalGoalAction;
 		}
+		else if (type == FloorCardType) {
+			m_action = FloorAction;
+		}
+
+		if (type != EnemyCardType) {
+			_saveUniqueCard();
+		}
+	}
+}
+
+void PlayScene::_saveUniqueCard() {
+	if (m_pickedCard != nullptr && m_pickedCard->isUnique()) {
+		m_save.addUniqueCardPicked(
+			m_player.getFloor().getLevel(),
+			m_pickedCard->getType(),
+			m_pickedCard->getID()
+		);
 	}
 }
 
@@ -368,7 +383,6 @@ void PlayScene::_action() {
 		case FloorAction:
 			_notify("Found next floor");
 			m_floorCard = m_pickedCard;
-			m_player.setFoundFloorCard(true);
 			m_pickedCard = nullptr;
 			break;
 		case AttackAction:
@@ -445,7 +459,6 @@ void PlayScene::_changeFloor() {
 			char floorStr[25];
 			if (!m_player.foundFinalGoal()) {
 				m_floorCard = nullptr;
-				m_player.setFoundFloorCard(false);
 				snprintf(
 					floorStr,
 					25,

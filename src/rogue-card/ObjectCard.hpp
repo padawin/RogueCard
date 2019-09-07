@@ -61,9 +61,9 @@ class ObjectCard : public Card {
 
 	void render(SDL_Renderer *renderer, int x, int y);
 
-	const char *getMetaID() const;
 	int getMetaIndex() const;
 	const char* getName() const;
+	const char* getID() const;
 
 	bool hasFlags(unsigned int flags) const;
 	bool hasEquipableFlag(unsigned int flag) const;

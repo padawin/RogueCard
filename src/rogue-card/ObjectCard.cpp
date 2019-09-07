@@ -40,10 +40,6 @@ void ObjectCard::render(SDL_Renderer *renderer, int x, int y) {
 	}
 }
 
-const char *ObjectCard::getMetaID() const {
-	return m_sMetaID;
-}
-
 int ObjectCard::getMetaIndex() const {
 	return m_objectMeta.getIndex(m_sMetaID);
 }
@@ -97,6 +93,10 @@ bool ObjectCard::prepareMeta(std::string file) {
 
 const char* ObjectCard::getName() const {
 	return m_sName;
+}
+
+const char* ObjectCard::getID() const {
+	return m_sMetaID;
 }
 
 bool ObjectCard::hasFlags(unsigned int flags) const {

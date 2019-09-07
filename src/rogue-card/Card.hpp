@@ -21,6 +21,7 @@ class Card {
 	std::string m_sImage = "";
 	int m_iTileX = 0;
 	int m_iTileY = 0;
+	bool m_bIsUnique = false;
 	StateMachine<CardState> m_stateMachine = StateMachine<CardState>();
 
 	public:
@@ -35,9 +36,13 @@ class Card {
 	// To be called by the state
 	void _renderCard(SDL_Renderer *renderer, int x, int y) const;
 
+	virtual const char* getID() const = 0;
 	int getX(int defaultX) const;
 	int getY(int defaultY) const;
 	bool ready() const;
+
+	void setUnique(bool unique);
+	bool isUnique() const;
 };
 
 #endif
