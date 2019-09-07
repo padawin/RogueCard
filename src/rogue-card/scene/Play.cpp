@@ -330,7 +330,6 @@ void PlayScene::_pickCard() {
 			m_action = LootAction;
 		}
 		else if (type == EnemyCardType) {
-			m_player.setFighting(true);
 			char message[50];
 			snprintf(message, 44, "A %s attacks you!", m_pickedCard->getName());
 			_notify(message);
