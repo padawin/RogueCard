@@ -27,6 +27,11 @@ void Card::_renderCard(SDL_Renderer *renderer, int x, int y) const {
 	TextureManager::Instance()->draw(
 		"card", x, y, CARD_WIDTH, CARD_HEIGHT, renderer
 	);
+	if (m_bIsSpecial) {
+		TextureManager::Instance()->draw(
+			"card-special-overlay", x, y, CARD_WIDTH, CARD_HEIGHT, renderer
+		);
+	}
 	TextureManager::Instance()->drawFrame(
 		m_sImage,
 		x + CARD_IMAGE_POSITION_X,
@@ -64,8 +69,9 @@ bool Card::ready() const {
 	return state == nullptr;
 }
 
-void Card::setUnique(bool unique) {
-	m_bIsUnique = unique;
+void Card::setFlags(unsigned char flags) {
+	m_bIsUnique = flags & CARD_FLAG_UNIQUE;
+	m_bIsSpecial = flags & CARD_FLAG_SPECIAL;
 }
 
 bool Card::isUnique() const {

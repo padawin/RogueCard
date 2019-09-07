@@ -100,7 +100,7 @@ struct S_FloorContent {
 	E_CardType type;
 	char id[MAX_CHAR_CARD_ID];
 	char probability;
-	bool unique;
+	unsigned char flags;
 	bool found;
 };
 

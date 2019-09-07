@@ -15,6 +15,9 @@
 #include "../game/StateMachine.hpp"
 #include "CardState.hpp"
 
+const unsigned int CARD_FLAG_UNIQUE =  0x1;
+const unsigned int CARD_FLAG_SPECIAL = 0x2;
+
 class Card {
 	protected:
 	E_CardType m_type;
@@ -22,6 +25,7 @@ class Card {
 	int m_iTileX = 0;
 	int m_iTileY = 0;
 	bool m_bIsUnique = false;
+	bool m_bIsSpecial = false;
 	StateMachine<CardState> m_stateMachine = StateMachine<CardState>();
 
 	public:
@@ -41,7 +45,7 @@ class Card {
 	int getY(int defaultY) const;
 	bool ready() const;
 
-	void setUnique(bool unique);
+	void setFlags(unsigned char flags);
 	bool isUnique() const;
 };
 

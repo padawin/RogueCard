@@ -179,13 +179,13 @@ bool readFontFileLine(char line[MAX_CHARS_PER_LINE], S_FontAtlasCoord &data) {
 bool readFloorContentLine(char line[MAX_CHARS_PER_LINE], S_FloorContent &data) {
 	char type;
 	int probability;
-	int unique;
+	int flags;
 	int result = sscanf(
 		line,
 		"%d %c \"%[^\"]\" %d %d\n",
-		&data.floorLevel, &type, data.id, &probability, &unique
+		&data.floorLevel, &type, data.id, &probability, &flags
 	);
-	data.unique = unique;
+	data.flags = (unsigned char) flags;
 	data.found = false;
 	data.probability = (char) probability;
 	if (type == 'e') {
