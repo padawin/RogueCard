@@ -13,7 +13,7 @@ void CardDeck::setCards(Player &player) {
 		strncpy(finalGoalFloorCard.id, FINAL_GOAL_CARD_ID, MAX_CHAR_CARD_ID);
 		finalGoalFloorCard.type = FinalGoalCardType;
 		finalGoalFloorCard.probability = 5;
-		finalGoalFloorCard.unique = true;
+		finalGoalFloorCard.flags = CARD_FLAG_UNIQUE;
 		finalGoalFloorCard.found = false;
 		m_vContent.push_back(finalGoalFloorCard);
 	}
@@ -22,7 +22,7 @@ void CardDeck::setCards(Player &player) {
 		strncpy(nextFloorCard.id, FLOOR_CARD_ID, MAX_CHAR_CARD_ID);
 		nextFloorCard.type = FloorCardType;
 		nextFloorCard.probability = 5;
-		nextFloorCard.unique = true;
+		nextFloorCard.flags = CARD_FLAG_UNIQUE;
 		nextFloorCard.found = false;
 		m_vContent.push_back(nextFloorCard);
 	}
@@ -40,7 +40,7 @@ std::shared_ptr<Card> CardDeck::pickCard() {
 	int floorMaxProba = _getProbaCardMax();
 	int proba = rand() % floorMaxProba;
 	for (S_FloorContent &cardType : m_vContent) {
-		if (cardType.unique && cardType.found) {
+		if ((cardType.flags & CARD_FLAG_UNIQUE) && cardType.found) {
 			continue;
 		}
 		maxProba += cardType.probability;
@@ -61,8 +61,9 @@ std::shared_ptr<Card> CardDeck::pickCard() {
 				std::cerr << "Invalid card type: " << cardType.type << std::endl;
 				break;
 			}
-			cardType.found = cardType.unique;
-			card->setUnique(cardType.unique);
+			bool unique = cardType.flags & CARD_FLAG_UNIQUE;
+			cardType.found = unique;
+			card->setFlags(cardType.flags);
 			card->create();
 			break;
 		}
@@ -83,7 +84,7 @@ int CardDeck::_getProbaCardMax() const {
 	for (S_FloorContent cardType : m_vContent) {
 		// Ignore cards which are unique and found, we don't want to pick them
 		// again
-		if (!cardType.unique || !cardType.found) {
+		if (!(cardType.flags & CARD_FLAG_UNIQUE) || !cardType.found) {
 			probaBase += cardType.probability;
 		}
 	}

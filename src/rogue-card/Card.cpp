@@ -64,8 +64,8 @@ bool Card::ready() const {
 	return state == nullptr;
 }
 
-void Card::setUnique(bool unique) {
-	m_bIsUnique = unique;
+void Card::setFlags(unsigned char flags) {
+	m_bIsUnique = flags & CARD_FLAG_UNIQUE;
 }
 
 bool Card::isUnique() const {
