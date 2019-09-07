@@ -116,6 +116,12 @@ void Save::_loadPlayer() {
 				m_player.getLevelling().increaseSkillXP((E_XPSkill) skill, xp);
 			}
 		}
+		else if (type == 'u') {
+			int floor, cardType;
+			char cardID[MAX_CHAR_CARD_ID];
+			sscanf(line, "u %d %d %s\n", &floor, &cardType, cardID);
+			addUniqueCardPicked(floor, (E_CardType) cardType, cardID);
+		}
 	}
 
 	fin.close();
@@ -193,5 +199,26 @@ void Save::_savePlayer() {
 			m_player.getLevelling().getSkill((E_XPSkill) s)
 		);
 	}
+
+	// Save unique cards found
+	for (auto floorLevelCards : m_mUniqueCardsFound) {
+		int floor = floorLevelCards.first;
+		for (auto card : floorLevelCards.second) {
+			fprintf(
+				playerFile,
+				"u %d %d %s\n",
+				floor,
+				card.first,
+				card.second.c_str()
+			);
+		}
+	}
 	fclose(playerFile);
+}
+
+void Save::addUniqueCardPicked(int floorLevel, E_CardType cardType, std::string cardID) {
+	if (m_mUniqueCardsFound.find(floorLevel) == m_mUniqueCardsFound.end()) {
+		m_mUniqueCardsFound[floorLevel] = {};
+	}
+	m_mUniqueCardsFound[floorLevel].push_back(std::make_pair(cardType, cardID));
 }

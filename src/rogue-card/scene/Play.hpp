@@ -90,6 +90,8 @@ class PlayScene : public SceneState {
 	void _setNextAction(int way);
 	void _setDefaultAction();
 
+	void _saveUniqueCard();
+
 	public:
 	PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer, Player player=Player());
 	bool onEnter();

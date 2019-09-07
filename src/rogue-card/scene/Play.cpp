@@ -146,6 +146,8 @@ void PlayScene::_monitorStates(StateMachine<SceneState> &stateMachine) {
 	}
 	// Killed the enemy
 	else if (m_pickedCard != nullptr && m_pickedCard->getType() == EnemyCardType && !m_fight.isFighting()) {
+		// Unique enemy defeated, save it
+		_saveUniqueCard();
 		m_pickedCard = nullptr;
 		_notify("");
 		stateMachine.pushState(
@@ -339,6 +341,20 @@ void PlayScene::_pickCard() {
 		else if (type == FloorCardType) {
 			m_action = FloorAction;
 		}
+
+		if (type != EnemyCardType) {
+			_saveUniqueCard();
+		}
+	}
+}
+
+void PlayScene::_saveUniqueCard() {
+	if (m_pickedCard != nullptr && m_pickedCard->isUnique()) {
+		m_save.addUniqueCardPicked(
+			m_player.getFloor().getLevel(),
+			m_pickedCard->getType(),
+			m_pickedCard->getID()
+		);
 	}
 }
 
