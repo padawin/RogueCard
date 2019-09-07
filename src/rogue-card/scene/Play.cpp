@@ -48,12 +48,6 @@ bool PlayScene::onEnter() {
 	if (m_save.exists()) {
 		std::clog << "Save found, load\n";
 		m_save.load();
-		if (m_player.foundFinalGoal()) {
-			m_floorCard = m_deck.createFloorCard(FLOOR_UP);
-		}
-		else if (m_player.foundFloorCard()) {
-			m_floorCard = m_deck.createFloorCard(FLOOR_DOWN);
-		}
 	}
 	else {
 		std::clog << "No save found, create new one\n";
@@ -61,6 +55,14 @@ bool PlayScene::onEnter() {
 		m_save.create();
 	}
 	m_deck.setCards(m_player);
+	m_deck.setFoundCards(m_save.getFoundCards(m_player.getFloor().getLevel()));
+	_setDefaultAction();
+	if (m_player.foundFinalGoal()) {
+		m_floorCard = m_deck.createFloorCard(FLOOR_UP);
+	}
+	else if (m_deck.foundFloorCard()) {
+		m_floorCard = m_deck.createFloorCard(FLOOR_DOWN);
+	}
 	_updateHealthBar();
 	return true;
 }
@@ -382,7 +384,6 @@ void PlayScene::_action() {
 		case FloorAction:
 			_notify("Found next floor");
 			m_floorCard = m_pickedCard;
-			m_player.setFoundFloorCard(true);
 			m_pickedCard = nullptr;
 			break;
 		case AttackAction:
@@ -459,7 +460,6 @@ void PlayScene::_changeFloor() {
 			char floorStr[25];
 			if (!m_player.foundFinalGoal()) {
 				m_floorCard = nullptr;
-				m_player.setFoundFloorCard(false);
 				snprintf(
 					floorStr,
 					25,

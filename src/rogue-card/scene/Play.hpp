@@ -53,7 +53,7 @@ class PlayScene : public SceneState {
 
 	ProgressBar m_progressBar;
 
-	ActionType m_action = PickAction;
+	ActionType m_action = NoAction;
 
 	PlayCursorPosition m_cursorPosition = Action;
 	std::map<PlayCursorPosition, S_Coordinates> m_mCursorPositions = {};

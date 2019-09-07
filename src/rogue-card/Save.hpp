@@ -21,6 +21,7 @@ class Save : public AbstractSave {
 	void save();
 
 	void addUniqueCardPicked(int floorLevel, E_CardType cardType, std::string cardID);
+	std::vector<std::pair<E_CardType, std::string>> getFoundCards(int level);
 };
 
 #endif

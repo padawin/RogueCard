@@ -18,6 +18,10 @@ class CardDeck {
 	bool hasCards() const;
 	std::shared_ptr<Card> pickCard();
 	std::shared_ptr<FloorCard> createFloorCard(FloorDirection floorDirection) const;
+
+	void setFoundCards(std::vector<std::pair<E_CardType, std::string>> cardIDs);
+
+	bool foundFloorCard() const;
 };
 
 #endif
