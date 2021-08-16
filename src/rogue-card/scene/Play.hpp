@@ -94,6 +94,7 @@ class PlayScene : public SceneState {
 
 	public:
 	PlayScene(UserActions &userActions, std::shared_ptr<SDL2Renderer> renderer, Player player=Player());
+	~PlayScene() {}
 	bool onEnter();
 	void update(StateMachine<SceneState> &stateMachine);
 	void render();

@@ -36,6 +36,7 @@ class ObjectCardCollectionRenderer {
 		std::string background,
 		std::shared_ptr<SDL2Renderer> renderer
 	);
+	~ObjectCardCollectionRenderer() {}
 	void update();
 	void moveCursorUp();
 	void moveCursorDown();
