@@ -1,7 +1,7 @@
 #include "PlayerStats.hpp"
-#include "../game/globals.hpp"
-#include "../game/StateMachine.hpp"
-#include "../sdl2/TextureManager.hpp"
+#include "globals.hpp"
+#include "game/StateMachine.hpp"
+#include "sdl2/TextureManager.hpp"
 
 const int STAT_TEXT_X = 8;
 const int STAT_HP_Y = 62;
@@ -59,29 +59,29 @@ bool PlayerStatsScene::onEnter() {
 }
 
 void PlayerStatsScene::update(StateMachine<SceneState> &stateMachine) {
-	if (m_userActions.getActionState("BACK")) {
+	if (m_userActions.getActionState("BACK") == ActionState::ACTION_PRESSED) {
 		stateMachine.popState();
 	}
-	else if (m_userActions.getActionState("CURSOR_LEFT")) {
+	else if (m_userActions.getActionState("CURSOR_LEFT") == ActionState::ACTION_PRESSED) {
 		if (m_cursorPosition > 0) {
 			m_iPage = 1;
 			m_cursorPosition = (StatCursorPosition) ((int) m_cursorPosition - 1);
 			m_titlesTab.selectPrev();
 		}
 	}
-	else if (m_userActions.getActionState("CURSOR_RIGHT")) {
+	else if (m_userActions.getActionState("CURSOR_RIGHT") == ActionState::ACTION_PRESSED) {
 		if (m_cursorPosition < NbStatPositions - 1) {
 			m_iPage = 1;
 			m_cursorPosition = (StatCursorPosition) ((int) m_cursorPosition + 1);
 			m_titlesTab.selectNext();
 		}
 	}
-	else if (m_userActions.getActionState("CURSOR_UP")) {
+	else if (m_userActions.getActionState("CURSOR_UP") == ActionState::ACTION_PRESSED) {
 		if (m_iPage > 1) {
 			m_iPage--;
 		}
 	}
-	else if (m_userActions.getActionState("CURSOR_DOWN")) {
+	else if (m_userActions.getActionState("CURSOR_DOWN") == ActionState::ACTION_PRESSED) {
 		if (m_iPage < m_iNBPages[m_cursorPosition]) {
 			m_iPage++;
 		}

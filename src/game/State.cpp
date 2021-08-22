@@ -1,10 +1,10 @@
 #include "State.hpp"
 
-void State::render() {
-}
-
 bool State::onEnter() {
 	return true;
+}
+
+void State::onResume() {
 }
 
 bool State::onExit() {

@@ -5,7 +5,7 @@
 #include <map>
 #include <vector>
 #include <memory>
-#include "InputHandler.hpp"
+#include "game/InputHandler.hpp"
 
 #define NO_FILE_FOUND 1
 #define NO_TYPE_FOUND 2
@@ -17,6 +17,8 @@ struct S_Command {
 	int key = -1;
 };
 
+enum ActionState {ACTION_UNKNOWN = 0, ACTION_REST = 1, ACTION_PRESSED = 2, ACTION_DOWN = 4, ACTION_RELEASED = 8};
+
 class UserActions {
 	protected:
 	std::shared_ptr<InputHandler> m_inputHandler;
@@ -26,7 +28,8 @@ class UserActions {
 	~UserActions() {}
 	UserActions(std::shared_ptr<InputHandler> inputHandler);
 	void add(std::string name, S_Command c);
-	int getActionState(std::string name);
+	ActionState getActionState(std::string name);
+	bool is(std::string name, int states);
 	int setActionsFromFile(const char* mappingFile);
 };
 

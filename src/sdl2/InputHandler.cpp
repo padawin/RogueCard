@@ -1,23 +1,18 @@
 #include "InputHandler.hpp"
 #include <iostream>
 
-InputUpdateResult SDL2InputHandler::_processEvents() {
-	InputUpdateResult ret = HAS_NO_EVENT;
+void SDL2InputHandler::setup() {
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
-		ret = HAS_EVENT;
 		switch (event.type) {
-			case SDL_QUIT:
-				ret = QUIT;
-				break;
 			case SDL_JOYAXISMOTION:
 				_handleStickEvent(event);
 				break;
 			case SDL_JOYBUTTONDOWN:
-				_handleButtonEvent(event, true);
+				_handleJoystickButtonEvent(event, true);
 				break;
 			case SDL_JOYBUTTONUP:
-				_handleButtonEvent(event, false);
+				_handleJoystickButtonEvent(event, false);
 				break;
 			case SDL_JOYDEVICEADDED:
 				_initialiseJoystick(event.cdevice.which);
@@ -32,50 +27,69 @@ InputUpdateResult SDL2InputHandler::_processEvents() {
 				_handleKeyEvent(event, false);
 				break;
 			default:
-				ret = HAS_NO_EVENT;
 				break;
 		}
 	}
+}
 
-	return ret;
+void SDL2InputHandler::reset() {
+	m_mKeysStates.clear();
+	for (auto joystickID = m_mJoystickButtonStates.cbegin(); joystickID != m_mJoystickButtonStates.cend();) {
+		m_mJoystickButtonStates[joystickID->first].clear();
+	}
 }
 
 /**
  * Set a joystick stick value depending on which stick is manipulated.
  */
 void SDL2InputHandler::_handleStickEvent(const SDL_Event event) {
-	int joystickId = event.jaxis.which;
+	int joystickID = event.jaxis.which;
 	// left stick move left or right
 	if (event.jaxis.axis == M_LEFT_STICK_X_AXIS) {
-		_setJoystickValue(event.jaxis.value, &m_mJoystickAxisValues[joystickId].first, VECTOR_X);
+		_setJoystickValue(event.jaxis.value, &m_mJoystickAxisValues[joystickID].first, VECTOR_X);
 	}
 	// left stick move up or down
 	if (event.jaxis.axis == M_LEFT_STICK_Y_AXIS) {
-		_setJoystickValue(event.jaxis.value, &m_mJoystickAxisValues[joystickId].first, VECTOR_Y);
+		_setJoystickValue(event.jaxis.value, &m_mJoystickAxisValues[joystickID].first, VECTOR_Y);
 	}
 	// right stick move left or right
 	if (event.jaxis.axis == M_RIGHT_STICK_X_AXIS) {
-		_setJoystickValue(event.jaxis.value, &m_mJoystickAxisValues[joystickId].second, VECTOR_X);
+		_setJoystickValue(event.jaxis.value, &m_mJoystickAxisValues[joystickID].second, VECTOR_X);
 	}
 	// right stick move up or down
 	if (event.jaxis.axis == M_RIGHT_STICK_Y_AXIS) {
-		_setJoystickValue(event.jaxis.value, &m_mJoystickAxisValues[joystickId].second, VECTOR_Y);
+		_setJoystickValue(event.jaxis.value, &m_mJoystickAxisValues[joystickID].second, VECTOR_Y);
 	}
 }
 
 /**
  * Change the state of a pressed or released joystick button.
  */
-void SDL2InputHandler::_handleButtonEvent(const SDL_Event event, const bool isDown) {
-	int joystickId = event.jaxis.which;
-	m_mButtonStates[joystickId][event.jbutton.button] = isDown;
+void SDL2InputHandler::_handleJoystickButtonEvent(const SDL_Event event, const bool isDown) {
+	int joystickID = event.jaxis.which;
+	if (isDown) {
+		if (m_mJoystickButtonStates[joystickID].find(event.jbutton.button) == m_mJoystickButtonStates[joystickID].end()) {
+			m_mJoystickButtonStates[joystickID][event.jbutton.button] = KeyState::KEY_PRESSED;
+		}
+		else if (m_mJoystickButtonStates[joystickID][event.jbutton.button] == KeyState::KEY_PRESSED) {
+			m_mJoystickButtonStates[joystickID][event.jbutton.button] = KeyState::KEY_DOWN;
+		}
+	}
+	else {
+		m_mJoystickButtonStates[joystickID][event.jbutton.button] = KEY_RELEASED;
+	}
 }
 
 /**
  * Change the state of a pressed or released keyboard key.
  */
 void SDL2InputHandler::_handleKeyEvent(const SDL_Event event, const bool isDown) {
-	m_mKeysStates[event.key.keysym.scancode] = std::make_pair(isDown, isDown);
+	if (isDown) {
+		m_mKeysStates[event.key.keysym.scancode] = event.key.repeat ? KEY_DOWN : KEY_PRESSED;
+	}
+	else {
+		m_mKeysStates[event.key.keysym.scancode] = KEY_RELEASED;
+	}
 }
 
 /**
@@ -116,18 +130,14 @@ void SDL2InputHandler::_initialiseJoystick(const int indexJoystick) {
 		std::cout << SDL_GetError();
 	}
 	else {
-		int joystickId = SDL_JoystickInstanceID(joy);
-		m_vJoysticks.push_back(std::make_pair(joystickId, joy));
+		int joystickID = SDL_JoystickInstanceID(joy);
+		m_vJoysticks.push_back(std::make_pair(joystickID, joy));
 		// for each joystick store their stick axises values
-		m_mJoystickAxisValues[joystickId] = std::make_pair(
+		m_mJoystickAxisValues[joystickID] = std::make_pair(
 			Vector2D(0,0),
 			Vector2D(0,0)
 		);
-		std::vector<bool> tempButtons;
-		for (int j = 0; j < SDL_JoystickNumButtons(joy); j++) {
-			tempButtons.push_back(false);
-		}
-		m_mButtonStates[joystickId] = tempButtons;
+		m_mJoystickButtonStates[joystickID] = {};
 		m_bJoysticksInitialised = true;
 		std::cout << "Initialised "<< m_vJoysticks.size() << " joystick(s)\n";
 	}
@@ -146,9 +156,51 @@ void SDL2InputHandler::_clean() {
 
 		std::cout << "Cleaned "<< m_vJoysticks.size() << " joystick(s)\n";
 		m_vJoysticks.clear();
-		m_mButtonStates.clear();
+		m_mJoystickButtonStates.clear();
 		m_mJoystickAxisValues.clear();
 
 		m_bJoysticksInitialised = false;
 	}
+}
+
+bool SDL2InputHandler::isKeyPressed(const int key) {
+	return m_mKeysStates.find(key) != m_mKeysStates.end() && m_mKeysStates[key] == KeyState::KEY_PRESSED;
+}
+
+bool SDL2InputHandler::isKeyDown(const int key) {
+	return m_mKeysStates.find(key) != m_mKeysStates.end() && m_mKeysStates[key] == KeyState::KEY_DOWN;
+}
+
+bool SDL2InputHandler::isKeyReleased(const int key) {
+	return m_mKeysStates.find(key) != m_mKeysStates.end() && m_mKeysStates[key] == KeyState::KEY_RELEASED;
+}
+
+bool SDL2InputHandler::isJoystickButtonPressed(const int joystickID, const int button) {
+	return m_mJoystickButtonStates.find(joystickID) != m_mJoystickButtonStates.end() &&
+		m_mJoystickButtonStates[joystickID].find(button) != m_mJoystickButtonStates[joystickID].end() &&
+		m_mJoystickButtonStates[joystickID][button] == KeyState::KEY_PRESSED;
+}
+
+bool SDL2InputHandler::isJoystickButtonDown(const int joystickID, const int button) {
+	return m_mJoystickButtonStates.find(joystickID) != m_mJoystickButtonStates.end() &&
+		m_mJoystickButtonStates[joystickID].find(button) != m_mJoystickButtonStates[joystickID].end() &&
+		m_mJoystickButtonStates[joystickID][button] == KeyState::KEY_DOWN;
+}
+
+bool SDL2InputHandler::isJoystickButtonReleased(const int joystickID, const int button) {
+	return m_mJoystickButtonStates.find(joystickID) != m_mJoystickButtonStates.end() &&
+		m_mJoystickButtonStates[joystickID].find(button) != m_mJoystickButtonStates[joystickID].end() &&
+		m_mJoystickButtonStates[joystickID][button] == KeyState::KEY_RELEASED;
+}
+
+bool SDL2InputHandler::isMouseButtonPressed(const int button __attribute__((unused))) {
+	return false;
+}
+
+bool SDL2InputHandler::isMouseButtonDown(const int button __attribute__((unused))) {
+	return false;
+}
+
+bool SDL2InputHandler::isMouseButtonReleased(const int button __attribute__((unused))) {
+	return false;
 }

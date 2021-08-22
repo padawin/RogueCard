@@ -21,7 +21,7 @@ CFLAGS = -g -O2 -Wall -Wmissing-declarations -Weffc++ \
 	-Wvariadic-macros \
 	-Wwrite-strings
 
-CFLAGS += -I$(SRCDIR)/game -I$(SRCDIR)/common -I$(SRCDIR)/rogue-card -I$(SRCDIR)/sdl2
+CFLAGS += -I$(SRCDIR)/game -I$(SRCDIR)/common -I$(SRCDIR)/rogue-card -I$(SRCDIR)/sdl2 -Isrc
 LIBS = -lSDL2 -lSDL2_image -ldl
 
 PROG = rogue-card

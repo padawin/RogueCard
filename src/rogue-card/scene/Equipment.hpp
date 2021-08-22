@@ -3,10 +3,10 @@
 
 #include <memory>
 #include <string.h>
-#include "../game/SceneState.hpp"
-#include "../game/types.hpp"
-#include "../sdl2/Renderer.hpp"
-#include "../sdl2/Text.hpp"
+#include "game/SceneState.hpp"
+#include "rogue-card/coordinates.hpp"
+#include "sdl2/Renderer.hpp"
+#include "sdl2/Text.hpp"
 #include "Player.hpp"
 #include "Tab.hpp"
 #include "ObjectCardCollectionRenderer.hpp"

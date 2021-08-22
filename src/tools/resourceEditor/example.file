@@ -1,0 +1,11 @@
+# %META START%
+# %META FIELD% name 0 32
+# %META FIELD% age 1 0
+# %META FIELD% admin 2 2
+# %META END%
+# John row
+"John" 42 0
+# Pete row
+"Pete" 28 1
+"oeaeooeuoe" 2324 1
+"uaouo" 342 1

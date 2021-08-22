@@ -23,16 +23,35 @@ void UserActions::add(std::string name, S_Command c) {
 	m_mMappings[name].push_back(c);
 }
 
-int UserActions::getActionState(std::string name) {
+ActionState UserActions::getActionState(std::string name) {
 	if (!m_mMappings.count(name)) {
-		return 0;
+		return ActionState::ACTION_UNKNOWN;
 	}
 
 	std::vector<S_Command> commands = m_mMappings[name];
-	int ret = 0;
+	ActionState ret = ActionState::ACTION_REST;
 	for (unsigned int c = 0; c < commands.size(); c++) {
 		if (commands[c].type == KEYBOARD_KEY) {
-			ret = m_inputHandler->isKeyPressed(commands[c].key);
+			if (m_inputHandler->isKeyPressed(commands[c].key)) {
+				ret = ActionState::ACTION_PRESSED;
+			}
+			else if (m_inputHandler->isKeyReleased(commands[c].key)) {
+				ret = ActionState::ACTION_RELEASED;
+			}
+			else if (m_inputHandler->isKeyDown(commands[c].key)) {
+				ret = ActionState::ACTION_DOWN;
+			}
+		}
+		else if (commands[c].type == MOUSE_BUTTON) {
+			if (m_inputHandler->isMouseButtonPressed(commands[c].key)) {
+				ret = ActionState::ACTION_PRESSED;
+			}
+			else if (m_inputHandler->isMouseButtonReleased(commands[c].key)) {
+				ret = ActionState::ACTION_RELEASED;
+			}
+			else if (m_inputHandler->isMouseButtonDown(commands[c].key)) {
+				ret = ActionState::ACTION_DOWN;
+			}
 		}
 
 		if (ret != 0) {
@@ -41,6 +60,10 @@ int UserActions::getActionState(std::string name) {
 	}
 
 	return ret;
+}
+
+bool UserActions::is(std::string name, int states) {
+	return getActionState(name) & states;
 }
 
 int UserActions::setActionsFromFile(const char* mappingFile) {
@@ -65,7 +88,7 @@ int UserActions::setActionsFromFile(const char* mappingFile) {
 
 		char commandName[MAX_CHAR_COMMAND];
 		char* token;
-		InputType type;
+		int type;
 		int value;
 
 		// @TODO Check buffer overflow
@@ -78,7 +101,7 @@ int UserActions::setActionsFromFile(const char* mappingFile) {
 			return NO_TYPE_FOUND;
 		}
 
-		type = (InputType) atoi(token);
+		type = atoi(token);
 		token = strtok(0, DELIMITER);
 		if (token == 0) {
 			return NO_VALUE_FOUND;
@@ -88,8 +111,8 @@ int UserActions::setActionsFromFile(const char* mappingFile) {
 		token = strtok(0, DELIMITER);
 
 		S_Command c;
-		c.type = type;
-		if (type == KEYBOARD_KEY) {
+		if (type >= 0 && type < InputType::NULL_TYPE) {
+			c.type = (InputType) type;
 			c.key = value;
 		}
 		else {

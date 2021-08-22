@@ -15,8 +15,8 @@
 class State {
 	public:
 	virtual	~State() {}
-	virtual void render();
 	virtual bool onEnter();
+	virtual void onResume();
 	virtual bool onExit();
 	virtual std::string getStateID() const = 0;
 };

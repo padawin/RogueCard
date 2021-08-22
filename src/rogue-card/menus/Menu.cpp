@@ -1,6 +1,6 @@
 #include "Menu.hpp"
-#include "../game/globals.hpp"
-#include "../sdl2/TextureManager.hpp"
+#include "globals.hpp"
+#include "sdl2/TextureManager.hpp"
 
 const int MARGIN_X = 16;
 const int MARGIN_Y = 16;

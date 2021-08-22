@@ -1,12 +1,13 @@
 #include <SDL2/SDL.h>
-#include "../common/types.hpp"
-#include "../game/Game.hpp"
-#include "../game/StateMachine.hpp"
-#include "../game/SceneState.hpp"
-#include "../game/globals.hpp"
-#include "../sdl2/InputHandler.hpp"
-#include "../sdl2/Renderer.hpp"
-#include "../sdl2/Text.hpp"
+#include "common/types.hpp"
+#include "game/Game.hpp"
+#include "game/config.hpp"
+#include "game/StateMachine.hpp"
+#include "game/SceneState.hpp"
+#include "globals.hpp"
+#include "sdl2/InputHandler.hpp"
+#include "sdl2/Renderer.hpp"
+#include "sdl2/Text.hpp"
 #include "EnemyCard.hpp"
 #include "ObjectCard.hpp"
 #include "ResourceManager.hpp"
@@ -32,6 +33,8 @@ int main(int argc, char* args[]) {
 			return 1;
 		}
 	}
+
+	config_setBinPath(binaryPath);
 
 	{
 		std::string controlsMapping = std::string(binaryPath) + "/../config/playercontrolsmapping.txt";
@@ -59,7 +62,6 @@ int main(int argc, char* args[]) {
 		return 1;
 	}
 
-	Game::setBinaryPath(binaryPath);
 	StateMachine<SceneState> stateMachine = StateMachine<SceneState>();
 	stateMachine.pushState(new MainMenuScene(userActions, renderer));
 	Game g(stateMachine, renderer, inputHandler);

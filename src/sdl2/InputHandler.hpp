@@ -40,7 +40,9 @@ class SDL2InputHandler : public InputHandler {
 	 * Maps joysticks ids and buttons state, each joystick has a list of
 	 * buttons set to true or false depending on if the button is pressed
 	 */
-	std::map<int, std::vector<bool>> m_mButtonStates = {};
+	std::map<int, std::map<int, KeyState>> m_mJoystickButtonStates = {};
+
+	std::map<int, KeyState> m_mKeysStates = {};
 
 	/**
 	 * State of the pressed keys on the keyboard;
@@ -64,6 +66,8 @@ class SDL2InputHandler : public InputHandler {
 	 */
 	void _setJoystickValue(const int value, Vector2D* axisVector, Vector2DCoord coord);
 
+	void _handleKeyEvent(const int key, const bool isDown);
+
 	/**
 	 * Method called when a stick event is fired.
 	 */
@@ -72,7 +76,7 @@ class SDL2InputHandler : public InputHandler {
 	/**
 	 * Method called when a joystick button is pressed or released.
 	 */
-	void _handleButtonEvent(const SDL_Event event, const bool isDown);
+	void _handleJoystickButtonEvent(const SDL_Event event, const bool isDown);
 
 	/**
 	 * Method called when a keyboard key is pressed or released.
@@ -83,9 +87,6 @@ class SDL2InputHandler : public InputHandler {
 	 * Method called when a joystick is unplugged.
 	 */
 	void _handleJoystickRemoved();
-
-	protected:
-	InputUpdateResult _processEvents();
 
 	public:
 	/**
@@ -98,15 +99,18 @@ class SDL2InputHandler : public InputHandler {
 	 */
 	int stickValue(const unsigned long joy, const JoystickControl stick);
 
-	/**
-	 * Method to get the state of the given button if a given joystick
-	 */
-	bool getButtonState(const unsigned long joyIndex, const unsigned long buttonNumber);
+	void setup();
+	void reset();
 
-	/**
-	 * Method to set the state of the given button if a given joystick
-	 */
-	void setButtonState(const unsigned long joyIndex, const unsigned long button, const bool down);
+	bool isKeyPressed(const int key);
+	bool isKeyDown(const int key);
+	bool isKeyReleased(const int key);
+	bool isJoystickButtonPressed(const int joystickID, const int button);
+	bool isJoystickButtonDown(const int joystickID, const int button);
+	bool isJoystickButtonReleased(const int joystickID, const int button);
+	bool isMouseButtonPressed(const int button);
+	bool isMouseButtonDown(const int button);
+	bool isMouseButtonReleased(const int button);
 };
 
 #endif

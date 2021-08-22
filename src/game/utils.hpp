@@ -1,23 +1,15 @@
-#include <algorithm> 
-#include <cctype>
-#include <locale>
+#ifndef __UTILS__
+#define __UTILS__
 
-// trim from start (in place)
-static inline void ltrim(std::string &s) {
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) {
-        return !std::isspace(ch);
-    }));
-}
+#include <string>
 
-// trim from end (in place)
-static inline void rtrim(std::string &s) {
-    s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {
-        return !std::isspace(ch);
-    }).base(), s.end());
-}
+std::string utils_getDataPath();
+void utils_createFolder(const char *path);
+int utils_emptyFolder(const char *path);
+std::string utils_readFile(const char *filePath);
+bool utils_isRegularFile(const char *path);
+int utils_getFileContent(const char *path, std::string *fileContent);
 
-// trim from both ends (in place)
-static inline void trim(std::string &s) {
-    ltrim(s);
-    rtrim(s);
-}
+float utils_lerp(const float start, const float end, const float t);
+
+#endif

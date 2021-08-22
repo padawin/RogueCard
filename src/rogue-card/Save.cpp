@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include <fstream>
 #include <iostream>
-#include "../game/Utils.hpp"
+#include "game/utils.hpp"
 #include "Save.hpp"
 
 const char* PLAYER_FILE = "player.dat";
@@ -14,7 +14,7 @@ Save::Save(Player &player) : m_player(player) {}
 
 bool Save::exists() {
 	struct stat st;
-	std::string playerPath = Utils::getDataPath() + "/" + PLAYER_FILE;
+	std::string playerPath = utils_getDataPath() + "/" + PLAYER_FILE;
 	return stat(playerPath.c_str(), &st) != -1;
 }
 
@@ -24,7 +24,7 @@ void Save::load() {
 
 void Save::_loadPlayer() {
 	std::ifstream fin;
-	std::string playerPath = Utils::getDataPath() + "/" + PLAYER_FILE;
+	std::string playerPath = utils_getDataPath() + "/" + PLAYER_FILE;
 	fin.open(playerPath.c_str());
 	if (!fin.good()) {
 		fin.close();
@@ -123,7 +123,7 @@ void Save::_loadPlayer() {
 }
 
 void Save::create() {
-	Utils::createFolder(Utils::getDataPath().c_str());
+	utils_createFolder(utils_getDataPath().c_str());
 	_setPlayerInitialCards();
 	_savePlayer();
 }
@@ -136,7 +136,7 @@ void Save::_setPlayerInitialCards() {
 }
 
 void Save::_savePlayer() {
-	std::string playerPath = Utils::getDataPath() + "/" + PLAYER_FILE;
+	std::string playerPath = utils_getDataPath() + "/" + PLAYER_FILE;
 	FILE *playerFile = fopen(playerPath.c_str(), "w");
 	fprintf(playerFile, "h %d\n", m_player.getHealth());
 	fprintf(playerFile, "H %d\n", m_player.getMaxHealth());

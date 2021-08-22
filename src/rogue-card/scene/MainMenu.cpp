@@ -1,6 +1,6 @@
-#include "../game/Game.hpp"
-#include "../game/globals.hpp"
-#include "../game/StateMachine.hpp"
+#include "game/Game.hpp"
+#include "globals.hpp"
+#include "game/StateMachine.hpp"
 #include "MainMenu.hpp"
 #include "Play.hpp"
 #include "PlayerCreation.hpp"
@@ -29,16 +29,16 @@ bool MainMenuScene::onEnter() {
 }
 
 void MainMenuScene::update(StateMachine<SceneState> &stateMachine) {
-	if (m_userActions.getActionState("QUIT")) {
+	if (m_userActions.getActionState("QUIT") == ActionState::ACTION_PRESSED) {
 		stateMachine.clean();
 	}
-	else if (m_userActions.getActionState("CURSOR_UP")) {
+	else if (m_userActions.is("CURSOR_UP", ActionState::ACTION_PRESSED | ActionState::ACTION_DOWN)) {
 		m_menu.selectPrevious();
 	}
-	else if (m_userActions.getActionState("CURSOR_DOWN")) {
+	else if (m_userActions.is("CURSOR_DOWN", ActionState::ACTION_PRESSED | ActionState::ACTION_DOWN)) {
 		m_menu.selectNext();
 	}
-	else if (m_userActions.getActionState("MENU_ACTION")) {
+	else if (m_userActions.getActionState("MENU_ACTION") == ActionState::ACTION_PRESSED) {
 		_executeMenuAction(stateMachine);
 	}
 }

@@ -1,5 +1,5 @@
-#include "../game/globals.hpp"
-#include "../common/types.hpp"
+#include "globals.hpp"
+#include "common/types.hpp"
 #include "TextureManager.hpp"
 #include "Text.hpp"
 

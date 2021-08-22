@@ -1,6 +1,6 @@
 #include "AbstractSave.hpp"
-#include "Utils.hpp"
+#include "utils.hpp"
 
 void AbstractSave::clean() {
-	Utils::emptyFolder(Utils::getDataPath().c_str());
+	utils_emptyFolder(utils_getDataPath().c_str());
 }
