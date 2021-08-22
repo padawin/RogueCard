@@ -1,6 +1,6 @@
-#include "../sdl2/TextureManager.hpp"
-#include "../game/globals.hpp"
-#include "../game/StateMachine.hpp"
+#include "sdl2/TextureManager.hpp"
+#include "globals.hpp"
+#include "game/StateMachine.hpp"
 #include "QuickActionBar.hpp"
 
 QuickActionBarScene::QuickActionBarScene(
@@ -29,16 +29,16 @@ bool QuickActionBarScene::onEnter() {
 }
 
 void QuickActionBarScene::update(StateMachine<SceneState> &stateMachine) {
-	if (m_userActions.getActionState("BACK")) {
+	if (m_userActions.getActionState("BACK") == ActionState::ACTION_PRESSED) {
 		stateMachine.popState();
 	}
-	else if (m_userActions.getActionState("CURSOR_LEFT")) {
+	else if (m_userActions.is("CURSOR_LEFT", ActionState::ACTION_PRESSED | ActionState::ACTION_DOWN)) {
 		m_cursorPosition = ((ACTION_BAR_SIZE + m_cursorPosition - 1) % ACTION_BAR_SIZE);
 	}
-	else if (m_userActions.getActionState("CURSOR_RIGHT")) {
+	else if (m_userActions.is("CURSOR_RIGHT", ActionState::ACTION_PRESSED | ActionState::ACTION_DOWN)) {
 		m_cursorPosition = ((m_cursorPosition + 1) % ACTION_BAR_SIZE);
 	}
-	else if (m_userActions.getActionState("USE_CARD")) {
+	else if (m_userActions.getActionState("USE_CARD") == ActionState::ACTION_PRESSED) {
 		m_player.getActionBar().setCard(m_cursorPosition, m_card);
 		stateMachine.popState();
 		// If fighting, remove the Inventory state.

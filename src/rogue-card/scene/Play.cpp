@@ -1,9 +1,9 @@
-#include "../game/StateMachine.hpp"
-#include "../game/globals.hpp"
-#include "../coordinates.hpp"
-#include "../sdl2/TextureManager.hpp"
-#include "../cardState/PickedCard.hpp"
-#include "../cardState/FightTurn.hpp"
+#include "globals.hpp"
+#include "game/StateMachine.hpp"
+#include "rogue-card/coordinates.hpp"
+#include "sdl2/TextureManager.hpp"
+#include "rogue-card/cardState/PickedCard.hpp"
+#include "rogue-card/cardState/FightTurn.hpp"
 #include "coordinates.hpp"
 #include "Intro.hpp"
 #include "GameOver.hpp"
@@ -103,36 +103,36 @@ bool PlayScene::_updateCards() const {
 }
 
 void PlayScene::_handleControls(StateMachine<SceneState> &stateMachine) {
-	if (m_userActions.getActionState("QUIT")) {
+	if (m_userActions.getActionState("QUIT") == ActionState::ACTION_PRESSED) {
 		m_save.save();
 		stateMachine.clean();
 	}
-	else if (m_userActions.getActionState("INVENTORY")) {
+	else if (m_userActions.getActionState("INVENTORY") == ActionState::ACTION_PRESSED) {
 		stateMachine.pushState(
 			new InventoryScene(m_userActions, m_player, m_renderer)
 		);
 	}
-	else if (m_userActions.getActionState("PLAYER_STATS")) {
+	else if (m_userActions.getActionState("PLAYER_STATS") == ActionState::ACTION_PRESSED) {
 		stateMachine.pushState(
 			new PlayerStatsScene(m_userActions, m_renderer, m_player)
 		);
 	}
-	else if (m_userActions.getActionState("EQUIPMENT")) {
+	else if (m_userActions.getActionState("EQUIPMENT") == ActionState::ACTION_PRESSED) {
 		stateMachine.pushState(new EquipmentScene(m_userActions, m_player, m_renderer));
 	}
-	else if (m_userActions.getActionState("USE_CARD")) {
+	else if (m_userActions.getActionState("USE_CARD") == ActionState::ACTION_PRESSED) {
 		_useCardUnderCursor();
 	}
-	else if (m_userActions.getActionState("CURSOR_LEFT")) {
+	else if (m_userActions.is("CURSOR_LEFT", ActionState::ACTION_PRESSED | ActionState::ACTION_DOWN)) {
 		m_cursorPosition = (PlayCursorPosition) ((NbPositions + m_cursorPosition - 1) % NbPositions);
 	}
-	else if (m_userActions.getActionState("CURSOR_RIGHT")) {
+	else if (m_userActions.is("CURSOR_RIGHT", ActionState::ACTION_PRESSED | ActionState::ACTION_DOWN)) {
 		m_cursorPosition = (PlayCursorPosition) ((m_cursorPosition + 1) % NbPositions);
 	}
-	else if (m_userActions.getActionState("CURSOR_UP")) {
+	else if (m_userActions.is("CURSOR_UP", ActionState::ACTION_PRESSED | ActionState::ACTION_DOWN)) {
 		_setNextAction(1);
 	}
-	else if (m_userActions.getActionState("CURSOR_DOWN")) {
+	else if (m_userActions.is("CURSOR_DOWN", ActionState::ACTION_PRESSED | ActionState::ACTION_DOWN)) {
 		_setNextAction(-1);
 	}
 }

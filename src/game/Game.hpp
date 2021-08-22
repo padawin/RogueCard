@@ -3,22 +3,22 @@
 
 #include "StateMachine.hpp"
 #include "SceneState.hpp"
-#include "renderer/Renderer.hpp"
+#include "Renderer.hpp"
 #include "InputHandler.hpp"
 #include <memory>
-#include <limits.h>
+#include <string.h>
 
 class Game {
 	private:
 	bool m_bIsRunning = false;
 	static std::string m_sBinaryPath;
-	StateMachine<SceneState> m_stateMachine;
+	StateMachine<SceneState> &m_stateMachine;
 	std::shared_ptr<Renderer> m_renderer;
 	std::shared_ptr<InputHandler> m_inputHandler;
 
 	public:
 	Game(
-		StateMachine<SceneState> stateMachine,
+		StateMachine<SceneState> &stateMachine,
 		std::shared_ptr<Renderer> renderer,
 		std::shared_ptr<InputHandler> inputHandler
 	);
@@ -27,8 +27,6 @@ class Game {
 	void mainLoop();
 	void frame();
 	void shutdown() const;
-	static void setBinaryPath(std::string binaryPath);
-	static const std::string getBinaryPath();
 };
 
 #endif

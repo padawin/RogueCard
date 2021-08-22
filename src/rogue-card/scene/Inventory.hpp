@@ -2,12 +2,11 @@
 #define __INVENTORY_STATE__
 
 #include <string.h>
-#include "../game/types.hpp"
-#include "../game/SceneState.hpp"
-#include "../sdl2/Renderer.hpp"
-#include "../Player.hpp"
-#include "../menus/ObjectAction.hpp"
-#include "../ObjectCardCollectionRenderer.hpp"
+#include "game/SceneState.hpp"
+#include "sdl2/Renderer.hpp"
+#include "Player.hpp"
+#include "menus/ObjectAction.hpp"
+#include "ObjectCardCollectionRenderer.hpp"
 
 #include "Tab.hpp"
 

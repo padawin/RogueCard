@@ -1,8 +1,8 @@
 #include "PlayerCreation.hpp"
 #include "Play.hpp"
-#include "../game/StateMachine.hpp"
-#include "../game/globals.hpp"
-#include "../sdl2/TextureManager.hpp"
+#include "game/StateMachine.hpp"
+#include "globals.hpp"
+#include "sdl2/TextureManager.hpp"
 #include "Save.hpp"
 
 char starterArmors[NB_ARMOR_CHOICES][32] = {
@@ -37,15 +37,15 @@ bool PlayerCreationScene::onEnter() {
 }
 
 void PlayerCreationScene::update(StateMachine<SceneState> &stateMachine) {
-	if (m_userActions.getActionState("CURSOR_DOWN")) {
+	if (m_userActions.is("CURSOR_DOWN", ActionState::ACTION_PRESSED | ActionState::ACTION_DOWN)) {
 		Menu* menu = (m_step == ARMOR_CHOICE ? (Menu*) &m_armorMenu : (Menu*) &m_weaponMenu);
 		menu->selectNext();
 	}
-	else if (m_userActions.getActionState("CURSOR_UP")) {
+	else if (m_userActions.is("CURSOR_UP", ActionState::ACTION_PRESSED | ActionState::ACTION_DOWN)) {
 		Menu* menu = (m_step == ARMOR_CHOICE ? (Menu*) &m_armorMenu : (Menu*) &m_weaponMenu);
 		menu->selectPrevious();
 	}
-	else if (m_userActions.getActionState("MENU_ACTION")) {
+	else if (m_userActions.getActionState("MENU_ACTION") == ActionState::ACTION_PRESSED) {
 		if (m_step == ARMOR_CHOICE) {
 			m_step = WEAPON_CHOICE;
 		}

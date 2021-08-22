@@ -65,7 +65,7 @@ std::string FightResultScene::getStateID() const {
 }
 
 void FightResultScene::update(StateMachine<SceneState> &stateMachine) {
-	if (m_userActions.getActionState("CONFIRM")) {
+	if (m_userActions.getActionState("CONFIRM") == ActionState::ACTION_PRESSED) {
 		do {
 			m_iPage = m_iPage << 1;
 		} while (!(m_iPage & m_iPagesToSee) && m_iPage <= LAST_PAGE);

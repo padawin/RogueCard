@@ -8,6 +8,7 @@ void StateMachine<stateType>::pushState(stateType *pState) {
 	}
 
 	m_vStates.push_back(pState);
+	std::clog << "Push state " << pState->getStateID() << std::endl;
 	if (!m_vStates.back()->onEnter()) {
 		popState();
 	}
@@ -15,10 +16,9 @@ void StateMachine<stateType>::pushState(stateType *pState) {
 
 template <class stateType>
 void StateMachine<stateType>::changeState(stateType *pState) {
-	std::clog << "Change state";
+	std::clog << "Change state: \n";
 	// If there is at least one state
 	if (!m_vStates.empty()) {
-		std::clog << " from " << m_vStates.back()->getStateID();
 		// and if it is the state we want to add
 		if (m_vStates.back()->getStateID() == pState->getStateID()) {
 			return;
@@ -27,17 +27,21 @@ void StateMachine<stateType>::changeState(stateType *pState) {
 		// remove the state
 		popState();
 	}
-	std::clog << " to " << pState->getStateID() << std::endl;
 
 	// add the new one
 	pushState(pState);
+	std::clog << "State changed\n";
 }
 
 template <class stateType>
 bool StateMachine<stateType>::popState() {
 	if (!m_vStates.empty() && m_vStates.back()->onExit()) {
+		std::clog << "Pop state " << m_vStates.back()->getStateID() << std::endl;
 		delete m_vStates.back();
 		m_vStates.pop_back();
+		if (!m_vStates.empty()) {
+			m_vStates.back()->onResume();
+		}
 		return true;
 	}
 

@@ -1,5 +1,5 @@
-#include "../game/globals.hpp"
-#include "../game/StateMachine.hpp"
+#include "globals.hpp"
+#include "game/StateMachine.hpp"
 #include "Win.hpp"
 #include "MainMenu.hpp"
 
@@ -24,13 +24,13 @@ bool WinScene::onEnter() {
 }
 
 void WinScene::update(StateMachine<SceneState> &stateMachine) {
-	if (m_userActions.getActionState("CURSOR_UP")) {
+	if (m_userActions.is("CURSOR_UP", ActionState::ACTION_PRESSED | ActionState::ACTION_DOWN)) {
 		m_menu.selectPrevious();
 	}
-	else if (m_userActions.getActionState("CURSOR_DOWN")) {
+	else if (m_userActions.is("CURSOR_DOWN", ActionState::ACTION_PRESSED | ActionState::ACTION_DOWN)) {
 		m_menu.selectNext();
 	}
-	else if (m_userActions.getActionState("MENU_ACTION")) {
+	else if (m_userActions.getActionState("MENU_ACTION") == ActionState::ACTION_PRESSED) {
 		_executeMenuAction(stateMachine);
 	}
 }

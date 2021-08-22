@@ -2,10 +2,10 @@
 #define __QUICK_ACTION_BAR__
 
 #include <string.h>
-#include "../sdl2/Renderer.hpp"
-#include "../game/SceneState.hpp"
-#include "../game/types.hpp"
-#include "../Player.hpp"
+#include "sdl2/Renderer.hpp"
+#include "game/SceneState.hpp"
+#include "rogue-card/coordinates.hpp"
+#include "Player.hpp"
 
 class QuickActionBarScene : public SceneState {
 	private:

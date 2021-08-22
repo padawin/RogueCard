@@ -3,11 +3,10 @@
 
 #include <string.h>
 #include <memory>
-#include "../common/ElementalEffects.hpp"
-#include "../game/types.hpp"
-#include "../game/SceneState.hpp"
-#include "../sdl2/Renderer.hpp"
-#include "../sdl2/Text.hpp"
+#include "common/ElementalEffects.hpp"
+#include "game/SceneState.hpp"
+#include "sdl2/Renderer.hpp"
+#include "sdl2/Text.hpp"
 
 #include "Player.hpp"
 #include "Tab.hpp"

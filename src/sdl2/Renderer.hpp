@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include <vector>
 #include <string>
-#include "../game/renderer/Renderer.hpp"
+#include "../game/Renderer.hpp"
 
 class SDL2Renderer : public Renderer {
 	private:

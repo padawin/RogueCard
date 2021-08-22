@@ -1,6 +1,6 @@
-#include "../game/globals.hpp"
-#include "../game/StateMachine.hpp"
-#include "../sdl2/TextureManager.hpp"
+#include "globals.hpp"
+#include "game/StateMachine.hpp"
+#include "sdl2/TextureManager.hpp"
 #include "Equipment.hpp"
 #include "Inventory.hpp"
 
@@ -57,11 +57,11 @@ bool EquipmentScene::onEnter() {
 
 void EquipmentScene::update(StateMachine<SceneState> &stateMachine) {
 	if (m_bSelectViewOpen) {
-		if (m_userActions.getActionState("BACK")) {
+		if (m_userActions.getActionState("BACK") == ActionState::ACTION_PRESSED) {
 			m_bSelectViewOpen = false;
 			m_availableCardsRenderer.reset();
 		}
-		else if (m_userActions.getActionState("USE_CARD")) {
+		else if (m_userActions.getActionState("USE_CARD") == ActionState::ACTION_PRESSED) {
 			auto card = m_availableCards.getCard(
 				m_availableCardsRenderer.getSelectedCardIndex()
 			);
@@ -75,19 +75,19 @@ void EquipmentScene::update(StateMachine<SceneState> &stateMachine) {
 		}
 	}
 	else {
-		if (m_userActions.getActionState("BACK")) {
+		if (m_userActions.getActionState("BACK") == ActionState::ACTION_PRESSED) {
 			stateMachine.popState();
 		}
-		else if (m_userActions.getActionState("INVENTORY")) {
+		else if (m_userActions.getActionState("INVENTORY") == ActionState::ACTION_PRESSED) {
 			stateMachine.changeState(new InventoryScene(m_userActions, m_player, m_renderer));
 		}
-		else if (m_userActions.getActionState("CURSOR_LEFT")) {
+		else if (m_userActions.is("CURSOR_LEFT", ActionState::ACTION_PRESSED | ActionState::ACTION_DOWN)) {
 			m_cursorPosition = (SIZE_EQUIPMENT + m_cursorPosition - 1) % SIZE_EQUIPMENT;
 		}
-		else if (m_userActions.getActionState("CURSOR_RIGHT")) {
+		else if (m_userActions.is("CURSOR_RIGHT", ActionState::ACTION_PRESSED | ActionState::ACTION_DOWN)) {
 			m_cursorPosition = (m_cursorPosition + 1) % SIZE_EQUIPMENT;
 		}
-		else if (m_userActions.getActionState("USE_CARD")) {
+		else if (m_userActions.getActionState("USE_CARD") == ActionState::ACTION_PRESSED) {
 			_openListObjects();
 		}
 	}

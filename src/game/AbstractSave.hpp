@@ -8,7 +8,7 @@ class AbstractSave {
 	static void clean();
 	static bool exists();
 	virtual void load() = 0;
-	virtual void create() = 0;
+	virtual void save() = 0;
 };
 
 #endif

@@ -3,15 +3,15 @@
 
 #include <string.h>
 #include <map>
-#include "../game/SceneState.hpp"
-#include "../game/types.hpp"
-#include "../sdl2/Renderer.hpp"
-#include "../sdl2/Text.hpp"
-#include "../Player.hpp"
-#include "../CardDeck.hpp"
-#include "../ActionCard.hpp"
-#include "../ProgressBar.hpp"
-#include "../Fight.hpp"
+#include "game/SceneState.hpp"
+#include "sdl2/Renderer.hpp"
+#include "sdl2/Text.hpp"
+#include "rogue-card/coordinates.hpp"
+#include "Player.hpp"
+#include "CardDeck.hpp"
+#include "ActionCard.hpp"
+#include "ProgressBar.hpp"
+#include "Fight.hpp"
 
 enum PlayCursorPosition {Action, Object1, Object2, Object3, Object4, Floor, NbPositions};
 

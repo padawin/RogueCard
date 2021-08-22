@@ -1,5 +1,5 @@
-#include "../game/globals.hpp"
-#include "../sdl2/TextureManager.hpp"
+#include "globals.hpp"
+#include "sdl2/TextureManager.hpp"
 #include "ObjectCardCollectionRenderer.hpp"
 
 #define OFFSET_X 16
@@ -31,16 +31,16 @@ ObjectCardCollectionRenderer::ObjectCardCollectionRenderer(
 }
 
 void ObjectCardCollectionRenderer::update() {
-	if (m_userActions.getActionState("CURSOR_UP")) {
+	if (m_userActions.is("CURSOR_UP", ActionState::ACTION_PRESSED | ActionState::ACTION_DOWN)) {
 		moveCursorUp();
 	}
-	else if (m_userActions.getActionState("CURSOR_DOWN")) {
+	else if (m_userActions.is("CURSOR_DOWN", ActionState::ACTION_PRESSED | ActionState::ACTION_DOWN)) {
 		moveCursorDown();
 	}
-	else if (m_userActions.getActionState("CURSOR_LEFT")) {
+	else if (m_userActions.is("CURSOR_LEFT", ActionState::ACTION_PRESSED | ActionState::ACTION_DOWN)) {
 		moveCursorLeft();
 	}
-	else if (m_userActions.getActionState("CURSOR_RIGHT")) {
+	else if (m_userActions.is("CURSOR_RIGHT", ActionState::ACTION_PRESSED | ActionState::ACTION_DOWN)) {
 		moveCursorRight();
 	}
 }

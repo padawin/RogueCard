@@ -1,7 +1,7 @@
 #include <iostream>
-#include "../game/StateMachine.hpp"
-#include "../game/globals.hpp"
-#include "../sdl2/TextureManager.hpp"
+#include "game/StateMachine.hpp"
+#include "globals.hpp"
+#include "sdl2/TextureManager.hpp"
 #include "Inventory.hpp"
 #include "Equipment.hpp"
 #include "QuickActionBar.hpp"
@@ -37,18 +37,18 @@ bool InventoryScene::onEnter() {
 }
 
 void InventoryScene::update(StateMachine<SceneState> &stateMachine) {
-	bool pressedBack = m_userActions.getActionState("BACK"),
-		 pressedAction = m_userActions.getActionState("USE_CARD");
+	bool pressedBack = m_userActions.getActionState("BACK") == ActionState::ACTION_PRESSED,
+		 pressedAction = m_userActions.getActionState("USE_CARD") == ActionState::ACTION_PRESSED;
 	if (m_objectActionMenu.isOpen()) {
 		if (pressedBack ||
 			(pressedAction && m_objectActionMenu.getSelectedAction() == BACK)
 		) {
 			m_objectActionMenu.close();
 		}
-		else if (m_userActions.getActionState("CURSOR_UP")) {
+		else if (m_userActions.is("CURSOR_UP", ActionState::ACTION_PRESSED | ActionState::ACTION_DOWN)) {
 			m_objectActionMenu.selectPrevious();
 		}
-		else if (m_userActions.getActionState("CURSOR_DOWN")) {
+		else if (m_userActions.is("CURSOR_DOWN", ActionState::ACTION_PRESSED | ActionState::ACTION_DOWN)) {
 			m_objectActionMenu.selectNext();
 		}
 		else if (pressedAction) {
@@ -72,7 +72,7 @@ void InventoryScene::update(StateMachine<SceneState> &stateMachine) {
 			m_objectActionMenu.open(card);
 		}
 	}
-	else if (m_userActions.getActionState("EQUIPMENT")) {
+	else if (m_userActions.getActionState("EQUIPMENT") == ActionState::ACTION_PRESSED) {
 		stateMachine.changeState(new EquipmentScene(m_userActions, m_player, m_renderer));
 	}
 	else {

@@ -1,6 +1,12 @@
 #ifndef __GLOBALS__
 #define __GLOBALS__
 
+#define WORLD_MAP_GENERATION_SCRIPT "world_generator.py"
+#define LEVEL_GENERATION_SCRIPT "level_generator.py"
+#define LEVEL_CHANGE_SCRIPT "level_change.py"
+#define LEVEL_END_SCRIPT "level_end.py"
+#define GET_PERK_DATA_SCRIPT "get_perk_data.py"
+
 #if GCW
 const bool FULL_SCREEN = true;
 #else

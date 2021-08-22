@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../game/Game.hpp"
+#include "game/config.hpp"
 #include "../game/StateMachine.hpp"
 #include "Intro.hpp"
 #include "../Save.hpp"
@@ -28,7 +28,7 @@ bool IntroScene::onEnter() {
 
 void IntroScene::_buildLines() {
 	std::ifstream in(
-		Game::getBinaryPath() + "/../resources/intro.txt", std::ios::in
+		config_getBinPath() + "/../resources/intro.txt", std::ios::in
 	);
 	if (!in) {
 		std::cerr << "The introduction text can't be opened\n";
@@ -55,7 +55,7 @@ void IntroScene::_buildLines() {
 }
 
 void IntroScene::update(StateMachine<SceneState> &stateMachine) {
-	if (m_userActions.getActionState("MENU_ACTION")) {
+	if (m_userActions.getActionState("MENU_ACTION") == ActionState::ACTION_PRESSED) {
 		++m_iCurrentPage;
 		if (m_iCurrentPage > m_vIntroText.size()) {
 			stateMachine.popState();
