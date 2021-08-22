@@ -44,6 +44,8 @@ class SDL2InputHandler : public InputHandler {
 
 	std::map<int, KeyState> m_mKeysStates = {};
 
+	std::map<int, KeyState> m_mMouseButtonStates = {};
+
 	/**
 	 * State of the pressed keys on the keyboard;
 	 */
@@ -78,6 +80,8 @@ class SDL2InputHandler : public InputHandler {
 	 */
 	void _handleJoystickButtonEvent(const SDL_Event event, const bool isDown);
 
+	void _handleMouseButtonEvent(const SDL_Event event, const bool isDown);
+
 	/**
 	 * Method called when a keyboard key is pressed or released.
 	 */
@@ -109,7 +113,6 @@ class SDL2InputHandler : public InputHandler {
 	bool isJoystickButtonDown(const int joystickID, const int button);
 	bool isJoystickButtonReleased(const int joystickID, const int button);
 	bool isMouseButtonPressed(const int button);
-	bool isMouseButtonDown(const int button);
 	bool isMouseButtonReleased(const int button);
 };
 

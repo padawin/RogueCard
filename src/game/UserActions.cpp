@@ -43,14 +43,11 @@ ActionState UserActions::getActionState(std::string name) {
 			}
 		}
 		else if (commands[c].type == MOUSE_BUTTON) {
-			if (m_inputHandler->isMouseButtonPressed(commands[c].key)) {
-				ret = ActionState::ACTION_PRESSED;
-			}
-			else if (m_inputHandler->isMouseButtonReleased(commands[c].key)) {
+			if (m_inputHandler->isMouseButtonReleased(commands[c].key)) {
 				ret = ActionState::ACTION_RELEASED;
 			}
-			else if (m_inputHandler->isMouseButtonDown(commands[c].key)) {
-				ret = ActionState::ACTION_DOWN;
+			else if (m_inputHandler->isMouseButtonPressed(commands[c].key)) {
+				ret = ActionState::ACTION_PRESSED;
 			}
 		}
 

@@ -24,7 +24,6 @@ class InputHandler {
 	virtual bool isJoystickButtonReleased(const int joystickID, const int button) = 0;
 
 	virtual bool isMouseButtonPressed(const int button) = 0;
-	virtual bool isMouseButtonDown(const int button) = 0;
 	virtual bool isMouseButtonReleased(const int button) = 0;
 
 	virtual void setup() { }

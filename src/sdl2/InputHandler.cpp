@@ -1,4 +1,5 @@
 #include "InputHandler.hpp"
+#include "mouse.hpp"
 #include <iostream>
 
 void SDL2InputHandler::setup() {
@@ -26,6 +27,16 @@ void SDL2InputHandler::setup() {
 			case SDL_KEYUP:
 				_handleKeyEvent(event, false);
 				break;
+			case SDL_MOUSEMOTION:
+				mouse_setX(event.motion.x);
+				mouse_setY(event.motion.y);
+				break;
+            case SDL_MOUSEBUTTONDOWN:
+				_handleMouseButtonEvent(event, true);
+                break;
+            case SDL_MOUSEBUTTONUP:
+				_handleMouseButtonEvent(event, false);
+                break;
 			default:
 				break;
 		}
@@ -78,6 +89,13 @@ void SDL2InputHandler::_handleJoystickButtonEvent(const SDL_Event event, const b
 	else {
 		m_mJoystickButtonStates[joystickID][event.jbutton.button] = KEY_RELEASED;
 	}
+}
+
+/**
+ * Change the state of a pressed or released mouse button.
+ */
+void SDL2InputHandler::_handleMouseButtonEvent(const SDL_Event event, const bool isDown) {
+	m_mMouseButtonStates[event.button.button] = isDown ? KeyState::KEY_PRESSED : KeyState::KEY_RELEASED;
 }
 
 /**
@@ -193,14 +211,10 @@ bool SDL2InputHandler::isJoystickButtonReleased(const int joystickID, const int 
 		m_mJoystickButtonStates[joystickID][button] == KeyState::KEY_RELEASED;
 }
 
-bool SDL2InputHandler::isMouseButtonPressed(const int button __attribute__((unused))) {
-	return false;
+bool SDL2InputHandler::isMouseButtonPressed(const int button) {
+	return m_mMouseButtonStates.find(button) != m_mMouseButtonStates.end() && m_mMouseButtonStates[button] == KeyState::KEY_PRESSED;
 }
 
-bool SDL2InputHandler::isMouseButtonDown(const int button __attribute__((unused))) {
-	return false;
-}
-
-bool SDL2InputHandler::isMouseButtonReleased(const int button __attribute__((unused))) {
-	return false;
+bool SDL2InputHandler::isMouseButtonReleased(const int button) {
+	return m_mMouseButtonStates.find(button) != m_mMouseButtonStates.end() && m_mMouseButtonStates[button] == KeyState::KEY_RELEASED;
 }
